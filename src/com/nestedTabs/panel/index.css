@@ -1,0 +1,7 @@
+
+.nestedTab_panel{
+    display:none;
+}
+.nestedTab_panel.active{
+    display: block;
+}

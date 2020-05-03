@@ -1,0 +1,15 @@
+.nestedTab_tab{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.nestedTab_tab:hover {
+    background-color: #111111;
+  }
+  .nestedTab_tab.active{
+      background: red;
+  }
