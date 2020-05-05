@@ -1,5 +1,5 @@
 
-export default function (deps, param) {
+export default function (deps) {
     const { internalApi } = deps;
     const externalApi = function () {
         this.openTab = function (tabId) {
@@ -32,5 +32,5 @@ export default function (deps, param) {
     };
     externalApi.prototype = Object.create(internalApi);
     externalApi.prototype.constructor = externalApi;
-    return new externalApi(param);
+    return externalApi;
 }
