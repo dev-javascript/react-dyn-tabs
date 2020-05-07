@@ -1,8 +1,8 @@
 
 import renderedComponent from '../renderedComponent.js';
 import optionManager from '../optionManager';
-import factory from './internalApi.factory';
-export default factory({
+import internalApi from './internalApi.factory';
+export default internalApi.bind(null, {
     renderedComponent: new (renderedComponent)(),
     optionManager: new (optionManager)()
 });
