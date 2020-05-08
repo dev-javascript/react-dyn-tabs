@@ -1,0 +1,1 @@
+export default function(Fn){return new (Function.prototype.bind.apply(Fn,arguments));};

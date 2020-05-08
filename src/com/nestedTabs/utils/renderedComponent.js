@@ -6,7 +6,7 @@ const WrapperPanelComponent = memo(function WrapperPanelComponent(props) {
 const EmptyDivComponent = memo(function WrapperPanelComponent(props) {
     return <div id={`panel_${props.id}`}></div>;
 }, () => true);
-// writting this section with Sets instead of using Array
+// to do... => writting this section with Sets instead of using Array
 const renderedComponent = function (params = {}) {
     let renderedComs = {}, isExisted = function (newTabId) { return renderedComs.hasOwnProperty(newTabId); };
     const { activeTab } = params;

@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useMemo, useRef } from "react";
 import TabList from "../tabList/tabList";
 import PanelList from "../panelList/panelList.js";
 import { reducer } from "../utils/stateManagement";
-import getApi from "../utils/api/index";
+import externalApiInstance from '../utils/externalApiInstance';
 import { ApiContext, StateContext } from "../utils/context.js";
 function useNestedTabs(options) {
     const initialOptions = useMemo(() => options, []);
@@ -10,10 +10,9 @@ function useNestedTabs(options) {
     const [state, dispatch] = useReducer(reducer, { activeTabId, openTabsId });
 
     const ref = useRef(null);
-    ref.current || (ref.current = { api: getApi(options) });
+    ref.current || (ref.current = { api: externalApiInstance(options) });
     const { current: { api } } = ref;
-    api.dispatch = dispatch;
-    api.state = state;
+    api.updateReducer(state, dispatch);
 
     const tabListEl = (
         <ApiContext.Provider value={ref.current.api}>

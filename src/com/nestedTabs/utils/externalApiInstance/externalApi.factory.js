@@ -1,7 +1,6 @@
-
-export default function (deps) {
-    const { internalApi } = deps;
-    const externalApi = function () {
+export default function(deps){
+    const {internalApiInstance}=deps;
+    const externalApi= function () {
         this.openTab = function (tabId) {
             (this.state.openTabsId.indexOf(tabId) >= 0) ||
                 this.dispatch({ type: actions.open, tabId });
@@ -23,14 +22,8 @@ export default function (deps) {
         this.reset = function () { this.options = this.initialOptions; };
         this.getOptions = function () { return this.options; };
         this.getData = function () { return this.state; };
-        // const api = function ({ initialOptions }) {
-        //     this.getInitialOptions = function () { return { ...initialOptions }; };
-        //     this.options = initialOptions;
-        //     this.state = {};
-        //     this.dispatch = {};
-        // };
     };
-    externalApi.prototype = Object.create(internalApi);
+    externalApi.prototype = Object.create(internalApiInstance);
     externalApi.prototype.constructor = externalApi;
     return externalApi;
-}
+};
