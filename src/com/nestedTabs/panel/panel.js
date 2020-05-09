@@ -4,14 +4,14 @@ import { ApiContext, StateContext } from '../utils/context.js';
 const Panel = memo(function Panel(props) {
     const { id } = props;
     const { activeTabId } = useContext(StateContext);
-    const { renderedComponent, classNames: { panel: { defaultClass, activeClass } } } =
-        useContext(ApiContext).getOptions();
+    const api = useContext(ApiContext);
+    const { classNames: { panel: { defaultClass, activeClass } } } = api.getMutableCurrentOptions();
     return (
         <div
             id={`panel_${id}`}
             className={`nestedTab_panel${defaultClass}${activeTabId == id ? ` active${activeClass}` : ''}`}
         >
-            {renderedComponent.getById(id)}
+            {api.renderedComponent.getById(id)}
         </div>
     )
 }, () => true);

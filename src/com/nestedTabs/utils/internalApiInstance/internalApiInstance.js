@@ -6,7 +6,7 @@ export default function (param = {}) {
     const { options } = param;
     return getInstance(internalApi, {
         renderedComponent: new (renderedComponent)(),
-        optionManager: new (optionManager)(options)
+        optionManager: new (optionManager)({ options })
     }, param);
 };
 // internalApi.bind(null, {

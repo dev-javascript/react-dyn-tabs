@@ -1,26 +1,28 @@
-const createOptions = function (defaultOptions, options) {
-    const newAllTabs = {}, { data } = options, { allTabs } = data;
-    allTabs.map(item => { newAllTabs[item.id] = item; });
-    data.allTabs = newAllTabs;
-    return Object.assign(defaultOptions, options);
-};
-function optionManager(options) {
-    this.CurrentOptions = {};
+const _cloneObje = function (obj) { return JSON.parse(JSON.stringify(obj)); };
+function optionManager(param = {}) {
+    const { options } = param;
+    this.currentOptions = {};
     this.initialOptions = {};
     options && this.setNewOptions(options);
 };
+optionManager.prototype.createOptions = function (options) {
+    const defaultOptions = this.getDefaultOptions(), newAllTabs = {}, { data } = options, { allTabs } = data;
+    allTabs.map(item => { newAllTabs[item.id] = item; });
+    const newOptions = Object.assign(defaultOptions, _cloneObje(options));
+    newOptions.data.allTabs = newAllTabs;
+    return newOptions;
+};
 optionManager.prototype.reset = function () {
-    this.CurrentOptions = this.getInitialOptionsCopy();
+    this.currentOptions = this.getInitialOptionsCopy();
     return this;
 };
-optionManager.prototype.getInitialOptionsCopy = function () { return Object.assign({}, this.initialOptions) };
-optionManager.prototype.getCurrentOptionsCopy = function () { return Object.assign({}, this.CurrentOptions); };
-optionManager.prototype.getMutableCurrentOptions = function () { return this.CurrentOptions; };
+optionManager.prototype.getInitialOptionsCopy = function () { return _cloneObje(this.initialOptions); };
+optionManager.prototype.getCurrentOptionsCopy = function () { return _cloneObje(this.currentOptions); };
+optionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };
 optionManager.prototype.setNewOptions = function (newOptions) {
     Object.keys(this.initialOptions).length ||
-        (this.initialOptions = createOptions(this.getDefaultOptions(), newOptions));
-    firstExecuted = true;
-    this.CurrentOptions = createOptions(this.getDefaultOptions(), newOptions);
+        (this.initialOptions = this.createOptions(newOptions));
+    this.currentOptions = this.createOptions(newOptions);
     return this;
 };
 optionManager.prototype.getDefaultOptions = function () {

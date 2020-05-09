@@ -18,8 +18,8 @@ const Tab = memo(
             //         alert(`active tab ${id} event`);
         });
         const api = useContext(ApiContext);
-        const { renderedComponent, data: { allTabs },
-            classNames: { tab: { defaultClass, activeClass }, } } = api.getOptions();
+        const { data: { allTabs },
+            classNames: { tab: { defaultClass, activeClass }, } } = api.getMutableCurrentOptions();
         const tabClk = function (e) {
             api.activeTab(id);
         };

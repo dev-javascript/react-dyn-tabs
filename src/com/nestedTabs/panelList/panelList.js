@@ -5,7 +5,7 @@ import { ApiContext, StateContext } from '../utils/context.js';
 
 const PanelList = memo(function PanelList(props) {
     const { openTabsId } = useContext(StateContext);
-    const { classNames: { panelList: { defaultClass } } } = useContext(ApiContext).getOptions();
+    const { classNames: { panelList: { defaultClass } } } = useContext(ApiContext).getMutableCurrentOptions();
     return (
         <div className={`nestedTab_panelList${defaultClass}`}>
             {openTabsId.map(id =>

@@ -10,7 +10,7 @@ function useNestedTabs(options) {
     const [state, dispatch] = useReducer(reducer, { activeTabId, openTabsId });
 
     const ref = useRef(null);
-    ref.current || (ref.current = { api: externalApiInstance(options) });
+    ref.current || (ref.current = { api: externalApiInstance({ options }) });
     const { current: { api } } = ref;
     api.updateReducer(state, dispatch);
 
