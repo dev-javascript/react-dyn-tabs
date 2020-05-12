@@ -16,6 +16,16 @@ optionManager.prototype.reset = function () {
     this.currentOptions = this.getInitialOptionsCopy();
     return this;
 };
+optionManager.prototype.getActiveTab = function () {
+    const { data, data: { activeTabId } } = this.currentOptions;
+    let panelComponent = null;
+    if (activeTabId >= 0) {
+        if (!data.allTabs.hasOwnProperty(activeTabId))
+            throw new Error('Invalid activeTabId! There is not any corresponding data for given activeTabId');
+        panelComponent = data.allTabs[activeTabId].panelComponent;
+    }
+    return { activeTabId, panelComponent };
+};
 optionManager.prototype.getInitialOptionsCopy = function () { return _cloneObje(this.initialOptions); };
 optionManager.prototype.getCurrentOptionsCopy = function () { return _cloneObje(this.currentOptions); };
 optionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };

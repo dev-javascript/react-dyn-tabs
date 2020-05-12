@@ -1,6 +1,5 @@
 import actions from './actions.js';
 export default function reducer(state, action) {
-    debugger;
     switch (action.type) {
         case actions.close:
             {

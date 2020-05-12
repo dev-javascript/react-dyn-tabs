@@ -8,17 +8,18 @@ const EmptyDivComponent = memo(function WrapperPanelComponent(props) {
 }, () => true);
 // to do... => writting this section with Sets instead of using Array
 const renderedComponent = function (params = {}) {
-    let renderedComs = {}, isExisted = function (newTabId) { return renderedComs.hasOwnProperty(newTabId); };
-    const { activeTab } = params;
-    activeTab && (renderedComs[activeTab.id] = activeTab.panelComponent);
-    this.addById = function (newTabId, panelElement) {
-        isExisted(newTabId) ||
-            (renderedComs[newTabId] = panelElement);
-    };
-    this.getById = function (newTabId) {
-        return isExisted(newTabId) ?
-            <WrapperPanelComponent childComponent={renderedComs[newTabId]}></WrapperPanelComponent>
-            : <EmptyDivComponent id={newTabId}></EmptyDivComponent>;
-    };
+    this.renderedComs = {};
+    const { activeTabId, panelComponent } = params;
+    activeTabId && (this.renderedComs[activeTabId] = panelComponent);
 }
+renderedComponent.prototype.isExisted = function (newTabId) { return this.renderedComs.hasOwnProperty(newTabId); };
+renderedComponent.prototype.addById = function (newTabId, panelElement) {
+    this.isExisted(newTabId) ||
+        (this.renderedComs[newTabId] = panelElement);
+};
+renderedComponent.prototype.getById = function (newTabId) {
+    return this.isExisted(newTabId) ?
+        <WrapperPanelComponent childComponent={this.renderedComs[newTabId]}></WrapperPanelComponent>
+        : <EmptyDivComponent id={newTabId}></EmptyDivComponent>;
+};
 export default renderedComponent;
