@@ -1,4 +1,6 @@
-const _cloneObje = function (obj) { return JSON.parse(JSON.stringify(obj)); };
+const _cloneObje = function (obj) {
+    return JSON.parse(JSON.stringify(obj));
+};
 function optionManager(param = {}) {
     const { options } = param;
     this.currentOptions = {};
@@ -36,6 +38,68 @@ optionManager.prototype.setNewOptions = function (newOptions) {
     return this;
 };
 optionManager.prototype.getDefaultOptions = function () {
-    return {};
+    return {
+        data: {
+            allTabs: [
+                {
+                    id: "",
+                    title: "",
+                    tooltip: "",
+                    panelComponent: null,
+                    closable: true,
+                    iconClass: "",
+                },
+            ],
+            openTabsId: [],
+            activeTabId: null
+        },
+        classNames: {
+            tabList: "",
+            panelList: "",
+            tab: "",
+            hoverTab: "",
+            activeTab: "",
+            hoverActiveTab: "",
+            closeIcon: "",
+            hoverCloseIcon: "",
+            panel: "",
+            activePanel: "",
+        },
+        events: {
+            onmousedownTab: function (e, tabId) { },
+            onclickTab: function (e, tabId) { },
+            onmouseupTab: function (e, tabId) { },
+            onmousedownTabCloseIcon: function (e, tabId) { },
+            onclickTabCloseIcon: function (e, tabId) { },
+            onmouseupTabCloseIcon: function (e, tabId) { },
+
+            beforeActiveTab: function (e, tabId) { return true; },
+            afterActiveTab: function ({ tabId, panelId }) {
+                console.log(`afterActiveTab with tabId : ${tabId} and panelId : ${panelId}`);
+            },
+            beforeDeactiveTab: function () { return true; },
+            afterDeactiveTab: function () { },
+
+            tabDidMount: function () { },
+            tabDidUpdate: function () { },
+            tabWillUnMount: function () { },
+
+            beforeCloseTab: function (e, tabId) { return true; },
+            afterClosetab: function () { },
+
+            allTabsDidMount: function () { },
+            allTabsDidUpdate: function () { },
+            allTabsWillUnMount: function () { },
+            onSwitchTabs: function () { },
+            onChangeOpenTabs: function () { },
+
+            afterOpenTab: function () { },
+        },
+        responsiveMode: "icon/moveable/buttonMenu/none",
+        switchTabMode: "hover/onClick/onMouseDown/onMouseUp",
+        activeTabEventMode: 'mousedown',
+        closeTabEventMode: 'click',
+        responsiveMode: 'none'
+    };
 };
 export default optionManager;

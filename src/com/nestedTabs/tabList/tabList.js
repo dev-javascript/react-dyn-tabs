@@ -5,7 +5,7 @@ import Tab from '../tab/tab.js';
 const TabList = memo(function TabList(props) {
     const { openTabsId } = useContext(StateContext);
     const api = useContext(ApiContext);
-    const { classNames: { tabList: { defaultClass } } } = api.getMutableCurrentOptions();
+    const { classNames: { tabList: defaultClass } } = api.getMutableCurrentOptions();
     useEffect(() => {
         console.log('tabList useEffect');
     });

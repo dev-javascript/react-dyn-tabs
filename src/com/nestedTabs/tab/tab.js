@@ -6,26 +6,30 @@ const Tab = memo(
     function Tab(props) {
         const { id } = props;
         useEffect(() => {
-            let el = document.getElementById(`tab_${id}`);
-            // if (el)
-            //     alert(`open tab ${id} event ${el.innerHTML}`);
+            console.log(`open tab with id : tab_${id}`);
         }, [props.id]);
         const { activeTabId } = useContext(StateContext);
-        useEffect(() => {
-            console.log(`tab ${props.id} useEffect`);
-            // if (activeTabId == id)
-            //     if (document.getElementById(`tab_${id}`).className.includes('active'))
-            //         alert(`active tab ${id} event`);
-        });
         const api = useContext(ApiContext);
-        const { data: { allTabs },
-            classNames: { tab: { defaultClass, activeClass }, } } = api.getMutableCurrentOptions();
-        const tabClk = function (e) {
-            api.activeTab(id);
-        };
+        const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass }
+        } = api.getMutableCurrentOptions();
+
+        useEffect(() => {
+            if (activeTabId == id) {
+                const stackEvents = api.stackedEvent.afterActiveTab;
+                while (stackEvents.length) {
+                    const resolve = stackEvents.pop();
+                    resolve(`tab_${id}`);
+                }
+            }
+        });
+
+        const mousedown = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
+        const click = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
+        const mouseup = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
+
         return (
             <li id={`tab_${id}`} className={`nestedTab_tab${defaultClass}${activeTabId == id ? ` 
-             active${activeClass}` : ""}`} onMouseUp={tabClk}>
+             active${activeClass}` : ""}`} onMouseUp={mouseup} onMouseDown={mousedown} onClick={click}>
                 {allTabs[id].title}
             </li>
         );
