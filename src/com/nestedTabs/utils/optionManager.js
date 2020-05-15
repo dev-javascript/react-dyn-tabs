@@ -1,22 +1,17 @@
-const _cloneObje = function (obj) {
-    //return JSON.parse(JSON.stringify(obj));
-    return Object.assign({}, obj);
-};
 function optionManager(param = {}) {
     const { options } = param;
     this.currentOptions = {};
     this.initialOptions = {};
     options && this.setNewOptions(options);
 };
-optionManager.prototype.createOptions = function (options) {
-    const defaultOptions = this.getDefaultOptions(), newAllTabs = {}, { data } = options, { allTabs } = data;
-    allTabs.map(item => { newAllTabs[item.id] = item; });
-    const newOptions = Object.assign(defaultOptions, _cloneObje(options));
-    newOptions.data.allTabs = newAllTabs;
-    return newOptions;
-};
-optionManager.prototype.reset = function () {
-    this.currentOptions = this.getInitialOptionsCopy();
+optionManager.prototype.reset = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
+optionManager.prototype.getInitialOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.initialOptions); };
+optionManager.prototype.getCurrentOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.currentOptions); };
+optionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };
+optionManager.prototype.setNewOptions = function (newOptions) {
+    Object.keys(this.initialOptions).length ||
+        (this.initialOptions = Object.assign(this.getDefaultOptions(), newOptions));
+    this.currentOptions = Object.assign(this.getDefaultOptions(), newOptions);
     return this;
 };
 optionManager.prototype.getActiveTab = function () {
@@ -29,19 +24,89 @@ optionManager.prototype.getActiveTab = function () {
     }
     return { activeTabId, panelComponent };
 };
-optionManager.prototype.getInitialOptionsCopy = function () { return _cloneObje(this.initialOptions); };
-optionManager.prototype.getCurrentOptionsCopy = function () { return _cloneObje(this.currentOptions); };
-optionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };
-optionManager.prototype.setNewOptions = function (newOptions) {
-    Object.keys(this.initialOptions).length ||
-        (this.initialOptions = this.createOptions(newOptions));
-    this.currentOptions = this.createOptions(newOptions);
-    return this;
-};
 optionManager.prototype.getDefaultOptions = (function () {
     const createObjectDescriptor = value => ({ value: value, writable: true, configurable: true, enumerable: true });
+    const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the given ${prop} property must be an object`; };
     return function () {
-        const events = Object.defineProperties({}, {
+        let option;
+        option = {
+            classNames: {
+                tabList: "",
+                panelList: "",
+                tab: "",
+                hoverTab: "",
+                activeTab: "",
+                hoverActiveTab: "",
+                closeIcon: "",
+                hoverCloseIcon: "",
+                panel: "",
+                activePanel: "",
+            },
+            responsiveMode: "icon/moveable/buttonMenu/none",
+            switchTabMode: "hover/onClick/onMouseDown/onMouseUp",
+            activeTabEventMode: 'mousedown',
+            closeTabEventMode: 'click',
+            responsiveMode: 'none'
+        };
+        Object.defineProperties(option, {
+            data: (function () {
+                let data = {}
+                return {
+                    get() { return data; },
+                    set(value) {
+                        checkObjectType(value, 'data');
+                        data = data || {};
+                        const reducer = function (acc, item) {
+                            (acc[item] = value[item]);
+                            return acc;
+                        };
+                        Object.keys(value).reduce(reducer, data);
+                    }
+                };
+            })(),
+            events: (function () {
+                let events = {};
+                return {
+                    get() { return events; },
+                    set(value) {
+                        checkObjectType(value, 'events');
+                        events = events || {};
+                        const reducer = function (acc, item) {
+                            (acc[item] = value[item]);
+                            return acc;
+                        };
+                        Object.keys(value).reduce(reducer, events);
+                    }
+                };
+            })()
+        });
+        Object.defineProperties(option.data, {
+            allTabs: (function () {
+                let allTabs = {};
+                return {
+                    get() { return allTabs; },
+                    set(value) {
+                        checkObjectType(value, 'allTabs');
+                        const reducer = function (acc, item, i) {
+                            if (!item.id) throw `option.data.allTabs[${i}].id must be a valid number and grater then zero`;
+                            acc[item.id] = Object.assign({
+                                id: "",
+                                title: "unkow",
+                                tooltip: "",
+                                panelComponent: null,
+                                closable: true,
+                                iconClass: "",
+                            }, item);
+                            return acc;
+                        };
+                        value.reduce(reducer, allTabs);
+                    }
+                };
+            })(),
+            openTabsId: createObjectDescriptor([]),
+            activeTabId: createObjectDescriptor('')
+        });
+        Object.defineProperties(option.events, {
             onmousedownTab: createObjectDescriptor(() => { }),
             onclickTab: createObjectDescriptor(() => { }),
             onmouseupTab: createObjectDescriptor(() => { }),
@@ -70,51 +135,6 @@ optionManager.prototype.getDefaultOptions = (function () {
             onChangeOpenTabs: createObjectDescriptor(() => { }),
 
             afterOpenTab: createObjectDescriptor(() => { }),
-        });
-        const option = {
-            data: {
-                allTabs: [
-                    {
-                        id: "",
-                        title: "",
-                        tooltip: "",
-                        panelComponent: null,
-                        closable: true,
-                        iconClass: "",
-                    },
-                ],
-                openTabsId: [],
-                activeTabId: null
-            },
-            classNames: {
-                tabList: "",
-                panelList: "",
-                tab: "",
-                hoverTab: "",
-                activeTab: "",
-                hoverActiveTab: "",
-                closeIcon: "",
-                hoverCloseIcon: "",
-                panel: "",
-                activePanel: "",
-            },
-            responsiveMode: "icon/moveable/buttonMenu/none",
-            switchTabMode: "hover/onClick/onMouseDown/onMouseUp",
-            activeTabEventMode: 'mousedown',
-            closeTabEventMode: 'click',
-            responsiveMode: 'none'
-        };
-        Object.defineProperty(option, 'events', {
-            get() { return events; },
-            set(value) {
-                if ((typeof value !== 'object') || (value === null))
-                    throw 'type of the given events property must be an object';
-                events = events || {};
-                const reducer = function (acc, item) {
-                    value[item] && (acc[item] = value[item]);
-                };
-                Object.keys(value).reduce(reducer, events);
-            }
         });
         return option;
     };

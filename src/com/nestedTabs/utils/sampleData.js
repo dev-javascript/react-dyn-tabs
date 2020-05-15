@@ -15,6 +15,11 @@ const data2 = {
         }],
         openTabsId: [1, 2],
         activeTabId: 2
+    },
+    events: {
+        afterActiveTab: (tabId, panelId) => {
+            debugger;
+        }
     }
 };
 const data1 = {
@@ -37,6 +42,11 @@ const data1 = {
         }],
         openTabsId: [1, 2, 3],
         activeTabId: 1
+    },
+    events: {
+        afterActiveTab: (tabId, panelId) => {
+            debugger;
+        }
     }
 };
 export { data1, data2 };
