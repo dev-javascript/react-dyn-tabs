@@ -16,7 +16,7 @@ export default function (deps) {
         this.activeTab = function (tabId) {
             const { events: { afterActiveTab } } = this.getMutableCurrentOptions();
             if (this.state.activeTabId == tabId)
-                return new Promise((resolve, reject) => reject(`tab ${tabId} is already active`));
+                return new Promise(resolve => resolve({ tabId: `tab_${tabId}`, panelId: `panel_${tabId}` }));
             const tabPromise = new Promise((resolve, resject) => {
                 this.stackedEvent.afterActiveTab.push(resolve);
             });
@@ -31,13 +31,15 @@ export default function (deps) {
             });
             return Promise.all([tabPromise, panelPromise])
                 .then(([tabId, panelId]) => {
-                    afterActiveTab({ tabId, panelId });
-                    return Promise.resolve({ tabId, panelId });
-                });
+                    afterActiveTab({ tabId: `tab_${tabId}`, panelId: `panel_${tabId}` });
+                    return { tabId: `tab_${tabId}`, panelId: `panel_${tabId}` };
+                }).catch(function (err) {
+                    throw err.message;
+                });;
         };
         this.reset = function () { this.reset(); };
         this.getOptions = function () { return this.getCurrentOptionsCopy(); };
-        this.getData = function () { return this.state; };
+        this.getData = function () { return { ...this.state }; };
     };
     externalApi.prototype = Object.create(internalApiInstance);
     externalApi.prototype.constructor = externalApi;
