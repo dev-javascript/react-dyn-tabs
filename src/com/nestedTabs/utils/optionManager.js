@@ -25,23 +25,12 @@ optionManager.prototype.getActiveTab = function () {
     return { activeTabId, panelComponent };
 };
 optionManager.prototype.getDefaultOptions = (function () {
+    const checkArrayType = (value, prop) => { if (value.constructor !== Array) throw `passed ${prop} property must be an Array`; };
     const createObjectDescriptor = value => ({ value: value, writable: true, configurable: true, enumerable: true });
-    const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the given ${prop} property must be an object`; };
+    const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the passed ${prop} property must be an object`; };
     return function () {
-        let option;
+        let option = {};
         option = {
-            classNames: {
-                tabList: "",
-                panelList: "",
-                tab: "",
-                hoverTab: "",
-                activeTab: "",
-                hoverActiveTab: "",
-                closeIcon: "",
-                hoverCloseIcon: "",
-                panel: "",
-                activePanel: "",
-            },
             responsiveMode: "icon/moveable/buttonMenu/none",
             switchTabMode: "hover/onClick/onMouseDown/onMouseUp",
             activeTabEventMode: 'mousedown',
@@ -54,10 +43,9 @@ optionManager.prototype.getDefaultOptions = (function () {
                 return {
                     get() { return data; },
                     set(value) {
-                        checkObjectType(value, 'data');
-                        data = data || {};
+                        checkObjectType(value, 'option.data');
                         const reducer = function (acc, item) {
-                            (acc[item] = value[item]);
+                            acc[item] = value[item];
                             return acc;
                         };
                         Object.keys(value).reduce(reducer, data);
@@ -69,13 +57,32 @@ optionManager.prototype.getDefaultOptions = (function () {
                 return {
                     get() { return events; },
                     set(value) {
-                        checkObjectType(value, 'events');
-                        events = events || {};
+                        checkObjectType(value, 'option.events');
                         const reducer = function (acc, item) {
-                            (acc[item] = value[item]);
+                            let ev = value[item];
+                            if (typeof ev !== 'function')
+                                throw `type of the passed option.events.${item} property must be a function`;
+                            acc[item] = ev;
                             return acc;
                         };
                         Object.keys(value).reduce(reducer, events);
+                    }
+                };
+            })(),
+            classNames: (function () {
+                let _classNames = {};
+                return {
+                    get() { return _classNames; },
+                    set(value) {
+                        checkObjectType(value, 'option.classNames');
+                        const reducer = function (acc, item) {
+                            let className = value[item];
+                            if (typeof className !== 'string')
+                                throw `type of the passed option.classNames.${item} property must be a string`;
+                            acc[item] = className;
+                            return acc;
+                        };
+                        Object.keys(value).reduce(reducer, _classNames);
                     }
                 };
             })()
@@ -86,7 +93,7 @@ optionManager.prototype.getDefaultOptions = (function () {
                 return {
                     get() { return allTabs; },
                     set(value) {
-                        checkObjectType(value, 'allTabs');
+                        checkArrayType(value, 'option.data.allTabs');
                         const reducer = function (acc, item, i) {
                             if (!item.id) throw `option.data.allTabs[${i}].id must be a valid number and grater then zero`;
                             acc[item.id] = Object.assign({
@@ -103,39 +110,68 @@ optionManager.prototype.getDefaultOptions = (function () {
                     }
                 };
             })(),
-            openTabsId: createObjectDescriptor([]),
-            activeTabId: createObjectDescriptor('')
+            openTabsId: (function () {
+                let _openTabsId = [];
+                return {
+                    get() { return _openTabsId; },
+                    set(value) { checkArrayType(value); _openTabsId = value; }
+                };
+            })(),
+            activeTabId: (function () {
+                let _activeTabId = '';
+                return {
+                    get() { return _activeTabId; },
+                    set(value) {
+                        let valueType = typeof value;
+                        if (!(valueType === 'string' || (valueType === 'number' && (value > 0))))
+                            throw 'type of the passed option.data.activeTabId property must be a string or positive number';
+                        _activeTabId = value;
+                    }
+                };
+            })(),
         });
-        Object.defineProperties(option.events, {
-            onmousedownTab: createObjectDescriptor(() => { }),
-            onclickTab: createObjectDescriptor(() => { }),
-            onmouseupTab: createObjectDescriptor(() => { }),
-            onmousedownTabCloseIcon: createObjectDescriptor(() => { }),
-            onclickTabCloseIcon: createObjectDescriptor(() => { }),
-            onmouseupTabCloseIcon: createObjectDescriptor(() => { }),
+        option.events = {
+            onmousedownTab: () => { },
+            onclickTab: () => { },
+            onmouseupTab: () => { },
+            onmousedownTabCloseIcon: () => { },
+            onclickTabCloseIcon: () => { },
+            onmouseupTabCloseIcon: () => { },
 
-            beforeActiveTab: createObjectDescriptor(function (e, tabId) { return true; }),
-            afterActiveTab: createObjectDescriptor(function ({ tabId, panelId }) {
+            beforeActiveTab: function (e, tabId) { return true; },
+            afterActiveTab: function ({ tabId, panelId }) {
                 console.log(`afterActiveTab with tabId : ${tabId} and panelId : ${panelId}`);
-            }),
-            beforeDeactiveTab: createObjectDescriptor(function () { return true; }),
-            afterDeactiveTab: createObjectDescriptor(() => { }),
+            },
+            beforeDeactiveTab: function () { return true; },
+            afterDeactiveTab: () => { },
 
-            tabDidMount: createObjectDescriptor(() => { }),
-            tabDidUpdate: createObjectDescriptor(() => { }),
-            tabWillUnMount: createObjectDescriptor(() => { }),
+            tabDidMount: () => { },
+            tabDidUpdate: () => { },
+            tabWillUnMount: () => { },
 
-            beforeCloseTab: createObjectDescriptor(function (e, tabId) { return true; }),
-            afterClosetab: createObjectDescriptor(() => { }),
+            beforeCloseTab: function (e, tabId) { return true; },
+            afterClosetab: () => { },
 
-            allTabsDidMount: createObjectDescriptor(() => { }),
-            allTabsDidUpdate: createObjectDescriptor(() => { }),
-            allTabsWillUnMount: createObjectDescriptor(() => { }),
-            onSwitchTabs: createObjectDescriptor(() => { }),
-            onChangeOpenTabs: createObjectDescriptor(() => { }),
+            allTabsDidMount: () => { },
+            allTabsDidUpdate: () => { },
+            allTabsWillUnMount: () => { },
+            onSwitchTabs: () => { },
+            onChangeOpenTabs: () => { },
 
-            afterOpenTab: createObjectDescriptor(() => { }),
-        });
+            afterOpenTab: () => { },
+        };
+        option.classNames = {
+            tabList: "",
+            panelList: "",
+            tab: "",
+            hoverTab: "",
+            activeTab: "",
+            hoverActiveTab: "",
+            closeIcon: "",
+            hoverCloseIcon: "",
+            panel: "",
+            activePanel: "",
+        };
         return option;
     };
 })();
