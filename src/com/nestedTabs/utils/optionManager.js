@@ -26,17 +26,9 @@ optionManager.prototype.getActiveTab = function () {
 };
 optionManager.prototype.getDefaultOptions = (function () {
     const checkArrayType = (value, prop) => { if (value.constructor !== Array) throw `passed ${prop} property must be an Array`; };
-    const createObjectDescriptor = value => ({ value: value, writable: true, configurable: true, enumerable: true });
     const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the passed ${prop} property must be an object`; };
     return function () {
         let option = {};
-        option = {
-            responsiveMode: "icon/moveable/buttonMenu/none",
-            switchTabMode: "hover/onClick/onMouseDown/onMouseUp",
-            activeTabEventMode: 'mousedown',
-            closeTabEventMode: 'click',
-            responsiveMode: 'none'
-        };
         Object.defineProperties(option, {
             data: (function () {
                 let data = {}
@@ -87,6 +79,25 @@ optionManager.prototype.getDefaultOptions = (function () {
                 };
             })()
         });
+        (function () {
+            let possibleValues = ['mousedown', 'mouseenter', 'click', 'mouseup'],
+                _activeTabMode = 'click', _closeTabMode = 'click';
+            const checkValue = value => {
+                if (possibleValues.indexOf(value) == -1)
+                    throw `can not set ${value} on closeTabEventMode. possible values are 'mousedown', 'mouseenter', 'click', 'mouseup'`;
+                return value;
+            };
+            Object.defineProperties(option, {
+                activeTabEventMode: {
+                    get() { return _activeTabMode; },
+                    set(value) { _activeTabMode = checkValue(value); }
+                },
+                closeTabEventMode: {
+                    get() { return _closeTabMode; },
+                    set(value) { _closeTabMode = checkValue(value); }
+                }
+            });
+        })();
         Object.defineProperties(option.data, {
             allTabs: (function () {
                 let allTabs = {};
