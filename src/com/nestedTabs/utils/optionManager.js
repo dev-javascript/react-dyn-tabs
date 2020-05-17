@@ -8,6 +8,10 @@ optionManager.prototype.reset = function () { this.currentOptions = this.getInit
 optionManager.prototype.getInitialOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.initialOptions); };
 optionManager.prototype.getCurrentOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.currentOptions); };
 optionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };
+optionManager.prototype.getData = function () {
+    const { data: { activeTabId, openTabsId }, } = this.currentOptions;
+    return { activeTabId, openTabsId };
+};
 optionManager.prototype.setNewOptions = function (newOptions) {
     Object.keys(this.initialOptions).length ||
         (this.initialOptions = Object.assign(this.getDefaultOptions(), newOptions));

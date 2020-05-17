@@ -1,6 +1,7 @@
+const createDescriptor = value => ({ writable: true, configurable: false, enumerable: false, value: value });
 export default function (deps) {
-    const { internalApiInstance, actions } = deps;
-    const externalApi = function () {
+    const { baseApiInstance, actions, optionManagerInstance, renderedComponentInstance } = deps;
+    const api = function () {
         this.openTab = function (tabId) {
             (this.state.openTabsId.indexOf(tabId) >= 0) ||
                 this.dispatch({ type: actions.open, tabId });
@@ -40,20 +41,26 @@ export default function (deps) {
         this.reset = function () { this.reset(); };
         this.getOptions = function () { return this.getCurrentOptionsCopy(); };
         this.getData = function () { return { ...this.state }; };
+        Object.defineProperties(this, {
+            state: createDescriptor({ openTabsId: [], activeTabId: '' }),
+            dispatch: createDescriptor(() => { }),
+            optionManager: createDescriptor(optionManagerInstance),
+            renderedComponent: createDescriptor(renderedComponentInstance),
+            stackedEvent: createDescriptor({
+                afterActiveTab: [],
+                afterActivePanel: [],
+                afterCloseTab: [],
+                afterOpenTab: []
+            })
+        });
     };
-    externalApi.prototype = Object.create(internalApiInstance);
-    externalApi.prototype.constructor = externalApi;
-    externalApi.prototype.stackedEvent = {
-        afterActiveTab: [],
-        afterActivePanel: [],
-        afterCloseTab: [],
-        afterOpenTab: []
-    };
-    externalApi.prototype.activeTabEventHandler = function ({ e, tabId }) {
+    api.prototype = Object.create(baseApiInstance);
+    api.prototype.constructor = api;
+    api.prototype.activeTabEventHandler = function ({ e, tabId }) {
         const { activeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
         events[`on${type}Tab`](e, tabId);
         ((type === activeTabEventMode) && events.beforeActiveTab(e, tabId))
             && this.activeTab(tabId);
     };
-    return externalApi;
+    return api;
 };

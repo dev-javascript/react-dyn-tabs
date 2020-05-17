@@ -2,16 +2,19 @@ import React, { useReducer, useEffect, useMemo, useRef } from "react";
 import TabList from "../tabList/tabList";
 import PanelList from "../panelList/panelList.js";
 import { reducer } from "../utils/stateManagement";
-import externalApiInstance from '../utils/externalApiInstance';
+import Api from '../utils/api';
 import { ApiContext, StateContext } from "../utils/context.js";
 function useNestedTabs(options) {
-    const initialOptions = useMemo(() => options, []);
-    const { data: { activeTabId, openTabsId }, } = initialOptions;
-    const [state, dispatch] = useReducer(reducer, { activeTabId, openTabsId });
 
     const ref = useRef(null);
-    ref.current || (ref.current = { api: externalApiInstance({ options }) });
+    if (ref.current == null) {
+        if (!(options && (typeof options === 'object')))
+            throw 'invalid passed option! option must be an object';
+        ref.current = { api: Api({ options }) };
+    }
     const { current: { api } } = ref;
+
+    const [state, dispatch] = useReducer(reducer, api.optionManager.getData());
     api.updateReducer(state, dispatch);
 
     const tabListEl = (
