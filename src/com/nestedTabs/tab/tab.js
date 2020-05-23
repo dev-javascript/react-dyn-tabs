@@ -1,7 +1,6 @@
 import React, { memo, useContext, useEffect, useLayoutEffect } from "react";
 import "./index.css";
 import { ApiContext, StateContext } from "../utils/context.js";
-import { actions } from '../utils/stateManagement';
 const Tab = memo(
     function Tab(props) {
         const { id } = props;
