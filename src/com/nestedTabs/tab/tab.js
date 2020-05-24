@@ -1,16 +1,15 @@
 import React, { memo, useContext, useEffect, useLayoutEffect } from "react";
 import "./index.css";
-import { ApiContext, StateContext } from "../utils/context.js";
+import { ApiContext } from "../utils/context.js";
 const Tab = memo(
     function Tab(props) {
-        const { id } = props;
+        const { id, activeTabId } = props;
         useEffect(() => {
             console.log(`open tab with id : tab_${id}`);
         }, [props.id]);
-        const { activeTabId } = useContext(StateContext);
-        const api = useContext(ApiContext);
-        const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass }
-        } = api.getMutableCurrentOptions();
+
+        const api = React.useContext(ApiContext);
+        const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass } } = api.getMutableCurrentOptions();
 
         useEffect(() => {
             if (activeTabId == id) {
@@ -33,6 +32,9 @@ const Tab = memo(
             </li>
         );
     },
-    () => true
+    (oldProps, newProps) => {
+        const { id: tabId, activeTabId: oldActiveId } = oldProps, { activeTabId: newActiveId } = newProps;
+        return oldActiveId === newActiveId || (tabId !== oldActiveId && (tabId !== newActiveId));
+    }
 );
 export default Tab;

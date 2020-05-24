@@ -3,7 +3,7 @@ import { ApiContext, StateContext } from '../utils/context.js';
 import './index.css';
 import Tab from '../tab/tab.js';
 const TabList = memo(function TabList(props) {
-    const { openTabsId } = useContext(StateContext);
+    const { openTabsId, activeTabId } = useContext(StateContext);
     const api = useContext(ApiContext);
     const { classNames: { tabList: defaultClass } } = api.getMutableCurrentOptions();
     useEffect(() => {
@@ -11,7 +11,7 @@ const TabList = memo(function TabList(props) {
     });
     return (
         <ul className={`nestedTab_tabList${defaultClass}`}>
-            {openTabsId.map(id => <Tab key={id} id={id}></Tab>)}
+            {openTabsId.map(id => <Tab key={id} id={id} activeTabId={activeTabId}></Tab>)}
         </ul>
     )
 }, () => true);

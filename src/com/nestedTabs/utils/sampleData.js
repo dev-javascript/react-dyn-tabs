@@ -18,7 +18,6 @@ const data2 = {
     },
     events: {
         afterActiveTab: (tabId, panelId) => {
-            debugger;
         }
     }
 };
@@ -45,7 +44,6 @@ const data1 = {
     },
     events: {
         afterActiveTab: (tabId, panelId) => {
-            debugger;
         }
     }
 };
