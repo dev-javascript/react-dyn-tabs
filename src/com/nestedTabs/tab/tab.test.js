@@ -57,7 +57,8 @@ describe('tab classes', () => {
     });
 });
 describe('tab events', () => {
-    test('tab must implement mousedown, click and mouseup events by calling activeTabEventHandler', () => {
+    test(`tab must implement mousedown, click and mouseup events and all of them must call 
+          activeTabEventHandler`, () => {
         act(() => {
             ReactDom.render(<>
                 <Tab id='1' activeTabId='1'></Tab><Tab id='2' activeTabId='1'></Tab>
@@ -71,6 +72,12 @@ describe('tab events', () => {
         tab2El.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         tab2El.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
         expect(activeTabEventHandler).toHaveBeenCalledTimes(6);
+    });
+});
+describe('tab useEffect', () => {
+    test(`first execution of tab component must call api.tabDidMount() and next executions
+          of it must call api.tabDidUpdate`, () => {
+
     });
 });
 //tab can be opend

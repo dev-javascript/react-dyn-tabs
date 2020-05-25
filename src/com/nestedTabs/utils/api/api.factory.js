@@ -15,14 +15,14 @@ export default function (deps) {
         };
         this.getMutableCurrentOptions = () => this.optionManager.getMutableCurrentOptions();
         this.activeTab = function (tabId) {
-            const { events: { afterActiveTab } } = this.getMutableCurrentOptions();
+            const { events: { afterSwitchTab } } = this.getMutableCurrentOptions();
             if (this.state.activeTabId == tabId)
                 return new Promise(resolve => resolve({ tabId: `tab_${tabId}`, panelId: `panel_${tabId}` }));
             const tabPromise = new Promise((resolve, resject) => {
-                this.stackedEvent.afterActiveTab.push(resolve);
+                this.stackedEvent.afterSwitchTab.push(resolve);
             });
             const panelPromise = new Promise((resolve, resject) => {
-                this.stackedEvent.afterActivePanel.push(resolve);
+                this.stackedEvent.afterSwitchPanel.push(resolve);
             });
             this.dispatch({
                 type: actions.active,
@@ -32,13 +32,13 @@ export default function (deps) {
             });
             return Promise.all([tabPromise, panelPromise])
                 .then(([tabId, panelId]) => {
-                    afterActiveTab({ tabId: `tab_${tabId}`, panelId: `panel_${tabId}` });
+                    afterSwitchTab({ tabId: `tab_${tabId}`, panelId: `panel_${tabId}` });
                     return { tabId: `tab_${tabId}`, panelId: `panel_${tabId}` };
                 }).catch(function (err) {
                     throw err.message;
                 });;
         };
-        this.reset = function () { this.reset(); };
+        this.reset = function () { this.reset(); return this; };
         this.getOptions = function () { return this.getCurrentOptionsCopy(); };
         this.getData = function () { return { ...this.state }; };
         Object.defineProperties(this, {
@@ -46,16 +46,39 @@ export default function (deps) {
             dispatch: createDescriptor(() => { }),
             optionManager: createDescriptor(optionManagerInstance),
             renderedComponent: createDescriptor(renderedComponentInstance),
-            stackedEvent: createDescriptor({
-                afterActiveTab: [],
-                afterActivePanel: [],
-                afterCloseTab: [],
-                afterOpenTab: []
-            })
+            stackedEvent: (function () {
+                const createObj = () => ({
+                    _value: [],
+                    push: function (value) { return this._value.push(value); },
+                    flush: function (param) { while (this._value.length) this._value.pop()(param); }
+                });
+                return createDescriptor({
+                    afterSwitchTab: createObj(),
+                    afterSwitchPanel: createObj(),
+                    afterCloseTab: createObj(),
+                    afterClosePanel: createObj(),
+                    afterOpenTab: createObj(),
+                    afterOpenPanel: createObj(),
+                });
+            })()
         });
     };
     api.prototype = Object.create(baseApiInstance);
     api.prototype.constructor = api;
+    api.prototype.tabDidMount = function ({ tabId, isActive }) {
+        this.stackedEvent.afterOpenTab.flush({ tabId, isActive });
+    };
+    api.prototype.panelDidMount = function ({ panelId, isActive }) {
+        this.stackedEvent.afterOpenPanel.flush({ panelId, isActive });
+    };
+    api.prototype.tabDidUpdate = function ({ tabId, isActive, counter }) { };
+    api.prototype.panelDidUpdate = function ({ panelId, isActive, counter }) { };
+    api.prototype.tabListDidUpdateByActiveTabId = function (activeTabId, counter) {
+        counter > 1 && this.stackedEvent.afterSwitchTab.flush(activeTabId);
+    };
+    api.prototype.panelListDidUpdateByActiveTabId = function (activeTabId, counter) {
+        counter > 1 && this.stackedEvent.afterSwitchPanel.flush(activeTabId);
+    };
     api.prototype.activeTabEventHandler = function ({ e, tabId }) {
         const { activeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
         events[`on${type}Tab`](e, tabId);

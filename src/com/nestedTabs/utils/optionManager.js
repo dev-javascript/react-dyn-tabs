@@ -154,8 +154,8 @@ optionManager.prototype.getDefaultOptions = (function () {
             onmouseupTabCloseIcon: () => { },
 
             beforeActiveTab: function (e, tabId) { return true; },
-            afterActiveTab: function ({ tabId, panelId }) {
-                console.log(`afterActiveTab with tabId : ${tabId} and panelId : ${panelId}`);
+            afterSwitchTab: function ({ tabId, panelId }) {
+                console.log(`afterSwitchTab with tabId : ${tabId} and panelId : ${panelId}`);
             },
             beforeDeactiveTab: function () { return true; },
             afterDeactiveTab: () => { },

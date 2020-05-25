@@ -1,21 +1,17 @@
-import React, { useContext, memo, useEffect } from 'react';
+import React, { useContext, memo, useEffect, useRef } from 'react';
 import './index.css';
 import { ApiContext, StateContext } from '../utils/context.js';
 const Panel = memo(function Panel(props) {
     const { id } = props;
-    const { activeTabId } = useContext(StateContext);
+    const { activeTabId } = useContext(StateContext), isActive = activeTabId === id;
     const api = useContext(ApiContext);
     const { classNames: { panel: defaultClass, activePanel: activeClass } } = api.getMutableCurrentOptions();
 
-    useEffect(() => {
-        if (activeTabId == id) {
-            const stackEvents = api.stackedEvent.afterActivePanel;
-            while (stackEvents.length) {
-                const resolve = stackEvents.pop();
-                resolve(`panel_${id}`);
-            }
-        }
-    });
+    const counter = useRef(0);
+    counter.current++;
+
+    useEffect(() => api.panelDidMount({ panelId: id, isActive }), [id]);
+    useEffect(() => api.panelDidUpdate({ panelId: id, isActive, counter: counter.current }), [activeTabId]);
 
     return (
         <div

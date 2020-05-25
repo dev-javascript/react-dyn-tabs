@@ -17,7 +17,7 @@ const data2 = {
         activeTabId: 2
     },
     events: {
-        afterActiveTab: (tabId, panelId) => {
+        afterSwitchTab: (tabId, panelId) => {
         }
     }
 };
@@ -43,7 +43,8 @@ const data1 = {
         activeTabId: 1
     },
     events: {
-        afterActiveTab: (tabId, panelId) => {
+        afterSwitchTab: (tabId, panelId) => {
+            debugger;
         }
     }
 };

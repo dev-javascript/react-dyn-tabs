@@ -1,25 +1,16 @@
-import React, { memo, useContext, useEffect, useLayoutEffect } from "react";
+import React, { memo, useContext, useEffect, useRef, useLayoutEffect } from "react";
 import "./index.css";
 import { ApiContext } from "../utils/context.js";
 const Tab = memo(
     function Tab(props) {
-        const { id, activeTabId } = props;
-        useEffect(() => {
-            console.log(`open tab with id : tab_${id}`);
-        }, [props.id]);
-
-        const api = React.useContext(ApiContext);
+        const { id, activeTabId } = props, api = useContext(ApiContext), isActive = activeTabId === id;
         const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass } } = api.getMutableCurrentOptions();
 
-        useEffect(() => {
-            if (activeTabId == id) {
-                const stackEvents = api.stackedEvent.afterActiveTab;
-                while (stackEvents.length) {
-                    const resolve = stackEvents.pop();
-                    resolve(`tab_${id}`);
-                }
-            }
-        });
+        const counter = useRef(0);
+        counter.current++;
+
+        useEffect(() => api.tabDidMount({ tabId: id, isActive }), [id]);
+        useEffect(() => api.tabDidUpdate({ tabId: id, isActive, counter: counter.current }), [activeTabId]);
 
         const mousedown = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
         const click = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
