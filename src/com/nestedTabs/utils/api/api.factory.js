@@ -81,6 +81,7 @@ export default function (deps) {
     };
     api.prototype.activeTabEventHandler = function ({ e, tabId }) {
         const { activeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
+        //test mutablitiy of events
         events[`on${type}Tab`](e, tabId);
         ((type === activeTabEventMode) && events.beforeActiveTab(e, tabId))
             && this.activeTab(tabId);

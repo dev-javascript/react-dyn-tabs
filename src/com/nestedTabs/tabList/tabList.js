@@ -8,6 +8,9 @@ const TabList = memo(function TabList(props) {
     const { openTabsId, activeTabId } = useContext(StateContext);
     const api = useContext(ApiContext);
     const { classNames: { tabList: defaultClass } } = api.getMutableCurrentOptions();
+    React.useLayoutEffect(() => {
+        debugger;
+    });
     useEffect(() => {
         api.tabListDidUpdateByActiveTabId(activeTabId, counterObj.current);
     }, [activeTabId]);

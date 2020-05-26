@@ -3,7 +3,7 @@ import "./index.css";
 import { ApiContext } from "../utils/context.js";
 const Tab = memo(
     function Tab(props) {
-        const { id, activeTabId } = props, api = useContext(ApiContext), isActive = activeTabId === id;
+        const { id, activeTabId } = props, api = React.useContext(ApiContext), isActive = activeTabId === id;
         const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass } } = api.getMutableCurrentOptions();
 
         const counter = useRef(0);
