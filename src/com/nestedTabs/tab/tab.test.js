@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDom from "react-dom";
 import Tab from "./tab";
 import { act } from "react-dom/test-utils";
 let container = document.createElement("div"),
 	realUseContext;
 const defaultApi = {
-		stackedEvent: { afterActiveTab: [] },
-		tabDidUpdate: jest.fn(({ tabId, isActive, counter }) => {}),
-		tabDidMount: jest.fn(({ tabId, isActive }) => {}),
-		activeTabEventHandler: jest.fn(() => {}),
-	},
+	stackedEvent: { afterActiveTab: [] },
+	tabDidUpdate: jest.fn(({ tabId, isActive, counter }) => { }),
+	tabDidMount: jest.fn(({ tabId, isActive }) => { }),
+	activeTabEventHandler: jest.fn(() => { }),
+},
 	getMockOptions = () => () => ({
 		data: {
 			allTabs: {
@@ -83,7 +83,7 @@ describe("tab classes", () => {
 describe("tab mouse events", () => {
 	test(`tab must implement mousedown, click and mouseup events and all of them must call 
           activeTabEventHandler`, () => {
-		const activeTabEventHandler = jest.fn(() => {});
+		const activeTabEventHandler = jest.fn(() => { });
 		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), activeTabEventHandler });
 		act(() => {
 			ReactDom.render(
@@ -107,8 +107,8 @@ describe("tab mouse events", () => {
 });
 describe("tab useEffect", () => {
 	test(`tabDidMount will be called just one time during the executions of tabComponent`, () => {
-		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => {}),
-			tabDidMount = jest.fn(({ tabId, isActive }) => {});
+		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => { }),
+			tabDidMount = jest.fn(({ tabId, isActive }) => { });
 		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		act(() => {
 			ReactDom.render(
@@ -128,8 +128,8 @@ describe("tab useEffect", () => {
 		expect(tabDidMount).toHaveBeenNthCalledWith(2, { tabId: "2", isActive: true });
 	});
 	test(`tabDidUpdate must  will be called in the first execution of tabComponent`, () => {
-		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => {}),
-			tabDidMount = jest.fn(({ tabId, isActive }) => {});
+		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => { }),
+			tabDidMount = jest.fn(({ tabId, isActive }) => { });
 		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		act(() => {
 			ReactDom.render(
@@ -144,31 +144,30 @@ describe("tab useEffect", () => {
 		expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { tabId: "1", isActive: false, counter: 1 });
 		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { tabId: "2", isActive: true, counter: 1 });
 	});
-	test(`tabDidUpdate must be called after switching between tabs`, () => {
-		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => {}),
-			tabDidMount = jest.fn(({ tabId, isActive }) => {});
+	test(`tabDidUpdate will be called per active and deActive tab`, () => {
+		const tabDidUpdate = jest.fn(({ tabId, isActive, counter }) => { }),
+			tabDidMount = jest.fn(({ tabId, isActive }) => { });
 		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount, tabDidUpdate });
-		act(() => {
-			ReactDom.render(
-				<>
-					<Tab activeTabId="1" id="1"></Tab>
-					<Tab activeTabId="1" id="2"></Tab>
-					<Tab activeTabId="1" id="3"></Tab>
-				</>,
-				container
-			);
-		});
-		act(() => {
-			document.getElementById("tab_2").dispatchEvent(new MouseEvent("clik", { bubbles: true }));
-		});
-		act(() => {
-			document.getElementById("tab_3").dispatchEvent(new MouseEvent("clik", { bubbles: true }));
-		});
+		function MockWrapprTab() {
+			const [activeId, setActiveId] = useState('2'), toggelActiveTab = (e) => {
+				activeId === '2' ? setActiveId('1') : setActiveId('2');
+			};
+			return <>
+				<button id='btn' onClick={toggelActiveTab}></button>
+				<Tab activeTabId={activeId} id="1"></Tab>
+				<Tab activeTabId={activeId} id="2"></Tab>
+				<Tab activeTabId={activeId} id="3"></Tab>
+			</>;
+		}
+		act(() => { ReactDom.render(<MockWrapprTab></MockWrapprTab>, container); });
+		const btnEl = document.getElementById('btn');
+		act(() => { btnEl.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
+		act(() => { btnEl.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
+		act(()=>{MockWrapprTab.forceUpdate(function(a,b,c){
+			debugger;
+		})});
 		expect(tabDidUpdate).toHaveBeenCalledTimes(7);
-		//expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { tabId: "1", isActive: false, counter: 1 });
-		//expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { tabId: "2", isActive: true, counter: 1 });
 	});
-	test(`tabDidUpdate may not be called after a force update`, () => {});
 });
 //recieve string activeTabId and  string id as props
 //getSnapshot => it must return li element which has an id attribute
