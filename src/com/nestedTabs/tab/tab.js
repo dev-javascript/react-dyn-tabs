@@ -1,20 +1,19 @@
 import React, { memo, useContext, useEffect, useRef, useLayoutEffect } from "react";
 import "./index.css";
 import { ApiContext } from "../utils/context.js";
+import useCounter from '../utils/useCounter';
 const Tab = memo(
     function Tab(props) {
+        const [isFirstCall] = useCounter();
         const { id, activeTabId } = props, api = React.useContext(ApiContext), isActive = activeTabId === id;
         const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass } } = api.getMutableCurrentOptions();
 
-        const counter = useRef(0);
-        counter.current++;
-
         useEffect(() => api.tabDidMount({ tabId: id, isActive }), [id]);
-        useEffect(() => api.tabDidUpdate({ tabId: id, isActive, counter: counter.current }), [activeTabId]);
+        useEffect(() => api.tabDidUpdate({ tabId: id, isActive, isFirstCall }), [activeTabId]);
 
-        const mousedown = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
-        const click = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
-        const mouseup = function (e) { api.activeTabEventHandler({ e, tabId: id }); };
+        const mousedown = function (e) { api.activeTabEventHandler(e, id); };
+        const click = function (e) { api.activeTabEventHandler(e, id); };
+        const mouseup = function (e) { api.activeTabEventHandler(e, id); };
 
         return (
             <li id={`tab_${id}`} className={`nestedTab_tab${defaultClass}${activeTabId == id ? ` 

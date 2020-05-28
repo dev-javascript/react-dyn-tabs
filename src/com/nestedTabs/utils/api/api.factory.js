@@ -71,15 +71,15 @@ export default function (deps) {
     api.prototype.panelDidMount = function ({ panelId, isActive }) {
         this.stackedEvent.afterOpenPanel.flush({ panelId, isActive });
     };
-    api.prototype.tabDidUpdate = function ({ tabId, isActive, counter }) { };
-    api.prototype.panelDidUpdate = function ({ panelId, isActive, counter }) { };
-    api.prototype.tabListDidUpdateByActiveTabId = function (activeTabId, counter) {
-        counter > 1 && this.stackedEvent.afterSwitchTab.flush(activeTabId);
+    api.prototype.tabDidUpdate = function ({ tabId, isActive, isFirstCall }) { };
+    api.prototype.panelDidUpdate = function ({ panelId, isActive, isFirstCall }) { };
+    api.prototype.tabListDidUpdateByActiveTabId = function (activeTabId, isFirstCall) {
+        isFirstCall || this.stackedEvent.afterSwitchTab.flush(activeTabId);
     };
-    api.prototype.panelListDidUpdateByActiveTabId = function (activeTabId, counter) {
-        counter > 1 && this.stackedEvent.afterSwitchPanel.flush(activeTabId);
+    api.prototype.panelListDidUpdateByActiveTabId = function (activeTabId, isFirstCall) {
+        isFirstCall || this.stackedEvent.afterSwitchPanel.flush(activeTabId);
     };
-    api.prototype.activeTabEventHandler = function ({ e, tabId }) {
+    api.prototype.activeTabEventHandler = function (e, tabId) {
         const { activeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
         //test mutablitiy of events
         events[`on${type}Tab`](e, tabId);

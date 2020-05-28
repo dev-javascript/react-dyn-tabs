@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`activeTabId props can be passed as an empty string into tab component 1`] = `
+<li
+  className="nestedTab_tab defaultTab"
+  id="tab_1"
+  onClick={[Function]}
+  onMouseDown={[Function]}
+  onMouseUp={[Function]}
+>
+  a1
+</li>
+`;
+
+exports[`tab component with user defined css class "defualtTab" and "activeTab" 1`] = `
+Array [
+  <li
+    className="nestedTab_tab defaultTab 
+             active activeTab"
+    id="tab_1"
+    onClick={[Function]}
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    a1
+  </li>,
+  <li
+    className="nestedTab_tab defaultTab"
+    id="tab_2"
+    onClick={[Function]}
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    a3
+  </li>,
+]
+`;
