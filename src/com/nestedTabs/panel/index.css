@@ -1,7 +1,6 @@
-
-.nestedTab_panel{
+.rdlt-default-panel{
     display:none;
 }
-.nestedTab_panel.active{
+.rdlt-active-panel{
     display: block;
 }

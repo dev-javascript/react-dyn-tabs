@@ -31,7 +31,7 @@ const data1 = {
         }, {
             id: 2,
             title: 'home',
-            closable: true,
+            closable: false,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }, {
             id: 3,
@@ -44,7 +44,6 @@ const data1 = {
     },
     events: {
         afterSwitchTab: (tabId, panelId) => {
-            debugger;
         }
     }
 };

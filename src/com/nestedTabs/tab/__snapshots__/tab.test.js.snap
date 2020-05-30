@@ -2,7 +2,7 @@
 
 exports[`activeTabId props can be passed as an empty string into tab component 1`] = `
 <li
-  className="nestedTab_tab defaultTab"
+  className="rdlt-default-tab defaultTab"
   id="tab_1"
   onClick={[Function]}
   onMouseDown={[Function]}
@@ -15,8 +15,7 @@ exports[`activeTabId props can be passed as an empty string into tab component 1
 exports[`tab component with user defined css class "defualtTab" and "activeTab" 1`] = `
 Array [
   <li
-    className="nestedTab_tab defaultTab 
-             active activeTab"
+    className="rdlt-default-tab defaultTab rdlt-active-tab activeTab"
     id="tab_1"
     onClick={[Function]}
     onMouseDown={[Function]}
@@ -25,7 +24,7 @@ Array [
     a1
   </li>,
   <li
-    className="nestedTab_tab defaultTab"
+    className="rdlt-default-tab defaultTab"
     id="tab_2"
     onClick={[Function]}
     onMouseDown={[Function]}

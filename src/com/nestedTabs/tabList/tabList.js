@@ -1,21 +1,21 @@
-import React, { memo, useContext, useEffect, useRef } from 'react';
+import React, { memo, useEffect } from 'react';
 import { ApiContext, StateContext } from '../utils/context.js';
 import './index.css';
 import Tab from '../tab/tab.js';
 import useCounter from '../utils/useCounter';
+import useOldActiveId from '../utils/useOldActiveId';
 const TabList = memo(function TabList(props) {
-    const [isFirstCall] = useCounter();
-    const { openTabsId, activeTabId } = useContext(StateContext);
-    const api = useContext(ApiContext);
-    const { classNames: { tabList: defaultClass } } = api.getMutableCurrentOptions();
-    React.useLayoutEffect(() => {
-        debugger;
-    });
+    const [isFirstCall] = useCounter()
+        , { openTabsId, activeTabId } = React.useContext(StateContext)
+        , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
+        , api = React.useContext(ApiContext)
+        , { classNames: { tabList: defaultClass } } = api.getMutableCurrentOptions();
     useEffect(() => {
-        api.tabListDidUpdateByActiveTabId(activeTabId, isFirstCall);
+        api.tabListDidUpdateByActiveTabId({ oldActiveId, newActiveId, isFirstCall });
+        updateOldActiveId();
     }, [activeTabId]);
     return (
-        <ul className={`nestedTab_tabList${defaultClass}`}>
+        <ul className={defaultClass}>
             {openTabsId.map(id => <Tab key={id} id={id} activeTabId={activeTabId}></Tab>)}
         </ul>
     )

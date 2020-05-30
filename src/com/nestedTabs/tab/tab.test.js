@@ -19,7 +19,10 @@ const defaultApi = {
 				"3": { id: 3, title: "a2" },
 			},
 		},
-		classNames: { tab: " defaultTab", activeTab: " activeTab" },
+		classNames: {
+			tab: "rdlt-default-tab defaultTab",
+			activeTab: "rdlt-active-tab activeTab"
+		},
 	}),
 	setMockUseContext = (api) => {
 		React.useContext = jest.fn(() => Object.assign({}, defaultApi, api || {}));
@@ -54,7 +57,8 @@ test("tab component must expect id and activeTabId as a props", () => {
 	expect(tab2El.className.includes('active')).toBe(false);
 });
 describe("tab classes", () => {
-	test('only activeTab must have an "active" class and all tabs must have a "nestedTab_tab" class', () => {
+	test(`only activeTab must have an "rdlt-active-tab" class and all tabs must have a 
+	    "rdlt-default-tab" class`, () => {
 		act(() => {
 			ReactDom.render(
 				<>
@@ -66,12 +70,12 @@ describe("tab classes", () => {
 		});
 		const t1c = document.getElementById("tab_1").className,
 			t2c = document.getElementById("tab_2").className;
-		expect(t1c.includes("active")).toBe(true);
-		expect(t1c.includes("nestedTab_tab")).toBe(true);
-		expect(t2c.includes("active")).toBe(false);
-		expect(t2c.includes("nestedTab_tab")).toBe(true);
+		expect(t1c.includes("rdlt-active-tab")).toBe(true);
+		expect(t1c.includes("rdlt-default-tab")).toBe(true);
+		expect(t2c.includes("rdlt-active-tab")).toBe(false);
+		expect(t2c.includes("rdlt-default-tab")).toBe(true);
 	});
-	test('tab should have some user defined classes includes "tab,activeTab"', () => {
+	test('tab may have some user defined classes like "activeTab" and "defaultTab"', () => {
 		act(() => {
 			ReactDom.render(
 				<>
@@ -81,8 +85,11 @@ describe("tab classes", () => {
 				container
 			);
 		});
-		expect(document.getElementById("tab_1").className.includes("activeTab")).toBe(true);
-		expect(document.getElementById("tab_2").className.includes("defaultTab")).toBe(true);
+		const tab1El = document.getElementById("tab_1"), tab2El = document.getElementById("tab_2");
+		expect(tab1El.className.includes("activeTab")).toBe(true);
+		expect(tab1El.className.includes("defaultTab")).toBe(true);
+		expect(tab2El.className.includes("defaultTab")).toBe(true);
+		expect(tab2El.className.includes("activeTab")).toBe(false);
 	});
 });
 describe("tab mouse events", () => {
@@ -132,8 +139,8 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 			document.getElementById("tab_2").dispatchEvent(new MouseEvent("clik", { bubbles: true }));
 		});
 		expect(tabDidMount).toHaveBeenCalledTimes(2);
-		expect(tabDidMount).toHaveBeenNthCalledWith(1, { tabId: "1", isActive: false });
-		expect(tabDidMount).toHaveBeenNthCalledWith(2, { tabId: "2", isActive: true });
+		expect(tabDidMount).toHaveBeenNthCalledWith(1, { id: "1", isActive: false });
+		expect(tabDidMount).toHaveBeenNthCalledWith(2, { id: "2", isActive: true });
 	});
 	test(`tabDidUpdate must  will be called in the first execution of tabComponent`, () => {
 		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
@@ -149,8 +156,8 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 			);
 		});
 		expect(tabDidUpdate).toHaveBeenCalledTimes(2);
-		expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { tabId: "1", isActive: false, isFirstCall: true });
-		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { tabId: "2", isActive: true, isFirstCall: true });
+		expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { id: "1", isActive: false, isFirstCall: true });
+		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { id: "2", isActive: true, isFirstCall: true });
 	});
 	test(`tabDidUpdate will be called twice for switching between tabs, one for activeTab component
 	       and another one for deActiveTab component(old activeTabComponent)`, () => {
@@ -176,7 +183,7 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		act(() => { toggelActiveTabBtn.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
 		act(() => { forceUpdateBtn.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
 		expect(tabDidUpdate).toHaveBeenCalledTimes(7);
-		expect(tabDidUpdate).toHaveBeenLastCalledWith({ tabId: '1', isActive: false, isFirstCall: false });
+		expect(tabDidUpdate).toHaveBeenLastCalledWith({ id: '1', isActive: false, isFirstCall: false });
 	});
 });
 test('tab component with user defined css class "defualtTab" and "activeTab"', () => {

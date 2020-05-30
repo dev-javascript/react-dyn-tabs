@@ -1,21 +1,23 @@
-import React, { useEffect, useRef, useContext, memo } from 'react';
+import React, { useEffect, memo } from 'react';
 import './index.css';
 import Panel from '../panel/panel.js';
 import { ApiContext, StateContext } from '../utils/context.js';
 import useCounter from '../utils/useCounter';
+import useOldActiveId from '../utils/useOldActiveId';
 const PanelList = memo(function PanelList(props) {
-    const [isFirstCall] = useCounter();
-    const { openTabsId, activeTabId } = useContext(StateContext), api = useContext(ApiContext),
-        { classNames: { panelList: defaultClass } } = api.getMutableCurrentOptions();
-
+    const [isFirstCall] = useCounter()
+        , { openTabsId, activeTabId } = React.useContext(StateContext)
+        , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
+        , api = React.useContext(ApiContext)
+        , { classNames: { panelList: defaultClass } } = api.getMutableCurrentOptions();
     useEffect(() => {
-        api.panelListDidUpdateByActiveTabId(activeTabId, isFirstCall);
+        api.panelListDidUpdateByActiveTabId({ oldActiveId, newActiveId, isFirstCall });
+        updateOldActiveId();
     }, [activeTabId]);
-
     return (
-        <div className={`nestedTab_panelList${defaultClass}`}>
+        <div className={defaultClass}>
             {openTabsId.map(id =>
-                <Panel key={id} id={id}></Panel>
+                <Panel key={id} id={id} activeTabId={activeTabId}></Panel>
             )}
         </div>
     )

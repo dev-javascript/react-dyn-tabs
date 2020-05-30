@@ -1,7 +1,18 @@
 function optionManager(param = {}) {
     const { options } = param;
     this.currentOptions = {};
-    this.initialOptions = {};
+    this.defaultClasses = {
+        tab: 'rdlt-default-tab',
+        activeTab: 'rdlt-active-tab',
+        hoverTab: 'rdlt-hover-tab',
+        tabList: 'rdlt-default-tabList',
+        closeIcon: 'rdlt-default-closeIcon',
+        hoverCloseIcon: 'rdlt-hover-closeIcon',
+        panel: 'rdlt-default-panel',
+        activePanel: 'rdlt-active-panel',
+        panelList: 'rdlt-default-panelList'
+    };
+    this.initialOptions = options || {};
     options && this.setNewOptions(options);
 };
 optionManager.prototype.reset = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
@@ -13,10 +24,11 @@ optionManager.prototype.getData = function () {
     return { activeTabId, openTabsId };
 };
 optionManager.prototype.setNewOptions = function (newOptions) {
-    Object.keys(this.initialOptions).length ||
-        (this.initialOptions = Object.assign(this.getDefaultOptions(), newOptions));
+    // Object.keys(this.initialOptions).length ||
+    //     (this.initialOptions = Object.assign(this.getDefaultOptions(), newOptions));
     this.currentOptions = Object.assign(this.getDefaultOptions(), newOptions);
     return this;
+
 };
 optionManager.prototype.getActiveTab = function () {
     const { data, data: { activeTabId } } = this.currentOptions;
@@ -32,6 +44,7 @@ optionManager.prototype.getDefaultOptions = (function () {
     const checkArrayType = (value, prop) => { if (value.constructor !== Array) throw `passed ${prop} property must be an Array`; };
     const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the passed ${prop} property must be an object`; };
     return function () {
+        const that = this;
         let option = {};
         Object.defineProperties(option, {
             data: (function () {
@@ -69,16 +82,23 @@ optionManager.prototype.getDefaultOptions = (function () {
                 let _classNames = {};
                 return {
                     get() { return _classNames; },
-                    set(value) {
-                        checkObjectType(value, 'option.classNames');
-                        const reducer = function (acc, item) {
-                            let className = value[item];
+                    set(obj) {
+                        checkObjectType(obj, 'option.classNames');
+                        const reducer = function (acc, key) {
+                            let className = obj[key];
                             if (typeof className !== 'string')
-                                throw `type of the passed option.classNames.${item} property must be a string`;
-                            acc[item] = className;
+                                throw `type of the passed option.classNames.${key} property must be a string`;
+                            const defaultClass = that.defaultClasses[key];
+                            if (defaultClass) {
+                                className = className.trim();
+                                if (className === defaultClass)
+                                    acc[key] = className;
+                                else
+                                    acc[key] = className ? (defaultClass + ' ' + className) : defaultClass;
+                            }
                             return acc;
                         };
-                        Object.keys(value).reduce(reducer, _classNames);
+                        Object.keys(obj).reduce(reducer, _classNames);
                     }
                 };
             })()
@@ -165,7 +185,7 @@ optionManager.prototype.getDefaultOptions = (function () {
             tabWillUnMount: () => { },
 
             beforeCloseTab: function (e, tabId) { return true; },
-            afterClosetab: () => { },
+            afterCloseTab: (tab) => { debugger; },
 
             allTabsDidMount: () => { },
             allTabsDidUpdate: () => { },
@@ -173,7 +193,7 @@ optionManager.prototype.getDefaultOptions = (function () {
             onSwitchTabs: () => { },
             onChangeOpenTabs: () => { },
 
-            afterOpenTab: () => { },
+            afterOpenTab: (tab) => { },
         };
         option.classNames = {
             tabList: "",
@@ -181,7 +201,6 @@ optionManager.prototype.getDefaultOptions = (function () {
             tab: "",
             hoverTab: "",
             activeTab: "",
-            hoverActiveTab: "",
             closeIcon: "",
             hoverCloseIcon: "",
             panel: "",

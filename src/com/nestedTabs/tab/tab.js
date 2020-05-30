@@ -1,30 +1,44 @@
-import React, { memo, useContext, useEffect, useRef, useLayoutEffect } from "react";
+import React, { memo, useEffect } from "react";
 import "./index.css";
 import { ApiContext } from "../utils/context.js";
 import useCounter from '../utils/useCounter';
+import idTemplate from '../utils/idTemplate';
 const Tab = memo(
     function Tab(props) {
-        const [isFirstCall] = useCounter();
-        const { id, activeTabId } = props, api = React.useContext(ApiContext), isActive = activeTabId === id;
-        const { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass } } = api.getMutableCurrentOptions();
+        const [isFirstCall] = useCounter()
+            , { id, activeTabId } = props
+            , api = React.useContext(ApiContext)
+            , isActive = activeTabId === id
+            , { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass, closeIcon } }
+                = api.getMutableCurrentOptions()
+            , tab = allTabs[id]
+            , tabClass = isActive ? (defaultClass + ' ' + activeClass) : defaultClass
+            , clkHandler = function (e) { api.switchTabEventHandler({ e, id, activeId: activeTabId, isActive }); }
+            , closeHandler = function (e) { api.closeTabEventHandler({ e, id, activeId: activeTabId, isActive }); }
 
-        useEffect(() => api.tabDidMount({ tabId: id, isActive }), [id]);
-        useEffect(() => api.tabDidUpdate({ tabId: id, isActive, isFirstCall }), [activeTabId]);
-
-        const mousedown = function (e) { api.activeTabEventHandler(e, id); };
-        const click = function (e) { api.activeTabEventHandler(e, id); };
-        const mouseup = function (e) { api.activeTabEventHandler(e, id); };
-
+        useEffect(() => {
+            api.tabDidMount({ id, isActive });
+            return () => {
+                api.tabWillUnmount({ id, isActive });
+            }
+        }, [id]);
+        useEffect(() => api.tabDidUpdate({ id, isActive, isFirstCall }), [activeTabId]);
         return (
-            <li id={`tab_${id}`} className={`nestedTab_tab${defaultClass}${activeTabId == id ? ` 
-             active${activeClass}` : ""}`} onMouseUp={mouseup} onMouseDown={mousedown} onClick={click}>
-                {allTabs[id].title}
+            <li id={idTemplate.tab(id)} className={tabClass} tabIndex="0"
+                onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
+                <span>{tab.title}</span>
+                {
+                    tab.closable ? (<span className={closeIcon}
+                        onMouseUp={closeHandler} onMouseDown={closeHandler} onClick={closeHandler}>
+                        &times;
+                    </span>) : null
+                }
             </li>
         );
     },
     (oldProps, newProps) => {
-        const { id: tabId, activeTabId: oldActiveId } = oldProps, { activeTabId: newActiveId } = newProps;
-        return oldActiveId === newActiveId || (tabId !== oldActiveId && (tabId !== newActiveId));
+        const { id, activeTabId: oldActiveId } = oldProps, { activeTabId: newActiveId } = newProps;
+        return oldActiveId === newActiveId || (id !== oldActiveId && (id !== newActiveId));
     }
 );
 export default Tab;
