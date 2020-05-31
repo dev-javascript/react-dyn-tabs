@@ -1,5 +1,4 @@
-function optionManager(param = {}) {
-    const { options } = param;
+function optionManager(options = {}) {
     this.currentOptions = {};
     this.defaultClasses = {
         tab: 'rdlt-default-tab',

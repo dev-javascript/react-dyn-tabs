@@ -1,6 +1,8 @@
 function baseApi() {
-    this.state = {};
-    this.dispatch = () => { };
+    Object.defineProperties(this, {
+        state: { value: {}, writable: true },
+        dispatch: { value: () => { }, writable: true }
+    });
 }
 baseApi.prototype.updateReducer = function (state, dispatch) {
     this.state = state;

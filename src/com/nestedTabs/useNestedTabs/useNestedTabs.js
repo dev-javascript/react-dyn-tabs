@@ -10,10 +10,9 @@ function useNestedTabs(options) {
     if (ref.current == null) {
         if (!(options && (typeof options === 'object')))
             throw 'invalid passed option! option must be an object';
-        ref.current = { api: Api({ options }) };
+        ref.current = { api: new (Api)({ options }) };
     }
     const { current: { api } } = ref;
-
     const [state, dispatch] = useReducer(reducer, api.optionManager.getData());
     api.updateReducer(state, dispatch);
 

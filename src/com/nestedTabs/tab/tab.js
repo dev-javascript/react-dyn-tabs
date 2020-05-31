@@ -14,15 +14,16 @@ const Tab = memo(
             , tab = allTabs[id]
             , tabClass = isActive ? (defaultClass + ' ' + activeClass) : defaultClass
             , clkHandler = function (e) { api.switchTabEventHandler({ e, id, activeId: activeTabId, isActive }); }
-            , closeHandler = function (e) { api.closeTabEventHandler({ e, id, activeId: activeTabId, isActive }); }
-
+            , closeHandler = function (e) { api.closeTabEventHandler({ e, id, activeId: activeTabId, isActive }); };
         useEffect(() => {
             api.tabDidMount({ id, isActive });
+        }, [id]);
+        useEffect(() => {
+            api.tabDidUpdate({ id, isActive, isFirstCall });
             return () => {
                 api.tabWillUnmount({ id, isActive });
             }
-        }, [id]);
-        useEffect(() => api.tabDidUpdate({ id, isActive, isFirstCall }), [activeTabId]);
+        }, [activeTabId]);
         return (
             <li id={idTemplate.tab(id)} className={tabClass} tabIndex="0"
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>

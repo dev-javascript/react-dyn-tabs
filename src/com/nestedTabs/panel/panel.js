@@ -13,11 +13,13 @@ const Panel = memo(function Panel(props) {
 
     useEffect(() => {
         api.panelDidMount({ id, isActive });
+    }, [id]);
+    useEffect(() => {
+        api.panelDidUpdate({ id, isActive, isFirstCall });
         return () => {
             api.panelWillUnmount({ id, isActive });
         }
-    }, [id]);
-    useEffect(() => api.panelDidUpdate({ id, isActive, isFirstCall }), [activeTabId]);
+    }, [activeTabId]);
 
     return (
         <div
