@@ -43,10 +43,9 @@ optionManager.prototype.getDefaultOptions = (function () {
     const checkArrayType = (value, prop) => { if (value.constructor !== Array) throw `passed ${prop} property must be an Array`; };
     const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the passed ${prop} property must be an object`; };
     return function () {
-        const that = this;
-        let option = {};
-        Object.defineProperties(option, {
-            data: (function () {
+        let option = {}, activeTabEventMode, closeTabEventMode;
+        const that = this,
+            data = (function () {
                 let data = {}
                 return {
                     get() { return data; },
@@ -59,8 +58,8 @@ optionManager.prototype.getDefaultOptions = (function () {
                         Object.keys(value).reduce(reducer, data);
                     }
                 };
-            })(),
-            events: (function () {
+            })()
+            , events = (function () {
                 let events = {};
                 return {
                     get() { return events; },
@@ -76,8 +75,8 @@ optionManager.prototype.getDefaultOptions = (function () {
                         Object.keys(value).reduce(reducer, events);
                     }
                 };
-            })(),
-            classNames: (function () {
+            })()
+            , classNames = (function () {
                 let _classNames = {};
                 return {
                     get() { return _classNames; },
@@ -100,9 +99,8 @@ optionManager.prototype.getDefaultOptions = (function () {
                         Object.keys(obj).reduce(reducer, _classNames);
                     }
                 };
-            })()
-        });
-        (function () {
+            })();
+        {
             let possibleValues = ['mousedown', 'mouseenter', 'click', 'mouseup'],
                 _activeTabMode = 'click', _closeTabMode = 'click';
             const checkValue = value => {
@@ -110,17 +108,16 @@ optionManager.prototype.getDefaultOptions = (function () {
                     throw `can not set ${value} on closeTabEventMode. possible values are 'mousedown', 'mouseenter', 'click', 'mouseup'`;
                 return value;
             };
-            Object.defineProperties(option, {
-                activeTabEventMode: {
-                    get() { return _activeTabMode; },
-                    set(value) { _activeTabMode = checkValue(value); }
-                },
-                closeTabEventMode: {
-                    get() { return _closeTabMode; },
-                    set(value) { _closeTabMode = checkValue(value); }
-                }
-            });
-        })();
+            activeTabEventMode = {
+                get() { return _activeTabMode; },
+                set(value) { _activeTabMode = checkValue(value); }
+            };
+            closeTabEventMode = {
+                get() { return _closeTabMode; },
+                set(value) { _closeTabMode = checkValue(value); }
+            };
+        }
+        Object.defineProperties(option, { data, events, classNames, activeTabEventMode, closeTabEventMode });
         Object.defineProperties(option.data, {
             allTabs: (function () {
                 let allTabs = {};

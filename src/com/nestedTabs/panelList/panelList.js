@@ -2,8 +2,7 @@ import React, { useEffect, memo } from 'react';
 import './index.css';
 import Panel from '../panel/panel.js';
 import { ApiContext, StateContext } from '../utils/context.js';
-import useCounter from '../utils/useCounter';
-import useOldActiveId from '../utils/useOldActiveId';
+import { useCounter, useOldActiveId } from '../utils/helperHooks';
 const PanelList = memo(function PanelList(props) {
     const [isFirstCall] = useCounter()
         , { openTabsId, activeTabId } = React.useContext(StateContext)

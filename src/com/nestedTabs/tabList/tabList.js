@@ -2,8 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { ApiContext, StateContext } from '../utils/context.js';
 import './index.css';
 import Tab from '../tab/tab.js';
-import useCounter from '../utils/useCounter';
-import useOldActiveId from '../utils/useOldActiveId';
+import { useCounter, useOldActiveId } from '../utils/helperHooks';
 const TabList = memo(function TabList(props) {
     const [isFirstCall] = useCounter()
         , { openTabsId, activeTabId } = React.useContext(StateContext)

@@ -1,4 +1,9 @@
 import { useRef } from 'react';
+const useCounter = function () {
+    const ref = useRef(0);
+    ref.current++;
+    return [ref.current === 1, ref.current];
+};
 const useOldActiveId = function (activeId) {
     const ref = useRef({
         oldActiveId: activeId,
@@ -8,4 +13,4 @@ const useOldActiveId = function (activeId) {
     ref.current.newActiveId = activeId;
     return ref.current;
 };
-export default useOldActiveId;
+export { useCounter, useOldActiveId };

@@ -1,5 +1,6 @@
+import { objDefineNoneEnumerableProps } from '../helper';
 function baseApi() {
-    Object.defineProperties(this, {
+    objDefineNoneEnumerableProps(this, {
         state: { value: {}, writable: true },
         dispatch: { value: () => { }, writable: true }
     });

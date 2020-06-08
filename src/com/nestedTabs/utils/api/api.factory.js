@@ -1,13 +1,8 @@
 import baseApi from './baseApi';
 import { actions } from '../stateManagement';
-const createDescriptor = value => ({ writable: true, value: value });
-// export default function (deps) {
-//     const { baseApiInstance, actions, optionManagerInstance, renderedComponentInstance } = deps;
-
-//     return api;
-// };
-const api = function (deps, param = { options: {} }) {
+const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
+    const { optionManagerIns, renderedComponentIns, objDefineNoneEnumerableProps } = getDeps(param.options);
     baseApi.call(this);
     this.closeTab = function (id) {
         if (this.state.openTabsId.indexOf(id) === -1)
@@ -81,29 +76,25 @@ const api = function (deps, param = { options: {} }) {
     this.reset = function () { this.optionManager.reset(); return this; };
     this.getOptions = function () { return this.getCurrentOptionsCopy(); };
     this.getData = function () { return { ...this.state }; };
-    Object.defineProperties(this, {
-        optionManager: createDescriptor(deps.getOptionManagerInstance(param.options)),
-        renderedComponent: createDescriptor(deps.getRenderedComponentInstance()),
+    objDefineNoneEnumerableProps(this, {
+        optionManager: optionManagerIns,
+        renderedComponent: renderedComponentIns,
         stackedEvent: (function () {
             const createObj = () => ({
                 _value: [],
                 push: function (value) { return this._value.push(value); },
                 flush: function (param) { while (this._value.length) this._value.pop()(param); }
             });
-            return createDescriptor({
+            return {
                 afterSwitchTab: createObj(),
                 afterSwitchPanel: createObj(),
                 afterCloseTab: createObj(),
                 afterClosePanel: createObj(),
                 afterOpenTab: createObj(),
                 afterOpenPanel: createObj(),
-            });
+            };
         })()
     });
-    {
-        const { activeTabId, panelComponent } = this.optionManager.getActiveTab();
-        activeTabId && this.renderedComponent.addById(activeTabId, panelComponent);
-    }
 };
 api.prototype = Object.create(baseApi.prototype);
 api.prototype.constructor = api;

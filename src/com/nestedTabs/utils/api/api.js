@@ -1,21 +1,13 @@
 import apiFactory from './api.factory';
 import OptionManager from '../optionManager';
 import renderedComponent from '../renderedComponent.js';
-//import { actions } from '../stateManagement';
-//import baseApi from './baseApi.js';
-export default apiFactory.bind(null, {
-    getRenderedComponentInstance: activeTabObj => new (renderedComponent)(activeTabObj),
-    getOptionManagerInstance: options => new (OptionManager)(options )
-});
-// export default function (param = {}) {
-//     const { options } = param,
-//         optionManagerInstance = new (OptionManager)({ options });
-//     const externalApi = apiFactory({
-//         renderedComponentInstance: new (renderedComponent)(optionManagerInstance.getActiveTab()),
-//         baseApiInstance: new baseApi(),
-//         actions,
-//         optionManagerInstance
-//     });
-//     return new externalApi();
-// };
+import { objDefineNoneEnumerableProps } from '../helper';
+const getDeps = function (options) {
+    const optionManagerIns = new (OptionManager)(options),
+        renderedComponentIns = new (renderedComponent)(),
+        { activeTabId, panelComponent } = optionManagerIns.getActiveTab();
+    activeTabId && renderedComponentIns.addById(activeTabId, panelComponent);
+    return { optionManagerIns, renderedComponentIns, objDefineNoneEnumerableProps };
+};
+export default apiFactory.bind(null, getDeps);
 

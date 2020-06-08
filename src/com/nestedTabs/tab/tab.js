@@ -1,8 +1,8 @@
 import React, { memo, useEffect } from "react";
 import "./index.css";
 import { ApiContext } from "../utils/context.js";
-import useCounter from '../utils/useCounter';
-import idTemplate from '../utils/idTemplate';
+import { useCounter } from '../utils/helperHooks';
+import { idTemplate } from '../utils/helper';
 const Tab = memo(
     function Tab(props) {
         const [isFirstCall] = useCounter()
