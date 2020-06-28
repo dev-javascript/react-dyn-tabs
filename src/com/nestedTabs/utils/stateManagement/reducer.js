@@ -16,9 +16,7 @@ export default function reducer(state, action) {
             return { ...Object.assign(state, { activeTabId: '' }) };
         case actions.active:
             {
-                let id = action.tabId;
-                action.addRenderedCom();
-                state.activeTabId = id;
+                state.activeTabId = action.tabId;
                 return { ...state };
             }
 

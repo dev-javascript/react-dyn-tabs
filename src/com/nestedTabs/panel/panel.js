@@ -26,7 +26,7 @@ const Panel = memo(function Panel(props) {
             id={idTemplate.panel(id)}
             className={panelClass}
         >
-            {api.renderedComponent.getById(id)}
+            {api.getPanel(id)}
         </div>
     )
 }, (oldProps, newProps) => {

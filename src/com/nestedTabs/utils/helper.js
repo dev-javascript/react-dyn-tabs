@@ -1,7 +1,8 @@
 export const idTemplate = {
     tab: id => `tab_${id}`,
     panel: id => `panel_${id}`,
-    closeIcon: id => `closeIcon_${id}`
+    closeIcon: id => `closeIcon_${id}`,
+    lazyPanel: id => `panel_${id}_inner`
 };
 export const getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };
 export const objDefineNoneEnumerableProps = (function () {

@@ -8,20 +8,18 @@ const Tab = memo(
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , isActive = activeTabId === id
             , { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass, closeIcon } }
                 = api.getMutableCurrentOptions()
             , tab = allTabs[id]
-            , tabClass = isActive ? (defaultClass + ' ' + activeClass) : defaultClass
-            , clkHandler = function (e) { api.switchTabEventHandler({ e, id, activeId: activeTabId, isActive }); }
-            , closeHandler = function (e) { api.closeTabEventHandler({ e, id, activeId: activeTabId, isActive }); };
+            , tabClass = activeTabId === id ? (defaultClass + ' ' + activeClass) : defaultClass
+            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); };
         useEffect(() => {
-            api.tabDidMount({ id, isActive });
+            api.tabDidMount({ id });
         }, [id]);
         useEffect(() => {
-            api.tabDidUpdate({ id, isActive, isFirstCall });
+            api.tabDidUpdate({ id, isFirstCall });
             return () => {
-                api.tabWillUnmount({ id, isActive });
+                api.tabWillUnmount({ id });
             }
         }, [activeTabId]);
         return (
@@ -29,8 +27,7 @@ const Tab = memo(
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
                 <span>{tab.title}</span>
                 {
-                    tab.closable ? (<span className={closeIcon}
-                        onMouseUp={closeHandler} onMouseDown={closeHandler} onClick={closeHandler}>
+                    tab.closable ? (<span className={closeIcon}>
                         &times;
                     </span>) : null
                 }

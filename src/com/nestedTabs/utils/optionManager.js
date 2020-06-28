@@ -11,7 +11,9 @@ function optionManager(options = {}) {
         activePanel: 'rdlt-active-panel',
         panelList: 'rdlt-default-panelList'
     };
-    this.initialOptions = options || {};
+    options = options || {};
+    this._validateOptions(options);
+    this.initialOptions = options;
     options && this.setNewOptions(options);
 };
 optionManager.prototype.reset = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
@@ -23,27 +25,20 @@ optionManager.prototype.getData = function () {
     return { activeTabId, openTabsId };
 };
 optionManager.prototype.setNewOptions = function (newOptions) {
-    // Object.keys(this.initialOptions).length ||
-    //     (this.initialOptions = Object.assign(this.getDefaultOptions(), newOptions));
+    this._validateOptions(newOptions);
     this.currentOptions = Object.assign(this.getDefaultOptions(), newOptions);
     return this;
 
 };
-optionManager.prototype.getActiveTab = function () {
-    const { data, data: { activeTabId } } = this.currentOptions;
-    let panelComponent = null;
-    if (activeTabId >= 0) {
-        if (!data.allTabs.hasOwnProperty(activeTabId))
-            throw new Error('Invalid activeTabId! There is not any corresponding data for given activeTabId');
-        panelComponent = data.allTabs[activeTabId].panelComponent;
-    }
-    return { activeTabId, panelComponent };
+optionManager.prototype._validateOptions = function (options) {
+    if (!(options && (typeof options === 'object')))
+        throw 'invalid passed option! option must be an object';
 };
 optionManager.prototype.getDefaultOptions = (function () {
     const checkArrayType = (value, prop) => { if (value.constructor !== Array) throw `passed ${prop} property must be an Array`; };
     const checkObjectType = (value, prop) => { if ((typeof value !== 'object') || (value === null)) throw `type of the passed ${prop} property must be an object`; };
     return function () {
-        let option = {}, activeTabEventMode, closeTabEventMode;
+        let option = {}, switchTabEventMode, closeTabEventMode;
         const that = this,
             data = (function () {
                 let data = {}
@@ -102,22 +97,22 @@ optionManager.prototype.getDefaultOptions = (function () {
             })();
         {
             let possibleValues = ['mousedown', 'mouseenter', 'click', 'mouseup'],
-                _activeTabMode = 'click', _closeTabMode = 'click';
+                _switchTabMode = 'click', _closeTabMode = 'click';
             const checkValue = value => {
                 if (possibleValues.indexOf(value) == -1)
                     throw `can not set ${value} on closeTabEventMode. possible values are 'mousedown', 'mouseenter', 'click', 'mouseup'`;
                 return value;
             };
-            activeTabEventMode = {
-                get() { return _activeTabMode; },
-                set(value) { _activeTabMode = checkValue(value); }
+            switchTabEventMode = {
+                get() { return _switchTabMode; },
+                set(value) { _switchTabMode = checkValue(value); }
             };
             closeTabEventMode = {
                 get() { return _closeTabMode; },
                 set(value) { _closeTabMode = checkValue(value); }
             };
         }
-        Object.defineProperties(option, { data, events, classNames, activeTabEventMode, closeTabEventMode });
+        Object.defineProperties(option, { data, events, classNames, switchTabEventMode, closeTabEventMode });
         Object.defineProperties(option.data, {
             allTabs: (function () {
                 let allTabs = {};
@@ -162,14 +157,14 @@ optionManager.prototype.getDefaultOptions = (function () {
             })(),
         });
         option.events = {
-            onmousedownTab: () => { },
+            onmousedownTab: () => { return true; },
             onclickTab: () => { },
             onmouseupTab: () => { },
             onmousedownTabCloseIcon: () => { },
             onclickTabCloseIcon: () => { },
             onmouseupTabCloseIcon: () => { },
 
-            beforeActiveTab: function (e, tabId) { return true; },
+            beforeSwitchTab: function (e, tabId) { return true; },
             afterSwitchTab: function ({ tabId, panelId }) {
                 console.log(`afterSwitchTab with tabId : ${tabId} and panelId : ${panelId}`);
             },

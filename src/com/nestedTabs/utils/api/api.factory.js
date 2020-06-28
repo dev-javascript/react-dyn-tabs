@@ -1,28 +1,10 @@
 import baseApi from './baseApi';
 import { actions } from '../stateManagement';
+const _resolve = result => Promise.resolve(result);
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, renderedComponentIns, objDefineNoneEnumerableProps } = getDeps(param.options);
+    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps } = getDeps(param.options);
     baseApi.call(this);
-    this.closeTab = function (id) {
-        if (this.state.openTabsId.indexOf(id) === -1)
-            return null;
-        const { events: { afterCloseTab } } = this.getMutableCurrentOptions()
-            , tabPromise = new Promise(resolve => {
-                this.stackedEvent.afterCloseTab.push(resolve);
-            })
-            , panelPromise = new Promise(resolve => {
-                this.stackedEvent.afterClosePanel.push(resolve);
-            });
-        this.dispatch({ type: actions.close, tabId: id });
-        return Promise.all([tabPromise, panelPromise])
-            .then(([tab, panel]) => {
-                afterCloseTab({ ...tab });
-                return { ...tab };
-            }).catch(function (err) {
-                throw err.message;
-            });
-    };
     this.openTab = function (id) {
         if (this.state.openTabsId.indexOf(id) >= 0)
             return null;
@@ -36,7 +18,7 @@ const api = function (getDeps, param = { options: {} }) {
         this.dispatch({ type: actions.open, tabId: id });
         return Promise.all([tabPromise, panelPromise])
             .then(([tab, panel]) => {
-                afterOpenTab({ ...tab });
+                afterOpenTab.call(this, { ...tab });
                 return { ...tab };
             }).catch(function (err) {
                 throw err.message;
@@ -49,36 +31,11 @@ const api = function (getDeps, param = { options: {} }) {
         return this;
     };
     this.getMutableCurrentOptions = () => this.optionManager.getMutableCurrentOptions();
-    this.activeTab = function (id) {
-        const { events: { afterSwitchTab } } = this.getMutableCurrentOptions();
-        if (this.state.activeTabId == id)
-            return new Promise(resolve => resolve({ newActiveId: id, oldActiveId: id }));
-        const tabPromise = new Promise((resolve, resject) => {
-            this.stackedEvent.afterSwitchTab.push(resolve);
-        });
-        const panelPromise = new Promise((resolve, resject) => {
-            this.stackedEvent.afterSwitchPanel.push(resolve);
-        });
-        this.dispatch({
-            type: actions.active,
-            tabId: id,
-            addRenderedCom: () =>
-                this.renderedComponent.addById(id, this.getMutableCurrentOptions().data.allTabs[id].panelComponent),
-        });
-        return Promise.all([tabPromise, panelPromise])
-            .then(([tab, panel]) => {
-                afterSwitchTab({ ...tab });
-                return { ...tab };
-            }).catch(function (err) {
-                throw err.message;
-            });;
-    };
     this.reset = function () { this.optionManager.reset(); return this; };
-    this.getOptions = function () { return this.getCurrentOptionsCopy(); };
     this.getData = function () { return { ...this.state }; };
     objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
-        renderedComponent: renderedComponentIns,
+        panelProxy: panelProxyIns,
         stackedEvent: (function () {
             const createObj = () => ({
                 _value: [],
@@ -98,50 +55,117 @@ const api = function (getDeps, param = { options: {} }) {
 };
 api.prototype = Object.create(baseApi.prototype);
 api.prototype.constructor = api;
-api.prototype.tabWillUnmount = function ({ id, isActive }) {
-    this.stackedEvent.afterCloseTab.flush({ id, isActive });
+api.prototype.getPanel = function (id) {
+    return this.panelProxy.getPanel(id
+        , this.optionManager.getMutableCurrentOptions().data.allTabs[id].panelComponent);
 };
-api.prototype.panelWillUnmount = function ({ id, isActive }) {
-    this.stackedEvent.afterClosePanel.flush({ id, isActive });
+api.prototype.tabWillUnmount = function (param) {
+    this.stackedEvent.afterCloseTab.flush(param);
 };
-api.prototype.tabDidMount = function ({ id, isActive }) {
-    this.stackedEvent.afterOpenTab.flush({ id, isActive });
+api.prototype.panelWillUnmount = function (param) {
+    this.stackedEvent.afterClosePanel.flush(param);
 };
-api.prototype.panelDidMount = function ({ id, isActive }) {
-    this.stackedEvent.afterOpenPanel.flush({ id, isActive });
+api.prototype.tabDidMount = function (param) {
+    this.stackedEvent.afterOpenTab.flush(param);
 };
-api.prototype.tabDidUpdate = function ({ id, isActive, isFirstCall }) { };
-api.prototype.panelDidUpdate = function ({ id, isActive, isFirstCall }) { };
+api.prototype.panelDidMount = function (param) {
+    this.stackedEvent.afterOpenPanel.flush(param);
+};
+api.prototype.tabDidUpdate = function (param) { };
+api.prototype.panelDidUpdate = function (param) { };
 api.prototype.tabListDidUpdateByActiveTabId = function ({ oldActiveId, newActiveId, isFirstCall }) {
     isFirstCall || this.stackedEvent.afterSwitchTab.flush({ oldActiveId, newActiveId });
 };
 api.prototype.panelListDidUpdateByActiveTabId = function ({ oldActiveId, newActiveId, isFirstCall }) {
     isFirstCall || this.stackedEvent.afterSwitchPanel.flush({ oldActiveId, newActiveId });
 };
-api.prototype.switchTabEventHandler = function ({ e, id, activeId, isActive }) {
-    if (e.target.className.includes(this.optionManager.defaultClasses.closeIcon))
-        return;
-    const { activeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
+api.prototype.eventHandlerFactory = function ({ e, id }) {
     //test mutablitiy of events
-    events[`on${type}Tab`](e, id);
-    ((type === activeTabEventMode) && events.beforeActiveTab({
-        eventObject: e,
-        clickedTabId: id,
-        currentActiveTabId: activeId,
-        isActiveClickedTab: isActive
-    }))
-        && this.activeTab(id);
+    const { events, switchTabEventMode, closeTabEventMode } = this.getMutableCurrentOptions()
+        , { type } = e;
+    events[`on${type}Tab`].call(this, { e, id });
+    e.target.className.includes(this.optionManager.defaultClasses.closeIcon) ?
+        (type === closeTabEventMode && this.closeTab({ e, id }, true))
+        : (type === switchTabEventMode && this.switchTab({ e, id }));
 };
-api.prototype.closeTabEventHandler = function ({ e, id, activeId, isActive }) {
-    const { closeTabEventMode, events } = this.getMutableCurrentOptions(), { type } = e;
-    //test mutablitiy of events
-    events[`on${type}Tab`](e, id);
-    ((type === closeTabEventMode) && events.beforeCloseTab({
-        eventObject: e,
-        clickedTabId: id,
-        currentActiveTabId: activeId,
-        isActiveClickedTab: isActive
-    }))
-        && this.closeTab(id);
-};
+{
+    const _switchTab = function (id) {
+        const options = this.getMutableCurrentOptions()
+            , tabPromise = new Promise((resolve, resject) => {
+                this.stackedEvent.afterSwitchTab.push(resolve);
+            })
+            , panelPromise = new Promise((resolve, resject) => {
+                this.stackedEvent.afterSwitchPanel.push(resolve);
+            });
+        this.panelProxy.addRenderedPanel(id);
+        this.dispatch({
+            type: actions.active,
+            tabId: id
+        });
+        return Promise.all([tabPromise, panelPromise])
+            .then(([tab, panel]) => {
+                options.events.afterSwitchTab.call(this, { ...tab });
+                return { ...tab };
+            }).catch(function (err) {
+                throw err.message;
+            });
+    };
+    api.prototype.switchTab = (function () {
+        const _validate = function (selectedTabId) { return !this.isActiveTab(selectedTabId) && this.isOpenTab(selectedTabId); }
+        return function ({ id, e }) {
+            if (!_validate.call(this, id) || !this._beforeSwitchTab({ id, e }))
+                return _resolve(null);
+            return _switchTab.call(this, id);
+        };
+    })();
+    api.prototype._switchToUnknowTab = function ({ e }) {
+        return this.switchToNxtSiblingTab({ e })
+            .then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }));
+        //.then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }));
+    };
+    api.prototype.switchToNxtSiblingTab = function ({ e }) {
+        const index = this.state.openTabsId.indexOf(this.state.activeTabId) + 1;
+        return this.switchTab({ id: this.state.openTabsId[index], e });
+    };
+    api.prototype.switchToPreSiblingTab = function ({ e }) {
+        const index = this.state.openTabsId.indexOf(this.state.activeTabId) - 1;
+        return this.switchTab({ id: this.state.openTabsId[index], e });
+    };
+    api.prototype.switchToPreSelectedTab = function ({ e }) { };
+}
+api.prototype.closeTab = (function () {
+    function _close(id) {
+        const { events: { afterCloseTab } } = this.getMutableCurrentOptions()
+            , tabPromise = new Promise(resolve => {
+                this.stackedEvent.afterCloseTab.push(resolve);
+            })
+            , panelPromise = new Promise(resolve => {
+                this.stackedEvent.afterClosePanel.push(resolve);
+            });
+        this.dispatch({ type: actions.close, tabId: id });
+        return Promise.all([tabPromise, panelPromise])
+            .then(([tab, panel]) => {
+                afterCloseTab.call(this, { ...tab });
+                return { ...tab };
+            }).catch(function (err) {
+                throw err.message;
+            });
+    }
+    return function (param, switchBeforeClose = true) {
+        const { id } = param;
+        if (!this.isOpenTab(id))
+            return _resolve(null);
+        if (!this.getMutableCurrentOptions().events.beforeCloseTab(param))
+            return _resolve(null);
+        if (switchBeforeClose && this.isActiveTab(id))
+            return this._switchToUnknowTab({ e: param.e }).then(result => _close.call(this, id)).catch(function (err) {
+                throw err.message;
+            });
+        else
+            return _close.call(this, id);
+    };
+})();
+api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
+api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
+api.prototype._beforeSwitchTab = function ({ id, e }) { return this.getMutableCurrentOptions().events.beforeSwitchTab({ id, e }); };
 export default api;

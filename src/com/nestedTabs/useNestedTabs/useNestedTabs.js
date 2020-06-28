@@ -7,11 +7,9 @@ import { ApiContext, StateContext } from "../utils/context.js";
 function useNestedTabs(options) {
 
     const ref = useRef(null);
-    if (ref.current == null) {
-        if (!(options && (typeof options === 'object')))
-            throw 'invalid passed option! option must be an object';
+    if (ref.current == null)
         ref.current = { api: new (Api)({ options }) };
-    }
+
     const { current: { api } } = ref;
     const [state, dispatch] = useReducer(reducer, api.optionManager.getData());
     api.updateReducer(state, dispatch);
