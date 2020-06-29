@@ -119,8 +119,8 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         };
     })();
     api.prototype._switchToUnknowTab = function ({ e }) {
-        return this.switchToNxtSiblingTab({ e })
-            .then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }));
+        return this.switchToPreSiblingTab({ e })
+            .then(result => result ? _resolve(result) : this.switchToNxtSiblingTab({ e }));
         //.then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }));
     };
     api.prototype.switchToNxtSiblingTab = function ({ e }) {
