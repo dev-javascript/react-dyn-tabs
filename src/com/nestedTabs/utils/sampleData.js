@@ -44,12 +44,9 @@ const data1 = {
     },
     events: {
         afterSwitchTab: (tabId, panelId) => {
-            debugger;
         },
         afterCloseTab: function (param, param3) {
-            debugger;
             const data = this.getData();
-            debugger;
         }
     }
 };

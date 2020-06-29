@@ -3,7 +3,7 @@ import { actions } from '../stateManagement';
 const _resolve = result => Promise.resolve(result);
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps } = getDeps(param.options);
+    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps, historyActiveTabsIns } = getDeps(param.options);
     baseApi.call(this);
     this.openTab = function (id) {
         if (this.state.openTabsId.indexOf(id) >= 0)
@@ -36,6 +36,7 @@ const api = function (getDeps, param = { options: {} }) {
     objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
         panelProxy: panelProxyIns,
+        historyActiveTabs: historyActiveTabsIns,
         stackedEvent: (function () {
             const createObj = () => ({
                 _value: [],
@@ -97,6 +98,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
             , panelPromise = new Promise((resolve, resject) => {
                 this.stackedEvent.afterSwitchPanel.push(resolve);
             });
+        this.historyActiveTabs.add(this.state.activeTabId);
         this.panelProxy.addRenderedPanel(id);
         this.dispatch({
             type: actions.active,
@@ -119,9 +121,9 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         };
     })();
     api.prototype._switchToUnknowTab = function ({ e }) {
-        return this.switchToPreSiblingTab({ e })
+        return this.switchToPreSelectedTab({ e })
+            .then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }))
             .then(result => result ? _resolve(result) : this.switchToNxtSiblingTab({ e }));
-        //.then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }));
     };
     api.prototype.switchToNxtSiblingTab = function ({ e }) {
         const index = this.state.openTabsId.indexOf(this.state.activeTabId) + 1;
@@ -131,7 +133,16 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         const index = this.state.openTabsId.indexOf(this.state.activeTabId) - 1;
         return this.switchTab({ id: this.state.openTabsId[index], e });
     };
-    api.prototype.switchToPreSelectedTab = function ({ e }) { };
+    api.prototype.switchToPreSelectedTab = function ({ e }) {
+        let id;
+        while (!id) {
+            const tempId = this.historyActiveTabs.get();
+            if (tempId == undefined)
+                return _resolve(null);
+            this.state.openTabsId.indexOf(tempId) >= 0 && (id = tempId);
+        }
+        return this.switchTab({ id, e });
+    };
 }
 api.prototype.closeTab = (function () {
     function _close(id) {
