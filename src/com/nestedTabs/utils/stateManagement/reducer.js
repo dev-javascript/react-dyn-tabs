@@ -12,8 +12,8 @@ export default function reducer(state, action) {
                 state.openTabsId.push(action.tabId);
                 return { ...state };
             }
-        case actions.deActive:
-            return { ...Object.assign(state, { activeTabId: '' }) };
+        case actions.forceUpdate:
+            return { ...state };
         case actions.active:
             {
                 state.activeTabId = action.tabId;

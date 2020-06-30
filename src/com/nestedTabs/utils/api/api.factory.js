@@ -1,10 +1,10 @@
-import baseApi from './baseApi';
-import { actions } from '../stateManagement';
+import BaseApi from './baseApi';
 const _resolve = result => Promise.resolve(result);
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps, activedTabsHistoryIns } = getDeps(param.options);
-    baseApi.call(this);
+    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps,
+        activedTabsHistoryIns } = getDeps(param.options);
+    BaseApi.call(this);
     this.openTab = function (id) {
         if (this.state.openTabsId.indexOf(id) >= 0)
             return null;
@@ -15,7 +15,7 @@ const api = function (getDeps, param = { options: {} }) {
             , panelPromise = new Promise(resolve => {
                 this.stackedEvent.afterOpenPanel.push(resolve);
             });
-        this.dispatch({ type: actions.open, tabId: id });
+        this._openTab(id);
         return Promise.all([tabPromise, panelPromise])
             .then(([tab, panel]) => {
                 afterOpenTab.call(this, { ...tab });
@@ -54,7 +54,7 @@ const api = function (getDeps, param = { options: {} }) {
         })()
     });
 };
-api.prototype = Object.create(baseApi.prototype);
+api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype.getPanel = function (id) {
     return this.panelProxy.getPanel(id
@@ -100,10 +100,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
             });
         this.activedTabsHistory.add(this.state.activeTabId);
         this.panelProxy.addRenderedPanel(id);
-        this.dispatch({
-            type: actions.active,
-            tabId: id
-        });
+        this._activeTab(id);
         return Promise.all([tabPromise, panelPromise])
             .then(([tab, panel]) => {
                 options.events.afterSwitchTab.call(this, { ...tab });
@@ -153,7 +150,7 @@ api.prototype.closeTab = (function () {
             , panelPromise = new Promise(resolve => {
                 this.stackedEvent.afterClosePanel.push(resolve);
             });
-        this.dispatch({ type: actions.close, tabId: id });
+        this._closeTab(id);
         return Promise.all([tabPromise, panelPromise])
             .then(([tab, panel]) => {
                 afterCloseTab.call(this, { ...tab });

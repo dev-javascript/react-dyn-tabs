@@ -1,12 +1,34 @@
 import { objDefineNoneEnumerableProps } from '../helper';
-function baseApi() {
+import actions from '../stateManagement/actions';
+function BaseApi() {
     objDefineNoneEnumerableProps(this, {
         state: { value: {}, writable: true },
-        dispatch: { value: () => { }, writable: true }
+        _dispatch: { value: () => { }, writable: true }
     });
 }
-baseApi.prototype.updateReducer = function (state, dispatch) {
+BaseApi.prototype.updateReducer = function (state, dispatch) {
     this.state = state;
-    this.dispatch = dispatch;
+    this._dispatch = dispatch;
 };
-export default baseApi;
+BaseApi.prototype._activeTab = function (tabId) {
+    this._dispatch({
+        type: actions.active,
+        tabId
+    });
+};
+BaseApi.prototype._closeTab = function (tabId) {
+    this._dispatch({
+        type: actions.close,
+        tabId
+    });
+};
+BaseApi.prototype._openTab = function (tabId) {
+    this._dispatch({
+        type: actions.open,
+        tabId
+    });
+};
+BaseApi.prototype._forceUpdate = function () {
+    this.dispatch({ type: actions.forceUpdate });
+};
+export default BaseApi;

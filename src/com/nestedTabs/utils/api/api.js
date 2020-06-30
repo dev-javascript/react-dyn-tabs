@@ -7,7 +7,10 @@ const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)(options),
         panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableCurrentOptions().data.activeTabId),
         activedTabsHistoryIns = new (ActivedTabsHistory)();
-    return { activedTabsHistoryIns, optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps };
+    return {
+        activedTabsHistoryIns, optionManagerIns,
+        panelProxyIns, objDefineNoneEnumerableProps
+    };
 };
 export default apiFactory.bind(null, getDeps);
 
