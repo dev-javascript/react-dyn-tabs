@@ -142,7 +142,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     };
 }
 api.prototype.closeTab = (function () {
-    function _close(id) {
+    function _closeTab(id) {
         const { events: { afterCloseTab } } = this.getMutableCurrentOptions()
             , tabPromise = new Promise(resolve => {
                 this.stackedEvent.afterCloseTab.push(resolve);
@@ -166,11 +166,11 @@ api.prototype.closeTab = (function () {
         if (!this.getMutableCurrentOptions().events.beforeCloseTab(param))
             return _resolve(null);
         if (switchBeforeClose && this.isActiveTab(id))
-            return this._switchToUnknowTab({ e: param.e }).then(result => _close.call(this, id)).catch(function (err) {
+            return this._switchToUnknowTab({ e: param.e }).then(result => _closeTab.call(this, id)).catch(function (err) {
                 throw err.message;
             });
         else
-            return _close.call(this, id);
+            return _closeTab.call(this, id);
     };
 })();
 api.prototype.getActivedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
