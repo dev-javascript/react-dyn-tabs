@@ -1,10 +1,12 @@
 import React, { memo, useEffect } from "react";
 import "./index.css";
-import { ApiContext } from "../utils/context.js";
+import { ApiContext, ForceUpdateContext } from "../utils/context.js";
 import { useCounter } from '../utils/helperHooks';
 import { idTemplate } from '../utils/helper';
+import events from '../utils/events';
 const Tab = memo(
     function Tab(props) {
+        React.useContext(ForceUpdateContext);
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
@@ -14,14 +16,13 @@ const Tab = memo(
             , tabClass = activeTabId === id ? (defaultClass + ' ' + activeClass) : defaultClass
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); };
         useEffect(() => {
-            api.tabDidMount({ id });
+            api.observable.publisher.trigger(events.tabDidMount, { id });
         }, [id]);
         useEffect(() => {
-            api.tabDidUpdate({ id, isFirstCall });
             return () => {
-                api.tabWillUnmount({ id });
+                api.observable.publisher.trigger(events.tabWillUnmount, { id });
             }
-        }, [activeTabId]);
+        });
         return (
             <li id={idTemplate.tab(id)} className={tabClass} tabIndex="0"
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>

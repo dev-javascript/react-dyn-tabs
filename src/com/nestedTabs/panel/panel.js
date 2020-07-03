@@ -1,9 +1,11 @@
 import React, { useContext, memo, useEffect, useRef } from 'react';
 import './index.css';
-import { ApiContext } from '../utils/context.js';
+import { ApiContext, ForceUpdateContext } from '../utils/context.js';
 import { useCounter } from '../utils/helperHooks';
 import { idTemplate } from '../utils/helper';
+import events from '../utils/events';
 const Panel = memo(function Panel(props) {
+    React.useContext(ForceUpdateContext);
     const [isFirstCall] = useCounter()
         , { id, activeTabId } = props
         , isActive = activeTabId === id
@@ -12,15 +14,13 @@ const Panel = memo(function Panel(props) {
         , panelClass = isActive ? (defaultClass + ' ' + activeClass) : defaultClass;
 
     useEffect(() => {
-        api.panelDidMount({ id, isActive });
+        api.observable.publisher.trigger(events.panelDidMount, { id, isActive });
     }, [id]);
     useEffect(() => {
-        api.panelDidUpdate({ id, isActive, isFirstCall });
         return () => {
-            api.panelWillUnmount({ id, isActive });
+            api.observable.publisher.trigger(events.panelWillUnmount, { id, isActive });
         }
-    }, [activeTabId]);
-
+    });
     return (
         <div
             id={idTemplate.panel(id)}

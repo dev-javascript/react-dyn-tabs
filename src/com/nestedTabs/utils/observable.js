@@ -1,21 +1,34 @@
-const Publisher = function (proxyFunction, actions) {
-    this.subscribers = [];
-    this.actions = actions = [];
-    this.proxyFn = proxyFunction || function () { return true; };
+const Publisher = function () { };
+Publisher.prototype.addEvent = function (eventName) {
+    this.hasOwnProperty(eventName) || (this[eventName] = []);
 };
-Publisher.prototype.trigger = function (actionName, param, extraParam) {
-    this.subscribers.map(consumer => {
-        this.proxyFn.call(cosumer, param, extraParam) &&
-            consumer.actions[actionName].apply(consumer, [param]);
-    });
+Publisher.prototype.trigger = function (eventName, param) {
+    this[eventName].map(subscriber => { subscriber.run(param); });
+    return this;
 };
-const Subscriber = function (actionsObj) {
-    this.actions = actionsObj;
+const Subscriber = function (callback, publisherObj) {
+    this.run = callback.bind(this);
+    this.publisher = publisherObj;
 };
-Subscriber.prototype.subscribe = function (publisher) {
-    publisher.subscribers.push(this);
+Subscriber.prototype.subscribe = function (eventName) {
+    const subscribers = this.publisher[eventName];
+    subscribers.indexOf(this) === -1 && subscribers.push(this);
+    return this;
 };
-Subscriber.prototype.unSubscribe = function (publisher) {
-    const ps = publisher.subscribers;
-    ps.subscribers.splice(ps.indexOf(this), 1);
+Subscriber.prototype.unSubscribe = function (eventName) {
+    const subscribers = this.publisher[eventName]
+        , index = subscribers.indexOf(this);
+    index >= 0 && subscribers.splice(index, 1);
+    return this;
 };
+const ObservablePattern = function (eventsNameArray) {
+    this.publisher = new (Publisher)();
+    if (eventsNameArray.constructor === Array)
+        eventsNameArray.map(eventName => {
+            this.publisher.addEvent(eventName);
+        });
+};
+ObservablePattern.prototype.createSubscriber = function (callback) {
+    return new (Subscriber)(callback, this.publisher);
+};
+export default ObservablePattern;

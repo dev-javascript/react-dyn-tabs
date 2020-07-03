@@ -160,31 +160,19 @@ optionManager.prototype.getDefaultOptions = (function () {
             onmousedownTab: () => { return true; },
             onclickTab: () => { },
             onmouseupTab: () => { },
-            onmousedownTabCloseIcon: () => { },
-            onclickTabCloseIcon: () => { },
-            onmouseupTabCloseIcon: () => { },
+            onmousedownCloseIcon: () => { },
+            onclickCloseIcon: () => { },
+            onmouseupCloseIcon: () => { },
 
             beforeSwitchTab: function (e, tabId) { return true; },
-            afterSwitchTab: function ({ tabId, panelId }) {
-                console.log(`afterSwitchTab with tabId : ${tabId} and panelId : ${panelId}`);
-            },
-            beforeDeactiveTab: function () { return true; },
-            afterDeactiveTab: () => { },
-
-            tabDidMount: () => { },
-            tabDidUpdate: () => { },
-            tabWillUnMount: () => { },
-
+            afterSwitchTab: function ({ tabId, panelId }) { },
+            afterOpenTab: (tab) => { },
             beforeCloseTab: function (e, tabId) { return true; },
             afterCloseTab: (tab) => { debugger; },
 
             allTabsDidMount: () => { },
-            allTabsDidUpdate: () => { },
-            allTabsWillUnMount: () => { },
-            onSwitchTabs: () => { },
-            onChangeOpenTabs: () => { },
-
-            afterOpenTab: (tab) => { },
+            allTabsDidUpdate: (param) => { debugger; },
+            allTabsWillUnMount: () => { }
         };
         option.classNames = {
             tabList: "",

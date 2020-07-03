@@ -48,7 +48,8 @@ const data1 = {
         afterCloseTab: function (param, param3) {
             const data = this.getData();
         }
-    }
+    },
+    switchTabEventMode: 'mousedown'
 };
 export { data1, data2 };
 // const api = {

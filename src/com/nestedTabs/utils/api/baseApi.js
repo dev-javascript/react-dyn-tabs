@@ -1,6 +1,7 @@
 import { objDefineNoneEnumerableProps } from '../helper';
 import actions from '../stateManagement/actions';
 function BaseApi() {
+    this.contextState = {};
     objDefineNoneEnumerableProps(this, {
         state: { value: {}, writable: true },
         _dispatch: { value: () => { }, writable: true }
@@ -29,6 +30,7 @@ BaseApi.prototype._openTab = function (tabId) {
     });
 };
 BaseApi.prototype._forceUpdate = function () {
-    this.dispatch({ type: actions.forceUpdate });
+    this.contextState = {};
+    this._dispatch({ type: actions.forceUpdate });
 };
 export default BaseApi;

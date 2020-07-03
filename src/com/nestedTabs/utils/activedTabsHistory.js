@@ -1,9 +1,9 @@
 const HistoryActiveTabs = function () {
     this.tabsId = [];
 };
-HistoryActiveTabs.prototype.get = function () { return this.tabsId.pop(); };
+HistoryActiveTabs.prototype.getTab = function () { return this.tabsId.pop(); };
 HistoryActiveTabs.prototype.reset = function () { this.tabsId = []; };
-HistoryActiveTabs.prototype.add = function (id) {
+HistoryActiveTabs.prototype.addTab = function (id) {
     const tabsId = this.tabsId;
     tabsId[tabsId.length - 1] === id || tabsId.push(id);
 };
