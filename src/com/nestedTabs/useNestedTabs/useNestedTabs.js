@@ -15,7 +15,7 @@ function useNestedTabs(options) {
     const tabListEl = (
         <ApiContext.Provider value={_ref.api}>
             <StateContext.Provider value={state}>
-                <ForceUpdateContext.Provider value={_ref.api.contextState}>
+                <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
                     <TabList></TabList>
                 </ForceUpdateContext.Provider>
             </StateContext.Provider>
@@ -24,7 +24,7 @@ function useNestedTabs(options) {
         , panelListEl = (
             <ApiContext.Provider value={_ref.api}>
                 <StateContext.Provider value={state}>
-                    <ForceUpdateContext.Provider value={_ref.api.contextState}>
+                    <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
                         <PanelList></PanelList>
                     </ForceUpdateContext.Provider>
                 </StateContext.Provider>
