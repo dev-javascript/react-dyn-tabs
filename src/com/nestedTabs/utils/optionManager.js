@@ -9,7 +9,8 @@ function optionManager(options = {}) {
         hoverCloseIcon: 'rdlt-hover-closeIcon',
         panel: 'rdlt-default-panel',
         activePanel: 'rdlt-active-panel',
-        panelList: 'rdlt-default-panelList'
+        panelList: 'rdlt-default-panelList',
+        disable: 'disable'
     };
     options = options || {};
     this._validateOptions(options);
@@ -123,12 +124,12 @@ optionManager.prototype.getDefaultOptions = (function () {
                         const reducer = function (acc, item, i) {
                             if (!item.id) throw `option.data.allTabs[${i}].id must be a valid number and grater then zero`;
                             acc[item.id] = Object.assign({
-                                id: "",
                                 title: "unkow",
                                 tooltip: "",
                                 panelComponent: null,
                                 closable: true,
                                 iconClass: "",
+                                disable: false,
                             }, item);
                             return acc;
                         };
@@ -184,6 +185,7 @@ optionManager.prototype.getDefaultOptions = (function () {
             hoverCloseIcon: "",
             panel: "",
             activePanel: "",
+            disable: 'disable'
         };
         return option;
     };

@@ -1,11 +1,13 @@
-export const idTemplate = {
+const helper = {};
+helper.idTemplate = {
     tab: id => `tab_${id}`,
     panel: id => `panel_${id}`,
     closeIcon: id => `closeIcon_${id}`,
     lazyPanel: id => `panel_${id}_inner`
 };
-export const getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };
-export const objDefineNoneEnumerableProps = (function () {
+helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);
+helper.getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };
+helper.objDefineNoneEnumerableProps = (function () {
     const { defineProperties, entries } = Object;
     return (obj, props = {}) =>
         defineProperties(obj, entries(props).reduce((acc, [key, value]) => {
@@ -13,3 +15,5 @@ export const objDefineNoneEnumerableProps = (function () {
             return acc;
         }, {}))
 })();
+helper.resolve = result => Promise.resolve(result);
+export default helper;

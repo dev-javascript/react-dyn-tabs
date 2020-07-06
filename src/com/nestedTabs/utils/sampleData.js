@@ -37,6 +37,7 @@ const data1 = {
             id: 3,
             title: 'about site',
             closable: true,
+            disable: false,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={3}></User></Suspense>
         }],
         openTabsId: [1, 2, 3],

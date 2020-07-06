@@ -2,7 +2,7 @@ import React, { useContext, memo, useEffect, useRef } from 'react';
 import './index.css';
 import { ApiContext, ForceUpdateContext } from '../utils/context.js';
 import { useCounter } from '../utils/helperHooks';
-import { idTemplate } from '../utils/helper';
+import helper from '../utils/helper';
 import events from '../utils/events';
 const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
@@ -23,7 +23,7 @@ const Panel = memo(function Panel(props) {
     });
     return (
         <div
-            id={idTemplate.panel(id)}
+            id={helper.idTemplate.panel(id)}
             className={panelClass}
         >
             {api.getPanel(id)}

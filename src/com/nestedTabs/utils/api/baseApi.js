@@ -1,8 +1,7 @@
-import { objDefineNoneEnumerableProps } from '../helper';
 import actions from '../stateManagement/actions';
 function BaseApi() {
     this.forceUpdateState = {};
-    objDefineNoneEnumerableProps(this, {
+    Object.defineProperties(this, {
         state: { value: {}, writable: true },
         _dispatch: { value: () => { }, writable: true }
     });

@@ -1,11 +1,11 @@
 
 import React, { memo } from 'react';
-import { idTemplate } from './helper';
+import helper from './helper';
 const WrapperPanelComponent = memo(function WrapperPanelComponent(props) {
     return props.childComponent;
 }, () => true);
 const EmptyDivComponent = memo(function WrapperPanelComponent(props) {
-    return <div id={idTemplate.lazyPanel(props.id)}></div>;
+    return <div id={helper.idTemplate.lazyPanel(props.id)}></div>;
 }, () => true);
 // to do... => writting this section with Sets instead of using Array
 const PanelProxy = function (panelId) {

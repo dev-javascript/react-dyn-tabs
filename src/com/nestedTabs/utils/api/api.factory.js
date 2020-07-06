@@ -1,13 +1,13 @@
 import BaseApi from './baseApi';
 import events from '../events';
-const _resolve = result => Promise.resolve(result);
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, panelProxyIns, objDefineNoneEnumerableProps,
+    const { optionManagerIns, panelProxyIns, helper,
         activedTabsHistoryIns, observablePattern } = getDeps(param.options);
     BaseApi.call(this);
-    objDefineNoneEnumerableProps(this, {
+    helper.objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
+        _helper: helper,
         panelProxy: panelProxyIns,
         activedTabsHistory: activedTabsHistoryIns,
         observable: observablePattern
@@ -36,10 +36,27 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         : (type === switchTabEventMode && this.switchTab({ e, id }));
 };
 {
+    const _switchToSiblingTab = function ({ e }, traverseToNext) {
+        let index;
+        const increaseOrDecrease = traverseToNext ? (value => value + 1) : (value => value - 1)
+            , openTabsId = this.state.openTabsId
+            , _length = openTabsId.length
+            , tabs = this.getMutableCurrentOptions().data.allTabs
+            , { resolve, checkArrIndex } = this._helper;
+        index = increaseOrDecrease(openTabsId.indexOf(this.state.activeTabId));
+        if (!checkArrIndex(index, _length))
+            return resolve(null);
+        while (tabs[openTabsId[index]].disable) {
+            index = increaseOrDecrease(index);
+            if (!checkArrIndex(index, _length))
+                return resolve(null);
+        }
+        return this.switchTab({ id: this.state.openTabsId[index], e });
+    };
     const _switchTab = function (id) {
-        const options = this.getMutableCurrentOptions();
-        this.activedTabsHistory.addTab(this.state.activeTabId);
-        this.panelProxy.addRenderedPanel(id);
+        const options = this.getMutableCurrentOptions(), activeTabId = this.state.activeTabId;
+        activeTabId && this.activedTabsHistory.addTab(activeTabId);
+        id && this.panelProxy.addRenderedPanel(id);
         this._activeTab(id);
         return Promise.all([new Promise(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -63,30 +80,34 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         const _validate = function (selectedTabId) { return !this.isActiveTab(selectedTabId) && this.isOpenTab(selectedTabId); }
         return function ({ id, e }) {
             if (!_validate.call(this, id) || !this._beforeSwitchTab({ id, e }))
-                return _resolve(null);
+                return this._helper.resolve(null);
             return _switchTab.call(this, id);
         };
     })();
+    api.prototype.deactiveTab = function (e) {
+        const id = this.state.activeTabId, { resolve } = this._helper;
+        if (!id || !this._beforeSwitchTab({ id, e }))
+            return resolve(null);
+        return _switchTab.call(this, '');
+    };
     api.prototype._switchToUnknowTab = function ({ e }) {
         return this.switchToPreSelectedTab({ e })
-            .then(result => result ? _resolve(result) : this.switchToPreSiblingTab({ e }))
-            .then(result => result ? _resolve(result) : this.switchToNxtSiblingTab({ e }));
+            .then(result => result ? this._helper.resolve(result) : this.switchToPreSiblingTab({ e }))
+            .then(result => result ? this._helper.resolve(result) : this.switchToNxtSiblingTab({ e }))
+            .then(result => result ? this._helper.resolve(result) : this.deactiveTab({ e }));
     };
-    api.prototype.switchToNxtSiblingTab = function ({ e }) {
-        const index = this.state.openTabsId.indexOf(this.state.activeTabId) + 1;
-        return this.switchTab({ id: this.state.openTabsId[index], e });
-    };
-    api.prototype.switchToPreSiblingTab = function ({ e }) {
-        const index = this.state.openTabsId.indexOf(this.state.activeTabId) - 1;
-        return this.switchTab({ id: this.state.openTabsId[index], e });
-    };
+    api.prototype.switchToNxtSiblingTab = function ({ e }) { return _switchToSiblingTab.call(this, { e }, true); };
+    api.prototype.switchToPreSiblingTab = function ({ e }) { return _switchToSiblingTab.call(this, { e }, false); };
     api.prototype.switchToPreSelectedTab = function ({ e }) {
         let id;
+        const tabs = this.getMutableCurrentOptions().data.allTabs
+            , openTabsId = this.state.openTabsId
         while (!id) {
             const tempId = this.activedTabsHistory.getTab();
-            if (tempId == undefined)
-                return _resolve(null);
-            this.state.openTabsId.indexOf(tempId) >= 0 && (id = tempId);
+            if (tempId == undefined)//if activedTabsHistory array length is 0
+                return this._helper.resolve(null);
+            ((openTabsId.indexOf(tempId) >= 0) && (!tabs[tempId + ''].disable)) &&
+                (id = tempId);
         }
         return this.switchTab({ id, e });
     };
@@ -94,7 +115,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
 api.prototype.openAllTab = function () { };
 api.prototype.openTab = function (id) {
     if (this.state.openTabsId.indexOf(id) >= 0)
-        return null;
+        return this._helper.resolve(null);
     const { events: { afterOpenTab } } = this.getMutableCurrentOptions();
     this._openTab(id);
     return Promise.all([new Promise(resolve => {
@@ -144,11 +165,11 @@ api.prototype.closeTab = (function () {
             });
     }
     return function (param, switchBeforeClose = true) {
-        const { id } = param;
+        const { id } = param, { resolve } = this._helper;
         if (!this.isOpenTab(id))
-            return _resolve(null);
+            return resolve(null);
         if (!this.getMutableCurrentOptions().events.beforeCloseTab(param))
-            return _resolve(null);
+            return resolve(null);
         if (switchBeforeClose && this.isActiveTab(id))
             return this._switchToUnknowTab({ e: param.e }).then(result => _closeTab.call(this, id)).catch(function (err) {
                 throw err.message;
