@@ -2,8 +2,7 @@ const helper = {};
 helper.idTemplate = {
     tab: id => `tab_${id}`,
     panel: id => `panel_${id}`,
-    closeIcon: id => `closeIcon_${id}`,
-    lazyPanel: id => `panel_${id}_inner`
+    closeIcon: id => `closeIcon_${id}`
 };
 helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);
 helper.getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };

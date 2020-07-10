@@ -1,11 +1,7 @@
-
 import React, { memo } from 'react';
-import helper from './helper';
+//https://stackoverflow.com/questions/54254553/dynamic-import-in-react-not-working-when-trying-to-import-a-component-in-another
 const WrapperPanelComponent = memo(function WrapperPanelComponent(props) {
     return props.childComponent;
-}, () => true);
-const EmptyDivComponent = memo(function WrapperPanelComponent(props) {
-    return <div id={helper.idTemplate.lazyPanel(props.id)}></div>;
 }, () => true);
 // to do... => writting this section with Sets instead of using Array
 const PanelProxy = function (panelId) {
@@ -19,6 +15,6 @@ PanelProxy.prototype.addRenderedPanel = function (panelId) {
 PanelProxy.prototype.getPanel = function (panelId, panelComponent) {
     return this._isExisted(panelId) ?
         <WrapperPanelComponent childComponent={panelComponent}></WrapperPanelComponent>
-        : <EmptyDivComponent id={panelId}></EmptyDivComponent>;
+        : null;
 };
 export default PanelProxy;
