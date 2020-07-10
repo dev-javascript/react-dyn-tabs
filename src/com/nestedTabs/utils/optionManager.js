@@ -169,10 +169,10 @@ optionManager.prototype.getDefaultOptions = (function () {
             afterSwitchTab: function ({ tabId, panelId }) { },
             afterOpenTab: (tab) => { },
             beforeCloseTab: function (e, tabId) { return true; },
-            afterCloseTab: (tab) => { debugger; },
+            afterCloseTab: (tab) => { },
 
             allTabsDidMount: () => { },
-            allTabsDidUpdate: (param) => { debugger; },
+            allTabsDidUpdate: (param) => { },
             allTabsWillUnMount: () => { }
         };
         option.classNames = {
