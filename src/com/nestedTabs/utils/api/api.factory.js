@@ -8,7 +8,7 @@ const api = function (getDeps, param = { options: {} }) {
     helper.objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
         _helper: helper,
-        panelProxy: panelProxyIns,
+        _panelProxy: panelProxyIns,
         activedTabsHistory: activedTabsHistoryIns,
         observable: observablePattern
     });
@@ -19,7 +19,7 @@ api.prototype.getMutableCurrentOptions = function () { return this.optionManager
 api.prototype.reset = function () { this.optionManager.reset(); return this; };
 api.prototype.getData = function () { return { ...this.state }; };
 api.prototype.getPanel = function (id) {
-    return this.panelProxy.getPanel(id
+    return this._panelProxy.getPanel(id
         , this.optionManager.getMutableCurrentOptions().data.allTabs[id].panelComponent);
 };
 api.prototype.getActivedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
@@ -56,7 +56,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     const _switchTab = function (id) {
         const options = this.getMutableCurrentOptions(), activeTabId = this.state.activeTabId;
         activeTabId && this.activedTabsHistory.addTab(activeTabId);
-        id && this.panelProxy.addRenderedPanel(id);
+        id && this._panelProxy.addRenderedPanel(id);
         this._activeTab(id);
         return Promise.all([new Promise(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -170,6 +170,7 @@ api.prototype.closeTab = (function () {
             return resolve(null);
         if (!this.getMutableCurrentOptions().events.beforeCloseTab(param))
             return resolve(null);
+        this._panelProxy.removeRenderedPanel(id);
         if (switchBeforeClose && this.isActiveTab(id))
             return this._switchToUnknowTab({ e: param.e }).then(result => _closeTab.call(this, id)).catch(function (err) {
                 throw err.message;

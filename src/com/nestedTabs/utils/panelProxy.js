@@ -12,6 +12,9 @@ PanelProxy.prototype._isExisted = function (id) { return this._renderedPanels.in
 PanelProxy.prototype.addRenderedPanel = function (panelId) {
     this._isExisted(panelId) || this._renderedPanels.push(panelId);
 };
+PanelProxy.prototype.removeRenderedPanel=function(panelId){
+    this._renderedPanels.splice(this._renderedPanels.indexOf(panelId),1);
+};
 PanelProxy.prototype.getPanel = function (panelId, panelComponent) {
     return this._isExisted(panelId) ?
         <WrapperPanelComponent childComponent={panelComponent}></WrapperPanelComponent>
