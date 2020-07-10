@@ -200,4 +200,9 @@ api.prototype.forceUpdate = function () {
             throw err.message;
         });
 };
+api.prototype.clearPanelsCache = function (panelId) {
+    panelId ? this._panelProxy.removeRenderedPanel(panelId) :
+        this._panelProxy.removeAllDeactiveRenderedPanel(this.state.activeTabId);
+    return this;
+};
 export default api;
