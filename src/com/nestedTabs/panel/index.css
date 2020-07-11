@@ -1,6 +1,7 @@
-.rdlt-default-panel{
-    display:none;
+.reactHookTab-default-panel {
+    display: none;
 }
-.rdlt-active-panel{
+
+.reactHookTab-active-panel {
     display: block;
 }
