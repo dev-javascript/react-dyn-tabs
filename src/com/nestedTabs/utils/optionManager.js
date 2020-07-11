@@ -1,16 +1,16 @@
 function optionManager(options = {}) {
     this.currentOptions = {};
     this.defaultClasses = {
-        tab: 'rdlt-default-tab',
+        tab: 'reactHookTab-default-tab',
         tabTitle: 'tabTitle',
-        activeTab: 'rdlt-active-tab',
-        hoverTab: 'rdlt-hover-tab',
-        tabList: 'rdlt-default-tabList',
-        closeIcon: 'rdlt-default-closeIcon',
-        hoverCloseIcon: 'rdlt-hover-closeIcon',
-        panel: 'rdlt-default-panel',
-        activePanel: 'rdlt-active-panel',
-        panelList: 'rdlt-default-panelList',
+        activeTab: 'reactHookTab-active-tab',
+        hoverTab: 'reactHookTab-hover-tab',
+        tabList: 'reactHookTab-default-tabList',
+        closeIcon: 'reactHookTab-default-closeIcon',
+        hoverCloseIcon: 'reactHookTab-hover-closeIcon',
+        panel: 'reactHookTab-default-panel',
+        activePanel: 'reactHookTab-active-panel',
+        panelList: 'reactHookTab-default-panelList',
         disable: 'disable'
     };
     options = options || {};
