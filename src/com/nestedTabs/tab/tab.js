@@ -10,12 +10,23 @@ const Tab = memo(
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } }
+            , { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass, tabTitle } }
                 = api.getMutableCurrentOptions()
             , tab = allTabs[id]
-            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); };
-        let tabClass = activeTabId === id ? (defaultClass + ' ' + activeClass) : defaultClass;
-        tab.disable && (tabClass += ' ' + disableClass);
+            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
+            , basedOnIsActive = {
+                tabClass: defaultClass,
+                tabIndex: -1,
+                ariaExpanded: false,
+                ariaSelected: false
+            };
+        activeTabId === id && Object.assign(basedOnIsActive, {
+            tabClass: defaultClass + ' ' + activeClass,
+            tabIndex: 0,
+            ariaExpanded: true,
+            ariaSelected: true
+        });
+        tab.disable && (basedOnIsActive.tabClass += ' ' + disableClass);
         useEffect(() => {
             api.observable.publisher.trigger(events.tabDidMount, { id });
         }, [id]);
@@ -25,11 +36,14 @@ const Tab = memo(
             }
         });
         return (
-            <li id={helper.idTemplate.tab(id)} className={tabClass} tabIndex="0"
+            <li role='tab' id={helper.idTemplate.tab(id)} className={basedOnIsActive.tabClass}
+                tabIndex={basedOnIsActive.tabIndex}
+                aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
+                aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
-                <a href={`#${tab.title}`} >{tab.title}</a>
+                <span role='presentation' className={tabTitle}>{tab.title}</span>
                 {
-                    tab.closable ? (<span className={closeIcon}>
+                    tab.closable ? (<span role='presentation' className={closeIcon}>
                         &times;
                     </span>) : null
                 }

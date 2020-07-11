@@ -19,7 +19,7 @@ const TabList = memo(function TabList(props) {
         isFirstCall || publisher.trigger(events.tabListUpdate);
     });
     return (
-        <ul className={defaultClass}>
+        <ul className={defaultClass} role='tablist'>
             {openTabsId.map(id => <Tab key={id} id={id} activeTabId={activeTabId}></Tab>)}
         </ul>
     )

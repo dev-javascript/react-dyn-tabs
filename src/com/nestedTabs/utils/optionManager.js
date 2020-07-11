@@ -2,6 +2,7 @@ function optionManager(options = {}) {
     this.currentOptions = {};
     this.defaultClasses = {
         tab: 'rdlt-default-tab',
+        tabTitle: 'tabTitle',
         activeTab: 'rdlt-active-tab',
         hoverTab: 'rdlt-hover-tab',
         tabList: 'rdlt-default-tabList',
@@ -179,6 +180,7 @@ optionManager.prototype.getDefaultOptions = (function () {
             tabList: "",
             panelList: "",
             tab: "",
+            tabTitle: '',
             hoverTab: "",
             activeTab: "",
             closeIcon: "",

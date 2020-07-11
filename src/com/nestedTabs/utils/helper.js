@@ -2,6 +2,7 @@ const helper = {};
 helper.idTemplate = {
     tab: id => `tab_${id}`,
     panel: id => `panel_${id}`,
+    ariaLabelledby: id => `tabPanel_${id}`,
     closeIcon: id => `closeIcon_${id}`
 };
 helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);

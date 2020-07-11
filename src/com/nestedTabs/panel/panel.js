@@ -8,24 +8,29 @@ const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const [isFirstCall] = useCounter()
         , { id, activeTabId } = props
-        , isActive = activeTabId === id
         , api = useContext(ApiContext)
         , { classNames: { panel: defaultClass, activePanel: activeClass } } = api.getMutableCurrentOptions()
-        , panelClass = isActive ? (defaultClass + ' ' + activeClass) : defaultClass;
+        , basedOnIsActive = {
+            panelClass: defaultClass,
+            ariaHidden: true
+        };
+    activeTabId === id && Object.assign(basedOnIsActive, {
+        panelClass: defaultClass + ' ' + activeClass,
+        ariaHidden: false
+    });
 
     useEffect(() => {
-        api.observable.publisher.trigger(events.panelDidMount, { id, isActive });
+        api.observable.publisher.trigger(events.panelDidMount, { id });
     }, [id]);
     useEffect(() => {
         return () => {
-            api.observable.publisher.trigger(events.panelWillUnmount, { id, isActive });
+            api.observable.publisher.trigger(events.panelWillUnmount, { id });
         }
     });
     return (
-        <div
-            id={helper.idTemplate.panel(id)}
-            className={panelClass}
-        >
+        <div id={helper.idTemplate.panel(id)} className={basedOnIsActive.panelClass}
+            aria-labelledby={helper.idTemplate.ariaLabelledby(id)} role='tabpanel'
+            aria-hidden={basedOnIsActive.ariaHidden}>
             {api.getPanel(id)}
         </div>
     )
