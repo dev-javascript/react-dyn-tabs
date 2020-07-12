@@ -3,18 +3,18 @@ import User from './user.js';
 const data2 = {
     data: {
         allTabs: [{
-            id: 1,
+            id: '1',
             title: 'city',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
         }, {
-            id: 2,
-            title: 'country',
+            id: '2',
+            title: 'country2',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }],
-        openTabsId: [1, 2],
-        activeTabId: 2
+        openTabsId: ['1', '2'],
+        activeTabId: '1'
     },
     events: {
         afterSwitchTab: (tabId, panelId) => {
@@ -24,24 +24,24 @@ const data2 = {
 const data1 = {
     data: {
         allTabs: [{
-            id: 1,
+            id: '1',
             title: 'user',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
         }, {
-            id: 2,
+            id: '2',
             title: 'home',
             closable: false,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }, {
-            id: 3,
+            id: '3',
             title: 'about site',
             closable: true,
             disable: false,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={3}></User></Suspense>
         }],
-        openTabsId: [1, 2, 3],
-        activeTabId: 1
+        openTabsId: ['1', '2', '3'],
+        activeTabId: '3'
     },
     events: {
         afterSwitchTab: (tabId, panelId) => {
