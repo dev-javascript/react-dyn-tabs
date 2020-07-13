@@ -1,16 +1,15 @@
-const DefaultOptions = function (deps) {
-    const { defaultTabObj, defaultClasses, defaultEvents, eventModes } = deps;
+const DefaultOptions = function (setting) {
     this.option = {};
     this._data = {};
     this._data_allTabs = {};
     this._data_activeTabId = '';
     this._data_openTabsId = [];
-    this._events = Object.assign({}, defaultEvents);
-    this._classNames = Object.assign({}, defaultClasses);
-    this._switchTabEventMode = 'click';
-    this._closeTabEventMode = 'click';
-    this._getDefaultTabObj = () => Object.assign({}, defaultTabObj);
-    this._eventModes = eventModes;
+    this._events = setting.defaultEvents;
+    this._classNames = setting.defaultClasses;
+    this._switchTabEventMode = setting.defaultSwitchTabEventMode;
+    this._closeTabEventMode = setting.defaultCloseTabEventMode;
+    this._getDefaultTabObj = setting.getDefaultTabObj;
+    this._eventModes = setting.eventModes;
 };
 DefaultOptions.prototype._checkArrayType = function (value, path) {
     if (value.constructor !== Array) throw `passed ${path} property must be an Array`;

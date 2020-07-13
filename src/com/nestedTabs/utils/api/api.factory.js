@@ -1,6 +1,5 @@
 import BaseApi from './baseApi';
 import events from '../events';
-import defaultClasses from '../optionManager/defaultOption/defaultClasses';
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper,
@@ -32,7 +31,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     const { events, switchTabEventMode, closeTabEventMode } = this.getMutableCurrentOptions()
         , { type } = e;
     events[`on${type}Tab`].call(this, { e, id });
-    e.target.className.includes(defaultClasses.closeIcon) ?
+    e.target.className.includes(this.optionManager.setting.defaultClasses.closeIcon) ?
         (type === closeTabEventMode && this.closeTab({ e, id }, true))
         : (type === switchTabEventMode && this.switchTab({ e, id }));
 };

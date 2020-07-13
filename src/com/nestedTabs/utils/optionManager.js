@@ -1,10 +1,9 @@
-import DefaultOption from './defaultOption';
-function OptionManager(options = {}) {
-    this._validateOptions(options);
+function OptionManager({ options, setting, DefaultOption }) {
     this.currentOptions = {};
-    options && this.setNewOptions(options);
-    options = options || {};
-    this.initialOptions = options;
+    this.setting = setting;
+    this.getDefaultOptions = () => new (DefaultOption)(setting).getOption();
+    options && this._validateOptions(options).setNewOptions(options);
+    this.initialOptions = options || {};
 };
 OptionManager.prototype.reset = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
 OptionManager.prototype.getInitialOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.initialOptions); };
@@ -23,8 +22,6 @@ OptionManager.prototype.setNewOptions = function (newOptions) {
 OptionManager.prototype._validateOptions = function (options) {
     if (!(options && (typeof options === 'object')))
         throw 'invalid passed option! option must be an object';
-};
-OptionManager.prototype.getDefaultOptions = function () {
-    return new (DefaultOption)().getOption();
+    return this;
 };
 export default OptionManager;
