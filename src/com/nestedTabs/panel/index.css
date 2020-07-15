@@ -2,6 +2,16 @@
     display: none;
 }
 
+.rtl .reactHookTab-default-panel {
+    direction : rtl;
+    text-align: right;
+}
+
+.ltr .reactHookTab-default-panel {
+    direction : ltr;
+    text-align: left;
+}
+
 .reactHookTab-active-panel {
     display: block;
 }

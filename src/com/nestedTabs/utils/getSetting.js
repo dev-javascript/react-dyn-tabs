@@ -21,7 +21,9 @@ const getSetting = function () {
             panel: 'reactHookTab-default-panel',
             activePanel: 'reactHookTab-active-panel',
             panelList: 'reactHookTab-default-panelList',
-            disable: 'disable'
+            disable: 'disable',
+            ltr: 'ltr',
+            rtl: 'rtl'
         },
         defaultEvents: {
             onmousedownTab: () => { return true; },
@@ -44,7 +46,9 @@ const getSetting = function () {
         getDefaultTabObj,
         eventModes: ['mousedown', 'mouseenter', 'click', 'mouseup'],
         defaultSwitchTabEventMode: 'click',
-        defaultCloseTabEventMode: 'click'
+        defaultCloseTabEventMode: 'click',
+        directions: ['ltr', 'rtl'],
+        defaultDirection: 'ltr'
     };
 };
 export default getSetting;

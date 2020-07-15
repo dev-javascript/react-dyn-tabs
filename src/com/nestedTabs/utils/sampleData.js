@@ -50,7 +50,8 @@ const data1 = {
             const data = this.getData();
         }
     },
-    switchTabEventMode: 'mousedown'
+    switchTabEventMode: 'mousedown',
+    direction: 'rtl'
 };
 export { data1, data2 };
 // const api = {

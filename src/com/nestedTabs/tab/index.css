@@ -1,5 +1,12 @@
+.ltr .reactHookTab-default-tab {
+    float: left;
+}
+
+.rtl .reactHookTab-default-tab {
+    float: right;
+}
+
 .reactHookTab-default-tab {
-    float          : left;
     display        : list-item;
     list-style     : none;
     text-align     : center;
@@ -25,14 +32,30 @@
 
 .reactHookTab-default-closeIcon {
     position: absolute;
-    left    : 0px;
     top     : 0px;
     color   : white;
     cursor  : pointer;
 }
 
+.ltr .reactHookTab-default-closeIcon {
+    right: 0px;
+    left : auto;
+}
+
+.rtl .reactHookTab-default-closeIcon {
+    left : 0px;
+    right: auto;
+}
+
+.ltr .reactHookTab-default-tab>span.tabTitle {
+    float: left;
+}
+
+.rtl .reactHookTab-default-tab>span.tabTitle {
+    float: right;
+}
+
 .reactHookTab-default-tab>span.tabTitle {
-    float          : right;
     padding        : .5em 1em;
     position       : relative;
     list-style     : none;

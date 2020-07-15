@@ -10,6 +10,8 @@ const DefaultOptions = function (setting) {
     this._closeTabEventMode = setting.defaultCloseTabEventMode;
     this._getDefaultTabObj = setting.getDefaultTabObj;
     this._eventModes = setting.eventModes;
+    this._direction = setting.defaultDirection;
+    this._setting = setting;
 };
 DefaultOptions.prototype._checkArrayType = function (value, path) {
     if (value.constructor !== Array) throw `passed ${path} property must be an Array`;
@@ -31,6 +33,10 @@ DefaultOptions.prototype._checkValidStringType = function (value, path) {
 };
 DefaultOptions.prototype._checkFunctionType = function (value, path) {
     if (typeof value !== 'function') throw `type of the passed ${path} property must be a function`;
+};
+DefaultOptions.prototype._checkDirection = function (value, path) {
+    if (this._setting.directions.indexOf(value) === -1)
+        throw `value of the passed ${path} must be one of the ${this._setting.directions.join(',')}`
 };
 DefaultOptions.prototype._defineClassNames = function (obj, propName, path) {
     const that = this;
@@ -88,6 +94,17 @@ DefaultOptions.prototype._defineCloseTabEventMode = function (obj, propName, pat
     Object.defineProperty(obj, propName, {
         get() { return that._closeTabEventMode; },
         set(value) { that._closeTabEventMode = that._checkEventMode(value, path); }
+    });
+    return this;
+};
+DefaultOptions.prototype._defineDirection = function (obj, propName, path) {
+    const that = this;
+    Object.defineProperty(obj, propName, {
+        get() { return that._direction; },
+        set(value) {
+            that._checkDirection(value, path);
+            that._direction = value;
+        }
     });
     return this;
 };
@@ -149,7 +166,8 @@ DefaultOptions.prototype.getOption = function () {
         ._defineClassNames(this.option, 'classNames', 'option.classNames')
         ._defineEvents(this.option, 'events', 'option.events')
         ._defineSwitchTabEventMode(this.option, 'switchTabEventMode', 'option.switchTabEventMode')
-        ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode');
+        ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode')
+        ._defineDirection(this.option, 'direction', 'option.direction');
     return this.option;
 };
 export default DefaultOptions;
