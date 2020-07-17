@@ -30,6 +30,6 @@ function useNestedTabs(options) {
                 </StateContext.Provider>
             </ApiContext.Provider>
         );
-    return [tabListEl, panelListEl, ref.current.api];
+    return [tabListEl, panelListEl, ref.current.api.userProxy];
 }
 export default useNestedTabs;

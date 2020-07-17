@@ -7,13 +7,14 @@ import events from '../events';
 import ObservablePattern from '../observable';
 import getSetting from '../getSetting';
 import DefaultOption from '../defaultOptions';
+import getUserProxy from './getUserProxy';
 const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)({ DefaultOption, options, setting: getSetting() })
         , panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableCurrentOptions().data.activeTabId)
         , activedTabsHistoryIns = new (ActivedTabsHistory)()
         , observablePattern = new (ObservablePattern)(Object.keys(events));
     return {
-        activedTabsHistoryIns, optionManagerIns, panelProxyIns, helper, observablePattern
+        activedTabsHistoryIns, optionManagerIns, panelProxyIns, helper, observablePattern, getUserProxy
     };
 };
 export default apiFactory.bind(null, getDeps);

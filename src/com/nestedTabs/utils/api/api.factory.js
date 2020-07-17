@@ -2,7 +2,7 @@ import BaseApi from './baseApi';
 import events from '../events';
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, panelProxyIns, helper,
+    const { optionManagerIns, panelProxyIns, helper, getUserProxy,
         activedTabsHistoryIns, observablePattern } = getDeps(param.options);
     BaseApi.call(this);
     helper.objDefineNoneEnumerableProps(this, {
@@ -10,7 +10,8 @@ const api = function (getDeps, param = { options: {} }) {
         _helper: helper,
         _panelProxy: panelProxyIns,
         activedTabsHistory: activedTabsHistoryIns,
-        observable: observablePattern
+        observable: observablePattern,
+        userProxy: getUserProxy(this)
     });
 };
 api.prototype = Object.create(BaseApi.prototype);
@@ -22,7 +23,7 @@ api.prototype.getPanel = function (id) {
     return this._panelProxy.getPanel(id
         , this.optionManager.getMutableCurrentOptions().data.allTabs[id].panelComponent);
 };
-api.prototype.getActivedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
+api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
 api.prototype._beforeSwitchTab = function ({ id, e }) { return this.getMutableCurrentOptions().events.beforeSwitchTab({ id, e }); };
@@ -164,15 +165,15 @@ api.prototype.closeTab = (function () {
                 throw err.message;
             });
     }
-    return function (param, switchBeforeClose = true) {
-        const { id } = param, { resolve } = this._helper;
+    return function ({ id, e, switchBeforeClose = true }) {
+        const { resolve } = this._helper;
         if (!this.isOpenTab(id))
             return resolve(null);
-        if (!this.getMutableCurrentOptions().events.beforeCloseTab(param))
+        if (!this.getMutableCurrentOptions().events.beforeCloseTab({ id, e }))
             return resolve(null);
         this._panelProxy.removeRenderedPanel(id);
         if (switchBeforeClose && this.isActiveTab(id))
-            return this._switchToUnknowTab({ e: param.e }).then(result => _closeTab.call(this, id)).catch(function (err) {
+            return this._switchToUnknowTab({ e: e }).then(result => _closeTab.call(this, id)).catch(function (err) {
                 throw err.message;
             });
         else
