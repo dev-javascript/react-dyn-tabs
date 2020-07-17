@@ -5,7 +5,7 @@ const DefaultOptions = function (setting) {
     this._data_activeTabId = '';
     this._data_openTabsId = [];
     this._events = setting.defaultEvents;
-    this._classNames = setting.defaultClasses;
+    this._cssClasses = setting.defaultClasses;
     this._switchTabEventMode = setting.defaultSwitchTabEventMode;
     this._closeTabEventMode = setting.defaultCloseTabEventMode;
     this._getDefaultTabObj = setting.getDefaultTabObj;
@@ -41,13 +41,13 @@ DefaultOptions.prototype._checkDirection = function (value, path) {
 DefaultOptions.prototype._defineClassNames = function (obj, propName, path) {
     const that = this;
     Object.defineProperty(obj, propName, {
-        get() { return that._classNames; },
+        get() { return that._cssClasses; },
         set(obj) {
             that._checkObjectType(obj, path);
             const reducer = function (acc, key) {
                 let className = obj[key];
                 that._checkStringType(className, path + '.' + key);
-                const defaultClass = that._defaultClasses[key];
+                const defaultClass = that._cssClasses[key];
                 if (defaultClass) {
                     className = className.trim();
                     if (className === defaultClass)
@@ -57,7 +57,7 @@ DefaultOptions.prototype._defineClassNames = function (obj, propName, path) {
                 }
                 return acc;
             };
-            Object.keys(obj).reduce(reducer, that._classNames);
+            Object.keys(obj).reduce(reducer, that._cssClasses);
         }
     });
     return this;

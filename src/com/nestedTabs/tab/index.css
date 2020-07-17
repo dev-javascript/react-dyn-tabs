@@ -48,11 +48,13 @@
 }
 
 .ltr .reactHookTab-default-tab>span.tabTitle {
-    float: left;
+    float    : right;
+    direction: rtl;
 }
 
 .rtl .reactHookTab-default-tab>span.tabTitle {
-    float: right;
+    float    : left;
+    direction: ltr;
 }
 
 .reactHookTab-default-tab>span.tabTitle {
@@ -63,4 +65,6 @@
     text-decoration: none;
     cursor         : pointer;
     white-space    : nowrap;
+    display        : flex;
+    align-items    : center;
 }

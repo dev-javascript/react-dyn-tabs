@@ -41,7 +41,10 @@ const Tab = memo(
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
-                <span role='presentation' className={tabTitle}>{tab.title}</span>
+                <span role='presentation' className={tabTitle}>
+                    {tab.title}
+                    <span className={tab.iconClass}></span>
+                </span>
                 {
                     tab.closable ? (<span role='presentation' className={closeIcon}>
                         &times;

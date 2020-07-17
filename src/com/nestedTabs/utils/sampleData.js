@@ -27,21 +27,27 @@ const data1 = {
             id: '1',
             title: 'user',
             closable: true,
+            iconClass: 'ui-icon ui-icon-seek-end',
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
         }, {
             id: '2',
             title: 'home',
             closable: false,
+            iconClass: 'glyphicon glyphicon-asterisk',
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }, {
             id: '3',
             title: 'about site',
             closable: true,
             disable: false,
+            iconClass: 'fa fa-backward',
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={3}></User></Suspense>
         }],
         openTabsId: ['1', '2', '3'],
         activeTabId: '3'
+    },
+    classNames: {
+        // tabTitle: 'ui-state-default'
     },
     events: {
         afterSwitchTab: (tabId, panelId) => {
