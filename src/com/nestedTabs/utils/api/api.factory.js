@@ -17,7 +17,7 @@ const api = function (getDeps, param = { options: {} }) {
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype.getMutableCurrentOptions = function () { return this.optionManager.getMutableCurrentOptions(); };
-api.prototype.reset = function () { this.optionManager.reset(); return this; };
+api.prototype.resetToInitailOption = function () { this.optionManager.resetToInitailOption(); return this; };
 api.prototype.getData = function () { return { ...this.state }; };
 api.prototype.getTabObj = function (tabId) {
     const tabs = this.getMutableCurrentOptions().data.allTabs;

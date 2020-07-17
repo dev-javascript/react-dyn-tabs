@@ -5,7 +5,7 @@ function OptionManager({ options, setting, DefaultOption }) {
     options && this._validateOptions(options).setNewOptions(options);
     this.initialOptions = options || {};
 };
-OptionManager.prototype.reset = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
+OptionManager.prototype.resetToInitailOption = function () { this.currentOptions = this.getInitialOptionsCopy(); return this; };
 OptionManager.prototype.getInitialOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.initialOptions); };
 OptionManager.prototype.getCurrentOptionsCopy = function () { return Object.assign(this.getDefaultOptions(), this.currentOptions); };
 OptionManager.prototype.getMutableCurrentOptions = function () { return this.currentOptions; };
