@@ -9,9 +9,9 @@ const PanelList = memo(function PanelList(props) {
         , { openTabsId, activeTabId } = React.useContext(StateContext)
         , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
         , api = React.useContext(ApiContext)
-        , { classNames, classNames: { panelList: defaultClass }, direction } = api.getMutableCurrentOptions()
+        , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = api.getMutableCurrentOptions()
         , publisher = api.observable.publisher
-        , className = defaultClass + ' ' + classNames[direction];
+        , className = defaultClass + ' ' + cssClasses[direction];
     useEffect(() => {
         isFirstCall || publisher.trigger(events.panelListDidUpdateByActiveTabId, { oldActiveId, newActiveId });
         updateOldActiveId();

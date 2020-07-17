@@ -19,7 +19,7 @@ const defaultApi = {
 				"3": { id: 3, title: "a2" },
 			},
 		},
-		classNames: {
+		cssClasses: {
 			tab: "rdlt-default-tab defaultTab",
 			activeTab: "rdlt-active-tab activeTab"
 		},

@@ -32,7 +32,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     const { events, switchTabEventMode, closeTabEventMode } = this.getMutableCurrentOptions()
         , { type } = e;
     events[`on${type}Tab`].call(this, { e, id });
-    e.target.className.includes(this.optionManager.setting.defaultClasses.closeIcon) ?
+    e.target.className.includes(this.optionManager.setting.defaultCssClasses.closeIcon) ?
         (type === closeTabEventMode && this.closeTab({ e, id }, true))
         : (type === switchTabEventMode && this.switchTab({ e, id }));
 };

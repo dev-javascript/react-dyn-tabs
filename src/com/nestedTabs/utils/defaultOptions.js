@@ -5,7 +5,7 @@ const DefaultOptions = function (setting) {
     this._data_activeTabId = '';
     this._data_openTabsId = [];
     this._events = setting.defaultEvents;
-    this._cssClasses = setting.defaultClasses;
+    this._cssClasses = setting.defaultCssClasses;
     this._switchTabEventMode = setting.defaultSwitchTabEventMode;
     this._closeTabEventMode = setting.defaultCloseTabEventMode;
     this._getDefaultTabObj = setting.getDefaultTabObj;
@@ -163,7 +163,7 @@ DefaultOptions.prototype.getOption = function () {
         ._defineData_allTabs(this.option.data, 'allTabs', 'option.data.allTabs')
         ._defineData_openTabsId(this.option.data, 'openTabsId', 'option.data.openTabsId')
         ._defineData_activeTabId(this.option.data, 'activeTabId', 'option.data.activeTabId')
-        ._defineClassNames(this.option, 'classNames', 'option.classNames')
+        ._defineClassNames(this.option, 'cssClasses', 'option.cssClasses')
         ._defineEvents(this.option, 'events', 'option.events')
         ._defineSwitchTabEventMode(this.option, 'switchTabEventMode', 'option.switchTabEventMode')
         ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode')

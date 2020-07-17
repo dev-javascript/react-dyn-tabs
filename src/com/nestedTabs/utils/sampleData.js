@@ -46,7 +46,7 @@ const data1 = {
         openTabsId: ['1', '2', '3'],
         activeTabId: '3'
     },
-    classNames: {
+    cssClasses: {
         // tabTitle: 'ui-state-default'
     },
     events: {

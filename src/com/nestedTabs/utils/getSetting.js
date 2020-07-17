@@ -10,7 +10,7 @@ const getDefaultTabObj = function () {
 };
 const getSetting = function () {
     return {
-        defaultClasses: {
+        defaultCssClasses: {
             tab: 'reactHookTab-default-tab',
             tabTitle: 'tabTitle',
             activeTab: 'reactHookTab-active-tab',

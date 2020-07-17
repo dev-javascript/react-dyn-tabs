@@ -10,7 +10,7 @@ const Tab = memo(
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, classNames: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass, tabTitle } }
+            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass, tabTitle } }
                 = api.getMutableCurrentOptions()
             , tab = allTabs[id]
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }

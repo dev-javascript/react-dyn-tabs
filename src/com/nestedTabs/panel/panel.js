@@ -9,7 +9,7 @@ const Panel = memo(function Panel(props) {
     const [isFirstCall] = useCounter()
         , { id, activeTabId } = props
         , api = useContext(ApiContext)
-        , { classNames: { panel: defaultClass, activePanel: activeClass } } = api.getMutableCurrentOptions()
+        , { cssClasses: { panel: defaultClass, activePanel: activeClass } } = api.getMutableCurrentOptions()
         , basedOnIsActive = {
             panelClass: defaultClass,
             ariaHidden: true
