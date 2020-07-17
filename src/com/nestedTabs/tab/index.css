@@ -47,17 +47,17 @@
     right: auto;
 }
 
-.ltr .reactHookTab-default-tab>span.tabTitle {
+.ltr .reactHookTab-default-tab>.tabTitle {
     float    : right;
     direction: rtl;
 }
 
-.rtl .reactHookTab-default-tab>span.tabTitle {
+.rtl .reactHookTab-default-tab>.tabTitle {
     float    : left;
     direction: ltr;
 }
 
-.reactHookTab-default-tab>span.tabTitle {
+.reactHookTab-default-tab>.tabTitle {
     padding        : .5em 1em;
     position       : relative;
     list-style     : none;

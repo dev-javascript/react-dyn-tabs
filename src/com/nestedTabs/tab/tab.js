@@ -4,15 +4,17 @@ import { ApiContext, ForceUpdateContext } from "../utils/context.js";
 import { useCounter } from '../utils/helperHooks';
 import helper from '../utils/helper';
 import events from '../utils/events';
+import TabTitle from './tabTitle';
 const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass, tabTitle } }
+            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } }
                 = api.getMutableCurrentOptions()
             , tab = allTabs[id]
+            , isActive = activeTabId === id
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
             , basedOnIsActive = {
                 tabClass: defaultClass,
@@ -20,7 +22,7 @@ const Tab = memo(
                 ariaExpanded: false,
                 ariaSelected: false
             };
-        activeTabId === id && Object.assign(basedOnIsActive, {
+        isActive && Object.assign(basedOnIsActive, {
             tabClass: defaultClass + ' ' + activeClass,
             tabIndex: 0,
             ariaExpanded: true,
@@ -41,10 +43,7 @@ const Tab = memo(
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
                 onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
-                <span role='presentation' className={tabTitle}>
-                    {tab.title}
-                    <span className={tab.iconClass}></span>
-                </span>
+                <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
                 {
                     tab.closable ? (<span role='presentation' className={closeIcon}>
                         &times;

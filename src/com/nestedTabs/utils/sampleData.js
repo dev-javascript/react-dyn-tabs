@@ -1,5 +1,16 @@
 import React, { lazy, Suspense } from 'react';
 import User from './user.js';
+const tabComponent = function (props) {
+    const { api, tabId: id, isActive } = props
+        , tabObj = api.getTabObj(id)
+        , style = isActive ? { backgroundColor: 'gold' } : { backgroundColor: 'red' };
+    return (
+        <div className='tabTitle' style={style}>
+            {tabObj.title}
+            <i className={tabObj.iconClass}></i>
+        </div>
+    );
+};
 const data2 = {
     data: {
         allTabs: [{
@@ -46,6 +57,7 @@ const data1 = {
         openTabsId: ['1', '2', '3'],
         activeTabId: '3'
     },
+    tabComponent,
     cssClasses: {
         // tabTitle: 'ui-state-default'
     },

@@ -19,6 +19,12 @@ api.prototype.constructor = api;
 api.prototype.getMutableCurrentOptions = function () { return this.optionManager.getMutableCurrentOptions(); };
 api.prototype.reset = function () { this.optionManager.reset(); return this; };
 api.prototype.getData = function () { return { ...this.state }; };
+api.prototype.getTabObj = function (tabId) {
+    const tabs = this.getMutableCurrentOptions().data.allTabs;
+    if (tabs.hasOwnProperty(tabId))
+        return tabs[tabId];
+    return null;
+};
 api.prototype.getPanel = function (id) {
     return this._panelProxy.getPanel(id
         , this.optionManager.getMutableCurrentOptions().data.allTabs[id].panelComponent);

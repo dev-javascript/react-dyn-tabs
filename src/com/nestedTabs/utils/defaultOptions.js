@@ -11,6 +11,7 @@ const DefaultOptions = function (setting) {
     this._getDefaultTabObj = setting.getDefaultTabObj;
     this._eventModes = setting.eventModes;
     this._direction = setting.defaultDirection;
+    this._tabComponent = '';
     this._setting = setting;
 };
 DefaultOptions.prototype._checkArrayType = function (value, path) {
@@ -108,6 +109,17 @@ DefaultOptions.prototype._defineDirection = function (obj, propName, path) {
     });
     return this;
 };
+DefaultOptions.prototype._defineTabComponent = function (obj, propName, path) {
+    const that = this;
+    Object.defineProperty(obj, propName, {
+        get() { return that._tabComponent; },
+        set(value) {
+            value && that._checkFunctionType(value, path);
+            that._tabComponent = value;
+        }
+    });
+    return this;
+};
 DefaultOptions.prototype._defineData = function (obj, propName, path) {
     const that = this;
     Object.defineProperty(obj, propName, {
@@ -167,7 +179,8 @@ DefaultOptions.prototype.getOption = function () {
         ._defineEvents(this.option, 'events', 'option.events')
         ._defineSwitchTabEventMode(this.option, 'switchTabEventMode', 'option.switchTabEventMode')
         ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode')
-        ._defineDirection(this.option, 'direction', 'option.direction');
+        ._defineDirection(this.option, 'direction', 'option.direction')
+        ._defineTabComponent(this.option, 'tabComponent', 'option.tabComponent');
     return this.option;
 };
 export default DefaultOptions;

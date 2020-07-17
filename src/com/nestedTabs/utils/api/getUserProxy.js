@@ -16,7 +16,8 @@ const getUserProxy = function (ctx) {
         addTab: function (tabObj) { ctx.addTab(tabObj); return this; },
         closeTab: function (tabId, switchBeforeClose) { return ctx.closeTab({ id: tabId, e: null, switchBeforeClose }); },
         forceUpdate: function () { return ctx.forceUpdate(); },
-        clearPanelsCache: function (panelId) { ctx.clearPanelsCache(panelId); return this; }
+        clearPanelsCache: function (panelId) { ctx.clearPanelsCache(panelId); return this; },
+        getTabObj: function (tabId) { return ctx.getTabObj(tabId); }
     };
     return proxy;
 };
