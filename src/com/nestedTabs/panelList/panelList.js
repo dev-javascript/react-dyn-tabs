@@ -9,7 +9,7 @@ const PanelList = memo(function PanelList(props) {
         , { openTabsId, activeTabId } = React.useContext(StateContext)
         , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
         , api = React.useContext(ApiContext)
-        , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = api.getMutableCurrentOptions()
+        , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = api.getOptions()
         , publisher = api.observable.publisher
         , className = defaultClass + ' ' + cssClasses[direction];
     useEffect(() => {
@@ -17,7 +17,7 @@ const PanelList = memo(function PanelList(props) {
         updateOldActiveId();
     }, [activeTabId]);
     useEffect(() => {
-        isFirstCall || publisher.trigger(events.panelListUpdate);
+        isFirstCall || publisher.trigger(events.panelListDidUpdate);
     });
     return (
         <div className={className}>

@@ -16,4 +16,9 @@ helper.objDefineNoneEnumerableProps = (function () {
         }, {}))
 })();
 helper.resolve = result => Promise.resolve(result);
+helper.getCopyState = function (state) {
+    const newState = { ...state };
+    newState.openTabsId = [...newState.openTabsId];
+    return newState;
+};
 export default helper;

@@ -9,7 +9,7 @@ const TabList = memo(function TabList(props) {
         , { openTabsId, activeTabId } = React.useContext(StateContext)
         , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
         , api = React.useContext(ApiContext)
-        , { cssClasses, cssClasses: { tabList: defaultClass }, direction } = api.getMutableCurrentOptions(),
+        , { cssClasses, cssClasses: { tabList: defaultClass }, direction } = api.getOptions(),
         publisher = api.observable.publisher;
     const className = defaultClass + ' ' + cssClasses[direction];
     useEffect(() => {
@@ -17,7 +17,7 @@ const TabList = memo(function TabList(props) {
         updateOldActiveId();
     }, [activeTabId]);
     useEffect(() => {
-        isFirstCall || publisher.trigger(events.tabListUpdate);
+        isFirstCall || publisher.trigger(events.tabListDidUpdate, { openTabsId, activeTabId });
     });
     return (
         <ul className={className} role='tablist'>

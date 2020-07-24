@@ -3,39 +3,42 @@ import events from '../events';
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper, getUserProxy,
-        activedTabsHistoryIns, observablePattern } = getDeps(param.options);
-    BaseApi.call(this);
+        activedTabsHistoryIns, observablePatternIns } = getDeps(param.options);
+    BaseApi.call(this, helper);
     helper.objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
         _helper: helper,
         _panelProxy: panelProxyIns,
         activedTabsHistory: activedTabsHistoryIns,
-        observable: observablePattern,
+        observable: observablePatternIns,
         userProxy: getUserProxy(this)
     });
 };
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
-api.prototype.getMutableCurrentOptions = function () { return this.optionManager.getMutableCurrentOptions(); };
-api.prototype.resetToInitailOption = function () { this.optionManager.resetToInitailOption(); return this; };
-api.prototype.getData = function () { return { ...this.state }; };
+api.prototype.getOptions = function () { return this.optionManager.getMutableOptions(); };
+api.prototype.getCopyData = function () { return this._helper.getCopyState(this.state); };
+api.prototype.getInitialState = function () {
+    const { data: { activeTabId, openTabsId } } = this.getOptions();
+    return { activeTabId, openTabsId };
+};
 api.prototype.getTabObj = function (tabId) {
-    const tabs = this.getMutableCurrentOptions().data.allTabs;
+    const tabs = this.getOptions().data.allTabs;
     if (tabs.hasOwnProperty(tabId))
         return tabs[tabId];
     return null;
 };
 api.prototype.getPanel = function (id) {
     return this._panelProxy.getPanel(id
-        , this.optionManager.getMutableCurrentOptions().data.allTabs[id].panelComponent);
+        , this.getOptions().data.allTabs[id].panelComponent);
 };
 api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
-api.prototype._beforeSwitchTab = function ({ id, e }) { return this.getMutableCurrentOptions().events.beforeSwitchTab({ id, e }); };
+api.prototype._beforeSwitchTab = function ({ id, e }) { return this.getOptions().events.beforeSwitchTab({ id, e }); };
 api.prototype.eventHandlerFactory = function ({ e, id }) {
     //test mutablitiy of events
-    const { events, switchTabEventMode, closeTabEventMode } = this.getMutableCurrentOptions()
+    const { events, switchTabEventMode, closeTabEventMode } = this.getOptions()
         , { type } = e;
     events[`on${type}Tab`].call(this, { e, id });
     e.target.className.includes(this.optionManager.setting.defaultCssClasses.closeIcon) ?
@@ -48,7 +51,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         const increaseOrDecrease = traverseToNext ? (value => value + 1) : (value => value - 1)
             , openTabsId = this.state.openTabsId
             , _length = openTabsId.length
-            , tabs = this.getMutableCurrentOptions().data.allTabs
+            , tabs = this.getOptions().data.allTabs
             , { resolve, checkArrIndex } = this._helper;
         index = increaseOrDecrease(openTabsId.indexOf(this.state.activeTabId));
         if (!checkArrIndex(index, _length))
@@ -61,7 +64,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         return this.switchTab({ id: this.state.openTabsId[index], e });
     };
     const _switchTab = function (id) {
-        const options = this.getMutableCurrentOptions(), activeTabId = this.state.activeTabId;
+        const options = this.getOptions(), activeTabId = this.state.activeTabId;
         activeTabId && this.activedTabsHistory.addTab(activeTabId);
         id && this._panelProxy.addRenderedPanel(id);
         this._activeTab(id);
@@ -107,7 +110,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     api.prototype.switchToPreSiblingTab = function ({ e }) { return _switchToSiblingTab.call(this, { e }, false); };
     api.prototype.switchToPreSelectedTab = function ({ e }) {
         let id;
-        const tabs = this.getMutableCurrentOptions().data.allTabs
+        const tabs = this.getOptions().data.allTabs
             , openTabsId = this.state.openTabsId
         while (!id) {
             const tempId = this.activedTabsHistory.getTab();
@@ -119,11 +122,51 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         return this.switchTab({ id, e });
     };
 }
-api.prototype.openAllTab = function () { };
+api.prototype.setData = (function () {
+    const _validate = function (param) {
+        if (!param)
+            return false;
+        const { openTabsId, activeTabId } = param;
+        if (typeof activeTabId === 'undefined' && (typeof openTabsId === 'undefined'))
+            return false;
+        if (openTabsId && (openTabsId.constructor !== Array))
+            throw 'passed openTabsId property in setData function must be an Array';
+        if (activeTabId && (typeof activeTabId !== 'string'))
+            throw 'type of the passed activeTabId property in setData function must be a string';
+        return true;
+    };
+    return function (param) {
+        if (!_validate(param))
+            return this._helper.resolve(null);
+        const { openTabsId, activeTabId } = param
+            , currentActiveTabId = this.state.activeTabId
+            , { events: { allTabsDidUpdate } } = this.getOptions();
+        openTabsId && this._panelProxy.setRenderedPanels(openTabsId);
+        (currentActiveTabId && activeTabId) && this.activedTabsHistory.addTab(currentActiveTabId);
+        this._setData(param);
+        return Promise.all([new Promise(resolve => {
+            this.observable.createSubscriber(function (param) {
+                resolve(param);
+                this.unSubscribe(events.tabListDidUpdate);
+            }).subscribe(events.tabListDidUpdate);
+        }), new Promise(resolve => {
+            this.observable.createSubscriber(function (param) {
+                resolve(param);
+                this.unSubscribe(events.panelListDidUpdate);
+            }).subscribe(events.panelListDidUpdate);
+        })])
+            .then(([tabList, panelList]) => {
+                allTabsDidUpdate.call(this, { ...tabList });
+                return { ...tabList };
+            }).catch(function (err) {
+                throw err.message;
+            });
+    };
+})();
 api.prototype.openTab = function (id) {
     if (this.state.openTabsId.indexOf(id) >= 0)
         return this._helper.resolve(null);
-    const { events: { afterOpenTab } } = this.getMutableCurrentOptions();
+    const { events: { afterOpenTab } } = this.getOptions();
     this._openTab(id);
     return Promise.all([new Promise(resolve => {
         this.observable.createSubscriber(function (param) {
@@ -144,14 +187,14 @@ api.prototype.openTab = function (id) {
         });
 };
 api.prototype.addTab = function (tabObj) {
-    const data = this.getMutableCurrentOptions().data;
+    const data = this.getOptions().data;
     data.allTabs.hasOwnProperty(tabObj.id) ||
         (data.allTabs[tabObj.id] = tabObj);
     return this;
 };
 api.prototype.closeTab = (function () {
     function _closeTab(id) {
-        const { events: { afterCloseTab } } = this.getMutableCurrentOptions();
+        const { events: { afterCloseTab } } = this.getOptions();
         this._closeTab(id);
         return Promise.all([new (Promise)(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -175,8 +218,9 @@ api.prototype.closeTab = (function () {
         const { resolve } = this._helper;
         if (!this.isOpenTab(id))
             return resolve(null);
-        if (!this.getMutableCurrentOptions().events.beforeCloseTab({ id, e }))
+        if (!this.getOptions().events.beforeCloseTab({ id, e }))
             return resolve(null);
+        debugger;
         this._panelProxy.removeRenderedPanel(id);
         if (switchBeforeClose && this.isActiveTab(id))
             return this._switchToUnknowTab({ e: e }).then(result => _closeTab.call(this, id)).catch(function (err) {
@@ -187,18 +231,18 @@ api.prototype.closeTab = (function () {
     };
 })();
 api.prototype.forceUpdate = function () {
-    const { events: { allTabsDidUpdate } } = this.getMutableCurrentOptions();
+    const { events: { allTabsDidUpdate } } = this.getOptions();
     this._forceUpdate();
     return Promise.all([new Promise(resolve => {
         this.observable.createSubscriber(function () {
             resolve();
-            this.unSubscribe(events.tabListUpdate);
-        }).subscribe(events.tabListUpdate);
+            this.unSubscribe(events.tabListDidUpdate);
+        }).subscribe(events.tabListDidUpdate);
     }), new Promise(resolve => {
         this.observable.createSubscriber(function () {
             resolve();
-            this.unSubscribe(events.panelListUpdate);
-        }).subscribe(events.panelListUpdate);
+            this.unSubscribe(events.panelListDidUpdate);
+        }).subscribe(events.panelListDidUpdate);
     })])
         .then(([tabList, panelList]) => {
             allTabsDidUpdate.call(this);
@@ -209,7 +253,7 @@ api.prototype.forceUpdate = function () {
 };
 api.prototype.clearPanelsCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
-        this._panelProxy.removeAllDeactiveRenderedPanel(this.state.activeTabId);
+        this._panelProxy.setRenderedPanels([this.state.activeTabId]);
     return this;
 };
 export default api;

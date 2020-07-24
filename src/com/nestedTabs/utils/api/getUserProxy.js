@@ -1,8 +1,9 @@
 const getUserProxy = function (ctx) {
     const proxy = {
         getSelectedTabsHistory: function () { return ctx.getSelectedTabsHistory(); },
-        getMutableCurrentOptions: function () { return ctx.getMutableCurrentOptions(); },
-        getData: function () { return ctx.getData(); },
+        getMutableOptions: function () { return ctx.getOptions(); },
+        getCopyOptions: function () { return ctx.optionManager.getCopyOptions(); },
+        getCopyData: function () { return ctx.getCopyData(); },
         getTabObj: function (tabId) { return ctx.getTabObj(tabId); },
         isActiveTab: function (tabId) { return ctx.isActiveTab(tabId); },
         isOpenTab: function (tabId) { return ctx.isOpenTab(tabId); },
@@ -16,9 +17,8 @@ const getUserProxy = function (ctx) {
         closeTab: function (tabId, switchBeforeClose) { return ctx.closeTab({ id: tabId, e: null, switchBeforeClose }); },
         forceUpdate: function () { return ctx.forceUpdate(); },
         clearPanelsCache: function (panelId) { ctx.clearPanelsCache(panelId); return this; },
-
-        resetToInitailOption: function () { ctx.resetToInitailOption(); return this; },
-        openAllTab: function () { return ctx.openAllTab(); }
+        setData: function ({ activeTabId, openTabsId }) { return ctx.setData({ activeTabId, openTabsId }); }
+        // develop validation for calling each function
     };
     return proxy;
 };

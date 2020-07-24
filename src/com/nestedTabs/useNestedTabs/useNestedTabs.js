@@ -10,7 +10,7 @@ function useNestedTabs(options) {
         ref.current = { api: new (Api)({ options }) };
     const { current: { api } } = ref
         , _ref = ref.current
-        , [state, dispatch] = useReducer(reducer, api.optionManager.getData());
+        , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     const tabListEl = (
         <ApiContext.Provider value={_ref.api}>

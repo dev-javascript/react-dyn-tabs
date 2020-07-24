@@ -32,7 +32,7 @@ beforeAll(() => {
 	realUseContext = React.useContext;
 });
 beforeEach(() => {
-	setMockUseContext({ getMutableCurrentOptions: getMockOptions() });
+	setMockUseContext({ getOptions: getMockOptions() });
 });
 afterEach(() => {
 	ReactDom.unmountComponentAtNode(container);
@@ -96,7 +96,7 @@ describe("tab mouse events", () => {
 	test(`tab must implement mousedown, click and mouseup events and all of them must call 
           activeTabEventHandler`, () => {
 		const activeTabEventHandler = jest.fn(() => { });
-		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), activeTabEventHandler });
+		setMockUseContext({ getOptions: getMockOptions(), activeTabEventHandler });
 		act(() => {
 			ReactDom.render(
 				<>
@@ -124,7 +124,7 @@ describe("tab mouse events", () => {
 describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 	test(`tabDidMount will be called just one time during the executions of tabComponent`, () => {
 		const tabDidMount = jest.fn(({ tabId, isActive }) => { });
-		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount });
+		setMockUseContext({ getOptions: getMockOptions(), tabDidMount });
 		act(() => {
 			ReactDom.render(
 				<>
@@ -145,7 +145,7 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 	test(`tabDidUpdate must  will be called in the first execution of tabComponent`, () => {
 		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
 			tabDidMount = jest.fn(({ tabId, isActive }) => { });
-		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount, tabDidUpdate });
+		setMockUseContext({ getOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		act(() => {
 			ReactDom.render(
 				<>
@@ -163,7 +163,7 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 	       and another one for deActiveTab component(old activeTabComponent)`, () => {
 		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
 			tabDidMount = jest.fn(({ tabId, isActive }) => { });
-		setMockUseContext({ getMutableCurrentOptions: getMockOptions(), tabDidMount, tabDidUpdate });
+		setMockUseContext({ getOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		function MockWrapprTab() {
 			const [activeId, setActiveId] = useState({ id: '2' }), toggelActiveTab = (e) => {
 				activeId === '2' ? setActiveId('1') : setActiveId('2');

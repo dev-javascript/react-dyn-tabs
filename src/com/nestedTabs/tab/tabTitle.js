@@ -1,7 +1,7 @@
 import React from "react";
 const TabTitle = function (props) {
     const { tabId, api, isActive } = props
-        , option = api.getMutableCurrentOptions();
+        , option = api.getMutableOptions();
     if (option.tabComponent) {
         const TabTitleCom = option.tabComponent;
         return <TabTitleCom {...props}></TabTitleCom>;

@@ -11,8 +11,7 @@ const Tab = memo(
         const [isFirstCall] = useCounter()
             , { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } }
-                = api.getMutableCurrentOptions()
+            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
             , tab = allTabs[id]
             , isActive = activeTabId === id
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }

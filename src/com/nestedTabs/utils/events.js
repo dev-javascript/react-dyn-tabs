@@ -6,7 +6,7 @@ const events = {
     tabWillUnmount: 'tabWillUnmount',
     tabListDidUpdateByActiveTabId: 'tabListDidUpdateByActiveTabId',
     panelListDidUpdateByActiveTabId: 'panelListDidUpdateByActiveTabId',
-    tabListUpdate: 'tabListUpdate',
-    panelListUpdate: 'panelListUpdate'
+    tabListDidUpdate: 'tabListDidUpdate',
+    panelListDidUpdate: 'panelListDidUpdate'
 };
 export default events;

@@ -40,7 +40,7 @@ const getSetting = function () {
             afterCloseTab: (tab) => { },
 
             allTabsDidMount: () => { },
-            allTabsDidUpdate: (param) => { },
+            allTabsDidUpdate: (param) => { debugger; },
             allTabsWillUnMount: () => { }
         },
         getDefaultTabObj,
