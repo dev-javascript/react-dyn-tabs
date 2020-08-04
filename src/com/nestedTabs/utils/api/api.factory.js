@@ -94,7 +94,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
             return _switchTab.call(this, id);
         };
     })();
-    api.prototype.deactiveTab = function (e) {
+    api.prototype.deselectTab = function (e) {
         const id = this.state.activeTabId, { resolve } = this._helper;
         if (!id || !this._beforeSwitchTab({ id, e }))
             return resolve(null);
@@ -104,7 +104,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         return this.switchToPreSelectedTab({ e })
             .then(result => result ? this._helper.resolve(result) : this.switchToPreSiblingTab({ e }))
             .then(result => result ? this._helper.resolve(result) : this.switchToNxtSiblingTab({ e }))
-            .then(result => result ? this._helper.resolve(result) : this.deactiveTab({ e }));
+            .then(result => result ? this._helper.resolve(result) : this.deselectTab({ e }));
     };
     api.prototype.switchToNxtSiblingTab = function ({ e }) { return _switchToSiblingTab.call(this, { e }, true); };
     api.prototype.switchToPreSiblingTab = function ({ e }) { return _switchToSiblingTab.call(this, { e }, false); };

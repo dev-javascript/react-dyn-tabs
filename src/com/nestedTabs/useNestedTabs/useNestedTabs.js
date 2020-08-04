@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useMemo, useRef, useState } from "react";
 import TabList from "../tabList/tabList";
 import PanelList from "../panelList/panelList.js";
-import { reducer } from "../utils/stateManagement";
+import reducer from "../utils/stateManagement/reducer";
 import Api from '../utils/api';
 import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.js";
 function useNestedTabs(options) {

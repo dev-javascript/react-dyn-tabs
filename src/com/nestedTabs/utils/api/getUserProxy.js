@@ -8,7 +8,7 @@ const getUserProxy = function (ctx) {
         isActiveTab: function (tabId) { return ctx.isActiveTab(tabId); },
         isOpenTab: function (tabId) { return ctx.isOpenTab(tabId); },
         switchTab: function (tabId) { return ctx.switchTab({ id: tabId, e: null }); },
-        deactiveTab: function () { return ctx.deactiveTab(null); },
+        deselectTab: function () { return ctx.deselectTab(null); },
         switchToNxtSiblingTab: function () { return ctx.switchToNxtSiblingTab({ e: null }); },
         switchToPreSiblingTab: function () { return ctx.switchToPreSiblingTab({ e: null }); },
         switchToPreSelectedTab: function () { return ctx.switchToPreSelectedTab({ e: null }); },

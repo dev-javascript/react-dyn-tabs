@@ -160,7 +160,7 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { id: "2", isActive: true, isFirstCall: true });
 	});
 	test(`tabDidUpdate will be called twice for switching between tabs, one for activeTab component
-	       and another one for deActiveTab component(old activeTabComponent)`, () => {
+	       and another one for deselectTab component(old activeTabComponent)`, () => {
 		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
 			tabDidMount = jest.fn(({ tabId, isActive }) => { });
 		setMockUseContext({ getOptions: getMockOptions(), tabDidMount, tabDidUpdate });

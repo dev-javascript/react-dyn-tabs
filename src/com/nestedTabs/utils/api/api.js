@@ -1,10 +1,10 @@
 import apiFactory from './api.factory';
-import OptionManager from '../optionManager';
-import PanelProxy from '../panelProxy.js';
+import OptionManager from './optionManager';
+import PanelProxy from './panelProxy.js';
 import helper from '../helper';
-import ActivedTabsHistory from '../activedTabsHistory';
+import ActivedTabsHistory from './activedTabsHistory';
 import events from '../events';
-import ObservablePattern from '../observable';
+import ObservablePattern from './observable';
 import getUserProxy from './getUserProxy';
 const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)({ options })
