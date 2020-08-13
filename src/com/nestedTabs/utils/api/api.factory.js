@@ -13,6 +13,15 @@ const api = function (getDeps, param = { options: {} }) {
         observable: observablePatternIns,
         userProxy: getUserProxy(this)
     });
+    this.observable.createSubscriber(function (param) {
+
+    }).subscribe(events.switchTab);
+    this.observable.createSubscriber(function (param) {
+
+    }).subscribe(events.closeTab);
+    this.observable.createSubscriber(function (param) {
+
+    }).subscribe(events.openTab);
 };
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;

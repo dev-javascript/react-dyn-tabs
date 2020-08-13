@@ -17,7 +17,7 @@ const TabList = memo(function TabList(props) {
         updateOldActiveId();
     }, [activeTabId]);
     useEffect(() => {
-        isFirstCall || publisher.trigger(events.tabListDidUpdate, { openTabsId, activeTabId });
+        isFirstCall || publisher.trigger(events.tabListDidUpdate, { openTabsId: [...openTabsId], activeTabId });
     });
     return (
         <ul className={className} role='tablist'>

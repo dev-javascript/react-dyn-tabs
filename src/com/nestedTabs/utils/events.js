@@ -7,6 +7,9 @@ const events = {
     tabListDidUpdateByActiveTabId: 'tabListDidUpdateByActiveTabId',
     panelListDidUpdateByActiveTabId: 'panelListDidUpdateByActiveTabId',
     tabListDidUpdate: 'tabListDidUpdate',
-    panelListDidUpdate: 'panelListDidUpdate'
+    panelListDidUpdate: 'panelListDidUpdate',
+    switchTab: 'switchTab',
+    closeTab: 'closeTab',
+    openTab: 'openTab'
 };
 export default events;
