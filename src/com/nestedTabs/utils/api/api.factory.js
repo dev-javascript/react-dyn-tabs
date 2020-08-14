@@ -185,8 +185,8 @@ api.prototype.setData = (function () {
         const { openTabsId, activeTabId } = param
             , currentActiveTabId = this.state.activeTabId
             , { events: { allTabsDidUpdate } } = this.getOptions();
-        openTabsId && this._panelProxy.setRenderedPanels(openTabsId);
-        (currentActiveTabId && activeTabId) && this.activedTabsHistory.addTab(currentActiveTabId);
+        //openTabsId && this._panelProxy.setRenderedPanels(openTabsId);
+        //(currentActiveTabId && activeTabId) && this.activedTabsHistory.addTab(currentActiveTabId);
         const _param = getParam.call(this, param);
         this.observable.publisher.trigger(events._onSetData, { param: _param, isOnBefore: true });
         this._setData(param);
