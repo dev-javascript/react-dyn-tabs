@@ -13,15 +13,35 @@ const api = function (getDeps, param = { options: {} }) {
         observable: observablePatternIns,
         userProxy: getUserProxy(this)
     });
+    const option = this.getOptions(), that = this;
+    this.observable.createSubscriber(function ({ param, isOnBefore }) {
+        const { switchedTabsId, openedTabsId, closedTabsId } = param
+            , _on = isOnBefore ? 'before' : 'after';
+        closedTabsId.map(item => { that.observable.publisher.trigger(events[`${_on}CloseTab`], item); });
+        openedTabsId.map(item => { that.observable.publisher.trigger(events[`${_on}OpenTab`], item); });
+        switchedTabsId && that.observable.publisher.trigger(events[`${_on}SwitchTab`], switchedTabsId);
+    }).subscribe(events._onSetData);
     this.observable.createSubscriber(function (param) {
-
-    }).subscribe(events.switchTab);
+        option.events.beforeSwitchTab.call(that, param);
+        that._panelProxy.addRenderedPanel(param.newSelectedTabId);
+    }).subscribe(events.beforeSwitchTab);
     this.observable.createSubscriber(function (param) {
-
-    }).subscribe(events.closeTab);
-    this.observable.createSubscriber(function (param) {
-
-    }).subscribe(events.openTab);
+        that.activedTabsHistory.addTab(param.newSelectedTabId);
+        option.events.afterSwitchTab.call(that, param);
+    }).subscribe(events.afterSwitchTab);
+    this.observable.createSubscriber(function (id) {
+        option.events.beforeCloseTab.call(that, id);
+    }).subscribe(events.beforeCloseTab);
+    this.observable.createSubscriber(function (id) {
+        that._panelProxy.removeRenderedPanel(id);
+        option.events.afterCloseTab.call(that, id);
+    }).subscribe(events.afterCloseTab);
+    this.observable.createSubscriber(function (id) {
+        option.events.beforeOpenTab.call(that, id);
+    }).subscribe(events.beforeOpenTab);
+    this.observable.createSubscriber(function (id) {
+        option.events.afterOpenTab.call(that, id);
+    }).subscribe(events.afterOpenTab);
 };
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
@@ -74,8 +94,9 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
     };
     const _switchTab = function (id) {
         const options = this.getOptions(), activeTabId = this.state.activeTabId;
-        activeTabId && this.activedTabsHistory.addTab(activeTabId);
-        id && this._panelProxy.addRenderedPanel(id);
+        //activeTabId && this.activedTabsHistory.addTab(activeTabId);
+        //id && this._panelProxy.addRenderedPanel(id);
+        this.observable.publisher.trigger(events.beforeSwitchTab, { newSelectedTabId: id, oldSelectedTabId: activeTabId });
         this._activeTab(id);
         return Promise.all([new Promise(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -89,7 +110,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
             }).subscribe(events.panelListDidUpdateByActiveTabId);
         })])
             .then(([tab, panel]) => {
-                options.events.afterSwitchTab.call(this, { ...tab });
+                this.observable.publisher.trigger(events.afterSwitchTab, { ...tab });
                 return { ...tab };
             }).catch(function (err) {
                 throw err.message;
@@ -143,7 +164,21 @@ api.prototype.setData = (function () {
         if (activeTabId && (typeof activeTabId !== 'string'))
             throw 'type of the passed activeTabId property in setData function must be a string';
         return true;
-    };
+    }
+        , getParam = function ({ activeTabId: newSelectedTabId, openTabsId: newOpenTabsId }) {
+            const { activeTabId: oldSelectedTabId, openTabsId: oldOpenTabsId } = this.getCopyData();
+            const openedTabsId = [], closedTabsId = [...oldOpenTabsId]
+                , isSwitched = (newSelectedTabId || newSelectedTabId == 0) && (newSelectedTabId !== oldSelectedTabId);
+            let switchedTabsId = '';
+            isSwitched && (switchedTabsId = { oldSelectedTabId, newSelectedTabId });
+            newOpenTabsId.reduce((acc, item) => {
+                const _indexOf = oldOpenTabsId.indexOf(item);
+                _indexOf === -1 ? acc.push(item) :
+                    closedTabsId.splice(_indexOf, 1);
+                return acc;
+            }, openedTabsId);
+            return { openedTabsId, closedTabsId, switchedTabsId };
+        };
     return function (param) {
         if (!_validate(param))
             return this._helper.resolve(null);
@@ -152,6 +187,8 @@ api.prototype.setData = (function () {
             , { events: { allTabsDidUpdate } } = this.getOptions();
         openTabsId && this._panelProxy.setRenderedPanels(openTabsId);
         (currentActiveTabId && activeTabId) && this.activedTabsHistory.addTab(currentActiveTabId);
+        const _param = getParam.call(this, param);
+        this.observable.publisher.trigger(events._onSetData, { param: _param, isOnBefore: true });
         this._setData(param);
         return Promise.all([new Promise(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -165,7 +202,7 @@ api.prototype.setData = (function () {
             }).subscribe(events.panelListDidUpdate);
         })])
             .then(([tabList, panelList]) => {
-                allTabsDidUpdate.call(this, { ...tabList });
+                this.observable.publisher.trigger(events._onSetData, { param: _param, isOnBefore: false });
                 return { ...tabList };
             }).catch(function (err) {
                 throw err.message;
@@ -175,7 +212,8 @@ api.prototype.setData = (function () {
 api.prototype.openTab = function (id) {
     if (this.state.openTabsId.indexOf(id) >= 0)
         return this._helper.resolve(null);
-    const { events: { afterOpenTab } } = this.getOptions();
+    //const { events: { afterOpenTab } } = this.getOptions();
+    this.observable.publisher.trigger(events.beforeOpenTab, id);
     this._openTab(id);
     return Promise.all([new Promise(resolve => {
         this.observable.createSubscriber(function (param) {
@@ -189,7 +227,7 @@ api.prototype.openTab = function (id) {
         }).subscribe(events.panelDidMount);
     })])
         .then(([tab, panel]) => {
-            afterOpenTab.call(this, { ...tab });
+            this.observable.publisher.trigger(events.afterOpenTab, { ...tab });
             return { ...tab };
         }).catch(function (err) {
             throw err.message;
@@ -203,7 +241,8 @@ api.prototype.addTab = function (tabObj) {
 };
 api.prototype.closeTab = (function () {
     function _closeTab(id) {
-        const { events: { afterCloseTab } } = this.getOptions();
+        //const { events: { afterCloseTab } } = this.getOptions();
+        this.observable.publisher.trigger(events.beforeCloseTab, id);
         this._closeTab(id);
         return Promise.all([new (Promise)(resolve => {
             this.observable.createSubscriber(function (param) {
@@ -217,7 +256,7 @@ api.prototype.closeTab = (function () {
             }).subscribe(events.panelWillUnmount);
         })])
             .then(([tab, panel]) => {
-                afterCloseTab.call(this, { ...tab });
+                this.observable.publisher.trigger(events.afterCloseTab, tab);
                 return { ...tab };
             }).catch(function (err) {
                 throw err.message;
@@ -229,8 +268,7 @@ api.prototype.closeTab = (function () {
             return resolve(null);
         if (!this.getOptions().events.beforeCloseTab({ id, e }))
             return resolve(null);
-        debugger;
-        this._panelProxy.removeRenderedPanel(id);
+        //this._panelProxy.removeRenderedPanel(id);
         if (switchBeforeClose && this.isActiveTab(id))
             return this._switchToUnknowTab({ e: e }).then(result => _closeTab.call(this, id)).catch(function (err) {
                 throw err.message;

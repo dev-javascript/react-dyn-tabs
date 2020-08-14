@@ -162,7 +162,6 @@ DefaultOptions.prototype.create = function () {
         ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode')
         ._defineDirection(this.option, 'direction', 'option.direction')
         ._defineTabComponent(this.option, 'tabComponent', 'option.tabComponent');
-    debugger;
     return this.option;
 };
 export default DefaultOptions;

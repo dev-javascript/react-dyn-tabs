@@ -35,6 +35,7 @@ const getSetting = function () {
 
             beforeSwitchTab: function (e, tabId) { return true; },
             afterSwitchTab: function ({ tabId, panelId }) { },
+            beforeOpenTab: (tabID) => { },
             afterOpenTab: (tab) => { },
             beforeCloseTab: function (e, tabId) { return true; },
             afterCloseTab: (tab) => { },

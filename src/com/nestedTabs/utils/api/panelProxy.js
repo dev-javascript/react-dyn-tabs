@@ -10,10 +10,10 @@ const PanelProxy = function (panelId) {
 }
 PanelProxy.prototype._isExisted = function (id) { return this._renderedPanels.indexOf(id) >= 0; };
 PanelProxy.prototype.addRenderedPanel = function (panelId) {
-    this._isExisted(panelId) || this._renderedPanels.push(panelId);
+    (panelId || panelId == 0) && (this._isExisted(panelId) || this._renderedPanels.push(panelId));
 };
 PanelProxy.prototype.removeRenderedPanel = function (panelId) {
-    this._renderedPanels.splice(this._renderedPanels.indexOf(panelId), 1);
+    (panelId || panelId == 0) && this._renderedPanels.splice(this._renderedPanels.indexOf(panelId), 1);
 };
 PanelProxy.prototype.setRenderedPanels = function (panelsIdArray) {
     this._renderedPanels = [...panelsIdArray];

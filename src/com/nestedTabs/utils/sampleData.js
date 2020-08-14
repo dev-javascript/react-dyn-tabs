@@ -65,7 +65,6 @@ const data1 = {
         afterSwitchTab: (tabId, panelId) => {
         },
         afterCloseTab: function (param, param3) {
-            const data = this.getData();
         }
     },
     switchTabEventMode: 'mousedown',

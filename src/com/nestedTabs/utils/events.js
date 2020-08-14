@@ -8,8 +8,12 @@ const events = {
     panelListDidUpdateByActiveTabId: 'panelListDidUpdateByActiveTabId',
     tabListDidUpdate: 'tabListDidUpdate',
     panelListDidUpdate: 'panelListDidUpdate',
-    switchTab: 'switchTab',
-    closeTab: 'closeTab',
-    openTab: 'openTab'
+    beforeSwitchTab: 'beforeSwitchTab',
+    afterSwitchTab: 'afterSwitchTab',
+    beforeCloseTab: 'beforeCloseTab',
+    afterCloseTab: 'afterCloseTab',
+    beforeOpenTab: 'beforeOpenTab',
+    afterOpenTab: 'afterOpenTab',
+    _onSetData: '_onSetData',
 };
 export default events;
