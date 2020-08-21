@@ -26,7 +26,7 @@ const api = function (getDeps, param = { options: {} }) {
         that._panelProxy.addRenderedPanel(param.newSelectedTabId);
     }).subscribe(events.beforeSwitchTab);
     this.observable.createSubscriber(function (param) {
-        that.activedTabsHistory.addTab(param.newSelectedTabId);
+        that.activedTabsHistory.addTab(param.oldSelectedTabId);
         option.events.afterSwitchTab.call(that, param);
     }).subscribe(events.afterSwitchTab);
     this.observable.createSubscriber(function (id) {

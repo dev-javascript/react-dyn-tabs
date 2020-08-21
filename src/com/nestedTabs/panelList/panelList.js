@@ -7,13 +7,13 @@ import events from '../utils/events';
 const PanelList = memo(function PanelList(props) {
     const [isFirstCall] = useCounter()
         , { openTabsId, activeTabId } = React.useContext(StateContext)
-        , { oldActiveId, newActiveId, updateOldActiveId } = useOldActiveId(activeTabId)
+        , { oldActiveId: oldSelectedTabId, newActiveId: newSelectedTabId, updateOldActiveId } = useOldActiveId(activeTabId)
         , api = React.useContext(ApiContext)
         , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = api.getOptions()
         , publisher = api.observable.publisher
         , className = defaultClass + ' ' + cssClasses[direction];
     useEffect(() => {
-        isFirstCall || publisher.trigger(events.panelListDidUpdateByActiveTabId, { oldActiveId, newActiveId });
+        isFirstCall || publisher.trigger(events.panelListDidUpdateByActiveTabId, { oldSelectedTabId, newSelectedTabId });
         updateOldActiveId();
     }, [activeTabId]);
     useEffect(() => {
