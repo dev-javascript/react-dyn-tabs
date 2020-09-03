@@ -26,23 +26,17 @@ const getSetting = function () {
             rtl: 'rtl'
         },
         defaultEvents: {
-            onmousedownTab: () => { return true; },
-            onclickTab: () => { },
-            onmouseupTab: () => { },
-            onmousedownCloseIcon: () => { },
-            onclickCloseIcon: () => { },
-            onmouseupCloseIcon: () => { },
-
-            beforeSwitchTab: function (e, tabId) { return true; },
-            afterSwitchTab: function ({ tabId, panelId }) { },
-            beforeOpenTab: (tabID) => { },
-            afterOpenTab: (tab) => { },
-            beforeCloseTab: function (e, tabId) { return true; },
-            afterCloseTab: (tab) => { },
-
-            allTabsDidMount: () => { },
-            allTabsDidUpdate: (param) => { debugger; },
-            allTabsWillUnMount: () => { }
+            onmousedownTab: (e, id, api) => { return true; },
+            onclickTab: () => true,
+            onmouseupTab: () => true,
+            onmousedownCloseIcon: () => true,
+            onclickCloseIcon: () => true,
+            onmouseupCloseIcon: () => true,
+            onSwitchTab: (param) => { },
+            onOpenTab: (tab) => { },
+            onCloseTab: (tab) => { },
+            componentDidMount: function () { },
+            onDestroy: function () { }
         },
         getDefaultTabObj,
         eventModes: ['mousedown', 'mouseenter', 'click', 'mouseup'],

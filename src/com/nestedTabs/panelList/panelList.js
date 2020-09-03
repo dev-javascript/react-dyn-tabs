@@ -1,24 +1,11 @@
-import React, { useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import './index.css';
 import Panel from '../panel/panel.js';
 import { ApiContext, StateContext } from '../utils/context.js';
-import { useCounter, useOldActiveId } from '../utils/helperHooks';
-import events from '../utils/events';
 const PanelList = memo(function PanelList(props) {
-    const [isFirstCall] = useCounter()
-        , { openTabsId, activeTabId } = React.useContext(StateContext)
-        , { oldActiveId: oldSelectedTabId, newActiveId: newSelectedTabId, updateOldActiveId } = useOldActiveId(activeTabId)
-        , api = React.useContext(ApiContext)
-        , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = api.getOptions()
-        , publisher = api.observable.publisher
+    const { openTabsId, activeTabId } = React.useContext(StateContext)
+        , { cssClasses, cssClasses: { panelList: defaultClass }, direction } = React.useContext(ApiContext).getOptions()
         , className = defaultClass + ' ' + cssClasses[direction];
-    useEffect(() => {
-        isFirstCall || publisher.trigger(events.panelListDidUpdateByActiveTabId, { oldSelectedTabId, newSelectedTabId });
-        updateOldActiveId();
-    }, [activeTabId]);
-    useEffect(() => {
-        isFirstCall || publisher.trigger(events.panelListDidUpdate);
-    });
     return (
         <div className={className}>
             {openTabsId.map(id =>

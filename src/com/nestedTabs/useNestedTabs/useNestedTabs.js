@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useMemo, useRef, useState } from "react";
+import React, { useReducer, useLayoutEffect, useRef } from "react";
 import TabList from "../tabList/tabList";
 import PanelList from "../panelList/panelList.js";
 import reducer from "../utils/stateManagement/reducer";
@@ -12,6 +12,15 @@ function useNestedTabs(options) {
         , _ref = ref.current
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
+    useLayoutEffect(() => {
+        //implement compnentDidMount
+        return () => {
+            //implement onDestroy
+        };
+    }, []);
+    useLayoutEffect(() => {
+        api.publishers.rootComponentDidUpdatePublisher.trigger();
+    }, [state]);
     const tabListEl = (
         <ApiContext.Provider value={_ref.api}>
             <StateContext.Provider value={state}>

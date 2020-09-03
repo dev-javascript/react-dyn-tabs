@@ -1,13 +1,10 @@
-import React, { useContext, memo, useEffect, useRef } from 'react';
+import React, { useContext, memo } from 'react';
 import './index.css';
 import { ApiContext, ForceUpdateContext } from '../utils/context.js';
-import { useCounter } from '../utils/helperHooks';
 import helper from '../utils/helper';
-import events from '../utils/events';
 const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
-    const [isFirstCall] = useCounter()
-        , { id, activeTabId } = props
+    const { id, activeTabId } = props
         , api = useContext(ApiContext)
         , { cssClasses: { panel: defaultClass, activePanel: activeClass } } = api.getOptions()
         , basedOnIsActive = {
@@ -17,15 +14,6 @@ const Panel = memo(function Panel(props) {
     activeTabId === id && Object.assign(basedOnIsActive, {
         panelClass: defaultClass + ' ' + activeClass,
         ariaHidden: false
-    });
-
-    useEffect(() => {
-        api.observable.publisher.trigger(events.panelDidMount, { id });
-    }, [id]);
-    useEffect(() => {
-        return () => {
-            api.observable.publisher.trigger(events.panelWillUnmount, { id });
-        }
     });
     return (
         <div id={helper.idTemplate.panel(id)} className={basedOnIsActive.panelClass}

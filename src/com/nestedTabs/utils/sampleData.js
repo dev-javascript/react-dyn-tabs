@@ -28,7 +28,7 @@ const data2 = {
         activeTabId: '1'
     },
     events: {
-        afterSwitchTab: (tabId, panelId) => {
+        onSwitchTab: (switchTabsId, api) => {
         }
     }
 };
@@ -62,9 +62,9 @@ const data1 = {
         // tabTitle: 'ui-state-default'
     },
     events: {
-        afterSwitchTab: (tabId, panelId) => {
+        onSwitchTab: (switchTabsId, api) => {
         },
-        afterCloseTab: function (param, param3) {
+        onCloseTab: function (id, api) {
         }
     },
     switchTabEventMode: 'mousedown',

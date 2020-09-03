@@ -1,15 +1,12 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import "./index.css";
 import { ApiContext, ForceUpdateContext } from "../utils/context.js";
-import { useCounter } from '../utils/helperHooks';
 import helper from '../utils/helper';
-import events from '../utils/events';
 import TabTitle from './tabTitle';
 const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
-        const [isFirstCall] = useCounter()
-            , { id, activeTabId } = props
+        const { id, activeTabId } = props
             , api = React.useContext(ApiContext)
             , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
             , tab = allTabs[id]
@@ -28,14 +25,6 @@ const Tab = memo(
             ariaSelected: true
         });
         tab.disable && (basedOnIsActive.tabClass += ' ' + disableClass);
-        useEffect(() => {
-            api.observable.publisher.trigger(events.tabDidMount, { id });
-        }, [id]);
-        useEffect(() => {
-            return () => {
-                api.observable.publisher.trigger(events.tabWillUnmount, { id });
-            }
-        });
         return (
             <li role='tab' id={helper.idTemplate.tab(id)} className={basedOnIsActive.tabClass}
                 tabIndex={basedOnIsActive.tabIndex}
