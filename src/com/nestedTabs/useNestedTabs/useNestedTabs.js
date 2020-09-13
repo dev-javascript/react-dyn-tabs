@@ -13,9 +13,9 @@ function useNestedTabs(options) {
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     useLayoutEffect(() => {
-        //implement compnentDidMount
+        api.publishers.rootComponentDidMountPublisher.trigger();
         return () => {
-            //implement onDestroy
+            api.publishers.rootComponentWillUnmountPublisher.trigger();
         };
     }, []);
     useLayoutEffect(() => {

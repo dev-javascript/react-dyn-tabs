@@ -23,11 +23,11 @@ helper.getCopyState = function (state) {
 };
 helper.getArraysDiff = function (arr1, arr2) {
     const arr1Copy = [...arr1], arr2Copy = [...arr2];
-    arr1.map(item => {
-        const i = arr2.indexOf(item);
-        if (i >= 0) {
-            arr1Copy.splice(i, 1);
-            arr2Copy.splice(i, 1);
+    arr1.map((item, i1) => {
+        const i2 = arr2.indexOf(item);
+        if (i2 >= 0) {
+            arr1Copy.splice(i1, 1);
+            arr2Copy.splice(i2, 1);
         }
     });
     return [arr1Copy, arr2Copy];

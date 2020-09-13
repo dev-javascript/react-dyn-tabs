@@ -35,7 +35,7 @@ const getSetting = function () {
             onSwitchTab: (param) => { },
             onOpenTab: (tab) => { },
             onCloseTab: (tab) => { },
-            componentDidMount: function () { },
+            onLoad: function () { },
             onDestroy: function () { }
         },
         getDefaultTabObj,

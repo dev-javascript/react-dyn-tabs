@@ -15,12 +15,12 @@ const data2 = {
     data: {
         allTabs: [{
             id: '1',
-            title: 'city',
+            title: 'city 1',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
         }, {
             id: '2',
-            title: 'country2',
+            title: 'country 2',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }],
@@ -36,19 +36,19 @@ const data1 = {
     data: {
         allTabs: [{
             id: '1',
-            title: 'user',
+            title: 'user 1',
             closable: true,
             iconClass: 'ui-icon ui-icon-seek-end',
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
         }, {
             id: '2',
-            title: 'home',
+            title: 'home 2',
             closable: false,
             iconClass: 'glyphicon glyphicon-asterisk',
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }, {
             id: '3',
-            title: 'about site',
+            title: 'about site 3',
             closable: true,
             disable: false,
             iconClass: 'fa fa-backward',

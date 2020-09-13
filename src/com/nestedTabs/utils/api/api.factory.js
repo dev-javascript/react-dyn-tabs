@@ -18,6 +18,8 @@ api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
     const { events: _ev } = this.getOptions(), _pubs = this.publishers, _usrp = this.userProxy, _pp = this._panelProxy;
+    _pubs.rootComponentDidMountPublisher.subscribe(() => { _ev.onLoad(_usrp); });
+    _pubs.rootComponentWillUnmountPublisher.subscribe(() => { _ev.onDestroy(); });
     _pubs.beforeSwitchTabPublisher.subscribe(({ switchTabsId }) => { _pp.addRenderedPanel(switchTabsId.newSelectedTabId) });
     _pubs.onSwitchTabPublisher.subscribe(({ switchTabsId }) => { this.activedTabsHistory.addTab(switchTabsId.oldSelectedTabId); })
         .subscribe(({ triggerOnSwitchTab, switchTabsId }) => { triggerOnSwitchTab && _ev.onSwitchTab(switchTabsId, _usrp); });
@@ -131,7 +133,7 @@ api.prototype.setData = (function () {
     return function (param) {
         const _h = this._helper, _rslv = _h.resolve;
         if (!_validate(param)) { return _rslv(null); }
-        const _pubs = this.publishers, isSwitched = this.state.activeTabId == param.activeTabId
+        const _pubs = this.publishers, isSwitched = this.state.activeTabId != param.activeTabId
             , switchTabsId = { oldSelectedTabId: this.state.activeTabId, newSelectedTabId: param.activeTabId }
             , [closeTabsId, openTabsId] = this._helper.getArraysDiff(this.state.openTabsId, param.openTabsId)
             , { triggerOnCloseTab, triggerOnSwitchTab, triggerOnOpenTab } = param;

@@ -6,6 +6,8 @@ export default () => {
         , onCloseTabPublisher: new (Publisher)()
         , onOpenTabPublisher: new (Publisher)()
         , rootComponentDidUpdatePublisher: new (Publisher)()
+        , rootComponentDidMountPublisher: new (Publisher)()
+        , rootComponentWillUnmountPublisher: new (Publisher)()
         , beforeSetDataPublisher: new (Publisher)()
         , onSetDataPublisher: new (Publisher)()
     };
