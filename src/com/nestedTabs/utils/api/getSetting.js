@@ -26,16 +26,14 @@ const getSetting = function () {
             rtl: 'rtl'
         },
         defaultEvents: {
-            onmousedownTab: (e, id, api) => { return true; },
+            onmousedownTab: () => { return true; },
             onclickTab: () => true,
             onmouseupTab: () => true,
             onmousedownCloseIcon: () => true,
             onclickCloseIcon: () => true,
             onmouseupCloseIcon: () => true,
-            onSwitchTab: (param) => { },
-            onOpenTab: (tab) => { },
-            onCloseTab: (tab) => { },
-            onLoad: function () { },
+            onChange: function ({ newState, oldState, changes, api }) { },
+            onLoad: function ({ api }) { },
             onDestroy: function () { }
         },
         getDefaultTabObj,

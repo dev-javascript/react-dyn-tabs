@@ -3,10 +3,14 @@ function BaseApi(helper) {
     this.forceUpdateState = {};
     this._helper = helper;
     this.state = {};
+    this.perviousState = {};
     this._dispatch = () => { };
 }
 BaseApi.prototype.updateReducer = function (state, dispatch) {
+    this.perviousState = this._helper.getCopyState(this.state);
     this.state = this._helper.getCopyState(state);
+    this.perviousState = this.perviousState.hasOwnProperty('openTabsId') ? this.perviousState :
+        this._helper.getCopyState(this.state)
     this._dispatch = dispatch;
 };
 BaseApi.prototype._activeTab = function (tabId) { this._dispatch({ type: actions.active, tabId }); };

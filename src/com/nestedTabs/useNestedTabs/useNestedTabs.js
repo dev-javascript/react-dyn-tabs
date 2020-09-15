@@ -13,13 +13,14 @@ function useNestedTabs(options) {
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     useLayoutEffect(() => {
-        api.publishers.rootComponentDidMountPublisher.trigger();
-        return () => {
-            api.publishers.rootComponentWillUnmountPublisher.trigger();
-        };
+        api.publishers.onInit.trigger();
+        return () => { api.publishers.onDestroy.trigger(); };
     }, []);
     useLayoutEffect(() => {
-        api.publishers.rootComponentDidUpdatePublisher.trigger();
+        const oldState = api.getCopyPerviousData()
+            , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabsId, oldState.openTabsId)
+            , isSwitched = oldState.activeTabId !== state.activeTabId;
+        api.publishers.onChange.trigger({ newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
     const tabListEl = (
         <ApiContext.Provider value={_ref.api}>
