@@ -17,9 +17,9 @@ const api = function (getDeps, param = { options: {} }) {
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
-    const { events: _ev } = this.getOptions(), _pbs = this.publishers, _api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onInit.subscribe(() => { _ev.onLoad({ api: _api }); });
-    _pbs.onDestroy.subscribe(() => { _ev.onDestroy(); });
+    const { events: _ev } = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
+    _pbs.onInit.subscribe(() => { _ev.onLoad(api); });
+    _pbs.onDestroy.subscribe(() => { _ev.onDestroy(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
         .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.activeTabId); })
@@ -29,7 +29,7 @@ api.prototype._createSubscribers = function () {
                 selectedTabId = newState.activeTabId;
                 deselectedTabId = oldState.activeTabId;
             }
-            _ev.onChange({ newState, oldState, changes: { closedTabsId, openedTabsId, selectedTabId, deselectedTabId }, api: _api });
+            _ev.onChange({ closedTabsId, openedTabsId, selectedTabId, deselectedTabId }, newState, oldState, api);
         });
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
@@ -71,12 +71,12 @@ api.prototype._switchToSiblingTab = function (traverseToNext) {
     }
     return this.switchTab(this.state.openTabsId[index]);
 };
-api.prototype._getOnChangeDone = function () {
+api.prototype._getOnChangePromise = function () {
     return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve(this.userProxy); }); });
 };
 api.prototype._switchTab = function (id) {
     this.publishers.beforeSwitchTab.trigger(id);
-    const result = this._getOnChangeDone();
+    const result = this._getOnChangePromise();
     this._activeTab(id);
     return result;
 };
@@ -127,17 +127,17 @@ api.prototype.setData = (function () {
     return function (param) {
         if (!_validate(param)) { return this.helper.resolve(null); }
         const isSwitched = this.state.activeTabId !== param.activeTabId
-        if (!isSwitched && !this.helper.compareArrays(param.openTabsId, this.state.openTabsId))
+        if (!isSwitched && this.helper.compareArrays(param.openTabsId, this.state.openTabsId))
             return this.helper.resolve(null);
         isSwitched && this.publishers.beforeSwitchTab.trigger(param.activeTabId);
-        const result = this._getOnChangeDone();
+        const result = this._getOnChangePromise();
         this._setData(param);
         return result;
     };
 })();
 api.prototype.openTab = function (id) {
     if (this.state.openTabsId.indexOf(id) >= 0) { return this.helper.resolve(null); }
-    const result = this._getOnChangeDone();
+    const result = this._getOnChangePromise();
     this._openTab(id);
     return result;
 };
@@ -148,21 +148,23 @@ api.prototype.addTab = function (tabObj) {
     return this;
 };
 api.prototype.__closeTab = function (id) {
-    const result = this._getOnChangeDone();
+    const result = this._getOnChangePromise();
     this._closeTab(id);
     return result;
 };
-api.prototype.closeTab = function (id, switchBeforeClose) {
+api.prototype.closeTab = function (id, switchBeforeCloseSelectedTab) {
     if (!this.isOpenTab(id)) { return this.helper.resolve(null); }
-    if (switchBeforeClose && this.isActiveTab(id))
+    if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
+        //calling setData
         return this._switchToUnknowTab().then(result => this.__closeTab(id)).catch(function (err) {
             throw err.message;
         });
+    }
     else
         return this.__closeTab(id);
 };
 api.prototype.forceUpdate = function () {
-    const result = this._getOnChangeDone();
+    const result = this._getOnChangePromise();
     this._forceUpdate();
     return result;
 };
