@@ -32,5 +32,11 @@ helper.getArraysDiff = function (arr1, arr2) {
     });
     return [arr1Copy, arr2Copy];
 };
-helper.compareArrays = (arr1, arr2) => arr1.join() === arr2.join();
+helper.arrFilterUntilFirstValue = (arr, callback, isRightToLeft) => {
+    isRightToLeft && arr.reverse();
+    for (let i = 0, l = arr.length; i < l; i++)
+        if (callback(arr[i], i, arr))
+            return arr[i];
+    return null;
+};
 export default helper;

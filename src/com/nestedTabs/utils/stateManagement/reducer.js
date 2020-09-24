@@ -12,21 +12,29 @@ export default function reducer(state, action) {
                 return state;
             }
         case actions.setData: {
-            action.hasOwnProperty('openTabsId') && (state.openTabsId = action.openTabsId);
-            action.hasOwnProperty('activeTabId') && (state.activeTabId = action.activeTabId);
+            state.openTabsId = action.openTabsId;
+            state.activeTabId = action.activeTabId;
             return helper.getCopyState(state);
         }
         case actions.open:
             {
-                state.openTabsId.push(action.tabId);
-                return helper.getCopyState(state);
+                const arr = state.openTabsId, tabId = action.tabId;
+                if (arr.indexOf(tabId) === -1) {
+                    arr.push(tabId);
+                    return helper.getCopyState(state);
+                }
+                return state;
             }
         case actions.forceUpdate:
             return helper.getCopyState(state);
         case actions.active:
             {
-                state.activeTabId = action.tabId;
-                return helper.getCopyState(state);
+                const tabId = action.tabId;
+                if (state.activeTabId !== tabId) {
+                    state.activeTabId = tabId;
+                    return helper.getCopyState(state);
+                }
+                return state;
             }
 
         default:
