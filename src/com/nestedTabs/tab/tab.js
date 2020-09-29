@@ -11,7 +11,7 @@ const Tab = memo(
             , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
             , tab = allTabs[id]
             , isActive = activeTabId === id
-            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
+            , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }
             , basedOnIsActive = {
                 tabClass: defaultClass,
                 tabIndex: -1,
@@ -30,11 +30,11 @@ const Tab = memo(
                 tabIndex={basedOnIsActive.tabIndex}
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
-                onClick={clkHandler}>
+                onClick={e => { clkHandler(e, 'select'); }}>
                 <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
                 {
-                    tab.closable ? (<span role='presentation' className={closeIcon}>
-                        &times;
+                    tab.closable ? (<span role='presentation' className={closeIcon}
+                        onClick={e => { clkHandler(e, 'close'); }}>&times;
                     </span>) : null
                 }
             </li>

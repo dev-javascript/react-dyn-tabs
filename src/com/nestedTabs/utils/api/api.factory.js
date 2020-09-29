@@ -47,9 +47,9 @@ api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, th
 api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
-api.prototype.eventHandlerFactory = function ({ e, id }) {
+api.prototype.eventHandlerFactory = function ({ e, id, type }) {
     const { events } = this.getOptions();
-    if (e.target.className.includes(this.optionManager.setting.defaultCssClasses.closeIcon))
+    if (type === 'close')
         events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id, true);
     else
         events.beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
