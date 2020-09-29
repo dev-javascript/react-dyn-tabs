@@ -63,12 +63,14 @@ const data1 = {
         // tabTitle: 'ui-state-default'
     },
     events: {
+        onOpen: function (IDs) { debugger; },
+        onClose: function (IDs) { debugger; },
+        onSelect: function (param) { debugger; },
         onSwitchTab: (switchTabsId, api) => {
         },
         onCloseTab: function (id, api) {
         }
     },
-    switchTabEventMode: 'mousedown',
     direction: 'rtl'
 };
 export { data1, data2 };
