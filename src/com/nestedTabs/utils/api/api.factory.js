@@ -1,4 +1,6 @@
 import BaseApi from './baseApi';
+import Helper from '../helper.js';
+const { throwMissingParam: throwEr } = Helper;
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper, getUserProxy,
@@ -43,6 +45,14 @@ api.prototype.getTabObj = function (tabId) {
     const tabs = this.getOptions().data.allTabs;
     return tabs.hasOwnProperty(tabId) ? tabs[tabId] : null;
 };
+api.prototype._checkForExistingData = function (IDs) {
+    const tabs = this.getOptions().data.allTabs;
+    IDs.map(id => {
+        if (!tabs.hasOwnProperty(id))
+            throw `tab id can not be "${id}". there is not any tab object for it. you should call 
+            addTab function before it.`;
+    });
+};
 api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data.allTabs[id].panelComponent); };
 api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
@@ -50,14 +60,15 @@ api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(i
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
     const { events } = this.getOptions();
     if (type === 'close')
-        events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id, true);
+        events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
     else
         events.beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
 };
 api.prototype._getOnChangePromise = function () {
-    return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve(this.userProxy); }); });
+    return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve.call(this.userProxy); }); });
 };
-api.prototype.switchTab = function (id) {
+api.prototype.switchTab = function (id = throwEr('switchTab')) {
+    this._checkForExistingData([id]);
     this.publishers.beforeSwitchTab.trigger(id);
     const result = this._getOnChangePromise();
     this._activeTab(id);
@@ -89,27 +100,29 @@ api.prototype._findTabIdForSwitching = (function () {
 })();
 api.prototype.setData = (function () {
     const _validate = function (param) {
-        if (!param)
-            return false;
         const { openTabsId, activeTabId } = param;
         if (typeof activeTabId === 'undefined' && (typeof openTabsId === 'undefined'))
-            return false;
+            throw 'calling setData function with wrong parameters';
         if (openTabsId && (openTabsId.constructor !== Array))
-            throw 'passed openTabsId property in setData function must be an Array';
+            throw 'type of the openTabsId parameter for setData function must be an Array';
         if (activeTabId && (typeof activeTabId !== 'string'))
-            throw 'type of the passed activeTabId property in setData function must be a string';
+            throw 'type of the activeTabId parameter in setData function must be a string';
+        this._checkForExistingData(openTabsId);
+        if (openTabsId.indexOf(activeTabId) === -1)
+            throw 'incorrect parameter with setData function. openTabsId must include activeTabId';
         return true;
     };
-    return function (param) {
-        if (!_validate(param)) { return this.helper.resolve(null); }
-        this.state.activeTabId !== param.activeTabId &&
+    return function (param = throwEr('setData')) {
+        _validate.call(this, param);
+        (this.state.activeTabId !== param.activeTabId) &&
             this.publishers.beforeSwitchTab.trigger(param.activeTabId);
         const result = this._getOnChangePromise();
         this._setData(param);
         return result;
     };
 })();
-api.prototype.openTab = function (id) {
+api.prototype.openTab = function (id = throwEr('openTab')) {
+    this._checkForExistingData([id]);
     const result = this._getOnChangePromise();
     this._openTab(id);
     return result;
@@ -125,7 +138,9 @@ api.prototype.__closeTab = function (id) {
     this._closeTab(id);
     return result;
 };
-api.prototype.closeTab = function (id, switchBeforeCloseSelectedTab) {
+api.prototype.closeTab = function (id = throwEr('closeTab'), switchBeforeCloseSelectedTab = true) {
+    this._checkForExistingData([id]);
+    debugger;
     if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
         const _openTabsId = [...this.state.openTabsId];
         _openTabsId.splice(_openTabsId.indexOf(id), 1);

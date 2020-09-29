@@ -17,9 +17,7 @@ const getUserProxy = function (ctx) {
         },
         forceUpdate: function () { return ctx.forceUpdate(); },
         clearPanelsCache: function (panelId) { ctx.clearPanelsCache(panelId); return this; },
-        setData: function (param) {
-            return ctx.setData(param);
-        }
+        setData: function (param) { return ctx.setData(param); }
         // develop validation for calling each function
     };
     return proxy;

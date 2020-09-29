@@ -39,4 +39,5 @@ helper.arrFilterUntilFirstValue = (arr, callback, isRightToLeft) => {
             return arr[i];
     return null;
 };
+helper.throwMissingParam = FnName => { throw `Missing parameter in "${FnName}" function`; };
 export default helper;
