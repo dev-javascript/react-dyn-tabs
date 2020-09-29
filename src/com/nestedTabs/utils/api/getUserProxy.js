@@ -7,13 +7,10 @@ const getUserProxy = function (ctx) {
         getTabObj: function (tabId) { return ctx.getTabObj(tabId); },
         isActiveTab: function (tabId) { return ctx.isActiveTab(tabId); },
         isOpenTab: function (tabId) { return ctx.isOpenTab(tabId); },
-        switchTab: function (tabId, triggerOnSwitchTab = true) {
-            return ctx.switchTab(tabId, triggerOnSwitchTab);
+        switchTab: function (tabId) {
+            return ctx.switchTab(tabId);
         },
-        switchToNxtSiblingTab: function (triggerOnSwitchTab = true) { return ctx.switchToNxtSiblingTab(triggerOnSwitchTab); },
-        switchToPreSiblingTab: function (triggerOnSwitchTab = true) { return ctx.switchToPreSiblingTab(triggerOnSwitchTab); },
-        switchToPreSelectedTab: function (triggerOnSwitchTab = true) { return ctx.switchToPreSelectedTab(triggerOnSwitchTab); },
-        openTab: function (tabId, triggerOnOpenTab = true) { return ctx.openTab(tabId, triggerOnOpenTab); },
+        openTab: function (tabId) { return ctx.openTab(tabId); },
         addTab: function (tabObj) { ctx.addTab(tabObj); return this; },
         closeTab: function (tabId, switchBeforeClose = true) {
             return ctx.closeTab(tabId, switchBeforeClose);

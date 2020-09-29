@@ -18,18 +18,18 @@ api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
     const { events: _ev } = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onInit.subscribe(() => { _ev.onLoad(api); });
-    _pbs.onDestroy.subscribe(() => { _ev.onDestroy(api); });
+    _pbs.onInit.subscribe(() => { _ev.onInit.call(api); });
+    _pbs.onDestroy.subscribe(() => { _ev.onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
         .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.activeTabId); })
         .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
-            let selectedTabId = null, deselectedTabId = null;
-            if (isSwitched) {
-                selectedTabId = newState.activeTabId;
-                deselectedTabId = oldState.activeTabId;
-            }
-            _ev.onChange({ closedTabsId, openedTabsId, selectedTabId, deselectedTabId }, newState, api);
+            const currentSelectedTabId = newState.activeTabId
+                , perviousSelectedTabId = oldState.activeTabId;
+            openedTabsId.length && _ev.onOpen.call(api, openedTabsId);
+            closedTabsId.length && _ev.onClose.call(api, closedTabsId);
+            isSwitched && _ev.onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
+            _ev.onChange.call(api, { currentData: newState, perviousData: oldState });
         });
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };

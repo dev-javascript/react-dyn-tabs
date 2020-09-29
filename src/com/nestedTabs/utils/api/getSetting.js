@@ -26,14 +26,13 @@ const getSetting = function () {
             rtl: 'rtl'
         },
         defaultEvents: {
-            onmousedownTab: () => { return true; },
-            onclickTab: () => true,
-            onmouseupTab: () => true,
-            onmousedownCloseIcon: () => true,
-            onclickCloseIcon: () => true,
-            onmouseupCloseIcon: () => true,
-            onChange: function ({ newState, oldState, changes, api }) { },
-            onLoad: function ({ api }) { },
+            beforeSelect: function (id) { return true; },
+            beforeClose: function (id) { return true; },
+            onOpen: function (IDs) { },
+            onClose: function (IDs) { },
+            onSelect: function ({ currentSelectedTabId, perviousSelectedTabId }) { },
+            onChange: function ({ currentData, perviousData }) { },
+            onInit: function () { },
             onDestroy: function () { }
         },
         getDefaultTabObj,

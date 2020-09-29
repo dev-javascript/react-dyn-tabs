@@ -33,6 +33,7 @@ const data2 = {
     }
 };
 const data1 = {
+
     data: {
         allTabs: [{
             id: '1',
