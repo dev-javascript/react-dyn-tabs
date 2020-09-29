@@ -7,9 +7,8 @@ const DefaultOptions = function (getDeps, setting) {
     this._data_openTabsId = [];
     this._events = setting.defaultEvents;
     this._cssClasses = setting.defaultCssClasses;
-    this._switchTabEventMode = setting.defaultSwitchTabEventMode;
-    this._closeTabEventMode = setting.defaultCloseTabEventMode;
     this._direction = setting.defaultDirection;
+    this._directionRange = ['ltr', 'rtl'];
     this._tabComponent = '';
     this._validation = ArgumentsValidationIns;
     this._setting = setting;
@@ -57,34 +56,12 @@ DefaultOptions.prototype._defineEvents = function (obj, propName, path) {
     });
     return this;
 };
-DefaultOptions.prototype._defineSwitchTabEventMode = function (obj, propName, path) {
-    const that = this;
-    Object.defineProperty(obj, propName, {
-        get() { return that._switchTabEventMode; },
-        set(value) {
-            that._validation.isInRange(value, path, that._setting.eventModes)
-            that._switchTabEventMode = value;
-        }
-    });
-    return this;
-};
-DefaultOptions.prototype._defineCloseTabEventMode = function (obj, propName, path) {
-    const that = this;
-    Object.defineProperty(obj, propName, {
-        get() { return that._closeTabEventMode; },
-        set(value) {
-            that._validation.isInRange(value, path, that._setting.eventModes)
-            that._closeTabEventMode = value;
-        }
-    });
-    return this;
-};
 DefaultOptions.prototype._defineDirection = function (obj, propName, path) {
     const that = this;
     Object.defineProperty(obj, propName, {
         get() { return that._direction; },
         set(value) {
-            that._validation.isInRange(value, path, that._setting.directions);
+            that._validation.isInRange(value, path, that._directionRange);
             that._direction = value;
         }
     });
@@ -158,8 +135,6 @@ DefaultOptions.prototype.create = function () {
         ._defineData_activeTabId(this.option.data, 'activeTabId', 'option.data.activeTabId')
         ._defineClassNames(this.option, 'cssClasses', 'option.cssClasses')
         ._defineEvents(this.option, 'events', 'option.events')
-        ._defineSwitchTabEventMode(this.option, 'switchTabEventMode', 'option.switchTabEventMode')
-        ._defineCloseTabEventMode(this.option, 'closeTabEventMode', 'option.closeTabEventMode')
         ._defineDirection(this.option, 'direction', 'option.direction')
         ._defineTabComponent(this.option, 'tabComponent', 'option.tabComponent');
     return this.option;

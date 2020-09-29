@@ -36,10 +36,6 @@ const getSetting = function () {
             onDestroy: function () { }
         },
         getDefaultTabObj,
-        eventModes: ['mousedown', 'mouseenter', 'click', 'mouseup'],
-        defaultSwitchTabEventMode: 'click',
-        defaultCloseTabEventMode: 'click',
-        directions: ['ltr', 'rtl'],
         defaultDirection: 'ltr'
     };
 };

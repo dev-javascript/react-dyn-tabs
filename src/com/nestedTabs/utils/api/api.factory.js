@@ -48,11 +48,11 @@ api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHist
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id }) {
-    const { events, switchTabEventMode, closeTabEventMode } = this.getOptions(), { type } = e
-        , allowContinue = events[`on${type}Tab`](e, id, this.userProxy);
-    e.target.className.includes(this.optionManager.setting.defaultCssClasses.closeIcon) ?
-        ((type === closeTabEventMode && allowContinue) && this.closeTab(id, true, true, true))
-        : ((type === switchTabEventMode && allowContinue) && this.switchTab(id, true));
+    const { events } = this.getOptions();
+    if (e.target.className.includes(this.optionManager.setting.defaultCssClasses.closeIcon))
+        events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id, true);
+    else
+        events.beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
 };
 api.prototype._getOnChangePromise = function () {
     return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve(this.userProxy); }); });

@@ -30,7 +30,7 @@ const Tab = memo(
                 tabIndex={basedOnIsActive.tabIndex}
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
-                onMouseUp={clkHandler} onMouseDown={clkHandler} onClick={clkHandler}>
+                onClick={clkHandler}>
                 <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
                 {
                     tab.closable ? (<span role='presentation' className={closeIcon}>
