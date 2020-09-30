@@ -58,7 +58,6 @@ api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHist
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
-    debugger;
     const { events } = this.getOptions();
     if (type === 'close')
         events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
@@ -81,7 +80,7 @@ api.prototype._findTabIdForSwitching = (function () {
             this.isOpenTab(id) && (!this.getTabObj(id).disable) && (!this.isActiveTab(id)), isRightToLeft);
     }
         , _getPreSelectedTabId = function () {
-            return _findOpenedAndNoneDisableTabId.call(this, [...this.getSelectedTabsHistory()]);
+            return _findOpenedAndNoneDisableTabId.call(this, [...this.getSelectedTabsHistory()], true);
         }
         , _getPreSiblingTabId = function () {
             const data = this.state, arr = data.openTabsId;
