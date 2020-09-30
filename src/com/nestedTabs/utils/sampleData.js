@@ -5,7 +5,7 @@ const tabComponent = function (props) {
         , tabObj = api.getTabObj(id)
         , style = isActive ? { backgroundColor: 'gold' } : { backgroundColor: 'red' };
     return (
-        <div className='tabTitle' style={style}>
+        <div className='' style={style}>
             {tabObj.title}
             <i className={tabObj.iconClass}></i>
         </div>

@@ -58,6 +58,7 @@ api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHist
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
+    debugger;
     const { events } = this.getOptions();
     if (type === 'close')
         events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
@@ -140,7 +141,6 @@ api.prototype.__closeTab = function (id) {
 };
 api.prototype.closeTab = function (id = throwEr('closeTab'), switchBeforeCloseSelectedTab = true) {
     this._checkForExistingData([id]);
-    debugger;
     if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
         const _openTabsId = [...this.state.openTabsId];
         _openTabsId.splice(_openTabsId.indexOf(id), 1);

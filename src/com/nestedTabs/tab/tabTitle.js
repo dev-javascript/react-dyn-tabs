@@ -8,7 +8,7 @@ const TabTitle = function (props) {
     }
     const tabObj = api.getTabObj(tabId);
     return (
-        <span role='presentation' className={option.cssClasses.tabTitle}>
+        <span>
             {tabObj.title}
             {tabObj.iconClass && <span className={tabObj.iconClass}></span>}
         </span>

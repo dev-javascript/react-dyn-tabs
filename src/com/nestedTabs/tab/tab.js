@@ -8,7 +8,7 @@ const Tab = memo(
         React.useContext(ForceUpdateContext);
         const { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, cssClasses: { tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
+            , { data: { allTabs }, cssClasses: { tabTitle, tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
             , tab = allTabs[id]
             , isActive = activeTabId === id
             , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }
@@ -30,8 +30,11 @@ const Tab = memo(
                 tabIndex={basedOnIsActive.tabIndex}
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
-                onClick={e => { clkHandler(e, 'select'); }}>
-                <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
+            >
+                <div onClick={e => { clkHandler(e, 'select'); }} role='presentation'
+                    className={tabTitle}>
+                    <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
+                </div>
                 {
                     tab.closable ? (<span role='presentation' className={closeIcon}
                         onClick={e => { clkHandler(e, 'close'); }}>&times;
