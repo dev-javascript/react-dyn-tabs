@@ -67,13 +67,20 @@ api.prototype.eventHandlerFactory = function ({ e, id, type }) {
 api.prototype._getOnChangePromise = function () {
     return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve.call(this.userProxy); }); });
 };
-api.prototype.switchTab = function (id = throwEr('switchTab')) {
-    this._checkForExistingData([id]);
-    this.publishers.beforeSwitchTab.trigger(id);
-    const result = this._getOnChangePromise();
-    this._activeTab(id);
-    return result;
-};
+api.prototype.switchTab = (function () {
+    function _validate(id) {
+        if (!this.isOpenTab(id))
+            throw `Can not select tab with "${id}" id. is not open. you should open it at first.`;
+    }
+    return function (id = throwEr('switchTab')) {
+        this._checkForExistingData([id]);
+        _validate.call(this, id);
+        this.publishers.beforeSwitchTab.trigger(id);
+        const result = this._getOnChangePromise();
+        this._activeTab(id);
+        return result;
+    };
+})();
 api.prototype._findTabIdForSwitching = (function () {
     const _findOpenedAndNoneDisableTabId = function (tabsIdArr, isRightToLeft) {
         return this.helper.arrFilterUntilFirstValue(tabsIdArr, id =>
