@@ -21,6 +21,7 @@ const data2 = {
         }, {
             id: '2',
             title: 'country 2',
+            iconClass: 'ui-icon ui-icon-seek-end',
             closable: true,
             panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
         }],

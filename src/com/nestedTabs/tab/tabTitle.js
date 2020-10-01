@@ -10,7 +10,7 @@ const TabTitle = function (props) {
     return (
         <span>
             {tabObj.title}
-            {tabObj.iconClass && <span className={tabObj.iconClass}></span>}
+            <span className={} style={{ 'display': 'inline-block' }}></span>
         </span>
     );
 };
