@@ -1,17 +1,17 @@
-.reactHookTab-default-panel {
+.rc-dyntabs-panel {
     display: none;
 }
 
-.rtl .reactHookTab-default-panel {
+.rc-dyntabs-rtl .rc-dyntabs-panel {
     direction : rtl;
     text-align: right;
 }
 
-.ltr .reactHookTab-default-panel {
+.rc-dyntabs-ltr .rc-dyntabs-panel {
     direction : ltr;
     text-align: left;
 }
 
-.reactHookTab-active-panel {
+.rc-dyntabs-panel.rc-dyntabs-selected {
     display: block;
 }

@@ -1,0 +1,16 @@
+.rc-dyntabs-tablist {
+    background-color: #333333;
+}
+
+.rc-dyntabs-title.rc-dyntabs-selected {
+    background: red;
+}
+
+.rc-dyntabs-tab>div:first-child>.rc-dyntabs-title,
+.rc-dyntabs-close {
+    color: white;
+}
+
+.rc-dyntabs-tab.rc-dyntabs-hover {
+    background-color: #532727;
+}

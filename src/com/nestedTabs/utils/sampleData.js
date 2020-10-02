@@ -4,10 +4,11 @@ const tabComponent = function (props) {
     const { api, tabId: id, isActive } = props
         , tabObj = api.getTabObj(id)
         , style = isActive ? { backgroundColor: 'gold' } : { backgroundColor: 'red' };
+    style.padding = '4px 10px 4px 10px';
     return (
         <div className='' style={style}>
             {tabObj.title}
-            <i className={tabObj.iconClass}></i>
+            <i className={tabObj.iconClass} style={{ 'display': 'inline-block' }}></i>
         </div>
     );
 };

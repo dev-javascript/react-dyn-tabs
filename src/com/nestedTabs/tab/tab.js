@@ -8,35 +8,33 @@ const Tab = memo(
         React.useContext(ForceUpdateContext);
         const { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , { data: { allTabs }, cssClasses: { tabTitle, tab: defaultClass, activeTab: activeClass, closeIcon, disable: disableClass } } = api.getOptions()
-            , tab = allTabs[id]
+            , tabObj = api.getOptions().data.allTabs[id]
+            , { cssClasses: { title, tab, close, disable } } = api.getSetting()
             , isActive = activeTabId === id
             , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }
             , basedOnIsActive = {
-                tabClass: defaultClass,
+                tabClass: tab,
                 tabIndex: -1,
                 ariaExpanded: false,
                 ariaSelected: false
             };
         isActive && Object.assign(basedOnIsActive, {
-            tabClass: defaultClass + ' ' + activeClass,
             tabIndex: 0,
             ariaExpanded: true,
             ariaSelected: true
         });
-        tab.disable && (basedOnIsActive.tabClass += ' ' + disableClass);
+        tabObj.disable && (basedOnIsActive.tabClass += ' ' + disable);
         return (
             <li role='tab' id={helper.idTemplate.tab(id)} className={basedOnIsActive.tabClass}
                 tabIndex={basedOnIsActive.tabIndex}
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
                 aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
             >
-                <div onClick={e => { clkHandler(e, 'select'); }} role='presentation'
-                    className={tabTitle}>
-                    <TabTitle tabId={id} api={api.userProxy} isActive={isActive}></TabTitle>
+                <div onClick={e => { clkHandler(e, 'select'); }} role='presentation' className={title}>
+                    <TabTitle tabId={id} api={api.userProxy} setting={api.getSetting()} isActive={isActive}></TabTitle>
                 </div>
                 {
-                    tab.closable ? (<span role='presentation' className={closeIcon}
+                    tabObj.closable ? (<span role='presentation' className={close}
                         onClick={e => { clkHandler(e, 'close'); }}>&times;
                     </span>) : null
                 }

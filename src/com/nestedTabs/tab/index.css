@@ -1,12 +1,12 @@
-.ltr .reactHookTab-default-tab {
+.rc-dyntabs-ltr .rc-dyntabs-tab {
     float: left;
 }
 
-.rtl .reactHookTab-default-tab {
+.rc-dyntabs-rtl .rc-dyntabs-tab {
     float: right;
 }
 
-.reactHookTab-default-tab {
+.rc-dyntabs-tab {
     display        : list-item;
     list-style     : none;
     text-align     : center;
@@ -17,54 +17,52 @@
     opacity        : 1;
 }
 
-.reactHookTab-hover-tab {
-    background-color: #111111;
-}
-
-.reactHookTab-default-tab.disable {
+.rc-dyntabs-tab.rc-dyntabs-disable {
     pointer-events: none;
     opacity       : 0.7;
 }
 
-.reactHookTab-active-tab {
-    background: red;
-}
-
-.reactHookTab-default-closeIcon {
+.rc-dyntabs-close {
     position: absolute;
     top     : 0px;
-    color   : white;
     cursor  : pointer;
 }
 
-.ltr .reactHookTab-default-closeIcon {
+.rc-dyntabs-ltr .rc-dyntabs-close {
     right: 0px;
     left : auto;
 }
 
-.rtl .reactHookTab-default-closeIcon {
+.rc-dyntabs-rtl .rc-dyntabs-close {
     left : 0px;
     right: auto;
 }
 
-.ltr .reactHookTab-default-tab>.tabTitle {
+.rc-dyntabs-ltr .rc-dyntabs-tab>div:first-child {
     float    : right;
     direction: rtl;
 }
 
-.rtl .reactHookTab-default-tab>.tabTitle {
+.rc-dyntabs-rtl .rc-dyntabs-tab>div:first-child {
     float    : left;
     direction: ltr;
 }
 
-.reactHookTab-default-tab>.tabTitle {
-    padding        : .5em 1em;
-    position       : relative;
-    list-style     : none;
-    color          : white;
+.rc-dyntabs-tab>div:first-child {
+    position   : relative;
+    display    : flex;
+    align-items: center;
+}
+
+.rc-dyntabs-tab>div:first-child>.rc-dyntabs-title {
     text-decoration: none;
     cursor         : pointer;
     white-space    : nowrap;
-    display        : flex;
-    align-items    : center;
+    display        : inline-block;
+    position       : relative;
+    padding        : .5em 1em;
+}
+
+.rc-dyntabs-icon {
+    display: inline-block;
 }

@@ -6,13 +6,13 @@ const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const { id, activeTabId } = props
         , api = useContext(ApiContext)
-        , { cssClasses: { panel: defaultClass, activePanel: activeClass } } = api.getOptions()
+        , { cssClasses: { panel, selected } } = api.getSetting()
         , basedOnIsActive = {
-            panelClass: defaultClass,
+            panelClass: panel,
             ariaHidden: true
         };
     activeTabId === id && Object.assign(basedOnIsActive, {
-        panelClass: defaultClass + ' ' + activeClass,
+        panelClass: panel + ' ' + selected,
         ariaHidden: false
     });
     return (

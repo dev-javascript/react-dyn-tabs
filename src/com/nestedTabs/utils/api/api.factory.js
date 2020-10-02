@@ -36,6 +36,7 @@ api.prototype._createSubscribers = function () {
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
 api.prototype.getOptions = function () { return this.optionManager.getMutableOptions(); };
+api.prototype.getSetting = function () { return this.optionManager.setting; };
 api.prototype.getCopyData = function () { return this.helper.getCopyState(this.state); };
 api.prototype.getInitialState = function () {
     const { data: { activeTabId, openTabsId } } = this.getOptions();

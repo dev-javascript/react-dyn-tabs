@@ -6,36 +6,11 @@ const DefaultOptions = function (getDeps, setting) {
     this._data_activeTabId = '';
     this._data_openTabsId = [];
     this._events = setting.defaultEvents;
-    this._cssClasses = setting.defaultCssClasses;
     this._direction = setting.defaultDirection;
-    this._directionRange = ['ltr', 'rtl'];
+    this._directionRange = setting.directionsRange;
     this._tabComponent = '';
     this._validation = ArgumentsValidationIns;
     this._setting = setting;
-};
-DefaultOptions.prototype._defineClassNames = function (obj, propName, path) {
-    const that = this;
-    Object.defineProperty(obj, propName, {
-        get() { return that._cssClasses; },
-        set(obj) {
-            that._validation.isObj(obj, path);
-            const reducer = function (acc, key) {
-                let className = obj[key];
-                that._validation.isStr(className, path + '.' + key);
-                const defaultClass = that._cssClasses[key];
-                if (defaultClass) {
-                    className = className.trim();
-                    if (className === defaultClass)
-                        acc[key] = className;
-                    else
-                        acc[key] = className ? (defaultClass + ' ' + className) : defaultClass;
-                }
-                return acc;
-            };
-            Object.keys(obj).reduce(reducer, that._cssClasses);
-        }
-    });
-    return this;
 };
 DefaultOptions.prototype._defineEvents = function (obj, propName, path) {
     const that = this;
@@ -133,7 +108,6 @@ DefaultOptions.prototype.create = function () {
         ._defineData_allTabs(this.option.data, 'allTabs', 'option.data.allTabs')
         ._defineData_openTabsId(this.option.data, 'openTabsId', 'option.data.openTabsId')
         ._defineData_activeTabId(this.option.data, 'activeTabId', 'option.data.activeTabId')
-        ._defineClassNames(this.option, 'cssClasses', 'option.cssClasses')
         ._defineEvents(this.option, 'events', 'option.events')
         ._defineDirection(this.option, 'direction', 'option.direction')
         ._defineTabComponent(this.option, 'tabComponent', 'option.tabComponent');

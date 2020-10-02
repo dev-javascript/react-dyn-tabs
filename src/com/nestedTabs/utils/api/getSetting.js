@@ -10,24 +10,23 @@ const getDefaultTabObj = function () {
 };
 const getSetting = function () {
     return {
-        defaultCssClasses: {
-            tab: 'reactHookTab-default-tab',
-            tabTitle: 'tabTitle',
-            activeTab: 'reactHookTab-active-tab',
-            hoverTab: 'reactHookTab-hover-tab',
-            tabList: 'reactHookTab-default-tabList',
-            closeIcon: 'reactHookTab-default-closeIcon',
-            hoverCloseIcon: 'reactHookTab-hover-closeIcon',
-            panel: 'reactHookTab-default-panel',
-            activePanel: 'reactHookTab-active-panel',
-            panelList: 'reactHookTab-default-panelList',
-            disable: 'disable',
-            ltr: 'ltr',
-            rtl: 'rtl'
+        cssClasses: {
+            tab: 'rc-dyntabs-tab',
+            title: 'rc-dyntabs-title',
+            icon: 'rc-dyntabs-icon',
+            selected: 'rc-dyntabs-selected',
+            hover: 'rc-dyntabs-hover',
+            tablist: 'rc-dyntabs-tablist',
+            close: 'rc-dyntabs-close',
+            panel: 'rc-dyntabs-panel',
+            panellist: 'rc-dyntabs-panellist',
+            disable: 'rc-dyntabs-disable',
+            ltr: 'rc-dyntabs-ltr',
+            rtl: 'rc-dyntabs-rtl'
         },
         defaultEvents: {
-            beforeSelect: function (id) { return true; },
-            beforeClose: function (id) { return true; },
+            beforeSelect: function (e, id) { return true; },
+            beforeClose: function (e, id) { return true; },
             onOpen: function (IDs) { },
             onClose: function (IDs) { },
             onSelect: function ({ currentSelectedTabId, perviousSelectedTabId }) { },
@@ -36,7 +35,8 @@ const getSetting = function () {
             onDestroy: function () { }
         },
         getDefaultTabObj,
-        defaultDirection: 'ltr'
+        defaultDirection: 'ltr',
+        directionsRange: ['ltr', 'rtl']
     };
 };
 export default getSetting;
