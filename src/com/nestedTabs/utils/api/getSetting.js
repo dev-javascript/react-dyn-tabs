@@ -1,13 +1,3 @@
-const getDefaultTabObj = function () {
-    return {
-        title: "unkow",
-        tooltip: "",
-        panelComponent: null,
-        closable: true,
-        iconClass: "",
-        disable: false
-    };
-};
 const getSetting = function () {
     return {
         cssClasses: {
@@ -34,7 +24,14 @@ const getSetting = function () {
             onInit: function () { },
             onDestroy: function () { }
         },
-        getDefaultTabObj,
+        getDefaultTabObj: () => ({
+            title: "unnamed tab",
+            tooltip: "",
+            panelComponent: null,
+            closable: true,
+            iconClass: "",
+            disable: false
+        }),
         defaultDirection: 'ltr',
         directionsRange: ['ltr', 'rtl']
     };
