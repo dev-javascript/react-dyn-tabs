@@ -13,65 +13,53 @@ const tabComponent = function (props) {
     );
 };
 const data2 = {
-    data: {
-        allTabs: [{
-            id: '1',
-            title: 'city 1',
-            closable: true,
-            panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
-        }, {
-            id: '2',
-            title: 'country 2',
-            iconClass: 'ui-icon ui-icon-seek-end',
-            closable: true,
-            panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
-        }],
-        openTabsId: ['1', '2'],
-        activeTabId: '1'
-    },
-    events: {
-        onSwitchTab: (switchTabsId, api) => {
-        }
+    data: [{
+        id: '1',
+        title: 'city 1',
+        closable: true,
+        panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
+    }, {
+        id: '2',
+        title: 'country 2',
+        iconClass: 'ui-icon ui-icon-seek-end',
+        closable: true,
+        panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
+    }],
+    openTabsId: ['1', '2'],
+    activeTabId: '1',
+    onSwitchTab: (switchTabsId, api) => {
     }
 };
 const data1 = {
-
-    data: {
-        allTabs: [{
-            id: '1',
-            title: 'user 1',
-            closable: true,
-            iconClass: 'ui-icon ui-icon-seek-end',
-            panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
-        }, {
-            id: '2',
-            title: 'home 2',
-            closable: false,
-            iconClass: 'glyphicon glyphicon-asterisk',
-            panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
-        }, {
-            id: '3',
-            title: 'about site 3',
-            closable: true,
-            disable: false,
-            iconClass: 'fa fa-backward',
-            panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={3}></User></Suspense>
-        }],
-        openTabsId: ['1', '2', '3'],
-        activeTabId: '3'
-    },
+    data: [{
+        id: '1',
+        title: 'user 1',
+        closable: true,
+        iconClass: 'ui-icon ui-icon-seek-end',
+        panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={1}></User></Suspense>
+    }, {
+        id: '2',
+        title: 'home 2',
+        closable: false,
+        iconClass: 'glyphicon glyphicon-asterisk',
+        panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={2}></User></Suspense>
+    }, {
+        id: '3',
+        title: 'about site 3',
+        closable: true,
+        disable: false,
+        iconClass: 'fa fa-backward',
+        panelComponent: <Suspense fallback={<div>Loading...</div>}><User userId={3}></User></Suspense>
+    }],
+    openTabsId: ['1', '2', '3'],
+    activeTabId: '3',
     tabComponent,
-    cssClasses: {
-        // tabTitle: 'ui-state-default'
+    onOpen: function (IDs) { debugger; },
+    onClose: function (IDs) { debugger; },
+    onSelect: function (param) { debugger; },
+    onSwitchTab: (switchTabsId, api) => {
     },
-    events: {
-        onOpen: function (IDs) { debugger; },
-        onClose: function (IDs) { debugger; },
-        onSelect: function (param) { debugger; },
-        onSwitchTab: (switchTabsId, api) => {
-        },
-        onCloseTab: function (id, api) {
-        }
+    onCloseTab: function (id, api) {
     },
     direction: 'rtl'
 };

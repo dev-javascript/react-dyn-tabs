@@ -8,7 +8,7 @@ const Tab = memo(
         React.useContext(ForceUpdateContext);
         const { id, activeTabId } = props
             , api = React.useContext(ApiContext)
-            , tabObj = api.getOptions().data.allTabs[id]
+            , tabObj = api.getOptions().data[id]
             , { cssClasses: { title, tab, close, disable } } = api.getSetting()
             , isActive = activeTabId === id
             , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }

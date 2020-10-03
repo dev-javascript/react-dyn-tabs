@@ -14,16 +14,6 @@ const getSetting = function () {
             ltr: 'rc-dyntabs-ltr',
             rtl: 'rc-dyntabs-rtl'
         },
-        defaultEvents: {
-            beforeSelect: function (e, id) { return true; },
-            beforeClose: function (e, id) { return true; },
-            onOpen: function (IDs) { },
-            onClose: function (IDs) { },
-            onSelect: function ({ currentSelectedTabId, perviousSelectedTabId }) { },
-            onChange: function ({ currentData, perviousData }) { },
-            onInit: function () { },
-            onDestroy: function () { }
-        },
         getDefaultTabObj: () => ({
             title: "unnamed tab",
             tooltip: "",

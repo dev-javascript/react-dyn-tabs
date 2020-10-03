@@ -19,19 +19,20 @@ const api = function (getDeps, param = { options: {} }) {
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
-    const { events: _ev } = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onInit.subscribe(() => { _ev.onInit.call(api); });
-    _pbs.onDestroy.subscribe(() => { _ev.onDestroy.call(api); });
+    const { onChange, onOpen, onSelect, onClose, onDestroy, onInit } = this.getOptions()
+        , _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
+    _pbs.onInit.subscribe(() => { onInit.call(api); });
+    _pbs.onDestroy.subscribe(() => { onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
         .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.activeTabId); })
         .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
             const currentSelectedTabId = newState.activeTabId
                 , perviousSelectedTabId = oldState.activeTabId;
-            openedTabsId.length && _ev.onOpen.call(api, openedTabsId);
-            closedTabsId.length && _ev.onClose.call(api, closedTabsId);
-            isSwitched && _ev.onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
-            _ev.onChange.call(api, { currentData: newState, perviousData: oldState });
+            openedTabsId.length && onOpen.call(api, openedTabsId);
+            closedTabsId.length && onClose.call(api, closedTabsId);
+            isSwitched && onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
+            onChange.call(api, { currentData: newState, perviousData: oldState });
         });
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
@@ -39,31 +40,30 @@ api.prototype.getOptions = function () { return this.optionManager.getMutableOpt
 api.prototype.getSetting = function () { return this.optionManager.setting; };
 api.prototype.getCopyData = function () { return this.helper.getCopyState(this.state); };
 api.prototype.getInitialState = function () {
-    const { data: { activeTabId, openTabsId } } = this.getOptions();
+    const { activeTabId, openTabsId } = this.getOptions();
     return { activeTabId, openTabsId };
 };
 api.prototype.getTabObj = function (tabId) {
-    const tabs = this.getOptions().data.allTabs;
+    const tabs = this.getOptions().data;
     return tabs.hasOwnProperty(tabId) ? tabs[tabId] : null;
 };
 api.prototype._checkForExistingData = function (IDs) {
-    const tabs = this.getOptions().data.allTabs;
     IDs.map(id => {
-        if (!tabs.hasOwnProperty(id))
+        if (!this.getTabObj(id))
             throw `tab id can not be "${id}". there is not any tab object for it. you should call 
             addTab function before it.`;
     });
 };
-api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data.allTabs[id].panelComponent); };
+api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data[id].panelComponent); };
 api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
 api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
 api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
-    const { events } = this.getOptions();
+    const { beforeClose, beforeSelect } = this.getOptions();
     if (type === 'close')
-        events.beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
+        beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
     else
-        events.beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
+        beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
 };
 api.prototype._getOnChangePromise = function () {
     return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve.call(this.userProxy); }); });
@@ -137,8 +137,7 @@ api.prototype.openTab = function (id = throwEr('openTab')) {
 };
 api.prototype.addTab = function (tabObj) {
     const data = this.getOptions().data;
-    data.allTabs.hasOwnProperty(tabObj.id) ||
-        (data.allTabs[tabObj.id] = tabObj);
+    data.hasOwnProperty(tabObj.id) || (data[tabObj.id] = tabObj);
     return this;
 };
 api.prototype.__closeTab = function (id) {
