@@ -4,7 +4,7 @@ import PanelList from "../panelList/panelList.js";
 import reducer from "../utils/stateManagement/reducer";
 import Api from '../utils/api';
 import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.js";
-function useNestedTabs(options) {
+function useDynamicTabs(options) {
     const ref = useRef(null);
     if (ref.current === null)
         ref.current = { api: new (Api)({ options }) };
@@ -42,4 +42,4 @@ function useNestedTabs(options) {
         );
     return [tabListEl, panelListEl, ref.current.api.userProxy];
 }
-export default useNestedTabs;
+export default useDynamicTabs;
