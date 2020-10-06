@@ -167,10 +167,10 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		function MockWrapprTab() {
 			const [activeId, setActiveId] = useState({ id: '2' }), toggelActiveTab = (e) => {
 				activeId === '2' ? setActiveId('1') : setActiveId('2');
-			}, forceUpdate = id => { setActiveId({ id }); };
+			}, reload = id => { setActiveId({ id }); };
 			return <>
 				<button id='toggelActiveTabBtn' onClick={toggelActiveTab}></button>
-				<button id='forceUpdateBtn' onClick={forceUpdate}></button>
+				<button id='forceUpdateBtn' onClick={reload}></button>
 				<Tab selectedTabID={activeId} id="1"></Tab>
 				<Tab selectedTabID={activeId} id="2"></Tab>
 				<Tab selectedTabID={activeId} id="3"></Tab>

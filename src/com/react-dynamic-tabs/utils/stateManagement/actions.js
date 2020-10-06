@@ -2,7 +2,7 @@ const actions = {
     open: 'open',
     close: 'close',
     active: 'active',
-    forceUpdate: 'forceUpdate',
+    reload: 'reload',
     setData: 'setData'
 };
 export default actions;

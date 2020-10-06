@@ -25,7 +25,7 @@ export default function reducer(state, action) {
                 }
                 return state;
             }
-        case actions.forceUpdate:
+        case actions.reload:
             return helper.getCopyState(state);
         case actions.active:
             {

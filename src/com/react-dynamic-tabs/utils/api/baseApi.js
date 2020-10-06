@@ -13,12 +13,12 @@ BaseApi.prototype.updateReducer = function (state, dispatch) {
         this._helper.getCopyState(this.state)
     this._dispatch = dispatch;
 };
-BaseApi.prototype._activeTab = function (tabId) { this._dispatch({ type: actions.active, tabId }); };
-BaseApi.prototype._closeTab = function (tabId) { this._dispatch({ type: actions.close, tabId }); };
-BaseApi.prototype._openTab = function (tabId) { this._dispatch({ type: actions.open, tabId }); };
-BaseApi.prototype._forceUpdate = function () {
+BaseApi.prototype._select = function (tabId) { this._dispatch({ type: actions.active, tabId }); };
+BaseApi.prototype._close = function (tabId) { this._dispatch({ type: actions.close, tabId }); };
+BaseApi.prototype._open = function (tabId) { this._dispatch({ type: actions.open, tabId }); };
+BaseApi.prototype._reload = function () {
     this.forceUpdateState = {};
-    this._dispatch({ type: actions.forceUpdate });
+    this._dispatch({ type: actions.reload });
 };
 BaseApi.prototype._setData = function (newStateData) {
     const dispatchParam = Object.assign({ type: actions.setData }, newStateData);

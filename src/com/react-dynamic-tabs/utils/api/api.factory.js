@@ -25,7 +25,7 @@ api.prototype._createSubscribers = function () {
     _pbs.onDestroy.subscribe(() => { onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
-        .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.selectedTabID); })
+        .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.add(oldState.selectedTabID); })
         .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
             const currentSelectedTabId = newState.selectedTabID
                 , perviousSelectedTabId = oldState.selectedTabID;
@@ -51,7 +51,7 @@ api.prototype._checkForExistingData = function (IDs) {
     IDs.map(id => {
         if (!this.getTabObj(id))
             throw `tab id can not be "${id}". there is not any tab object for it. you should call 
-            addTab function before it.`;
+            add function before it.`;
     });
 };
 api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data[id].panelComponent); };
@@ -61,24 +61,24 @@ api.prototype.isOpenTab = function (id) { return this.state.openTabIDs.indexOf(i
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
     const { beforeClose, beforeSelect } = this.getOptions();
     if (type === 'close')
-        beforeClose.call(this.userProxy, e, id) && this.closeTab(id);
+        beforeClose.call(this.userProxy, e, id) && this.close(id);
     else
-        beforeSelect.call(this.userProxy, e, id) && this.switchTab(id);
+        beforeSelect.call(this.userProxy, e, id) && this.select(id);
 };
 api.prototype._getOnChangePromise = function () {
     return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve.call(this.userProxy); }); });
 };
-api.prototype.switchTab = (function () {
+api.prototype.select = (function () {
     function _validate(id) {
         if (!this.isOpenTab(id))
             throw `Can not select tab with "${id}" id. is not open. you should open it at first.`;
     }
-    return function (id = throwEr('switchTab')) {
+    return function (id = throwEr('select')) {
         this._checkForExistingData([id]);
         _validate.call(this, id);
         this.publishers.beforeSwitchTab.trigger(id);
         const result = this._getOnChangePromise();
-        this._activeTab(id);
+        this._select(id);
         return result;
     };
 })();
@@ -130,23 +130,23 @@ api.prototype.setData = (function () {
         return result;
     };
 })();
-api.prototype.openTab = function (id = throwEr('openTab')) {
+api.prototype.open = function (id = throwEr('open')) {
     this._checkForExistingData([id]);
     const result = this._getOnChangePromise();
-    this._openTab(id);
+    this._open(id);
     return result;
 };
-api.prototype.addTab = function (tabObj) {
+api.prototype.add = function (tabObj) {
     const data = this.getOptions().data;
     data.hasOwnProperty(tabObj.id) || (data[tabObj.id] = tabObj);
     return this;
 };
-api.prototype.__closeTab = function (id) {
+api.prototype.__close = function (id) {
     const result = this._getOnChangePromise();
-    this._closeTab(id);
+    this._close(id);
     return result;
 };
-api.prototype.closeTab = function (id = throwEr('closeTab'), switchBeforeCloseSelectedTab = true) {
+api.prototype.close = function (id = throwEr('close'), switchBeforeCloseSelectedTab = true) {
     this._checkForExistingData([id]);
     if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
         const _openTabsId = [...this.state.openTabIDs];
@@ -157,11 +157,11 @@ api.prototype.closeTab = function (id = throwEr('closeTab'), switchBeforeCloseSe
         });
     }
     else
-        return this.__closeTab(id);
+        return this.__close(id);
 };
-api.prototype.forceUpdate = function () {
+api.prototype.reload = function () {
     const result = this._getOnChangePromise();
-    this._forceUpdate();
+    this._reload();
     return result;
 };
 api.prototype.clearPanelsCache = function (panelId) {
