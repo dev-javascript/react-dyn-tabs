@@ -25,10 +25,10 @@ api.prototype._createSubscribers = function () {
     _pbs.onDestroy.subscribe(() => { onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
-        .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.activeTabId); })
+        .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.addTab(oldState.selectedTabID); })
         .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
-            const currentSelectedTabId = newState.activeTabId
-                , perviousSelectedTabId = oldState.activeTabId;
+            const currentSelectedTabId = newState.selectedTabID
+                , perviousSelectedTabId = oldState.selectedTabID;
             openedTabsId.length && onOpen.call(api, openedTabsId);
             closedTabsId.length && onClose.call(api, closedTabsId);
             isSwitched && onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
@@ -40,8 +40,8 @@ api.prototype.getOptions = function () { return this.optionManager.getMutableOpt
 api.prototype.getSetting = function () { return this.optionManager.setting; };
 api.prototype.getCopyData = function () { return this.helper.getCopyState(this.state); };
 api.prototype.getInitialState = function () {
-    const { activeTabId, openTabsId } = this.getOptions();
-    return { activeTabId, openTabsId };
+    const { selectedTabID, openTabIDs } = this.getOptions();
+    return { selectedTabID, openTabIDs };
 };
 api.prototype.getTabObj = function (tabId) {
     const tabs = this.getOptions().data;
@@ -56,8 +56,8 @@ api.prototype._checkForExistingData = function (IDs) {
 };
 api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data[id].panelComponent); };
 api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
-api.prototype.isActiveTab = function (id) { return this.state.activeTabId == id; };
-api.prototype.isOpenTab = function (id) { return this.state.openTabsId.indexOf(id) >= 0; };
+api.prototype.isActiveTab = function (id) { return this.state.selectedTabID == id; };
+api.prototype.isOpenTab = function (id) { return this.state.openTabIDs.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
     const { beforeClose, beforeSelect } = this.getOptions();
     if (type === 'close')
@@ -84,46 +84,47 @@ api.prototype.switchTab = (function () {
 })();
 api.prototype._findTabIdForSwitching = (function () {
     const _findOpenedAndNoneDisableTabId = function (tabsIdArr, isRightToLeft) {
-        return this.helper.arrFilterUntilFirstValue(tabsIdArr, id =>
-            this.isOpenTab(id) && (!this.getTabObj(id).disable) && (!this.isActiveTab(id)), isRightToLeft);
+        return (this.helper.arrFilterUntilFirstValue(tabsIdArr, id =>
+            this.isOpenTab(id) && (!this.getTabObj(id).disable) && (!this.isActiveTab(id)), isRightToLeft)
+            || '');
     }
         , _getPreSelectedTabId = function () {
             return _findOpenedAndNoneDisableTabId.call(this, [...this.getSelectedTabsHistory()], true);
         }
         , _getPreSiblingTabId = function () {
-            const data = this.state, arr = data.openTabsId;
-            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(0, arr.indexOf(data.activeTabId)), true);
+            const data = this.state, arr = data.openTabIDs;
+            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(0, arr.indexOf(data.selectedTabID)), true);
         }
         , _getNextSiblingTabId = function () {
-            const data = this.state, arr = data.openTabsId;
-            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.activeTabId), arr.length - 1));
+            const data = this.state, arr = data.openTabIDs;
+            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.selectedTabID), arr.length - 1));
         };
     return function () {
-        let tabId = null;
+        let tabId = '';
         tabId = _getPreSelectedTabId.call(this);
-        tabId === null && (tabId = _getPreSiblingTabId.call(this));
-        tabId === null && (tabId = _getNextSiblingTabId.call(this));
+        tabId = tabId || _getPreSiblingTabId.call(this);
+        tabId = tabId || _getNextSiblingTabId.call(this);
         return tabId;
     };
 })();
 api.prototype.setData = (function () {
     const _validate = function (param) {
-        const { openTabsId, activeTabId } = param;
-        if (typeof activeTabId === 'undefined' && (typeof openTabsId === 'undefined'))
+        const { openTabIDs, selectedTabID } = param;
+        if (typeof selectedTabID === 'undefined' && (typeof openTabIDs === 'undefined'))
             throw 'calling setData function with wrong parameters';
-        if (openTabsId && (openTabsId.constructor !== Array))
-            throw 'type of the openTabsId parameter for setData function must be an Array';
-        if (activeTabId && (typeof activeTabId !== 'string'))
-            throw 'type of the activeTabId parameter in setData function must be a string';
-        this._checkForExistingData(openTabsId);
-        if (openTabsId.indexOf(activeTabId) === -1)
-            throw 'incorrect parameter with setData function. openTabsId must include activeTabId';
+        if (openTabIDs && (openTabIDs.constructor !== Array))
+            throw 'type of the openTabIDs parameter for setData function must be an Array';
+        if (typeof selectedTabID !== 'string')
+            throw 'type of the selectedTabID parameter in setData function must be a string';
+        this._checkForExistingData(openTabIDs);
+        if (selectedTabID && openTabIDs.indexOf(selectedTabID) === -1)
+            throw 'incorrect parameter with setData function. openTabIDs must include selectedTabID';
         return true;
     };
     return function (param = throwEr('setData')) {
         _validate.call(this, param);
-        (this.state.activeTabId !== param.activeTabId) &&
-            this.publishers.beforeSwitchTab.trigger(param.activeTabId);
+        (this.state.selectedTabID !== param.selectedTabID) &&
+            this.publishers.beforeSwitchTab.trigger(param.selectedTabID);
         const result = this._getOnChangePromise();
         this._setData(param);
         return result;
@@ -148,11 +149,11 @@ api.prototype.__closeTab = function (id) {
 api.prototype.closeTab = function (id = throwEr('closeTab'), switchBeforeCloseSelectedTab = true) {
     this._checkForExistingData([id]);
     if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
-        const _openTabsId = [...this.state.openTabsId];
+        const _openTabsId = [...this.state.openTabIDs];
         _openTabsId.splice(_openTabsId.indexOf(id), 1);
         return this.setData({
-            activeTabId: this._findTabIdForSwitching(),
-            openTabsId: _openTabsId
+            selectedTabID: this._findTabIdForSwitching(),
+            openTabIDs: _openTabsId
         });
     }
     else
@@ -165,7 +166,7 @@ api.prototype.forceUpdate = function () {
 };
 api.prototype.clearPanelsCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
-        this._panelProxy.setRenderedPanels([this.state.activeTabId]);
+        this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
     return this;
 };
 export default api;

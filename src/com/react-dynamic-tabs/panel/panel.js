@@ -4,14 +4,14 @@ import { ApiContext, ForceUpdateContext } from '../utils/context.js';
 import helper from '../utils/helper';
 const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
-    const { id, activeTabId } = props
+    const { id, selectedTabID } = props
         , api = useContext(ApiContext)
         , { cssClasses: { panel, selected } } = api.getSetting()
         , basedOnIsActive = {
             panelClass: panel,
             ariaHidden: true
         };
-    activeTabId === id && Object.assign(basedOnIsActive, {
+    selectedTabID === id && Object.assign(basedOnIsActive, {
         panelClass: panel + ' ' + selected,
         ariaHidden: false
     });
@@ -23,7 +23,7 @@ const Panel = memo(function Panel(props) {
         </div>
     )
 }, (oldProps, newProps) => {
-    const { id, activeTabId: oldActiveId } = oldProps, { activeTabId: newActiveId } = newProps;
+    const { id, selectedTabID: oldActiveId } = oldProps, { selectedTabID: newActiveId } = newProps;
     return oldActiveId === newActiveId || (id !== oldActiveId && (id !== newActiveId));
 });
 export default Panel;

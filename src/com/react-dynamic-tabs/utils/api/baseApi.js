@@ -9,7 +9,7 @@ function BaseApi(helper) {
 BaseApi.prototype.updateReducer = function (state, dispatch) {
     this.perviousState = this._helper.getCopyState(this.state);
     this.state = this._helper.getCopyState(state);
-    this.perviousState = this.perviousState.hasOwnProperty('openTabsId') ? this.perviousState :
+    this.perviousState = this.perviousState.hasOwnProperty('openTabIDs') ? this.perviousState :
         this._helper.getCopyState(this.state)
     this._dispatch = dispatch;
 };

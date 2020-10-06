@@ -7,7 +7,7 @@ import getPublishers from './getPublishers';
 import getUserProxy from './getUserProxy';
 const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)({ options })
-        , panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableOptions().activeTabId)
+        , panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableOptions().selectedTabID)
         , activedTabsHistoryIns = new (ActivedTabsHistory)()
         , publisherIns = getPublishers();
     return {

@@ -18,8 +18,8 @@ helper.objDefineNoneEnumerableProps = (function () {
 helper.resolve = result => Promise.resolve(result);
 helper.getCopyState = function (state) {
     const newState = { ...state };
-    if (newState.hasOwnProperty('openTabsId'))
-        newState.openTabsId = [...newState.openTabsId];
+    if (newState.hasOwnProperty('openTabIDs'))
+        newState.openTabIDs = [...newState.openTabIDs];
     return newState;
 };
 helper.getArraysDiff = function (arr1, arr2) {

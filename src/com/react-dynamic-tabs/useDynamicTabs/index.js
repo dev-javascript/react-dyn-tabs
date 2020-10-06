@@ -18,8 +18,8 @@ function useDynamicTabs(options) {
     }, []);
     useLayoutEffect(() => {
         const oldState = api.getCopyPerviousData()
-            , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabsId, oldState.openTabsId)
-            , isSwitched = oldState.activeTabId !== state.activeTabId;
+            , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs)
+            , isSwitched = oldState.selectedTabID !== state.selectedTabID;
         api.publishers.onChange.trigger({ newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
     const tabListEl = (

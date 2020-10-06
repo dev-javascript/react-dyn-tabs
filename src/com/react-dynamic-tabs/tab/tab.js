@@ -6,11 +6,11 @@ import TabTitle from './tabTitle';
 const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
-        const { id, activeTabId } = props
+        const { id, selectedTabID } = props
             , api = React.useContext(ApiContext)
             , tabObj = api.getOptions().data[id]
             , { cssClasses: { title, tab, close, disable } } = api.getSetting()
-            , isActive = activeTabId === id
+            , isActive = selectedTabID === id
             , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }
             , basedOnIsActive = {
                 tabClass: tab,
@@ -42,7 +42,7 @@ const Tab = memo(
         );
     },
     (oldProps, newProps) => {
-        const { id, activeTabId: oldActiveId } = oldProps, { activeTabId: newActiveId } = newProps;
+        const { id, selectedTabID: oldActiveId } = oldProps, { selectedTabID: newActiveId } = newProps;
         return oldActiveId === newActiveId || (id !== oldActiveId && (id !== newActiveId));
     }
 );

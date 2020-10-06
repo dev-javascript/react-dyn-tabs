@@ -16,8 +16,8 @@ OptionManager.prototype.setNewOptions = function (newOptions) {
 };
 OptionManager.prototype._getDefaultOptions = function () {
     const _options = {
-        openTabsId: [],
-        activeTabId: '',
+        openTabIDs: [],
+        selectedTabID: '',
         beforeSelect: function (e, id) { return true; },
         beforeClose: function (e, id) { return true; },
         onOpen: function (IDs) { },

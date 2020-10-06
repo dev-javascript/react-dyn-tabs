@@ -43,11 +43,11 @@ afterAll(() => {
 	document.body.removeChild(container);
 	container = null;
 });
-test("tab component must expect id and activeTabId as a props", () => {
+test("tab component must expect id and selectedTabID as a props", () => {
 	act(() => {
 		ReactDom.render(<>
-			<Tab id="1" activeTabId="1"></Tab>
-			<Tab id="2" activeTabId="1"></Tab>
+			<Tab id="1" selectedTabID="1"></Tab>
+			<Tab id="2" selectedTabID="1"></Tab>
 		</>, container);
 	});
 	const tab1El = document.getElementById("tab_1"), tab2El = document.getElementById("tab_2");
@@ -62,8 +62,8 @@ describe("tab classes", () => {
 		act(() => {
 			ReactDom.render(
 				<>
-					<Tab id="1" activeTabId="1"></Tab>
-					<Tab id="2" activeTabId="1"></Tab>
+					<Tab id="1" selectedTabID="1"></Tab>
+					<Tab id="2" selectedTabID="1"></Tab>
 				</>,
 				container
 			);
@@ -79,8 +79,8 @@ describe("tab classes", () => {
 		act(() => {
 			ReactDom.render(
 				<>
-					<Tab id="1" activeTabId="1"></Tab>
-					<Tab id="2" activeTabId="1"></Tab>
+					<Tab id="1" selectedTabID="1"></Tab>
+					<Tab id="2" selectedTabID="1"></Tab>
 				</>,
 				container
 			);
@@ -100,8 +100,8 @@ describe("tab mouse events", () => {
 		act(() => {
 			ReactDom.render(
 				<>
-					<Tab id="1" activeTabId="1"></Tab>
-					<Tab id="2" activeTabId="1"></Tab>
+					<Tab id="1" selectedTabID="1"></Tab>
+					<Tab id="2" selectedTabID="1"></Tab>
 				</>,
 				container
 			);
@@ -128,8 +128,8 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		act(() => {
 			ReactDom.render(
 				<>
-					<Tab activeTabId="2" id="1"></Tab>
-					<Tab activeTabId="2" id="2"></Tab>
+					<Tab selectedTabID="2" id="1"></Tab>
+					<Tab selectedTabID="2" id="2"></Tab>
 				</>,
 				container
 			);
@@ -149,8 +149,8 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		act(() => {
 			ReactDom.render(
 				<>
-					<Tab activeTabId="2" id="1"></Tab>
-					<Tab activeTabId="2" id="2"></Tab>
+					<Tab selectedTabID="2" id="1"></Tab>
+					<Tab selectedTabID="2" id="2"></Tab>
 				</>,
 				container
 			);
@@ -171,9 +171,9 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 			return <>
 				<button id='toggelActiveTabBtn' onClick={toggelActiveTab}></button>
 				<button id='forceUpdateBtn' onClick={forceUpdate}></button>
-				<Tab activeTabId={activeId} id="1"></Tab>
-				<Tab activeTabId={activeId} id="2"></Tab>
-				<Tab activeTabId={activeId} id="3"></Tab>
+				<Tab selectedTabID={activeId} id="1"></Tab>
+				<Tab selectedTabID={activeId} id="2"></Tab>
+				<Tab selectedTabID={activeId} id="3"></Tab>
 			</>;
 		}
 		act(() => { ReactDom.render(<MockWrapprTab></MockWrapprTab>, container); });
@@ -189,15 +189,15 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 test('tab component with user defined css class "defualtTab" and "activeTab"', () => {
 	const tree = renderer.create(
 		<>
-			<Tab id='1' activeTabId='1'></Tab>
-			<Tab id='2' activeTabId='1'></Tab>
+			<Tab id='1' selectedTabID='1'></Tab>
+			<Tab id='2' selectedTabID='1'></Tab>
 		</>
 	).toJSON();
 	expect(tree).toMatchSnapshot();
 });
-test('activeTabId props can be passed as an empty string into tab component', () => {
+test('selectedTabID props can be passed as an empty string into tab component', () => {
 	const tree = renderer.create(
-		<Tab id='1' activeTabId=''></Tab>
+		<Tab id='1' selectedTabID=''></Tab>
 	).toJSON();
 	expect(tree).toMatchSnapshot();
 });

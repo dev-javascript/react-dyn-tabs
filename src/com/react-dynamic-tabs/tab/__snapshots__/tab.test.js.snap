@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`activeTabId props can be passed as an empty string into tab component 1`] = `
+exports[`selectedTabID props can be passed as an empty string into tab component 1`] = `
 <li
   className="rdlt-default-tab defaultTab"
   id="tab_1"
