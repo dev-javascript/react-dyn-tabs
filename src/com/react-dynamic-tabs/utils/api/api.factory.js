@@ -141,7 +141,10 @@ api.prototype.open = function (id = missingParamEr('open')) {
     return result;
 };
 api.prototype.add = (function () {
-    const _validate = function (obj) { this.helper.isObj(obj) || invalidParamEr('add'); }
+    const _validate = function (obj) {
+        this.helper.isObj(obj) || invalidParamEr('add');
+        obj.hasOwnProperty('id') || invalidParamEr('add');
+    }
         , _setDefaultOp = function (obj) { obj = Object.assign(this.getSetting().getDefaultTabObj(), obj); };
     return function (tabObj = missingParamEr('add')) {
         _validate.call(this, tabObj);
