@@ -1,6 +1,6 @@
 import BaseApi from './baseApi';
 import Helper from '../helper.js';
-const { throwMissingParam: throwEr } = Helper;
+const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } = Helper;
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper, getUserProxy,
@@ -37,13 +37,18 @@ api.prototype._createSubscribers = function () {
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
 api.prototype.getOptions = function () { return this.optionManager.getMutableOptions(); };
+api.prototype.setOption = function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
+    if (name.toUpperCase() === ('SELECTEDTABID' || 'OPENTABIDS' || 'DATA'))
+        return;
+    this.getOptions()[name] = value;
+};
 api.prototype.getSetting = function () { return this.optionManager.setting; };
 api.prototype.getCopyData = function () { return this.helper.getCopyState(this.state); };
 api.prototype.getInitialState = function () {
     const { selectedTabID, openTabIDs } = this.getOptions();
     return { selectedTabID, openTabIDs };
 };
-api.prototype.getTabObj = function (tabId) {
+api.prototype.getTabObj = function (tabId = missingParamEr('getTabObj')) {
     const tabs = this.getOptions().data;
     return tabs.hasOwnProperty(tabId) ? tabs[tabId] : null;
 };
@@ -54,10 +59,9 @@ api.prototype._checkForExistingData = function (IDs) {
             add function before it.`;
     });
 };
-api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getOptions().data[id].panelComponent); };
-api.prototype.getSelectedTabsHistory = function () { return this.activedTabsHistory.tabsId; };
-api.prototype.isActiveTab = function (id) { return this.state.selectedTabID == id; };
-api.prototype.isOpenTab = function (id) { return this.state.openTabIDs.indexOf(id) >= 0; };
+api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getTabObj(id).panelComponent); };
+api.prototype.isSelected = function (id = missingParamEr('isSelected')) { return this.state.selectedTabID == id; };
+api.prototype.isOpen = function (id = missingParamEr('isOpen')) { return this.state.openTabIDs.indexOf(id) >= 0; };
 api.prototype.eventHandlerFactory = function ({ e, id, type }) {
     const { beforeClose, beforeSelect } = this.getOptions();
     if (type === 'close')
@@ -70,10 +74,10 @@ api.prototype._getOnChangePromise = function () {
 };
 api.prototype.select = (function () {
     function _validate(id) {
-        if (!this.isOpenTab(id))
+        if (!this.isOpen(id))
             throw `Can not select tab with "${id}" id. is not open. you should open it at first.`;
     }
-    return function (id = throwEr('select')) {
+    return function (id = missingParamEr('select')) {
         this._checkForExistingData([id]);
         _validate.call(this, id);
         this.publishers.beforeSwitchTab.trigger(id);
@@ -85,11 +89,11 @@ api.prototype.select = (function () {
 api.prototype._findTabIdForSwitching = (function () {
     const _findOpenedAndNoneDisableTabId = function (tabsIdArr, isRightToLeft) {
         return (this.helper.arrFilterUntilFirstValue(tabsIdArr, id =>
-            this.isOpenTab(id) && (!this.getTabObj(id).disable) && (!this.isActiveTab(id)), isRightToLeft)
+            this.isOpen(id) && (!this.getTabObj(id).disable) && (!this.isSelected(id)), isRightToLeft)
             || '');
     }
         , _getPreSelectedTabId = function () {
-            return _findOpenedAndNoneDisableTabId.call(this, [...this.getSelectedTabsHistory()], true);
+            return _findOpenedAndNoneDisableTabId.call(this, [...this.activedTabsHistory.tabsId], true);
         }
         , _getPreSiblingTabId = function () {
             const data = this.state, arr = data.openTabIDs;
@@ -121,7 +125,7 @@ api.prototype.setData = (function () {
             throw 'incorrect parameter with setData function. openTabIDs must include selectedTabID';
         return true;
     };
-    return function (param = throwEr('setData')) {
+    return function (param = missingParamEr('setData')) {
         _validate.call(this, param);
         (this.state.selectedTabID !== param.selectedTabID) &&
             this.publishers.beforeSwitchTab.trigger(param.selectedTabID);
@@ -130,25 +134,30 @@ api.prototype.setData = (function () {
         return result;
     };
 })();
-api.prototype.open = function (id = throwEr('open')) {
+api.prototype.open = function (id = missingParamEr('open')) {
     this._checkForExistingData([id]);
     const result = this._getOnChangePromise();
     this._open(id);
     return result;
 };
-api.prototype.add = function (tabObj) {
-    const data = this.getOptions().data;
-    data.hasOwnProperty(tabObj.id) || (data[tabObj.id] = tabObj);
-    return this;
-};
+api.prototype.add = (function () {
+    const _validate = function (obj) { this.helper.isObj(obj) || invalidParamEr('add'); }
+        , _setDefaultOp = function (obj) { obj = Object.assign(this.getSetting().getDefaultTabObj(), obj); };
+    return function (tabObj = missingParamEr('add')) {
+        _validate.call(this, tabObj);
+        _setDefaultOp.call(this, tabObj);
+        this.getTabObj(tabObj.id) || (this.getOptions().data[tabObj.id] = tabObj);
+        return this;
+    };
+})();
 api.prototype.__close = function (id) {
     const result = this._getOnChangePromise();
     this._close(id);
     return result;
 };
-api.prototype.close = function (id = throwEr('close'), switchBeforeCloseSelectedTab = true) {
+api.prototype.close = function (id = missingParamEr('close'), switchBeforeCloseSelectedTab = true) {
     this._checkForExistingData([id]);
-    if (switchBeforeCloseSelectedTab && this.isActiveTab(id)) {
+    if (switchBeforeCloseSelectedTab && this.isSelected(id)) {
         const _openTabsId = [...this.state.openTabIDs];
         _openTabsId.splice(_openTabsId.indexOf(id), 1);
         return this.setData({
@@ -164,7 +173,7 @@ api.prototype.reload = function () {
     this._reload();
     return result;
 };
-api.prototype.clearPanelsCache = function (panelId) {
+api.prototype.clearPanelCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
         this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
     return this;

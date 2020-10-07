@@ -7,18 +7,18 @@ const Panel = memo(function Panel(props) {
     const { id, selectedTabID } = props
         , api = useContext(ApiContext)
         , { cssClasses: { panel, selected } } = api.getSetting()
-        , basedOnIsActive = {
+        , dependedOnIsSelected = {
             panelClass: panel,
             ariaHidden: true
         };
-    selectedTabID === id && Object.assign(basedOnIsActive, {
+    selectedTabID === id && Object.assign(dependedOnIsSelected, {
         panelClass: panel + ' ' + selected,
         ariaHidden: false
     });
     return (
-        <div id={helper.idTemplate.panel(id)} className={basedOnIsActive.panelClass}
+        <div id={helper.idTemplate.panel(id)} className={dependedOnIsSelected.panelClass}
             aria-labelledby={helper.idTemplate.ariaLabelledby(id)} role='tabpanel'
-            aria-hidden={basedOnIsActive.ariaHidden}>
+            aria-hidden={dependedOnIsSelected.ariaHidden}>
             {api.getPanel(id)}
         </div>
     )

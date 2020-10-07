@@ -6,7 +6,6 @@ function OptionManager(getDeps, { options }) {
     this.setting = setting;
     this.setNewOptions(options);
 };
-OptionManager.prototype.getCopyOptions = function () { return Object.assign(this._getDefaultOptions(), this.options); };
 OptionManager.prototype.getMutableOptions = function () { return this.options; };
 OptionManager.prototype.setNewOptions = function (newOptions) {
     this._validation.isObj(newOptions);

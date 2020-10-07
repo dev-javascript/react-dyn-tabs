@@ -40,4 +40,6 @@ helper.arrFilterUntilFirstValue = (arr, callback, isRightToLeft) => {
     return null;
 };
 helper.throwMissingParam = FnName => { throw `Missing parameter in "${FnName}" function`; };
+helper.throwInvalidParam = FnName => { throw `Invalid parameter error in "${FnName}" function`; };
+helper.isObj = (obj) => Object.prototype.toString.call(obj) === '[object Object]';
 export default helper;

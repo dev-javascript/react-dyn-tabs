@@ -7,8 +7,8 @@ let container = document.createElement("div"),
 	realUseContext;
 const defaultApi = {
 	stackedEvent: { afterActiveTab: [] },
-	tabDidUpdate: jest.fn(({ tabId, isActive, isFirstCall }) => { }),
-	tabDidMount: jest.fn(({ tabId, isActive }) => { }),
+	tabDidUpdate: jest.fn(({ tabId, isSelected, isFirstCall }) => { }),
+	tabDidMount: jest.fn(({ tabId, isSelected }) => { }),
 	activeTabEventHandler: jest.fn(() => { }),
 },
 	getMockOptions = () => () => ({
@@ -123,7 +123,7 @@ describe("tab mouse events", () => {
 });
 describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 	test(`tabDidMount will be called just one time during the executions of tabComponent`, () => {
-		const tabDidMount = jest.fn(({ tabId, isActive }) => { });
+		const tabDidMount = jest.fn(({ tabId, isSelected }) => { });
 		setMockUseContext({ getOptions: getMockOptions(), tabDidMount });
 		act(() => {
 			ReactDom.render(
@@ -139,12 +139,12 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 			document.getElementById("tab_2").dispatchEvent(new MouseEvent("clik", { bubbles: true }));
 		});
 		expect(tabDidMount).toHaveBeenCalledTimes(2);
-		expect(tabDidMount).toHaveBeenNthCalledWith(1, { id: "1", isActive: false });
-		expect(tabDidMount).toHaveBeenNthCalledWith(2, { id: "2", isActive: true });
+		expect(tabDidMount).toHaveBeenNthCalledWith(1, { id: "1", isSelected: false });
+		expect(tabDidMount).toHaveBeenNthCalledWith(2, { id: "2", isSelected: true });
 	});
 	test(`tabDidUpdate must  will be called in the first execution of tabComponent`, () => {
-		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
-			tabDidMount = jest.fn(({ tabId, isActive }) => { });
+		const tabDidUpdate = jest.fn(({ tabId, isSelected, isFirstCall }) => { }),
+			tabDidMount = jest.fn(({ tabId, isSelected }) => { });
 		setMockUseContext({ getOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		act(() => {
 			ReactDom.render(
@@ -156,13 +156,13 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 			);
 		});
 		expect(tabDidUpdate).toHaveBeenCalledTimes(2);
-		expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { id: "1", isActive: false, isFirstCall: true });
-		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { id: "2", isActive: true, isFirstCall: true });
+		expect(tabDidUpdate).toHaveBeenNthCalledWith(1, { id: "1", isSelected: false, isFirstCall: true });
+		expect(tabDidUpdate).toHaveBeenNthCalledWith(2, { id: "2", isSelected: true, isFirstCall: true });
 	});
 	test(`tabDidUpdate will be called twice for switching between tabs, one for activeTab component
 	       and another one for deselectTab component(old activeTabComponent)`, () => {
-		const tabDidUpdate = jest.fn(({ tabId, isActive, isFirstCall }) => { }),
-			tabDidMount = jest.fn(({ tabId, isActive }) => { });
+		const tabDidUpdate = jest.fn(({ tabId, isSelected, isFirstCall }) => { }),
+			tabDidMount = jest.fn(({ tabId, isSelected }) => { });
 		setMockUseContext({ getOptions: getMockOptions(), tabDidMount, tabDidUpdate });
 		function MockWrapprTab() {
 			const [activeId, setActiveId] = useState({ id: '2' }), toggelActiveTab = (e) => {
@@ -183,7 +183,7 @@ describe("calling tabDidMount and tabDidUpdate  inside the useEffect", () => {
 		act(() => { toggelActiveTabBtn.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
 		act(() => { forceUpdateBtn.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
 		expect(tabDidUpdate).toHaveBeenCalledTimes(7);
-		expect(tabDidUpdate).toHaveBeenLastCalledWith({ id: '1', isActive: false, isFirstCall: false });
+		expect(tabDidUpdate).toHaveBeenLastCalledWith({ id: '1', isSelected: false, isFirstCall: false });
 	});
 });
 test('tab component with user defined css class "defualtTab" and "activeTab"', () => {

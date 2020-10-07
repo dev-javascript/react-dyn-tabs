@@ -10,28 +10,29 @@ const Tab = memo(
             , api = React.useContext(ApiContext)
             , tabObj = api.getOptions().data[id]
             , { cssClasses: { title, tab, close, disable } } = api.getSetting()
-            , isActive = selectedTabID === id
+            , isSelected = selectedTabID === id
             , clkHandler = function (e, type) { api.eventHandlerFactory({ e, id, type }); }
-            , basedOnIsActive = {
+            , dependedOnIsSelected = {
                 tabClass: tab,
                 tabIndex: -1,
                 ariaExpanded: false,
                 ariaSelected: false
             };
-        isActive && Object.assign(basedOnIsActive, {
+        isSelected && Object.assign(dependedOnIsSelected, {
             tabIndex: 0,
             ariaExpanded: true,
             ariaSelected: true
         });
-        tabObj.disable && (basedOnIsActive.tabClass += ' ' + disable);
+        tabObj.disable && (dependedOnIsSelected.tabClass += ' ' + disable);
         return (
-            <li role='tab' id={helper.idTemplate.tab(id)} className={basedOnIsActive.tabClass}
-                tabIndex={basedOnIsActive.tabIndex}
+            <li role='tab' id={helper.idTemplate.tab(id)} className={dependedOnIsSelected.tabClass}
+                tabIndex={dependedOnIsSelected.tabIndex}
                 aria-controls={helper.idTemplate.panel(id)} aria-labelledby={helper.idTemplate.ariaLabelledby(id)}
-                aria-selected={basedOnIsActive.ariaSelected} aria-expanded={basedOnIsActive.ariaExpanded}
+                aria-selected={dependedOnIsSelected.ariaSelected} aria-expanded={dependedOnIsSelected.ariaExpanded}
             >
                 <div onClick={e => { clkHandler(e, 'select'); }} role='presentation' className={title}>
-                    <TabTitle tabId={id} api={api.userProxy} setting={api.getSetting()} isActive={isActive}></TabTitle>
+                    <TabTitle id={id} api={api} isSelected={isSelected}>
+                    </TabTitle>
                 </div>
                 {
                     tabObj.closable ? (<span role='presentation' className={close}
