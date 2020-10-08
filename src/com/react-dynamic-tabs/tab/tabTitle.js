@@ -1,6 +1,5 @@
 import React from "react";
 const TabTitle = function (props) {
-    debugger;
     const { id, api, isSelected } = props
         , option = api.getOptions(), setting = api.getSetting();
     if (option.tabComponent) {

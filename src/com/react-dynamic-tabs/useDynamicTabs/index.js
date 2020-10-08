@@ -42,5 +42,5 @@ function useDynamicTabs(options) {
         );
     return [tabListEl, panelListEl, ref.current.api.userProxy];
 }
-useDynamicTabs.defualtOptions = {};
+useDynamicTabs.defaultOptions = {};
 export default useDynamicTabs;
