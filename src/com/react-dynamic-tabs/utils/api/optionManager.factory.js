@@ -1,16 +1,16 @@
 function OptionManager(getDeps, { options }) {
-    const { setting, ArgumentsValidationIns, defaultOptions } = getDeps();
+    const { setting, ArgumentsValidationIns, globalDefaultOptions } = getDeps();
     this._validation = ArgumentsValidationIns
     this._validation.isObj(options);
     this.options = {};
-    this.defaultOptions = defaultOptions;
+    this.globalDefaultOptions = globalDefaultOptions;
     this.setting = setting;
     this.setNewOptions(options);
 };
 OptionManager.prototype.getMutableOptions = function () { return this.options; };
 OptionManager.prototype.setNewOptions = function (newOptions) {
     this._validation.isObj(newOptions);
-    this.options = Object.assign(this._getDefaultOptions(), this.defaultOptions, newOptions);
+    this.options = Object.assign(this._getDefaultOptions(), this.globalDefaultOptions, newOptions);
     return this;
 };
 OptionManager.prototype._getDefaultOptions = function () {
