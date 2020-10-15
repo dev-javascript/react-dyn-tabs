@@ -74,12 +74,12 @@ api.prototype._getOnChangePromise = function () {
 };
 api.prototype.select = (function () {
     function _validate(id) {
+        id = id || '';
+        id && this._checkForExistingData([id]);
         if (id && !this.isOpen(id))
             throw `Can not select tab with "${id}" id. is not open. you should open it at first.`;
     }
     return function (id = missingParamEr('select')) {
-        id = id || '';
-        id && this._checkForExistingData([id]);
         _validate.call(this, id);
         this.publishers.beforeSwitchTab.trigger(id);
         const result = this._getOnChangePromise();

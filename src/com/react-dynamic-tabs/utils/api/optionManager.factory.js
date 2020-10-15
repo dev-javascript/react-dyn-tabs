@@ -1,16 +1,19 @@
 function OptionManager(getDeps, { options }) {
-    const { setting, ArgumentsValidationIns, globalDefaultOptions } = getDeps();
-    this._validation = ArgumentsValidationIns
-    this._validation.isObj(options);
+    const { setting, globalDefaultOptions, TabTitleComponent } = getDeps();
     this.options = {};
-    this.globalDefaultOptions = globalDefaultOptions;
+    this._globalDefaultOptions = globalDefaultOptions;
+    this._TabTitleComponent = TabTitleComponent;
     this.setting = setting;
     this.setNewOptions(options);
 };
 OptionManager.prototype.getMutableOptions = function () { return this.options; };
 OptionManager.prototype.setNewOptions = function (newOptions) {
-    this._validation.isObj(newOptions);
-    this.options = Object.assign(this._getDefaultOptions(), this.globalDefaultOptions, newOptions);
+    this._validation(newOptions).options = Object.assign(this._getDefaultOptions(), this._globalDefaultOptions, newOptions);
+    return this;
+};
+OptionManager.prototype._validation = function (options) {
+    if (Object.prototype.toString.call(options) !== '[object Object]')
+        throw 'Invalid argument in "useDynamicTabs" function. Argument must be type of an object';
     return this;
 };
 OptionManager.prototype._getDefaultOptions = function () {
@@ -25,9 +28,10 @@ OptionManager.prototype._getDefaultOptions = function () {
         onChange: function ({ currentData, perviousData }) { },
         onInit: function () { },
         onDestroy: function () { },
-        tabComponent: ''
+        _isCustomTabComponent: false,
+        accessibility: false
     };
-    let _direction = this.setting.defaultDirection, _data = {};
+    let _direction = this.setting.defaultDirection, _data = {}, _tabComponent = this._TabTitleComponent;
     const that = this;
     Object.defineProperties(_options, {
         direction: {
@@ -45,6 +49,15 @@ OptionManager.prototype._getDefaultOptions = function () {
                     acc[item.id] = Object.assign(that.setting.getDefaultTabObj(), item);
                     return acc;
                 }, _data);
+            }
+        },
+        tabComponent: {
+            get() { return _tabComponent },
+            set(fn) {
+                if (fn && (typeof fn !== 'function'))
+                    throw 'tabComponent property must be type of a function.';
+                _options._isCustomTabComponent = fn ? true : false;
+                _tabComponent = fn ? fn : that._TabTitleComponent;
             }
         }
     });
