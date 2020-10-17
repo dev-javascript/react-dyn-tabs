@@ -1,4 +1,4 @@
-const LiProps = Object.create({
+const TabProps = Object.create({
     get: function (param) {
         const { api } = param;
         Object.assign(param, { cssClasses: api.getSetting().cssClasses }, { op: api.getOptions() }, { tabObj: api.getTabObj(param.id) });
@@ -38,4 +38,4 @@ const LiProps = Object.create({
         return obj;
     }
 });
-export default LiProps;
+export default TabProps;

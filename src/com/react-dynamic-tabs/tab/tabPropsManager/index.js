@@ -1,6 +1,6 @@
 import factory from './tabPropsManager.factory';
-import getLiProps from './liProps';
-import getDefaultTabProps from './defaultTabProps';
-import getUserTabProps from './getUserTabProps';
-const tabPropsManager = new factory({ getLiProps, getDefaultTabProps, getUserTabProps });
+import tabProps from './tabProps';
+import defaultTabInnerProps from './defaultTabInnerProps';
+import userTabInnerProps from './userTabInnerProps';
+const tabPropsManager = new factory({ tabProps, defaultTabInnerProps, userTabInnerProps });
 export default tabPropsManager;

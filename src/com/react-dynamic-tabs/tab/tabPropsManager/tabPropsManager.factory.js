@@ -1,15 +1,15 @@
 const TabPropsManagerFactory = function (deps) {
-    const { getLiProps, getDefaultTabProps, getUserTabProps } = deps;
-    this._getLiProps = getLiProps;
-    this._getDefaultTabProps = getDefaultTabProps;
-    this._getUserTabProps = getUserTabProps;
+    const { tabProps, defaultTabInnerProps, userTabInnerProps } = deps;
+    this._tabProps = tabProps;
+    this._defaultTabInnerProps = defaultTabInnerProps;
+    this._userTabInnerProps = userTabInnerProps;
 };
 TabPropsManagerFactory.prototype = {
-    getLiInnerProps: function (param) {
+    getTabInnerProps: function (param) {
         const { api } = param;
-        return api.getOptions().isCustomTabComponent ? this._getUserTabProps(param) :
-            this._getDefaultTabProps.get(param);
+        return api.getOptions().isCustomTabComponent ? this._userTabInnerProps.get(param) :
+            this._defaultTabInnerProps.get(param);
     },
-    getLiProps: function (param) { return this._getLiProps.get(param); }
+    getTabProps: function (param) { return this._tabProps.get(param); }
 };
 export default TabPropsManagerFactory;

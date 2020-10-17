@@ -11,12 +11,12 @@ const Tab = memo(
             , { close: closeClass } = cssClasses
             , isSelected = selectedTabID === id
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
-            , liProps = propsManager.getLiProps({ api, id, isSelected })
-            , liInnerProps = propsManager.getLiInnerProps({ api, id, isSelected })
+            , tabProps = propsManager.getTabProps({ api, id, isSelected })
+            , tabInnerProps = propsManager.getTabInnerProps({ api, id, isSelected })
             , TabInnerComponent = op.tabComponent;
         return (
-            <li {...liProps} onClick={e => { clkHandler(e); }}>
-                <TabInnerComponent {...liInnerProps}>{tabObj.title}</TabInnerComponent>
+            <li {...tabProps} onClick={e => { clkHandler(e); }}>
+                <TabInnerComponent {...tabInnerProps}>{tabObj.title}</TabInnerComponent>
                 {
                     tabObj.closable ?
                         (<span className={closeClass} >&times;</span>) : null

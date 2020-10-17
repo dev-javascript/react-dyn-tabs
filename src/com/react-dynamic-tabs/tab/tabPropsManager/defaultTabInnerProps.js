@@ -1,4 +1,4 @@
-const DefaultTabProps = Object.create({
+const DefaultTabInnerProps = Object.create({
     get: function (param) {
         const { id, isSelected, api } = param
         Object.assign(param, { a11y: api.getOptions().accessibility }, { cssClasses: api.getSetting().cssClasses });
@@ -20,4 +20,4 @@ const DefaultTabProps = Object.create({
         return obj;
     },
 });
-export default DefaultTabProps;
+export default DefaultTabInnerProps;
