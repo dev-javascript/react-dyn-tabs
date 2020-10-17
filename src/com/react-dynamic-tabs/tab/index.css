@@ -38,23 +38,23 @@
     right: auto;
 }
 
-.rc-dyntabs-ltr .rc-dyntabs-tab>div:first-child {
+.rc-dyntabs-ltr .rc-dyntabs-tab>*:first-child {
     float    : right;
     direction: rtl;
 }
 
-.rc-dyntabs-rtl .rc-dyntabs-tab>div:first-child {
+.rc-dyntabs-rtl .rc-dyntabs-tab>*:first-child {
     float    : left;
     direction: ltr;
 }
 
-.rc-dyntabs-tab>div:first-child {
+.rc-dyntabs-tab>*:first-child {
     position   : relative;
     display    : flex;
     align-items: center;
 }
 
-.rc-dyntabs-tab>div:first-child>.rc-dyntabs-title {
+.rc-dyntabs-title {
     text-decoration: none;
     cursor         : pointer;
     white-space    : nowrap;

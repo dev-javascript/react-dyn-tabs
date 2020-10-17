@@ -1,8 +1,8 @@
 function OptionManager(getDeps, { options }) {
-    const { setting, globalDefaultOptions, TabTitleComponent } = getDeps();
+    const { setting, globalDefaultOptions, DefaulTabInnerComponent } = getDeps();
     this.options = {};
     this._globalDefaultOptions = globalDefaultOptions;
-    this._TabTitleComponent = TabTitleComponent;
+    this._DefaulTabInnerComponent = DefaulTabInnerComponent;
     this.setting = setting;
     this.setNewOptions(options);
 };
@@ -28,10 +28,10 @@ OptionManager.prototype._getDefaultOptions = function () {
         onChange: function ({ currentData, perviousData }) { },
         onInit: function () { },
         onDestroy: function () { },
-        _isCustomTabComponent: false,
-        accessibility: false
+        isCustomTabComponent: false,
+        accessibility: true
     };
-    let _direction = this.setting.defaultDirection, _data = {}, _tabComponent = this._TabTitleComponent;
+    let _direction = this.setting.defaultDirection, _data = {}, _tabComponent = this._DefaulTabInnerComponent;
     const that = this;
     Object.defineProperties(_options, {
         direction: {
@@ -56,8 +56,8 @@ OptionManager.prototype._getDefaultOptions = function () {
             set(fn) {
                 if (fn && (typeof fn !== 'function'))
                     throw 'tabComponent property must be type of a function.';
-                _options._isCustomTabComponent = fn ? true : false;
-                _tabComponent = fn ? fn : that._TabTitleComponent;
+                _options.isCustomTabComponent = fn ? true : false;
+                _tabComponent = fn ? fn : that._DefaulTabInnerComponent;
             }
         }
     });

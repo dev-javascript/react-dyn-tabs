@@ -2,11 +2,11 @@
     background-color: #333333;
 }
 
-.rc-dyntabs-title.rc-dyntabs-selected {
+.rc-dyntabs-tab.rc-dyntabs-selected {
     background: red;
 }
 
-.rc-dyntabs-tab>div:first-child>.rc-dyntabs-title,
+.rc-dyntabs-title,
 .rc-dyntabs-close {
     color: white;
 }

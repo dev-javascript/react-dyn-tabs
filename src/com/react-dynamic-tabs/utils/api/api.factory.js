@@ -62,9 +62,10 @@ api.prototype._checkForExistingData = function (IDs) {
 api.prototype.getPanel = function (id) { return this._panelProxy.getPanel(id, this.getTabObj(id).panelComponent); };
 api.prototype.isSelected = function (id = missingParamEr('isSelected')) { return this.state.selectedTabID == id; };
 api.prototype.isOpen = function (id = missingParamEr('isOpen')) { return this.state.openTabIDs.indexOf(id) >= 0; };
-api.prototype.eventHandlerFactory = function ({ e, id, type }) {
-    const { beforeClose, beforeSelect } = this.getOptions();
-    if (type === 'close')
+api.prototype.eventHandlerFactory = function ({ e, id }) {
+    const { beforeClose, beforeSelect } = this.getOptions(), el = e.target, parentEl = el.parentElement
+        , { close, tab } = this.getSetting().cssClasses;
+    if (el.className.includes(close) && parentEl && parentEl.lastChild && (parentEl.lastChild == el) && parentEl.className.includes(tab))
         beforeClose.call(this.userProxy, e, id) && this.close(id);
     else
         beforeSelect.call(this.userProxy, e, id) && this.select(id);
