@@ -1,9 +1,8 @@
 const helper = {};
 helper.idTemplate = {
-    tab: id => `tab_${id}`,
-    panel: id => `panel_${id}`,
-    ariaLabelledby: id => `tabPanel_${id}`,
-    closeIcon: id => `closeIcon_${id}`
+    tab: id => `t_${id}`,
+    panel: id => `p_${id}`,
+    ariaLabelledby: id => `a_${id}`
 };
 helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);
 helper.getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };

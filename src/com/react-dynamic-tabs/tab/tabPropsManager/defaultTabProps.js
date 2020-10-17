@@ -1,7 +1,7 @@
 const DefaultTabProps = Object.create({
     get: function (param) {
         const { id, isSelected, api } = param
-        Object.assign(param, { a11y: api.getOptions().accessbility }, { cssClasses: api.getSetting().cssClasses });
+        Object.assign(param, { a11y: api.getOptions().accessibility }, { cssClasses: api.getSetting().cssClasses });
         return {
             id, isSelected, api,
             liInnerProps: this.getA11Y(this.getBase(param), param)

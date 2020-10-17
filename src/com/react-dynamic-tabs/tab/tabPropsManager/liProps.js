@@ -28,7 +28,7 @@ const LiProps = Object.create({
         return obj;
     },
     getA11Y: function (obj, { op, api, isSelected, id }) {
-        if (op.accessbility) {
+        if (op.accessibility) {
             obj.role = 'tab';
             obj['aria-controls'] = api.helper.idTemplate.panel(id);
             obj['aria-labelledby'] = api.helper.idTemplate.ariaLabelledby(id);
