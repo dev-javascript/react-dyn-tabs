@@ -6,7 +6,7 @@ const TabProps = Object.create({
     },
     getBase: function ({ id, cssClasses, api }) {
         return {
-            id: api.helper.idTemplate.tab(id),
+            'tab-id': api.helper.idTemplate.tab(id),
             className: cssClasses.tab,
             tabIndex: -1,
         };
