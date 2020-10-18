@@ -3,15 +3,14 @@ import OptionManager from './optionManager';
 import PanelProxy from './panelProxy.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
-import getPublishers from './getPublishers';
 import getUserProxy from './getUserProxy';
+import Publisher from './publisher.js';
 const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)({ options })
         , panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableOptions().selectedTabID)
-        , activedTabsHistoryIns = new (ActivedTabsHistory)()
-        , publisherIns = getPublishers();
+        , activedTabsHistoryIns = new (ActivedTabsHistory)();
     return {
-        activedTabsHistoryIns, optionManagerIns, panelProxyIns, helper, publisherIns, getUserProxy
+        activedTabsHistoryIns, optionManagerIns, panelProxyIns, helper, Publisher, getUserProxy
     };
 };
 export default apiFactory.bind(null, getDeps);

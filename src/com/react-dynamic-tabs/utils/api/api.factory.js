@@ -4,16 +4,16 @@ const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } =
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper, getUserProxy,
-        activedTabsHistoryIns, publisherIns } = getDeps(param.options);
+        activedTabsHistoryIns, Publisher } = getDeps(param.options);
     BaseApi.call(this, helper);
     helper.objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
         helper,
         _panelProxy: panelProxyIns,
         activedTabsHistory: activedTabsHistoryIns,
-        publishers: publisherIns,
         userProxy: getUserProxy(this)
     });
+    this.publishers = this._getPublishers(Publisher);
     this._createSubscribers();
 };
 api.prototype = Object.create(BaseApi.prototype);
@@ -182,5 +182,13 @@ api.prototype.clearPanelCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
         this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
     return this;
+};
+api.prototype._getPublishers = function (Publisher) {
+    return {
+        beforeSwitchTab: new (Publisher)()
+        , onChange: new (Publisher)()
+        , onInit: new (Publisher)()
+        , onDestroy: new (Publisher)()
+    };
 };
 export default api;
