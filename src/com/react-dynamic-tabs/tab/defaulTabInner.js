@@ -3,13 +3,13 @@ const DefaulTabInner = function (props) {
     const { id, api } = props, userIconClass = api.getTabObj(id).iconClass
         , { icon: defaultIconClass } = api.getSetting().cssClasses;
     return (
-        <a {...props.liInnerProps}>
+        <button {...props.liInnerProps}>
             {
                 userIconClass &&
                 <span className={`${userIconClass} ${defaultIconClass}`}></span>
             }
             {props.children}
-        </a>
+        </button>
     );
 };
 export default DefaulTabInner;

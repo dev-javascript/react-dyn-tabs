@@ -11,8 +11,8 @@ const DefaultTabInnerProps = Object.create({
         return {
             id: api.helper.idTemplate.ariaLabelledby(id),
             className: cssClasses.title,
-            tabIndex: -1,
-            href: `#${api.helper.idTemplate.panel(id)}`
+            tabIndex: -1
+            //href: `#${api.helper.idTemplate.panel(id)}`
         };
     },
     getA11Y: function (obj, { a11y }) {

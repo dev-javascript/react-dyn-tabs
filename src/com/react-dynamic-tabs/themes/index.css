@@ -2,8 +2,12 @@
     background-color: #333333;
 }
 
-.rc-dyntabs-tab.rc-dyntabs-selected {
-    background: red;
+.rc-dyntabs-tab>.rc-dyntabs-title {
+    background-color: inherit;
+}
+
+.rc-dyntabs-tab.rc-dyntabs-selected>.rc-dyntabs-title {
+    background-color: red;
 }
 
 .rc-dyntabs-title,
