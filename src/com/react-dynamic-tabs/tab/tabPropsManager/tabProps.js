@@ -1,7 +1,7 @@
 const TabProps = Object.create({
     get: function (param) {
-        const { api } = param;
-        Object.assign(param, { cssClasses: api.getSetting().cssClasses }, { op: api.getOptions() }, { tabObj: api.getTabObj(param.id) });
+        const { api } = param, { cssClasses, idTemplate } = api.getSetting();
+        Object.assign(param, { cssClasses, idTemplate, op: api.getOptions(), tabObj: api.getTabObj(param.id) });
         return this.getA11Y(this.getDisabled(this.getSelected(this.getBase(param), param), param), param);
     },
     getBase: function ({ id, cssClasses, api }) {
@@ -27,11 +27,11 @@ const TabProps = Object.create({
         };
         return obj;
     },
-    getA11Y: function (obj, { op, api, isSelected, id }) {
+    getA11Y: function (obj, { op, isSelected, id, idTemplate }) {
         if (op.accessibility) {
             obj.role = 'tab';
-            obj['aria-controls'] = api.helper.idTemplate.panel(id);
-            obj['aria-labelledby'] = api.helper.idTemplate.ariaLabelledby(id);
+            obj['aria-controls'] = idTemplate.panel(id);
+            obj['aria-labelledby'] = idTemplate.ariaLabelledby(id);
             obj['aria-selected'] = isSelected;
             obj['aria-expanded'] = isSelected;
         };

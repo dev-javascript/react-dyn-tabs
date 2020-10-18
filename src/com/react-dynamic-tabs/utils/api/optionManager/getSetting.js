@@ -23,7 +23,11 @@ const getSetting = function () {
             disable: false
         }),
         defaultDirection: 'ltr',
-        directionsRange: ['ltr', 'rtl']
+        directionsRange: ['ltr', 'rtl'],
+        idTemplate: {
+            panel: id => id,
+            ariaLabelledby: id => `label_${id}`
+        }
     };
 };
 export default getSetting;

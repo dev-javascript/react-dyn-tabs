@@ -1,8 +1,4 @@
 const helper = {};
-helper.idTemplate = {
-    panel: id => id,
-    ariaLabelledby: id => `label_${id}`
-};
 helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);
 helper.getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };
 helper.objDefineNoneEnumerableProps = (function () {

@@ -1,12 +1,11 @@
 import React, { useContext, memo } from 'react';
 import './index.css';
 import { ApiContext, ForceUpdateContext } from '../utils/context.js';
-import helper from '../utils/helper';
 const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const { id, selectedTabID } = props
         , api = useContext(ApiContext)
-        , { cssClasses: { panel, selected } } = api.getSetting()
+        , { cssClasses: { panel, selected }, idTemplate } = api.getSetting()
         , dependedOnIsSelected = {
             panelClass: panel,
             ariaHidden: true
@@ -16,8 +15,8 @@ const Panel = memo(function Panel(props) {
         ariaHidden: false
     });
     return (
-        <div id={helper.idTemplate.panel(id)} className={dependedOnIsSelected.panelClass}
-            aria-labelledby={helper.idTemplate.ariaLabelledby(id)} role='tabpanel'
+        <div id={idTemplate.panel(id)} className={dependedOnIsSelected.panelClass}
+            aria-labelledby={idTemplate.ariaLabelledby(id)} role='tabpanel'
             aria-hidden={dependedOnIsSelected.ariaHidden}>
             {api.getPanel(id)}
         </div>
