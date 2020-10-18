@@ -46,7 +46,7 @@ OptionManager.prototype._getDefaultOptions = function () {
             get() { return _data; },
             set(arr) {
                 arr.reduce((acc, item, i) => {
-                    acc[item.id] = Object.assign(that.setting.getDefaultTabObj(), item);
+                    acc[item.id] = Object.assign({}, that.setting.defaultTabObj, item);
                     return acc;
                 }, _data);
             }

@@ -23,9 +23,10 @@
 }
 
 .rc-dyntabs-close {
-    position: absolute;
-    top     : 0px;
-    cursor  : pointer;
+    position   : absolute;
+    top        : 0px;
+    cursor     : pointer;
+    line-height: 10px;
 }
 
 .rc-dyntabs-ltr .rc-dyntabs-close {

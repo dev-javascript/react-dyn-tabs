@@ -1,4 +1,8 @@
-const getSetting = function () {
+let _number = 0;
+const Setting = function () {
+    this._num = _number++;
+};
+Setting.prototype.get = function () {
     return {
         cssClasses: {
             tab: 'rc-dyntabs-tab',
@@ -14,20 +18,20 @@ const getSetting = function () {
             ltr: 'rc-dyntabs-ltr',
             rtl: 'rc-dyntabs-rtl'
         },
-        getDefaultTabObj: () => ({
+        defaultTabObj: {
             title: "unnamed tab",
             tooltip: "",
             panelComponent: null,
             closable: true,
             iconClass: "",
             disable: false
-        }),
+        },
         defaultDirection: 'ltr',
         directionsRange: ['ltr', 'rtl'],
         keyTemps: {
-            panel: id => id,
-            ariaLabelledby: id => `label_${id}`
+            panel: id => `rc-dyntabs${this._num}-p-${id}`,
+            ariaLabelledby: id => `rc-dyntabs${this._num}-l-${id}`
         }
     };
 };
-export default getSetting;
+export default Setting;

@@ -146,7 +146,7 @@ api.prototype.add = (function () {
         this.helper.isObj(obj) || invalidParamEr('add');
         obj.hasOwnProperty('id') || invalidParamEr('add');
     }
-        , _setDefaultOp = function (obj) { obj = Object.assign(this.getSetting().getDefaultTabObj(), obj); };
+        , _setDefaultOp = function (obj) { obj = Object.assign({}, this.getSetting().defaultTabObj, obj); };
     return function (tabObj = missingParamEr('add')) {
         _validate.call(this, tabObj);
         _setDefaultOp.call(this, tabObj);
