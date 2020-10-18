@@ -5,7 +5,7 @@ const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const { id, selectedTabID } = props
         , api = useContext(ApiContext)
-        , { cssClasses: { panel, selected }, idTemplate } = api.getSetting()
+        , { cssClasses: { panel, selected }, keyTemps } = api.getSetting()
         , dependedOnIsSelected = {
             panelClass: panel,
             ariaHidden: true
@@ -15,8 +15,8 @@ const Panel = memo(function Panel(props) {
         ariaHidden: false
     });
     return (
-        <div id={idTemplate.panel(id)} className={dependedOnIsSelected.panelClass}
-            aria-labelledby={idTemplate.ariaLabelledby(id)} role='tabpanel'
+        <div id={keyTemps.panel(id)} className={dependedOnIsSelected.panelClass}
+            aria-labelledby={keyTemps.ariaLabelledby(id)} role='tabpanel'
             aria-hidden={dependedOnIsSelected.ariaHidden}>
             {api.getPanel(id)}
         </div>

@@ -1,18 +1,18 @@
 const DefaultTabInnerProps = Object.create({
     get: function (param) {
-        const { id, isSelected, api } = param, { cssClasses, idTemplate } = api.getSetting();
-        Object.assign(param, { a11y: api.getOptions().accessibility, cssClasses, idTemplate });
+        const { id, isSelected, api } = param, { cssClasses, keyTemps } = api.getSetting();
+        Object.assign(param, { a11y: api.getOptions().accessibility, cssClasses, keyTemps });
         return {
             id, isSelected, api,
             liInnerProps: this.getA11Y(this.getBase(param), param)
         };
     },
-    getBase: function ({ cssClasses, id, idTemplate }) {
+    getBase: function ({ cssClasses, id, keyTemps }) {
         return {
-            id: idTemplate.ariaLabelledby(id),
+            id: keyTemps.ariaLabelledby(id),
             className: cssClasses.title,
             tabIndex: -1
-            //href: `#${api.helper.idTemplate.panel(id)}`
+            //href: `#${api.helper.keyTemps.panel(id)}`
         };
     },
     getA11Y: function (obj, { a11y }) {

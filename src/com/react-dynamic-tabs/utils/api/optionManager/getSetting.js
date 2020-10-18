@@ -24,7 +24,7 @@ const getSetting = function () {
         }),
         defaultDirection: 'ltr',
         directionsRange: ['ltr', 'rtl'],
-        idTemplate: {
+        keyTemps: {
             panel: id => id,
             ariaLabelledby: id => `label_${id}`
         }
