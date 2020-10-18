@@ -1,5 +1,5 @@
 import apiFactory from './api.factory';
-import OptionManager from './optionManager';
+import OptionManager from './optionManager/optionManager.js';
 import PanelProxy from './panelProxy.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
