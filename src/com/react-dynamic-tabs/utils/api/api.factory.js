@@ -90,9 +90,8 @@ api.prototype.select = (function () {
 })();
 api.prototype._findTabIdForSwitching = (function () {
     const _findOpenedAndNoneDisableTabId = function (tabsIdArr, isRightToLeft) {
-        return (this.helper.arrFilterUntilFirstValue(tabsIdArr, id =>
-            this.isOpen(id) && (!this.getTabObj(id).disable) && (!this.isSelected(id)), isRightToLeft)
-            || '');
+        return (this.helper.arrFilterUntilFirstValue(tabsIdArr, id => this.isOpen(id) && (!this.getTabObj(id).disable)
+            && (!this.isSelected(id)), isRightToLeft) || '');
     }
         , _getPreSelectedTabId = function () {
             return _findOpenedAndNoneDisableTabId.call(this, [...this.activedTabsHistory.tabsId], true);
@@ -103,7 +102,7 @@ api.prototype._findTabIdForSwitching = (function () {
         }
         , _getNextSiblingTabId = function () {
             const data = this.state, arr = data.openTabIDs;
-            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.selectedTabID), arr.length - 1));
+            return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.selectedTabID) + 1));
         };
     return function () {
         let tabId = '';
