@@ -29,7 +29,7 @@ OptionManager.prototype._getDefaultOptions = function () {
         onInit: function () { },
         onDestroy: function () { },
         isCustomTabComponent: false,
-        accessibility: false
+        accessibility: true
     };
     let _direction = this.setting.defaultDirection, _data = {}, _tabComponent = this._DefaulTabInnerComponent;
     const that = this;
