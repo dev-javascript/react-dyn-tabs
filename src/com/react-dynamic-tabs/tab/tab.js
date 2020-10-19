@@ -9,10 +9,10 @@ const Tab = memo(
             , api = React.useContext(ApiContext), op = api.getOptions(), cssClasses = api.getSetting().cssClasses
             , tabObj = op.data[id]
             , { close: closeClass } = cssClasses
-            , isSelected = selectedTabID === id
+            , propsManagerParam = { api, id, isSelected: selectedTabID === id }
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
-            , tabProps = propsManager.getTabProps({ api, id, isSelected })
-            , tabInnerProps = propsManager.getTabInnerProps({ api, id, isSelected })
+            , tabProps = propsManager.getTabProps(propsManagerParam)
+            , tabInnerProps = propsManager.getTabInnerProps(propsManagerParam)
             , TabInnerComponent = op.tabComponent;
         return (
             <li {...tabProps} onClick={e => { clkHandler(e); }}>

@@ -40,12 +40,10 @@
 }
 
 .rc-dyntabs-ltr .rc-dyntabs-tab>*:first-child {
-    float    : right;
     direction: rtl;
 }
 
 .rc-dyntabs-rtl .rc-dyntabs-tab>*:first-child {
-    float    : left;
     direction: ltr;
 }
 

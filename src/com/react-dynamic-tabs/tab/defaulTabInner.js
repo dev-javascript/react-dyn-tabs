@@ -4,11 +4,11 @@ const DefaulTabInner = function (props) {
         , { icon: defaultIconClass } = api.getSetting().cssClasses;
     return (
         <button {...props.liInnerProps}>
+            {props.children}
             {
                 userIconClass &&
                 <span className={`${userIconClass} ${defaultIconClass}`}></span>
             }
-            {props.children}
         </button>
     );
 };
