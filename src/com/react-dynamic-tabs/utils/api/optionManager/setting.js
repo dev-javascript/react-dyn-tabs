@@ -1,4 +1,4 @@
-let _number = 0;
+let _number = 1;
 const Setting = function () {
     this._num = _number++;
 };

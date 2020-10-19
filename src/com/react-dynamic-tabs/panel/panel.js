@@ -1,23 +1,14 @@
 import React, { useContext, memo } from 'react';
 import './index.css';
 import { ApiContext, ForceUpdateContext } from '../utils/context.js';
+import panelPropsManager from './panelPropsManager.js';
 const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const { id, selectedTabID } = props
         , api = useContext(ApiContext)
-        , { cssClasses: { panel, selected }, keyTemps } = api.getSetting()
-        , dependedOnIsSelected = {
-            panelClass: panel,
-            ariaHidden: true
-        };
-    selectedTabID === id && Object.assign(dependedOnIsSelected, {
-        panelClass: panel + ' ' + selected,
-        ariaHidden: false
-    });
+        , panelProps = panelPropsManager.get({ isSelected: id === selectedTabID, api, id });
     return (
-        <div id={keyTemps.panel(id)} className={dependedOnIsSelected.panelClass}
-            aria-labelledby={keyTemps.ariaLabelledby(id)} role='tabpanel'
-            aria-hidden={dependedOnIsSelected.ariaHidden}>
+        <div {...panelProps}>
             {api.getPanel(id)}
         </div>
     )

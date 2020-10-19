@@ -7,16 +7,18 @@ const DefaultTabInnerProps = Object.create({
             liInnerProps: this.getA11Y(this.getBase(param), param)
         };
     },
-    getBase: function ({ cssClasses, id, keyTemps }) {
+    getBase: function ({ cssClasses, id }) {
         return {
-            id: keyTemps.ariaLabelledby(id),
+            'tab-id': id,
             className: cssClasses.title,
             tabIndex: -1
-            //href: `#${api.helper.keyTemps.panel(id)}`
         };
     },
-    getA11Y: function (obj, { a11y }) {
-        a11y && (obj.role = 'presentation');
+    getA11Y: function (obj, { a11y, keyTemps, id }) {
+        if (a11y) {
+            obj.id = keyTemps.ariaLabelledby(id);
+            obj.role = 'presentation';
+        }
         return obj;
     },
 });
