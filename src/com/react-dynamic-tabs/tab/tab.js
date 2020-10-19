@@ -6,20 +6,18 @@ const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
         const { id, selectedTabID } = props
-            , api = React.useContext(ApiContext), op = api.getOptions(), cssClasses = api.getSetting().cssClasses
-            , tabObj = op.data[id]
-            , { close: closeClass } = cssClasses
+            , api = React.useContext(ApiContext), op = api.getOptions(), tabObj = op.data[id]
             , propsManagerParam = { api, id, isSelected: selectedTabID === id }
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
-            , tabProps = propsManager.getTabProps(propsManagerParam)
-            , tabInnerProps = propsManager.getTabInnerProps(propsManagerParam)
             , TabInnerComponent = op.tabComponent;
         return (
-            <li {...tabProps} onClick={e => { clkHandler(e); }}>
-                <TabInnerComponent {...tabInnerProps}>{tabObj.title}</TabInnerComponent>
+            <li {...propsManager.getTabProps(propsManagerParam)} onClick={e => { clkHandler(e); }}>
+                <TabInnerComponent {...propsManager.getTabInnerProps(propsManagerParam)}>
+                    {tabObj.title}
+                </TabInnerComponent>
                 {
                     tabObj.closable ?
-                        (<span className={closeClass} >&times;</span>) : null
+                        (<span {...propsManager.getTabCloseIconProps(propsManagerParam)} >&times;</span>) : null
                 }
             </li>
         );
