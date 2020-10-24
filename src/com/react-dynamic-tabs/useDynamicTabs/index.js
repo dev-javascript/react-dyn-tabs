@@ -13,7 +13,7 @@ function useDynamicTabs(options) {
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     useLayoutEffect(() => {
-        api.publishers.onInit.trigger();
+        api.publishers.onLoad.trigger();
         return () => { api.publishers.onDestroy.trigger(); };
     }, []);
     useLayoutEffect(() => {
@@ -22,16 +22,23 @@ function useDynamicTabs(options) {
             , isSwitched = oldState.selectedTabID !== state.selectedTabID;
         api.publishers.onChange.trigger({ newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
-    const tabListEl = (
-        <ApiContext.Provider value={_ref.api}>
-            <StateContext.Provider value={state}>
-                <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
-                    <TabList></TabList>
-                </ForceUpdateContext.Provider>
-            </StateContext.Provider>
-        </ApiContext.Provider>
-    )
-        , panelListEl = (
+    const TabListComponent = (props = {}) => {
+        // const { onLoad } = props;
+        // if (onLoad) {
+        //     if (typeof onLoad !== 'function') { throw 'onLoad parameter must be type of function'; }
+        //     _ref.api.setOption('onLoad', onLoad);
+        // }
+        return (
+            <ApiContext.Provider value={_ref.api}>
+                <StateContext.Provider value={state}>
+                    <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
+                        <TabList></TabList>
+                    </ForceUpdateContext.Provider>
+                </StateContext.Provider>
+            </ApiContext.Provider>
+        );
+    }
+        , PanelListCompoent = props => (
             <ApiContext.Provider value={_ref.api}>
                 <StateContext.Provider value={state}>
                     <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
@@ -40,7 +47,7 @@ function useDynamicTabs(options) {
                 </StateContext.Provider>
             </ApiContext.Provider>
         );
-    return [tabListEl, panelListEl, ref.current.api.userProxy];
+    return [TabListComponent, PanelListCompoent, _ref.api.userProxy];
 }
 useDynamicTabs.defaultOptions = {};
 export default useDynamicTabs;

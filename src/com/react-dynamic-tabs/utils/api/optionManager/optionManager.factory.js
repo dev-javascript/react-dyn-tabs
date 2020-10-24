@@ -26,7 +26,7 @@ OptionManager.prototype._getDefaultOptions = function () {
         onClose: function (IDs) { },
         onSelect: function ({ currentSelectedTabId, perviousSelectedTabId }) { },
         onChange: function ({ currentData, perviousData }) { },
-        onInit: function () { },
+        onLoad: function (api) { },
         onDestroy: function () { },
         isCustomTabComponent: false,
         accessibility: true

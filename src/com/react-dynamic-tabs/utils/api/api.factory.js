@@ -19,20 +19,19 @@ const api = function (getDeps, param = { options: {} }) {
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
-    const { onChange, onOpen, onSelect, onClose, onDestroy, onInit } = this.getOptions()
-        , _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onInit.subscribe(() => { onInit.call(api); });
-    _pbs.onDestroy.subscribe(() => { onDestroy.call(api); });
+    const op = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
+    _pbs.onLoad.subscribe(() => { op.onLoad.call(api, api); });
+    _pbs.onDestroy.subscribe(() => { op.onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
         .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.add(oldState.selectedTabID); })
         .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
             const currentSelectedTabId = newState.selectedTabID
                 , perviousSelectedTabId = oldState.selectedTabID;
-            openedTabsId.length && onOpen.call(api, openedTabsId);
-            closedTabsId.length && onClose.call(api, closedTabsId);
-            isSwitched && onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
-            onChange.call(api, { currentData: newState, perviousData: oldState });
+            openedTabsId.length && op.onOpen.call(api, openedTabsId);
+            closedTabsId.length && op.onClose.call(api, closedTabsId);
+            isSwitched && op.onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
+            op.onChange.call(api, { currentData: newState, perviousData: oldState });
         });
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
@@ -186,7 +185,7 @@ api.prototype._getPublishers = function (Publisher) {
     return {
         beforeSwitchTab: new (Publisher)()
         , onChange: new (Publisher)()
-        , onInit: new (Publisher)()
+        , onLoad: new (Publisher)()
         , onDestroy: new (Publisher)()
     };
 };

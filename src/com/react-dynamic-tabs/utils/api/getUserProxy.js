@@ -1,5 +1,5 @@
 const getUserProxy = function (ctx) {
-    const proxy = {
+    const _proxy = {
         setOption: function (name, value) { ctx.setOption(name, value); return this; },
         getTabObj: function (tabId) { return ctx.getTabObj(tabId); },
         isSelected: function (tabId) { return ctx.isSelected(tabId); },
@@ -13,6 +13,6 @@ const getUserProxy = function (ctx) {
         reload: function () { return ctx.reload(); },
         clearPanelCache: function (panelId) { ctx.clearPanelCache(panelId); return this; }
     };
-    return proxy;
+    return _proxy;
 };
 export default getUserProxy;
