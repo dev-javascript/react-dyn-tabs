@@ -20,7 +20,7 @@ api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
     const op = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onLoad.subscribe(() => { op.onLoad.call(api, api); });
+    _pbs.onLoad.subscribe(() => { op.onLoad.call(api); });
     _pbs.onDestroy.subscribe(() => { op.onDestroy.call(api); });
     _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
     _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })

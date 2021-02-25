@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-//https://stackoverflow.com/questions/54254553/dynamic-import-in-react-not-working-when-trying-to-import-a-component-in-another
 const WrapperPanelComponent = memo(function WrapperPanelComponent(props) {
+    if (!React.isValidElement(props.childComponent))
+        throw `panelComponent propperty with tabID ${props.panelId} is not a valid react element`;
     return props.childComponent;
 }, () => true);
-// to do... => writting this section with Sets instead of using Array
 const PanelProxy = function (panelId) {
     this._renderedPanels = [];
     panelId && this._renderedPanels.push(panelId);
@@ -20,7 +20,7 @@ PanelProxy.prototype.setRenderedPanels = function (panelsIdArray) {
 };
 PanelProxy.prototype.getPanel = function (panelId, panelComponent) {
     return this._isExisted(panelId) ?
-        <WrapperPanelComponent childComponent={panelComponent}></WrapperPanelComponent>
+        <WrapperPanelComponent childComponent={panelComponent} panelId={panelId}></WrapperPanelComponent>
         : null;
 };
 export default PanelProxy;
