@@ -71,7 +71,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         beforeSelect.call(this.userProxy, e, id) && this.select(id);
 };
 api.prototype._getOnChangePromise = function () {
-    return new (Promise)(resolve => { this.pub_sub.onceSubscribe('onChange', () => { resolve.call(this.userProxy); }); });
+    return new (Promise)(resolve => { this.pub_sub.oneSubscribe('onChange', () => { resolve.call(this.userProxy); }); });
 };
 api.prototype.select = (function () {
     function _validate(id) {
@@ -180,6 +180,18 @@ api.prototype.reload = function () {
 api.prototype.clearPanelCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
         this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
+    return this;
+};
+api.prototype.on = function (eventName, callback) {
+    this.pub_sub.subscribe(eventName, callback);
+    return this;
+};
+api.prototype.off = function (eventName, callback) {
+    this.pub_sub.unSubscribe(eventName, callback);
+    return this;
+};
+api.prototype.one = function (eventName, callback) {
+    this.pub_sub.oneSubscribe(eventName, callback);
     return this;
 };
 export default api;

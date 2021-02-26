@@ -14,7 +14,7 @@ Pub_Sub.prototype.subscribe = function (publisherName, fn) {
     this.publishers[publisherName].push(fn);
     return this;
 };
-Pub_Sub.prototype.onceSubscribe = function (publisherName, fn) {
+Pub_Sub.prototype.oneSubscribe = function (publisherName, fn) {
     const _fn = param => {
         fn(param);
         this.unSubscribe(publisherName, _fn);
