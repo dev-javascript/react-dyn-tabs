@@ -14,26 +14,40 @@ const api = function (getDeps, param = { options: {} }) {
         userProxy: getUserProxy(this)
     });
     this.pub_sub = pub_sub_Instance;
-    this._createSubscribers();
+    this._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
 };
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
-api.prototype._createSubscribers = function () {
-    const op = this.getOptions(), api = this.userProxy, _pp = this._panelProxy;
-    this.pub_sub
-        .subscribe('onLoad', () => { op.onLoad.call(api); })
-        .subscribe('onDestroy', () => { op.onDestroy.call(api); })
-        .subscribe('beforeSwitchTab', (id) => { _pp.addRenderedPanel(id); })
-        .subscribe('onChange', ({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
-        .subscribe('onChange', ({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.add(oldState.selectedTabID); })
-        .subscribe('onChange', ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
-            const currentSelectedTabId = newState.selectedTabID
-                , perviousSelectedTabId = oldState.selectedTabID;
-            openedTabsId.length && op.onOpen.call(api, openedTabsId);
-            closedTabsId.length && op.onClose.call(api, closedTabsId);
-            isSwitched && op.onSelect.call(api, { currentSelectedTabId, perviousSelectedTabId });
-            op.onChange.call(api, { currentData: newState, perviousData: oldState });
+api.prototype._alterOnChangeCallback = function () {
+    const op = this.getOptions();
+    op.onChange = op.onChange || (() => { });
+    const oldOnchange = op.onChange;
+    op.onChange = function ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) {
+        oldOnchange.call(this, { currentData: newState, perviousData: oldState });
+        openedTabsId.length && this.trigger('onOpen', openedTabsId, this);
+        closedTabsId.length && this.trigger('onClose', closedTabsId, this);
+        isSwitched && this.trigger('onSelect', {
+            currentSelectedTabId: newState.selectedTabID,
+            perviousSelectedTabId: oldState.selectedTabID
+        }, this);
+    };
+    return this;
+};
+api.prototype._subscribeSelectedTabsHistory = function () {
+    this.pub_sub.subscribe('onChange', ({ isSwitched, oldState }) => {
+        isSwitched && this.activedTabsHistory.add(oldState.selectedTabID);
+    });
+    return this;
+};
+api.prototype._subscribeCallbacksOptions = function () {
+    const op = this.getOptions();
+    Object.keys(this.pub_sub.publishers).map(publisher => {
+        this.pub_sub.subscribe(publisher, param => {
+            if (op.hasOwnProperty(publisher) && typeof op[publisher] === 'function')
+                op[publisher].call(this, param);
         });
+    });
+    return this;
 };
 api.prototype.getCopyPerviousData = function () { return this.helper.getCopyState(this.perviousState); };
 api.prototype.getOptions = function () { return this.optionManager.getMutableOptions(); };

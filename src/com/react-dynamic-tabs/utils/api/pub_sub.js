@@ -4,6 +4,9 @@ const Pub_Sub = function (subscribers) {
         , onChange: []
         , onLoad: []
         , onDestroy: []
+        , onOpen: []
+        , onClose: []
+        , onSelect: []
     };
 };
 Pub_Sub.prototype.unSubscribe = function (publisherName, fn) {
@@ -21,10 +24,10 @@ Pub_Sub.prototype.oneSubscribe = function (publisherName, fn) {
     };
     return this.subscribe(publisherName, _fn);
 };
-Pub_Sub.prototype.trigger = function (publisherName, param) {
+Pub_Sub.prototype.trigger = function (publisherName, param, context) {
     const _subscribers = [...this.publishers[publisherName]];
     _subscribers.map(subscriber => {
-        subscriber(param);
+        context ? subscriber.call(context, param) : subscriber(param);
     });
     return this;
 };
