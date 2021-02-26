@@ -4,7 +4,7 @@ const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } =
 const api = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, panelProxyIns, helper, getUserProxy,
-        activedTabsHistoryIns, Publisher } = getDeps(param.options);
+        activedTabsHistoryIns, pub_sub_Instance } = getDeps(param.options);
     BaseApi.call(this, helper);
     helper.objDefineNoneEnumerableProps(this, {
         optionManager: optionManagerIns,
@@ -13,19 +13,20 @@ const api = function (getDeps, param = { options: {} }) {
         activedTabsHistory: activedTabsHistoryIns,
         userProxy: getUserProxy(this)
     });
-    this.publishers = this._getPublishers(Publisher);
+    this.pub_sub = pub_sub_Instance;
     this._createSubscribers();
 };
 api.prototype = Object.create(BaseApi.prototype);
 api.prototype.constructor = api;
 api.prototype._createSubscribers = function () {
-    const op = this.getOptions(), _pbs = this.publishers, api = this.userProxy, _pp = this._panelProxy;
-    _pbs.onLoad.subscribe(() => { op.onLoad.call(api); });
-    _pbs.onDestroy.subscribe(() => { op.onDestroy.call(api); });
-    _pbs.beforeSwitchTab.subscribe((id) => { _pp.addRenderedPanel(id); });
-    _pbs.onChange.subscribe(({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
-        .subscribe(({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.add(oldState.selectedTabID); })
-        .subscribe(({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
+    const op = this.getOptions(), api = this.userProxy, _pp = this._panelProxy;
+    this.pub_sub
+        .subscribe('onLoad', () => { op.onLoad.call(api); })
+        .subscribe('onDestroy', () => { op.onDestroy.call(api); })
+        .subscribe('beforeSwitchTab', (id) => { _pp.addRenderedPanel(id); })
+        .subscribe('onChange', ({ closedTabsId }) => { closedTabsId.map(id => { _pp.removeRenderedPanel(id); }); })
+        .subscribe('onChange', ({ isSwitched, oldState }) => { isSwitched && this.activedTabsHistory.add(oldState.selectedTabID); })
+        .subscribe('onChange', ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
             const currentSelectedTabId = newState.selectedTabID
                 , perviousSelectedTabId = oldState.selectedTabID;
             openedTabsId.length && op.onOpen.call(api, openedTabsId);
@@ -70,7 +71,7 @@ api.prototype.eventHandlerFactory = function ({ e, id }) {
         beforeSelect.call(this.userProxy, e, id) && this.select(id);
 };
 api.prototype._getOnChangePromise = function () {
-    return new (Promise)(resolve => { this.publishers.onChange.onceSubscribe(() => { resolve.call(this.userProxy); }); });
+    return new (Promise)(resolve => { this.pub_sub.onceSubscribe('onChange', () => { resolve.call(this.userProxy); }); });
 };
 api.prototype.select = (function () {
     function _validate(id) {
@@ -81,7 +82,7 @@ api.prototype.select = (function () {
     }
     return function (id = missingParamEr('select')) {
         _validate.call(this, id);
-        this.publishers.beforeSwitchTab.trigger(id);
+        this.pub_sub.trigger('beforeSwitchTab', id);
         const result = this._getOnChangePromise();
         this._select(id);
         return result;
@@ -128,7 +129,7 @@ api.prototype.setData = (function () {
     return function (param = missingParamEr('setData')) {
         _validate.call(this, param);
         (this.state.selectedTabID !== param.selectedTabID) &&
-            this.publishers.beforeSwitchTab.trigger(param.selectedTabID);
+            this.pub_sub.trigger('beforeSwitchTab', param.selectedTabID);
         const result = this._getOnChangePromise();
         this._setData(param);
         return result;
@@ -180,13 +181,5 @@ api.prototype.clearPanelCache = function (panelId) {
     panelId ? this._panelProxy.removeRenderedPanel(panelId) :
         this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
     return this;
-};
-api.prototype._getPublishers = function (Publisher) {
-    return {
-        beforeSwitchTab: new (Publisher)()
-        , onChange: new (Publisher)()
-        , onLoad: new (Publisher)()
-        , onDestroy: new (Publisher)()
-    };
 };
 export default api;

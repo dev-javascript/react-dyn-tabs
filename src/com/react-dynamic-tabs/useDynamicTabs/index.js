@@ -7,47 +7,44 @@ import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.j
 function useDynamicTabs(options) {
     const ref = useRef(null);
     if (ref.current === null)
-        ref.current = { api: new (Api)({ options }) };
+        ref.current = { api: new (Api)({ options }), TabListComponent: null, PanelListCompoent: null };
     const { current: { api } } = ref
         , _ref = ref.current
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     useLayoutEffect(() => {
-        api.publishers.onLoad.trigger();
-        return () => { api.publishers.onDestroy.trigger(); };
+        api.pub_sub.trigger('onLoad');
+        return () => { api.pub_sub.trigger('onDestroy'); };
     }, []);
     useLayoutEffect(() => {
         const oldState = api.getCopyPerviousData()
             , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs)
             , isSwitched = oldState.selectedTabID !== state.selectedTabID;
-        api.publishers.onChange.trigger({ newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
+        api.pub_sub.trigger('onChange', { newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
-    const TabListComponent = (props = {}) => {
-        // const { onLoad } = props;
-        // if (onLoad) {
-        //     if (typeof onLoad !== 'function') { throw 'onLoad parameter must be type of function'; }
-        //     _ref.api.setOption('onLoad', onLoad);
-        // }
-        return (
+    if (!_ref.TabListComponent)
+        _ref.TabListComponent = (props = {}) => {
+            return (
+                <ApiContext.Provider value={_ref.api}>
+                    <StateContext.Provider value={_ref.api._stateRef}>
+                        <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
+                            <TabList {...props}>props.children</TabList>
+                        </ForceUpdateContext.Provider>
+                    </StateContext.Provider>
+                </ApiContext.Provider>
+            );
+        };
+    if (!_ref.PanelListCompoent)
+        _ref.PanelListCompoent = props => (
             <ApiContext.Provider value={_ref.api}>
-                <StateContext.Provider value={state}>
+                <StateContext.Provider value={_ref.api._stateRef}>
                     <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
-                        <TabList></TabList>
+                        <PanelList {...props}>props.children</PanelList>
                     </ForceUpdateContext.Provider>
                 </StateContext.Provider>
             </ApiContext.Provider>
         );
-    }
-        , PanelListCompoent = props => (
-            <ApiContext.Provider value={_ref.api}>
-                <StateContext.Provider value={state}>
-                    <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
-                        <PanelList></PanelList>
-                    </ForceUpdateContext.Provider>
-                </StateContext.Provider>
-            </ApiContext.Provider>
-        );
-    return [TabListComponent, PanelListCompoent, _ref.api.userProxy];
+    return [_ref.TabListComponent, _ref.PanelListCompoent, _ref.api.userProxy];
 }
 useDynamicTabs.defaultOptions = {};
 export default useDynamicTabs;
