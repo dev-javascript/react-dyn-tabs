@@ -182,16 +182,20 @@ api.prototype.clearPanelCache = function (panelId) {
         this._panelProxy.setRenderedPanels([this.state.selectedTabID]);
     return this;
 };
-api.prototype.on = function (eventName, callback) {
-    this.pub_sub.subscribe(eventName, callback);
+api.prototype.on = function (eventName, handler) {
+    this.pub_sub.subscribe(eventName, handler);
     return this;
 };
-api.prototype.off = function (eventName, callback) {
-    this.pub_sub.unSubscribe(eventName, callback);
+api.prototype.off = function (eventName, handler) {
+    this.pub_sub.unSubscribe(eventName, handler);
     return this;
 };
-api.prototype.one = function (eventName, callback) {
-    this.pub_sub.oneSubscribe(eventName, callback);
+api.prototype.one = function (eventName, handler) {
+    this.pub_sub.oneSubscribe(eventName, handler);
+    return this;
+};
+api.prototype.trigger = function (eventName, handler) {
+    this.pub_sub.trigger(eventName, handler);
     return this;
 };
 export default api;
