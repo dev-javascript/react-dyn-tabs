@@ -1,28 +1,28 @@
 const Pub_Sub = function (subscribers) {
-    this.events = {
+    this.publishers = {
         beforeSwitchTab: []
         , onChange: []
         , onLoad: []
         , onDestroy: []
     };
 };
-Pub_Sub.prototype.unSubscribe = function (eventName, fn) {
-    this.events[eventName].splice(this.events[eventName].indexOf(fn), 1);
+Pub_Sub.prototype.unSubscribe = function (publisherName, fn) {
+    this.publishers[publisherName].splice(this.publishers[publisherName].indexOf(fn), 1);
     return this;
 };
-Pub_Sub.prototype.subscribe = function (eventName, fn) {
-    this.events[eventName].push(fn);
+Pub_Sub.prototype.subscribe = function (publisherName, fn) {
+    this.publishers[publisherName].push(fn);
     return this;
 };
-Pub_Sub.prototype.onceSubscribe = function (eventName, fn) {
+Pub_Sub.prototype.onceSubscribe = function (publisherName, fn) {
     const _fn = param => {
         fn(param);
-        this.unSubscribe(eventName, _fn);
+        this.unSubscribe(publisherName, _fn);
     };
-    return this.subscribe(eventName, _fn);
+    return this.subscribe(publisherName, _fn);
 };
-Pub_Sub.prototype.trigger = function (eventName, param) {
-    const _subscribers = [...this.events[eventName]];
+Pub_Sub.prototype.trigger = function (publisherName, param) {
+    const _subscribers = [...this.publishers[publisherName]];
     _subscribers.map(subscriber => {
         subscriber(param);
     });
