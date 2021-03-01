@@ -9,7 +9,7 @@ const Panel = memo(function Panel(props) {
         , panelProps = panelPropsManager.get({ isSelected: id === selectedTabID, api, id });
     return (
         <div {...panelProps}>
-            {api.getPanel(id)}
+            {api.getTab(id).panelComponent}
         </div>
     )
 }, (oldProps, newProps) => {

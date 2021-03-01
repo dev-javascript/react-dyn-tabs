@@ -1,7 +1,7 @@
 const TabProps = Object.create({
     get: function (param) {
         const { api } = param, { cssClasses, keyTemps } = api.getSetting();
-        Object.assign(param, { cssClasses, keyTemps, op: api.getOptions(), tabObj: api.getTabObj(param.id) });
+        Object.assign(param, { cssClasses, keyTemps, op: api.getOptions(), tabObj: api.getTab(param.id) });
         return this._getA11Y(this._getDisabled(this._getSelected(this._getBase(param), param), param), param);
     },
     _getBase: function ({ id, cssClasses, api }) {

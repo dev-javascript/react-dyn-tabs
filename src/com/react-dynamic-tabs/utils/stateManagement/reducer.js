@@ -11,11 +11,6 @@ export default function reducer(state, action) {
                 }
                 return state;
             }
-        case actions.setData: {
-            state.openTabIDs = action.openTabIDs;
-            state.selectedTabID = action.selectedTabID;
-            return helper.getCopyState(state);
-        }
         case actions.open:
             {
                 const arr = state.openTabIDs, tabId = action.tabId;
@@ -25,7 +20,7 @@ export default function reducer(state, action) {
                 }
                 return state;
             }
-        case actions.reload:
+        case actions.refresh:
             return helper.getCopyState(state);
         case actions.active:
             {

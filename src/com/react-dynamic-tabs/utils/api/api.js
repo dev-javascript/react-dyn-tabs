@@ -1,18 +1,22 @@
-import apiFactory from './api.factory';
+import { apiMethods, apiConstructor } from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
-import PanelProxy from './panelProxy.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
 import getUserProxy from './getUserProxy';
 import Pub_Sub from './pub_sub.js';
+import Tabs from './tabs.js';
+import BaseApi from './baseApi.js';
 const getDeps = function (options) {
     const optionManagerIns = new (OptionManager)({ options })
-        , panelProxyIns = new (PanelProxy)(optionManagerIns.getMutableOptions().selectedTabID)
         , activedTabsHistoryIns = new (ActivedTabsHistory)()
-        , pub_sub_Instance = new Pub_Sub();
+    BaseApi.call(this, helper);
+    Tabs.call(this);
+    Pub_Sub.call(this);
     return {
-        activedTabsHistoryIns, optionManagerIns, panelProxyIns, helper, pub_sub_Instance, getUserProxy
+        activedTabsHistoryIns, optionManagerIns, helper, getUserProxy
     };
 };
-export default apiFactory.bind(null, getDeps);
+apiConstructor.prototype = Object.create(Object.assign({}, BaseApi.prototype, Tabs.prototype, Pub_Sub.prototype, apiMethods));
+apiConstructor.prototype.constructor = apiConstructor;
+export default apiConstructor.bind(null, getDeps);
 

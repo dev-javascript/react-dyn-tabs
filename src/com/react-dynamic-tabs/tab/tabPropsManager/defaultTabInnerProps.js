@@ -1,7 +1,7 @@
 const DefaultTabInnerProps = Object.create({
     get: function (param) {
         const { id, isSelected, api } = param, { cssClasses, keyTemps } = api.getSetting(),
-            userIconClass = api.getTabObj(id).iconClass;
+            userIconClass = api.getTab(id).iconClass;
         Object.assign(param, { a11y: api.getOptions().accessibility, cssClasses, keyTemps, userIconClass });
         return {
             id, isSelected, api,

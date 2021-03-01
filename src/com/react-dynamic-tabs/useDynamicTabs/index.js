@@ -13,20 +13,20 @@ function useDynamicTabs(options) {
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
     api.updateReducer(state, dispatch);
     useLayoutEffect(() => {
-        api.pub_sub.trigger('onLoad');
-        return () => { api.pub_sub.trigger('onDestroy'); };
+        api.trigger('onLoad');
+        return () => { api.trigger('onDestroy'); };
     }, []);
     useLayoutEffect(() => {
         const oldState = api.getCopyPerviousData()
             , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs)
             , isSwitched = oldState.selectedTabID !== state.selectedTabID;
-        api.pub_sub.trigger('onChange', { newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
+        api.trigger('onChange', { newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
     if (!_ref.TabListComponent)
         _ref.TabListComponent = (props = {}) => {
             return (
                 <ApiContext.Provider value={_ref.api}>
-                    <StateContext.Provider value={_ref.api._stateRef}>
+                    <StateContext.Provider value={_ref.api.stateRef}>
                         <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
                             <TabList {...props}>props.children</TabList>
                         </ForceUpdateContext.Provider>
@@ -37,7 +37,7 @@ function useDynamicTabs(options) {
     if (!_ref.PanelListCompoent)
         _ref.PanelListCompoent = props => (
             <ApiContext.Provider value={_ref.api}>
-                <StateContext.Provider value={_ref.api._stateRef}>
+                <StateContext.Provider value={_ref.api.stateRef}>
                     <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
                         <PanelList {...props}>props.children</PanelList>
                     </ForceUpdateContext.Provider>

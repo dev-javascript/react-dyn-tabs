@@ -2,7 +2,6 @@ const actions = {
     open: 'open',
     close: 'close',
     active: 'active',
-    reload: 'reload',
-    setData: 'setData'
+    refresh: 'refresh'
 };
 export default actions;

@@ -18,14 +18,6 @@ Setting.prototype.get = function () {
             ltr: 'rc-dyntabs-ltr',
             rtl: 'rc-dyntabs-rtl'
         },
-        defaultTabObj: {
-            title: "unnamed tab",
-            tooltip: "",
-            panelComponent: null,
-            closable: true,
-            iconClass: "",
-            disable: false
-        },
         defaultDirection: 'ltr',
         directionsRange: ['ltr', 'rtl'],
         keyTemps: {
