@@ -2,14 +2,27 @@ import Helper from '../helper.js';
 const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } = Helper;
 export const apiConstructor = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
-    const { optionManagerIns, helper, getUserProxy, activedTabsHistoryIns } = getDeps.call(this, param.options);
+    const { optionManagerIns, helper, activedTabsHistoryIns } = getDeps.call(this, param.options);
     this.optionManager = optionManagerIns;
     this.helper = helper;
     this.activedTabsHistory = activedTabsHistoryIns;
-    this.userProxy = getUserProxy(this);
-    this._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
+    this._setUserProxy()._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
 };
 export const apiMethods = {
+    _setUserProxy: function () {
+        const userProxy = {};
+        for (var prop in this)
+            if (prop[0] !== '_') {
+                const propValue = this[prop];
+                if (typeof propValue === 'function') {
+                    userProxy[prop] = propValue.bind(this);
+                } else {
+                    userProxy[prop] = propValue;
+                }
+            }
+        this.userProxy = userProxy;
+        return this;
+    },
     _alterOnChangeCallback: function () {
         const op = this.getOptions();
         op.onChange = op.onChange || (() => { });
