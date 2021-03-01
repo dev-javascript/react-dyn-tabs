@@ -8,6 +8,25 @@ helper.getCopyState = function (state) {
         newState.openTabIDs = [...newState.openTabIDs];
     return newState;
 };
+helper.assingAll = function (targetObj, ...sourcObjs) {
+    // copy all enumerable and none-enumerable properties into target
+    sourcObjs.map(sourcObj => {
+        Object.getOwnPropertyNames(sourcObj).map(prop => {
+            targetObj[prop] = sourcObj[prop];
+        });
+    });
+    return targetObj;
+};
+helper.setNoneEnumProps = function (obj, props) {
+    const noneEnum = {};
+    Object.keys(props).map(prop => {
+        noneEnum[prop] = {
+            writable: true,
+            value: props[prop]
+        };
+    });
+    return Object.defineProperties(obj, noneEnum);
+};
 helper.getArraysDiff = function (arr1, arr2) {
     const arr1Copy = [...arr1], arr2Copy = [...arr2];
     arr1.map(item => {

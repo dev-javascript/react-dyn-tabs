@@ -3,16 +3,14 @@ const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } =
 export const apiConstructor = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, helper, activedTabsHistoryIns } = getDeps.call(this, param.options);
-    this.optionManager = optionManagerIns;
-    this.helper = helper;
-    this.activedTabsHistory = activedTabsHistoryIns;
+    helper.setNoneEnumProps(this, { helper, optionManager: optionManagerIns, activedTabsHistory: activedTabsHistoryIns });
     this._setUserProxy()._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
 };
-export const apiMethods = {
+const _apiProps = {
     _setUserProxy: function () {
         const userProxy = {};
         for (var prop in this)
-            if (prop[0] !== '_') {
+            if (prop[0] !== '_' && prop !== 'constructor') {
                 const propValue = this[prop];
                 if (typeof propValue === 'function') {
                     userProxy[prop] = propValue.bind(this);
@@ -69,14 +67,6 @@ export const apiMethods = {
     },
     isSelected: function (id = missingParamEr('isSelected')) { return this._state.selectedTabID == id; },
     isOpen: function (id = missingParamEr('isOpen')) { return this._state.openTabIDs.indexOf(id) >= 0; },
-    eventHandlerFactory: function ({ e, id }) {
-        const { beforeClose, beforeSelect } = this.getOptions(), el = e.target, parentEl = el.parentElement
-            , { close, tab } = this.getSetting().cssClasses;
-        if (el.className.includes(close) && parentEl && parentEl.lastChild && (parentEl.lastChild == el) && parentEl.className.includes(tab))
-            beforeClose.call(this.userProxy, e, id) && this.close(id);
-        else
-            beforeSelect.call(this.userProxy, e, id) && this.select(id);
-    },
     _getOnChangePromise: function () {
         return new (Promise)(resolve => { this.one('onChange', () => { resolve.call(this.userProxy); }); });
     },
@@ -138,3 +128,14 @@ export const apiMethods = {
         return result;
     }
 };
+Helper.setNoneEnumProps(_apiProps, {
+    eventHandlerFactory: function ({ e, id }) {
+        const { beforeClose, beforeSelect } = this.getOptions(), el = e.target, parentEl = el.parentElement
+            , { close, tab } = this.getSetting().cssClasses;
+        if (el.className.includes(close) && parentEl && parentEl.lastChild && (parentEl.lastChild == el) && parentEl.className.includes(tab))
+            beforeClose.call(this.userProxy, e, id) && this.close(id);
+        else
+            beforeSelect.call(this.userProxy, e, id) && this.select(id);
+    }
+});
+export const apiProps = _apiProps;

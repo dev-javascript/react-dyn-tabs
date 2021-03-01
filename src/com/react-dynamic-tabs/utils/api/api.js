@@ -1,4 +1,4 @@
-import { apiMethods, apiConstructor } from './api.factory';
+import { apiProps, apiConstructor } from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
@@ -12,7 +12,6 @@ const getDeps = function (options) {
     Pub_Sub.call(this);
     return { activedTabsHistoryIns, optionManagerIns, helper };
 };
-apiConstructor.prototype = Object.create(Object.assign({}, BaseApi.prototype, Tabs.prototype, Pub_Sub.prototype, apiMethods));
-apiConstructor.prototype.constructor = apiConstructor;
+helper.assingAll(apiConstructor.prototype, BaseApi.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;
 export default apiConstructor.bind(null, getDeps);
 
