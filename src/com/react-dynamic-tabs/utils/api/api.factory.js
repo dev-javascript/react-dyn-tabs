@@ -3,12 +3,10 @@ const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } =
 export const apiConstructor = function (getDeps, param = { options: {} }) {
     param.options = param.options || {};
     const { optionManagerIns, helper, getUserProxy, activedTabsHistoryIns } = getDeps.call(this, param.options);
-    helper.objDefineNoneEnumerableProps(this, {
-        optionManager: optionManagerIns,
-        helper,
-        activedTabsHistory: activedTabsHistoryIns,
-        userProxy: getUserProxy(this)
-    });
+    this.optionManager = optionManagerIns;
+    this.helper = helper;
+    this.activedTabsHistory = activedTabsHistoryIns;
+    this.userProxy = getUserProxy(this);
     this._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
 };
 export const apiMethods = {
