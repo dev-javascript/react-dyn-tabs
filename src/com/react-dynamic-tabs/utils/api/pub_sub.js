@@ -1,12 +1,16 @@
+import helper from '../helper.js';
 const Pub_Sub = function () {
     this._publishers = {
-        beforeSwitchTab: []
-        , onChange: []
+        onChange: []
         , onLoad: []
         , onDestroy: []
         , onOpen: []
         , onClose: []
         , onSelect: []
+        , beforeSelect: []
+        , beforeClose: []
+        , onInit: []
+        , onFirstSelect: []
     };
 };
 //unSubscribe
@@ -34,13 +38,15 @@ Pub_Sub.prototype.one = function (publisherName, fn) {
     }
     return this;
 };
-Pub_Sub.prototype.trigger = function (publisherName, param, context) {
-    if (this._publishers.hasOwnProperty(publisherName)) {
+helper.setNoneEnumProps(Pub_Sub.prototype, {
+    trigger: function (publisherName, context, ...param) {
+        context = context || null;
+        const result = [];
         const _subscribers = [...this._publishers[publisherName]];
         _subscribers.map(subscriber => {
-            context ? subscriber.call(context, param) : subscriber(param);
+            result.push(subscriber.apply(context, param));
         });
+        return result;
     }
-    return this;
-};
+});
 export default Pub_Sub;
