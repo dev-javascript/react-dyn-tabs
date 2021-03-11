@@ -1,19 +1,21 @@
 import Helper from '../helper.js';
 const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } = Helper;
 export const apiConstructor = function (getDeps, param = { options: {} }) {
-    param.options = param.options || {};
-    const { optionManagerIns, helper, activedTabsHistoryIns } = getDeps.call(this, param.options);
-    helper.setNoneEnumProps(this, { helper, optionManager: optionManagerIns, activedTabsHistory: activedTabsHistoryIns });
-    this._setUserProxy()._alterOnChangeCallback()._subscribeCallbacksOptions()._subscribeSelectedTabsHistory();
+    const { optionsManager, helper, activedTabsHistory } = getDeps.call(this, param.options);
+    helper.setNoneEnumProps(this, { optionsManager, helper, activedTabsHistory });
+    this._setUserProxy()._subscribeSelectedTabsHistory()._subscribeCallbacksOptions()._subscribeOnChange();
 };
 const _apiProps = {
     _setUserProxy: function () {
-        const userProxy = {};
+        const userProxy = {}, that = this;
         for (var prop in this)
             if (prop[0] !== '_' && prop !== 'constructor') {
                 const propValue = this[prop];
                 if (typeof propValue === 'function') {
-                    userProxy[prop] = propValue.bind(this);
+                    userProxy[prop] = function () {
+                        const result = propValue.apply(that, arguments);
+                        return result === that ? userProxy : result;
+                    };
                 } else {
                     userProxy[prop] = propValue;
                 }
@@ -21,27 +23,22 @@ const _apiProps = {
         this.userProxy = userProxy;
         return this;
     },
-    _alterOnChangeCallback: function () {
-        const op = this.getOptions();
-        op.onChange = op.onChange || (() => { });
-        const oldOnchange = op.onChange;
-        op.onChange = function ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) {
-            oldOnchange.call(this, { currentData: newState, perviousData: oldState });
-            openedTabsId.length && this.trigger('onOpen', openedTabsId, this);
-            closedTabsId.length && this.trigger('onClose', closedTabsId, this);
-            isSwitched && this.trigger('onSelect', {
+    _subscribeOnChange: function () {
+        this.on('onChange', ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
+            openedTabsId.length && this.trigger('onOpen', this.userProxy, openedTabsId);
+            closedTabsId.length && this.trigger('onClose', this.userProxy, closedTabsId);
+            isSwitched && this.trigger('onSelect', this.userProxy, {
                 currentSelectedTabId: newState.selectedTabID,
                 perviousSelectedTabId: oldState.selectedTabID
-            }, this);
-        };
+            });
+        });
         return this;
     },
     _subscribeCallbacksOptions: function () {
-        const op = this.getOptions();
+        const op = this.optionsManager.options;
         Object.keys(this._publishers).map(eventName => {
-            this.on(eventName, param => {
-                if (op.hasOwnProperty(eventName) && typeof op[eventName] === 'function')
-                    op[eventName].call(this, param);
+            this.on(eventName, function () {
+                op[eventName].apply(this.userProxy, arguments);
             });
         });
         return this;
@@ -52,26 +49,16 @@ const _apiProps = {
         });
         return this;
     },
+    getOption: function (name) { return this.optionsManager.getOption(name); },
+    setOption: function (name, value) { return this.optionsManager.setOption(name, value); },
     getCopyPerviousData: function () { return this.helper.getCopyState(this._perviousState); },
-    getOptions: function () { return this.optionManager.getMutableOptions(); },
-    setOption: function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
-        if (name.toUpperCase() === ('SELECTEDTABID' || 'OPENTABIDS' || 'DATA'))
-            return;
-        this.getOptions()[name] = value;
-    },
-    getSetting: function () { return this.optionManager.setting; },
     getCopyData: function () { return this.helper.getCopyState(this._state); },
-    getInitialState: function () {
-        const { selectedTabID, openTabIDs } = this.getOptions();
-        return { selectedTabID, openTabIDs };
-    },
     isSelected: function (id = missingParamEr('isSelected')) { return this._state.selectedTabID == id; },
     isOpen: function (id = missingParamEr('isOpen')) { return this._state.openTabIDs.indexOf(id) >= 0; },
     _getOnChangePromise: function () {
         return new (Promise)(resolve => { this.one('onChange', () => { resolve.call(this.userProxy); }); });
     },
     select: function (id = missingParamEr('select')) {
-        this.trigger('beforeSwitchTab', id);
         const result = this._getOnChangePromise();
         this._select(id);
         return result;
@@ -103,7 +90,7 @@ const _apiProps = {
     open: function (tabObj = missingParamEr('open')) {
         const result = this._getOnChangePromise();
         this._open(tabObj.id);
-        this._addTab(tabObj);
+        this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
         return result;
     },
     __close: function (id) {
@@ -129,13 +116,25 @@ const _apiProps = {
     }
 };
 Helper.setNoneEnumProps(_apiProps, {
+    getInitialState: function () {
+        const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
+        tabs.map(tab => {
+            this._addTab(tab, { defaultPanelComponent });
+            openTabIDs.push(tab.id);
+        });
+        return { selectedTabID, openTabIDs };
+    },
     eventHandlerFactory: function ({ e, id }) {
-        const { beforeClose, beforeSelect } = this.getOptions(), el = e.target, parentEl = el.parentElement
-            , { close, tab } = this.getSetting().cssClasses;
-        if (el.className.includes(close) && parentEl && parentEl.lastChild && (parentEl.lastChild == el) && parentEl.className.includes(tab))
-            beforeClose.call(this.userProxy, e, id) && this.close(id);
-        else
-            beforeSelect.call(this.userProxy, e, id) && this.select(id);
+        const el = e.target, parentEl = el.parentElement, { closeClass, tabClass } = this.optionsManager.setting;
+        if (el.className.includes(closeClass) && parentEl && parentEl.lastChild && (parentEl.lastChild == el)
+            && parentEl.className.includes(tabClass)) {
+            // if just on of the beforeClose subscribers return false then it will prevent tab from close
+            this.trigger('beforeClose', this.userProxy, e, id).includes(false) || this.close(id);
+        }
+        else {
+            // if just on of the beforeSelect subscribers return false then it will prevent tab from select
+            this.trigger('beforeSelect', this.userProxy, e, id).includes(false) || this.select(id);
+        }
     }
 });
 export const apiProps = _apiProps;

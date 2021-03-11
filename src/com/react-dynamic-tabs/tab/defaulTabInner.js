@@ -1,10 +1,10 @@
 import React from "react";
 const DefaulTabInner = function (props) {
     return (
-        <button {...props.txtWidgetProps}>
+        <button  {...props.tabProps}>
             {props.children}
             {
-                props.iconProps &&
+                props.hasOwnProperty('iconProps') &&
                 <span {...props.iconProps}></span>
             }
         </button>

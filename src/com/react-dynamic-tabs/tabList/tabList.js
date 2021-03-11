@@ -6,7 +6,7 @@ import tablistPropsManager from './tablistPropsManager.js';
 const TabList = memo(function TabList(props) {
     const { openTabIDs, selectedTabID } = React.useContext(StateContext)
         , api = React.useContext(ApiContext)
-        , tablistProps = tablistPropsManager.get({ api });
+        , tablistProps = tablistPropsManager({ api });
     return (
         <ul {...tablistProps}>
             {openTabIDs.map(id => <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>)}

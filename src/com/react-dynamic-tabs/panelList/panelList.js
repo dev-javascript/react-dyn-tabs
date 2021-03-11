@@ -5,8 +5,8 @@ import { ApiContext, StateContext } from '../utils/context.js';
 const PanelList = memo(function PanelList(props) {
     const { openTabIDs, selectedTabID } = React.useContext(StateContext)
         , api = React.useContext(ApiContext)
-        , { cssClasses, cssClasses: { panellist } } = api.getSetting()
-        , className = panellist + ' ' + cssClasses[api.getOptions().direction];
+        , setting = api.optionsManager.setting
+        , className = setting.panellistClass + ' ' + setting[api.getOption('direction') + 'class'];
     return (
         <div className={className}>
             {openTabIDs.map(id =>

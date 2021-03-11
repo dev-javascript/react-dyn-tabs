@@ -1,23 +1,27 @@
 import React, { memo } from "react";
 import "./index.css";
 import { ApiContext, ForceUpdateContext } from "../utils/context.js";
-import propsManager from './tabPropsManager';
+import TabPropsManager from './tabPropsManager.js';
 const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
         const { id, selectedTabID } = props
-            , api = React.useContext(ApiContext), op = api.getOptions(), tabObj = api.getTab(id)
-            , propsManagerParam = { api, id, isSelected: selectedTabID === id }
-            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); }
-            , TabInnerComponent = op.tabComponent;
+            , api = React.useContext(ApiContext);
+        const TabInnerComponent = api.getOption('tabComponent');
+        if (!TabInnerComponent) {
+            debugger;
+        }
+        const tabObj = api.getTab(id)
+            , propsManager = new TabPropsManager({ api, id, isSelected: selectedTabID === id })
+            , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); };
         return (
-            <li {...propsManager.getTabProps(propsManagerParam)} onClick={e => { clkHandler(e); }}>
-                <TabInnerComponent {...propsManager.getTabInnerProps(propsManagerParam)}>
+            <li {...propsManager.getTabProps()} onClick={e => { clkHandler(e); }}>
+                <TabInnerComponent {...propsManager.getTabInnerProps()}>
                     {tabObj.title}
                 </TabInnerComponent>
                 {
                     tabObj.closable ?
-                        (<span {...propsManager.getTabCloseIconProps(propsManagerParam)} >&times;</span>) : null
+                        (<span {...propsManager.getCloseIconProps()} >&times;</span>) : null
                 }
             </li>
         );

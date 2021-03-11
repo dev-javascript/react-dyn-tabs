@@ -3,19 +3,19 @@ import MemoPanel from '../../panel/memoPanel.js';
 function Tabs() {
     this._data = [];
 }
-Tabs.prototype._getDefaultTabData = function () {
+Tabs.prototype._getDefaultTabData = function (defaultPanelComponent) {
     return {
         title: "unnamed tab",
         tooltip: "",
-        panelComponent: null,
+        panelComponent: defaultPanelComponent,
         closable: true,
         iconClass: "",
         disable: false,
         id: `tab_${(new (Date)()).getTime()}`
     };
 };
-Tabs.prototype._addTab = function (tabObj) {
-    tabObj = Object.assign(this._getDefaultTabData(), tabObj);
+Tabs.prototype._addTab = function (tabObj, { defaultPanelComponent }) {
+    tabObj = Object.assign(this._getDefaultTabData(defaultPanelComponent), tabObj);
     this._data.push(tabObj);
     return this;
 };

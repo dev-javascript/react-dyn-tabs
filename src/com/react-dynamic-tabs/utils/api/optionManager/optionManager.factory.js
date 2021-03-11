@@ -1,66 +1,45 @@
+import Helper from '../../helper.js';
+const { throwMissingParam: missingParamEr } = Helper;
 function OptionManager(getDeps, { options }) {
-    const { setting, globalDefaultOptions, DefaulTabInnerComponent } = getDeps();
-    this.options = {};
-    this._globalDefaultOptions = globalDefaultOptions;
-    this._DefaulTabInnerComponent = DefaulTabInnerComponent;
-    this.setting = setting;
-    this.setNewOptions(options);
+    const { globalDefaultOptions } = getDeps();
+    this._defaultOptions = globalDefaultOptions;
+    this._validateOptions(options);
+    debugger;
+    this.options = Object.assign({}, this._defaultOptions, options);
+    this._setSetting();
 };
-OptionManager.prototype.getMutableOptions = function () { return this.options; };
-OptionManager.prototype.setNewOptions = function (newOptions) {
-    this._validation(newOptions).options = Object.assign(this._getDefaultOptions(), this._globalDefaultOptions, newOptions);
+OptionManager.prototype.getOption = function (OptionName) {
+    return this.options[OptionName];
+};
+OptionManager.prototype.setOption = function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
+    if (name.toUpperCase() === ('SELECTEDTABID' || 'OPENTABIDS' || 'DATA'))
+        return this;
+    if (this._defaultOptions.hasOwnProperty(name))
+        this.options[name] = value;
     return this;
 };
-OptionManager.prototype._validation = function (options) {
+OptionManager.prototype._validateOptions = function (options) {
     if (Object.prototype.toString.call(options) !== '[object Object]')
         throw 'Invalid argument in "useDynamicTabs" function. Argument must be type of an object';
     return this;
 };
-OptionManager.prototype._getDefaultOptions = function () {
-    const _options = {
-        openTabIDs: [],
-        selectedTabID: '',
-        beforeSelect: function (e, id) { return true; },
-        beforeClose: function (e, id) { return true; },
-        onOpen: function (IDs) { },
-        onClose: function (IDs) { },
-        onSelect: function ({ currentSelectedTabId, perviousSelectedTabId }) { },
-        onChange: function ({ currentData, perviousData }) { },
-        onLoad: function (api) { },
-        onDestroy: function () { },
-        isCustomTabComponent: false,
-        accessibility: true
+OptionManager.prototype._setSetting = function () {
+    this.setting = {
+        tabClass: 'rc-dyntabs-tab',
+        titleClass: 'rc-dyntabs-title',
+        iconClass: 'rc-dyntabs-icon',
+        selectedClass: 'rc-dyntabs-selected',
+        hoverClass: 'rc-dyntabs-hover',
+        tablistClass: 'rc-dyntabs-tablist',
+        closeClass: 'rc-dyntabs-close',
+        panelClass: 'rc-dyntabs-panel',
+        panellistClass: 'rc-dyntabs-panellist',
+        disableClass: 'rc-dyntabs-disable',
+        ltrClass: 'rc-dyntabs-ltr',
+        rtlClass: 'rc-dyntabs-rtl',
+        panelIdTemplate: id => `rc-dyn-tabs-p-${id}`,
+        ariaLabelledbyIdTemplate: id => `rc-dyn-tabs-l-${id}`
     };
-    let _direction = this.setting.defaultDirection, _data = {}, _tabComponent = this._DefaulTabInnerComponent;
-    const that = this;
-    Object.defineProperties(_options, {
-        direction: {
-            get() { return _direction; },
-            set(value) {
-                if (that.setting.directionsRange.indexOf(value) === -1)
-                    throw 'Invalid direction value! it can be eather of "ltr" or "rtl" ';
-                _direction = value;
-            }
-        },
-        data: {
-            get() { return _data; },
-            set(arr) {
-                arr.reduce((acc, item, i) => {
-                    acc[item.id] = Object.assign({}, that.setting.defaultTabObj, item);
-                    return acc;
-                }, _data);
-            }
-        },
-        tabComponent: {
-            get() { return _tabComponent },
-            set(fn) {
-                if (fn && (typeof fn !== 'function'))
-                    throw 'tabComponent property must be type of a function.';
-                _options.isCustomTabComponent = fn ? true : false;
-                _tabComponent = fn ? fn : that._DefaulTabInnerComponent;
-            }
-        }
-    });
-    return _options;
+    return this;
 };
 export default OptionManager;
