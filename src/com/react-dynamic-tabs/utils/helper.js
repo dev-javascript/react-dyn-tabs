@@ -9,7 +9,7 @@ helper.getCopyState = function (state) {
     return newState;
 };
 helper.assingAll = function (targetObj, ...sourcObjs) {
-    // copy all enumerable and none-enumerable properties into target
+    // copy all enumerable and not enumerable properties into the target
     sourcObjs.map(sourcObj => {
         Object.getOwnPropertyNames(sourcObj).map(prop => {
             targetObj[prop] = sourcObj[prop];

@@ -20,7 +20,6 @@ CreateDefaultOptions.prototype._getOptions = function () {
         onChange: function ({ currentData, perviousData }) { },
         onLoad: function (api) { },
         onDestroy: function () { },
-        isCustomTabComponent: false,// shoud be removed
         accessibility: true,
         defaultPanelComponent: null
     };
@@ -43,7 +42,6 @@ CreateDefaultOptions.prototype._getOptions = function () {
             set(fn) {
                 if (fn && (typeof fn !== 'function'))
                     throw 'tabComponent property must be type of a function.';
-                _options.isCustomTabComponent = fn ? true : false;
                 _tabComponent = fn ? fn : that._DefaulTabInnerComponent;
             },
             enumerable: true

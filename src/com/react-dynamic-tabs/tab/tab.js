@@ -6,12 +6,9 @@ const Tab = memo(
     function Tab(props) {
         React.useContext(ForceUpdateContext);
         const { id, selectedTabID } = props
-            , api = React.useContext(ApiContext);
-        const TabInnerComponent = api.getOption('tabComponent');
-        if (!TabInnerComponent) {
-            debugger;
-        }
-        const tabObj = api.getTab(id)
+            , api = React.useContext(ApiContext)
+            , TabInnerComponent = api.getOption('tabComponent')
+            , tabObj = api.getTab(id)
             , propsManager = new TabPropsManager({ api, id, isSelected: selectedTabID === id })
             , clkHandler = function (e) { api.eventHandlerFactory({ e, id }); };
         return (

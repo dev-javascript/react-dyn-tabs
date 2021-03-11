@@ -4,7 +4,6 @@ function OptionManager(getDeps, { options }) {
     const { globalDefaultOptions } = getDeps();
     this._defaultOptions = globalDefaultOptions;
     this._validateOptions(options);
-    debugger;
     this.options = Object.assign({}, this._defaultOptions, options);
     this._setSetting();
 };
