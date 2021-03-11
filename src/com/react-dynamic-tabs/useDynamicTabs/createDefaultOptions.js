@@ -33,7 +33,8 @@ CreateDefaultOptions.prototype._getOptions = function () {
                 if (that.directionsRange.indexOf(value) === -1)
                     throw 'Invalid direction value! it can be eather of "ltr" or "rtl" ';
                 _direction = value;
-            }
+            },
+            enumerable: true
         },
         tabComponent: {
             get() {
@@ -44,7 +45,8 @@ CreateDefaultOptions.prototype._getOptions = function () {
                     throw 'tabComponent property must be type of a function.';
                 _options.isCustomTabComponent = fn ? true : false;
                 _tabComponent = fn ? fn : that._DefaulTabInnerComponent;
-            }
+            },
+            enumerable: true
         }
     });
     return _options;
