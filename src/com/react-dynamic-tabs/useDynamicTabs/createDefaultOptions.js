@@ -20,6 +20,7 @@ CreateDefaultOptions.prototype._getOptions = function () {
         onChange: function ({ currentData, perviousData }) { },
         onLoad: function (api) { },
         onDestroy: function () { },
+        onInit: function () { },
         accessibility: true,
         defaultPanelComponent: null
     };
