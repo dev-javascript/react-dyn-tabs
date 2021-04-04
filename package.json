@@ -1,38 +1,81 @@
 {
-  "name": "react-dynamic-tabs",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
-  },
+  "name": "react-dyn-tabs",
+  "version": "1.0.0",
+  "private": false,
+  "author": "dev-javascript",
+  "description": "dynamic tabs, full control and api based Tab for ReactJs",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-    "eject": "react-scripts eject"
+    "prebuild": "npm-run-all clean:* --parallel",
+    "build": "npm run build:lib & npm-run-all --parallel build:umd:prod* & npm run build:umd:dev",
+    "build:umd:dev": "cross-env BABEL_OUTPUT=umd INCLUDE_POLYFILLS=true webpack --config webpack.config.js --env=development",
+    "build:umd:prod": "rollup -c",
+    "build:umd:prod-pf": "cross-env INCLUDE_POLYFILLS=true rollup -c",
+    "build:lib": "npm-run-all --parallel build:lib:*",
+    "build:lib:cjs": "cross-env BABEL_OUTPUT=cjs babel src/ --out-dir lib/cjs/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
+    "build:lib:esm": "babel src/ --out-dir lib/esm/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
+    "build:lib:esm-pf": "cross-env INCLUDE_POLYFILLS=true babel src/ --out-dir lib/esm-including-polyfills/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
+    "clean:lib": "rimraf lib",
+    "clean:dist": "rimraf dist",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "peerDependencies": {
+    "@babel/runtime-corejs3": "^7.13.10",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "react-test-renderer": "^16.13.1"
-  }
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/plugin-transform-react-jsx-self": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/runtime-corejs3": "^7.13.10",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^4.3.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "reactstrap": "^8.5.1",
+    "rollup": "^2.41.0",
+    "rollup-plugin-terser": "7.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "flow-typed",
+    "lib",
+    "src",
+    "style",
+    "theme",
+    "themes"
+  ],
+  "keywords": [
+    "react",
+    "dynamic",
+    "tab",
+    "dynamic-tabs",
+    "multi-tabs",
+    "react-dynamic-tabs",
+    "react-dyn-tabs",
+    "react-component",
+    "react-tab",
+    "api-based",
+    "full-control"
+  ],
+  "license": "MIT",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {}
 }
