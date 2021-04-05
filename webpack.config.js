@@ -15,7 +15,6 @@ module.exports = env => {
         },
         devtool: isProduction ? 'source-map' : 'inline-source-map',
         mode: env,
-        watch: !isProduction,
         module: {
             rules: [
                 {
