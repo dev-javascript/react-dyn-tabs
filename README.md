@@ -1,4 +1,4 @@
-# modular-jquery-example
+# react-dyn-tabs
 React Dynamic Tabs, full control and api based Tab
 
 
