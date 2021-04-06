@@ -3,17 +3,20 @@
 
 # dependencies
 /node_modules
-example/node_modules
 /.pnp
 .pnp.js
 
+# production
+webpack*
+rollup*
+.babelrc.js
+
+#demo
+/example
+index.html
+
 # testing
 /coverage
-
-# production
-/build
-/lib
-/dist
 
 # misc
 .DS_Store
