@@ -1,5 +1,5 @@
 # react-dyn-tabs
-React Dynamic Tabs, full control and api based Tab
+React Dynamic Tabs with full API
 
 
 
@@ -9,7 +9,7 @@ React Dynamic Tabs, full control and api based Tab
 * **Open & Close & Select** — Tab can be opened, closed and selected
 * **lazy/eager loading**
 * **Customizable style**
-* **API based and full control**
+* **full control**
 * **ARIA accessible**
 
 
