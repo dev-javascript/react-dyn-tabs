@@ -1,14 +1,12 @@
-const CreateDefaultOptions = function (fn, DefaulTabInnerComponent = null) {
-    this.fn = fn;
+const DefaultOptions = function (DefaulTabInnerComponent = null) {
     this.defaultDirection = 'ltr';
     this._DefaulTabInnerComponent = DefaulTabInnerComponent;
     this.directionsRange = ['ltr', 'rtl'];
-    this._create(this._getOptions());
 };
-CreateDefaultOptions.prototype._create = function (options) {
-    this.fn.options = options;
+DefaultOptions.prototype.getOptions = function () {
+    return this._getOptions();
 };
-CreateDefaultOptions.prototype._getOptions = function () {
+DefaultOptions.prototype._getOptions = function () {
     const _options = {
         tabs: [],
         selectedTabID: '',
@@ -50,4 +48,4 @@ CreateDefaultOptions.prototype._getOptions = function () {
     });
     return _options;
 };
-export default CreateDefaultOptions;
+export default DefaultOptions;

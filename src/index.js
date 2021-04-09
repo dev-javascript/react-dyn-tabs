@@ -1,3 +1,3 @@
 
-import useDynamicTabs from './useDynamicTabs/index.js';
+import useDynamicTabs from './useDynamicTabs/useDynamicTabs.js';
 export default useDynamicTabs;
