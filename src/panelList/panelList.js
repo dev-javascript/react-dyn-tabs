@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import './index.css';
 import Panel from '../panel/panel.js';
 import { ApiContext, StateContext } from '../utils/context.js';
 const PanelList = memo(function PanelList(props) {

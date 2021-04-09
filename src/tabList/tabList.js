@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { ApiContext, StateContext } from '../utils/context.js';
-import './index.css';
 import Tab from '../tab/tab.js';
 import tablistPropsManager from './tablistPropsManager.js';
 const TabList = memo(function TabList(props) {

@@ -1,3 +1,31 @@
+.rc-dyntabs-panel {
+    display: none;
+}
+
+.rc-dyntabs-rtl .rc-dyntabs-panel {
+    direction : rtl;
+    text-align: right;
+}
+
+.rc-dyntabs-ltr .rc-dyntabs-panel {
+    direction : ltr;
+    text-align: left;
+}
+
+.rc-dyntabs-panel.rc-dyntabs-selected {
+    display: block;
+}
+
+
+.rc-dyntabs-tablist {
+    list-style-type: none;
+    margin         : 0;
+    padding        : 0;
+    overflow       : hidden;
+}
+
+
+
 .rc-dyntabs-ltr .rc-dyntabs-tab {
     float: left;
 }

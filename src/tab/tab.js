@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import "./index.css";
 import { ApiContext, ForceUpdateContext } from "../utils/context.js";
 import TabPropsManager from './tabPropsManager.js';
 const Tab = memo(

@@ -1,5 +1,4 @@
 import React, { useContext, memo } from 'react';
-import './index.css';
 import { ApiContext, ForceUpdateContext } from '../utils/context.js';
 import panelPropsManager from './panelPropsManager.js';
 const Panel = memo(function Panel(props) {
