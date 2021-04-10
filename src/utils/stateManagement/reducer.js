@@ -7,7 +7,7 @@ export default function reducer(state, action) {
                 const { openTabIDs: arr } = state, removedItemIndex = arr.indexOf(action.tabId);
                 if (removedItemIndex >= 0) {
                     arr.splice(removedItemIndex, 1);
-                    state = helper.getCopyState(state);
+                    return helper.getCopyState(state);
                 }
                 return state;
             }
