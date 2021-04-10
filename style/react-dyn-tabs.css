@@ -1,23 +1,23 @@
-.rc-dyntabs-panel {
+.rc-dyn-tabs-panel {
     display: none;
 }
 
-.rc-dyntabs-rtl .rc-dyntabs-panel {
+.rc-dyn-tabs-rtl .rc-dyn-tabs-panel {
     direction : rtl;
     text-align: right;
 }
 
-.rc-dyntabs-ltr .rc-dyntabs-panel {
+.rc-dyn-tabs-ltr .rc-dyn-tabs-panel {
     direction : ltr;
     text-align: left;
 }
 
-.rc-dyntabs-panel.rc-dyntabs-selected {
+.rc-dyn-tabs-panel.rc-dyn-tabs-selected {
     display: block;
 }
 
 
-.rc-dyntabs-tablist {
+.rc-dyn-tabs-tablist {
     list-style-type: none;
     margin         : 0;
     padding        : 0;
@@ -26,15 +26,15 @@
 
 
 
-.rc-dyntabs-ltr .rc-dyntabs-tab {
+.rc-dyn-tabs-ltr .rc-dyn-tabs-tab {
     float: left;
 }
 
-.rc-dyntabs-rtl .rc-dyntabs-tab {
+.rc-dyn-tabs-rtl .rc-dyn-tabs-tab {
     float: right;
 }
 
-.rc-dyntabs-tab {
+.rc-dyn-tabs-tab {
     display        : list-item;
     list-style     : none;
     text-align     : center;
@@ -45,43 +45,43 @@
     opacity        : 1;
 }
 
-.rc-dyntabs-tab.rc-dyntabs-disable {
+.rc-dyn-tabs-tab.rc-dyn-tabs-disable {
     pointer-events: none;
     opacity       : 0.7;
 }
 
-.rc-dyntabs-close {
+.rc-dyn-tabs-close {
     position   : absolute;
     top        : 0px;
     cursor     : pointer;
     line-height: 10px;
 }
 
-.rc-dyntabs-ltr .rc-dyntabs-close {
+.rc-dyn-tabs-ltr .rc-dyn-tabs-close {
     right: 0px;
     left : auto;
 }
 
-.rc-dyntabs-rtl .rc-dyntabs-close {
+.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
     left : 0px;
     right: auto;
 }
 
-.rc-dyntabs-ltr .rc-dyntabs-tab>*:first-child {
+.rc-dyn-tabs-ltr .rc-dyn-tabs-tab>*:first-child {
     direction: rtl;
 }
 
-.rc-dyntabs-rtl .rc-dyntabs-tab>*:first-child {
+.rc-dyn-tabs-rtl .rc-dyn-tabs-tab>*:first-child {
     direction: ltr;
 }
 
-.rc-dyntabs-tab>*:first-child {
+.rc-dyn-tabs-tab>*:first-child {
     position   : relative;
     display    : flex;
     align-items: center;
 }
 
-.rc-dyntabs-title {
+.rc-dyn-tabs-title {
     text-decoration: none;
     cursor         : pointer;
     white-space    : nowrap;
@@ -90,6 +90,6 @@
     padding        : .5em 1em;
 }
 
-.rc-dyntabs-icon {
+.rc-dyn-tabs-icon {
     display: inline-block;
 }

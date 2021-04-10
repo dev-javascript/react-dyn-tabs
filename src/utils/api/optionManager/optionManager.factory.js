@@ -24,18 +24,18 @@ OptionManager.prototype._validateOptions = function (options) {
 };
 OptionManager.prototype._setSetting = function () {
     this.setting = {
-        tabClass: 'rc-dyntabs-tab',
-        titleClass: 'rc-dyntabs-title',
-        iconClass: 'rc-dyntabs-icon',
-        selectedClass: 'rc-dyntabs-selected',
-        hoverClass: 'rc-dyntabs-hover',
-        tablistClass: 'rc-dyntabs-tablist',
-        closeClass: 'rc-dyntabs-close',
-        panelClass: 'rc-dyntabs-panel',
-        panellistClass: 'rc-dyntabs-panellist',
-        disableClass: 'rc-dyntabs-disable',
-        ltrClass: 'rc-dyntabs-ltr',
-        rtlClass: 'rc-dyntabs-rtl',
+        tabClass: 'rc-dyn-tabs-tab',
+        titleClass: 'rc-dyn-tabs-title',
+        iconClass: 'rc-dyn-tabs-icon',
+        selectedClass: 'rc-dyn-tabs-selected',
+        hoverClass: 'rc-dyn-tabs-hover',
+        tablistClass: 'rc-dyn-tabs-tablist',
+        closeClass: 'rc-dyn-tabs-close',
+        panelClass: 'rc-dyn-tabs-panel',
+        panellistClass: 'rc-dyn-tabs-panellist',
+        disableClass: 'rc-dyn-tabs-disable',
+        ltrClass: 'rc-dyn-tabs-ltr',
+        rtlClass: 'rc-dyn-tabs-rtl',
         panelIdTemplate: id => `rc-dyn-tabs-p-${id}`,
         ariaLabelledbyIdTemplate: id => `rc-dyn-tabs-l-${id}`
     };

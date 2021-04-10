@@ -1,20 +1,20 @@
-.rc-dyntabs-tablist {
+.rc-dyn-tabs-tablist {
     background-color: #333333;
 }
 
-.rc-dyntabs-tab>.rc-dyntabs-title {
+.rc-dyn-tabs-tab>.rc-dyn-tabs-title {
     background-color: inherit;
 }
 
-.rc-dyntabs-tab.rc-dyntabs-selected>.rc-dyntabs-title {
+.rc-dyn-tabs-tab.rc-dyn-tabs-selected>.rc-dyn-tabs-title {
     background-color: red;
 }
 
-.rc-dyntabs-title,
-.rc-dyntabs-close {
+.rc-dyn-tabs-title,
+.rc-dyn-tabs-close {
     color: white;
 }
 
-.rc-dyntabs-tab.rc-dyntabs-hover {
+.rc-dyn-tabs-tab.rc-dyn-tabs-hover {
     background-color: #532727;
 }
