@@ -6,8 +6,9 @@ export default function reducer(state, action) {
             {
                 const { openTabIDs: arr } = state, removedItemIndex = arr.indexOf(action.tabId);
                 if (removedItemIndex >= 0) {
-                    arr.splice(removedItemIndex, 1);
-                    return helper.getCopyState(state);
+                    const newArr = arr.slice();
+                    newArr.splice(removedItemIndex, 1);
+                    return { selectedTabID: state.selectedTabID, openTabIDs: newArr };
                 }
                 return state;
             }
@@ -15,8 +16,9 @@ export default function reducer(state, action) {
             {
                 const arr = state.openTabIDs, tabId = action.tabId;
                 if (arr.indexOf(tabId) === -1) {
-                    arr.push(tabId);
-                    return helper.getCopyState(state);
+                    const newArr = arr.slice();
+                    newArr.push(tabId);
+                    return { selectedTabID: state.selectedTabID, openTabIDs: newArr };
                 }
                 return state;
             }
