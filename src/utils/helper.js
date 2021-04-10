@@ -11,8 +11,15 @@ helper.getCopyState = function (state) {
 helper.assingAll = function (targetObj, ...sourcObjs) {
     // copy all enumerable and not enumerable properties into the target
     sourcObjs.map(sourcObj => {
+        const enum_only = Object.keys(sourcObj);
         Object.getOwnPropertyNames(sourcObj).map(prop => {
-            targetObj[prop] = sourcObj[prop];
+            if (enum_only.indexOf(prop) >= 0)
+                targetObj[prop] = sourcObj[prop];
+            else
+                Object.defineProperty(targetObj, prop, {
+                    value: sourcObj[prop],
+                    writable: true
+                });
         });
     });
     return targetObj;
