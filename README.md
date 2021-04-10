@@ -1,6 +1,8 @@
 # react-dyn-tabs
 React Dynamic Tabs with full API
 
+### [document](https://github.com/dev-javascript/react-dyn-tabs/)
+
 
 
 ## Features
