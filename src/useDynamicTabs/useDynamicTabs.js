@@ -8,7 +8,7 @@ import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.j
 function useDynamicTabs(options) {
     const ref = useRef(null);
     if (ref.current === null)
-        ref.current = { api: new (Api)({ options }), TabListComponent: null, PanelListCompoent: null };
+        ref.current = { api: new (Api)({ options }), TabListComponent: null, PanelListComponent: null };
     const { current: { api } } = ref
         , _ref = ref.current
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
@@ -29,9 +29,9 @@ function useDynamicTabs(options) {
     if (!_ref.TabListComponent)
         _ref.TabListComponent = (props = {}) => {
             return (
-                <ApiContext.Provider value={_ref.api}>
-                    <StateContext.Provider value={_ref.api.stateRef}>
-                        <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
+                <ApiContext.Provider value={api}>
+                    <StateContext.Provider value={api.stateRef}>
+                        <ForceUpdateContext.Provider value={api.forceUpdateState}>
                             <TabList {...props}>props.children</TabList>
                         </ForceUpdateContext.Provider>
                     </StateContext.Provider>
@@ -40,14 +40,14 @@ function useDynamicTabs(options) {
         };
     if (!_ref.PanelListCompoent)
         _ref.PanelListCompoent = props => (
-            <ApiContext.Provider value={_ref.api}>
-                <StateContext.Provider value={_ref.api.stateRef}>
-                    <ForceUpdateContext.Provider value={_ref.api.forceUpdateState}>
+            <ApiContext.Provider value={api}>
+                <StateContext.Provider value={api.stateRef}>
+                    <ForceUpdateContext.Provider value={state}>
                         <PanelList {...props}>props.children</PanelList>
                     </ForceUpdateContext.Provider>
                 </StateContext.Provider>
             </ApiContext.Provider>
         );
-    return [_ref.TabListComponent, _ref.PanelListCompoent, _ref.api.userProxy];
+    return [_ref.TabListComponent, _ref.PanelListCompoent, api.userProxy];
 }
 export default useDynamicTabs;
