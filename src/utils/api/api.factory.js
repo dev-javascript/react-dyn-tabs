@@ -117,12 +117,15 @@ const _apiProps = {
 };
 Helper.setNoneEnumProps(_apiProps, {
     getInitialState: function () {
-        const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
-        tabs.map(tab => {
-            this._addTab(tab, { defaultPanelComponent });
-            openTabIDs.push(tab.id);
-        });
-        return { selectedTabID, openTabIDs };
+        if (!this._initialState) {
+            const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
+            tabs.map(tab => {
+                this._addTab(tab, { defaultPanelComponent });
+                openTabIDs.push(tab.id);
+            });
+            this._initialState = { selectedTabID, openTabIDs };
+        }
+        return this._initialState;
     },
     eventHandlerFactory: function ({ e, id }) {
         const el = e.target, parentEl = el.parentElement, { closeClass, tabClass } = this.optionsManager.setting;
@@ -133,7 +136,11 @@ Helper.setNoneEnumProps(_apiProps, {
         }
         else {
             // if just on of the beforeSelect subscribers return false then it will prevent tab from select
-            this.trigger('beforeSelect', this.userProxy, e, id).includes(false) || this.select(id);
+            if (!this.trigger('beforeSelect', this.userProxy, e, id).includes(false)) {
+                this.select(id).then(result => {
+                }).catch(er => {
+                });
+            }
         }
     }
 });

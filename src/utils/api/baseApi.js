@@ -3,6 +3,7 @@ import Helper from '../helper.js';
 function BaseApi(helper) {
     this._helper = helper;
     this._state = {};
+    this._initialState = null;
     this._perviousState = {};
     this._dispatch = () => { };
     helper.setNoneEnumProps(this, {
