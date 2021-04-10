@@ -25,10 +25,8 @@ export default function reducer(state, action) {
         case actions.active:
             {
                 const tabId = action.tabId;
-                if (state.selectedTabID !== tabId) {
-                    state.selectedTabID = tabId;
-                    return helper.getCopyState(state);
-                }
+                if (state.selectedTabID !== tabId)
+                    return { selectedTabID: tabId, openTabIDs: state.openTabIDs };
                 return state;
             }
 
