@@ -5,7 +5,7 @@ function Tabs() {
 }
 Tabs.prototype._getDefaultTabData = function (defaultPanelComponent) {
     return {
-        title: "unnamed tab",
+        title: "",
         tooltip: "",
         panelComponent: defaultPanelComponent,
         closable: true,
