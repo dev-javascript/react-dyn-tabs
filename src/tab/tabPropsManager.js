@@ -42,6 +42,7 @@ TabPropsManager.prototype.getTabInnerProps = function () {
         tabProps: {
             'tab-id': this._id,
             className: this._setting.titleClass,
+            title: this._tabObj.tooltip,
             tabIndex: -1
         }
     };
