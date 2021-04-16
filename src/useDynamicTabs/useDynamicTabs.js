@@ -24,7 +24,7 @@ function useDynamicTabs(options) {
         const oldState = api.getCopyPerviousData()
             , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs)
             , isSwitched = oldState.selectedTabID !== state.selectedTabID;
-        api.trigger('onChange', api.userProxy, { newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
+        api.onChange({ newState: state, oldState, closedTabsId, openedTabsId, isSwitched });
     }, [state]);
     if (!_ref.TabListComponent)
         _ref.TabListComponent = (props = {}) => {

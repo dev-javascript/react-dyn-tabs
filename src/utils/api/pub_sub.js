@@ -7,8 +7,6 @@ const Pub_Sub = function () {
         , onOpen: []
         , onClose: []
         , onSelect: []
-        , beforeSelect: []
-        , beforeClose: []
         , onInit: []
         , onFirstSelect: []
     };

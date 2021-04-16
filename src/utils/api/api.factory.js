@@ -3,7 +3,7 @@ const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } =
 export const apiConstructor = function (getDeps, param = { options: {} }) {
     const { optionsManager, helper, activedTabsHistory } = getDeps.call(this, param.options);
     helper.setNoneEnumProps(this, { optionsManager, helper, activedTabsHistory });
-    this._setUserProxy()._subscribeSelectedTabsHistory()._subscribeCallbacksOptions()._subscribeOnChange();
+    this._setUserProxy()._subscribeSelectedTabsHistory()._subscribeCallbacksOptions();//._subscribeOnChange();
 };
 const _apiProps = {
     _setUserProxy: function () {
@@ -23,22 +23,11 @@ const _apiProps = {
         this.userProxy = userProxy;
         return this;
     },
-    _subscribeOnChange: function () {
-        this.on('onChange', ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) => {
-            openedTabsId.length && this.trigger('onOpen', this.userProxy, openedTabsId);
-            closedTabsId.length && this.trigger('onClose', this.userProxy, closedTabsId);
-            isSwitched && this.trigger('onSelect', this.userProxy, {
-                currentSelectedTabId: newState.selectedTabID,
-                perviousSelectedTabId: oldState.selectedTabID
-            });
-        });
-        return this;
-    },
     _subscribeCallbacksOptions: function () {
         const op = this.optionsManager.options;
         Object.keys(this._publishers).map(eventName => {
             this.on(eventName, function () {
-                op[eventName].apply(this.userProxy, arguments);
+                op[eventName].apply(this, arguments);
             });
         });
         return this;
@@ -127,20 +116,29 @@ Helper.setNoneEnumProps(_apiProps, {
         }
         return this._initialState;
     },
+    onChange: function ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) {
+        if (isSwitched || openedTabsId.length || closedTabsId.length) {
+            this.trigger('onChange', this.userProxy, {
+                currentData: { ...newState },
+                perviousData: { ...oldState }
+            });
+            openedTabsId.length && this.trigger('onOpen', this.userProxy, openedTabsId);
+            closedTabsId.length && this.trigger('onClose', this.userProxy, closedTabsId);
+            isSwitched && this.trigger('onSelect', this.userProxy, {
+                currentSelectedTabId: newState.selectedTabID,
+                perviousSelectedTabId: oldState.selectedTabID
+            });
+        }
+        return this;
+    },
     eventHandlerFactory: function ({ e, id }) {
         const el = e.target, parentEl = el.parentElement, { closeClass, tabClass } = this.optionsManager.setting;
         if (el.className.includes(closeClass) && parentEl && parentEl.lastChild && (parentEl.lastChild == el)
             && parentEl.className.includes(tabClass)) {
-            // if just on of the beforeClose subscribers return false then it will prevent tab from close
-            this.trigger('beforeClose', this.userProxy, e, id).includes(false) || this.close(id);
+            (this.getOption('beforeClose').call(this.userProxy, e, id) !== false) && this.close(id);
         }
         else {
-            // if just on of the beforeSelect subscribers return false then it will prevent tab from select
-            if (!this.trigger('beforeSelect', this.userProxy, e, id).includes(false)) {
-                this.select(id).then(result => {
-                }).catch(er => {
-                });
-            }
+            (this.getOption('beforeSelect').call(this.userProxy, e, id) !== false) && this.select(id);
         }
     }
 });
