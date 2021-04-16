@@ -5,10 +5,12 @@ const Panel = memo(function Panel(props) {
     React.useContext(ForceUpdateContext);
     const { id, selectedTabID } = props
         , api = useContext(ApiContext)
-        , panelProps = panelPropsManager({ isSelected: id === selectedTabID, api, id });
+        , isSelected = id === selectedTabID
+        , panelProps = panelPropsManager({ isSelected, api, id })
+        , PanelComponent = api.getTab(id).panelComponent;
     return (
         <div {...panelProps}>
-            {api.getTab(id).panelComponent}
+            <PanelComponent id={id} isSelected={isSelected} api={api.userProxy} ></PanelComponent>
         </div>
     )
 }, (oldProps, newProps) => {

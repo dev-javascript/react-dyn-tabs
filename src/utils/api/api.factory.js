@@ -76,6 +76,10 @@ const _apiProps = {
             return tabId;
         };
     })(),
+    setTab: function (id, newData) {
+        this._setTab(id, newData, this.getOption('defaultPanelComponent'));
+        return this;
+    },
     open: function (tabObj = missingParamEr('open')) {
         const result = this._getOnChangePromise();
         this._open(tabObj.id);

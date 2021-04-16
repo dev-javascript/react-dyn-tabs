@@ -1,3 +1,4 @@
+import React from 'react';
 const DefaultOptions = function (DefaulTabInnerComponent = null) {
     this.defaultDirection = 'ltr';
     this._DefaulTabInnerComponent = DefaulTabInnerComponent;
@@ -20,7 +21,7 @@ DefaultOptions.prototype._getOptions = function () {
         onDestroy: function () { },
         onInit: function () { },
         accessibility: true,
-        defaultPanelComponent: null
+        defaultPanelComponent: function (props) { return <div></div>; }
     };
     let _direction = this.defaultDirection, _tabComponent = this._DefaulTabInnerComponent;
     const that = this;
