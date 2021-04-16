@@ -1,36 +1,419 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`selectedTabID props can be passed as an empty string into tab component 1`] = `
-<li
-  className="rdlt-default-tab defaultTab"
-  id="tab_1"
-  onClick={[Function]}
-  onMouseDown={[Function]}
-  onMouseUp={[Function]}
->
-  a1
-</li>
+exports[`tab structure with default options :  default tab data 1`] = `
+<div>
+  <li
+    aria-controls="rc-dyn-tabs-p-1"
+    aria-expanded={true}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-selected={true}
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    role="tab"
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-1"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    aria-controls="rc-dyn-tabs-p-2"
+    aria-expanded={false}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-selected={false}
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    role="tab"
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-2"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
+</div>
 `;
 
-exports[`tab component with user defined css class "defualtTab" and "activeTab" 1`] = `
-Array [
+exports[`tab structure with default options :  disabled tab 1`] = `
+<div>
   <li
-    className="rdlt-default-tab defaultTab rdlt-active-tab activeTab"
-    id="tab_1"
+    aria-controls="rc-dyn-tabs-p-1"
+    aria-expanded={true}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-selected={true}
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected rc-dyn-tabs-disable"
     onClick={[Function]}
-    onMouseDown={[Function]}
-    onMouseUp={[Function]}
+    role="tab"
+    tab-id="1"
+    tabIndex={-1}
   >
-    a1
-  </li>,
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-1"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
   <li
-    className="rdlt-default-tab defaultTab"
-    id="tab_2"
+    aria-controls="rc-dyn-tabs-p-2"
+    aria-expanded={false}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-selected={false}
+    className="rc-dyn-tabs-tab rc-dyn-tabs-disable"
     onClick={[Function]}
-    onMouseDown={[Function]}
-    onMouseUp={[Function]}
+    role="tab"
+    tab-id="2"
+    tabIndex={-1}
   >
-    a3
-  </li>,
-]
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-2"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
+</div>
+`;
+
+exports[`tab structure with default options :  none closable tab 1`] = `
+<div>
+  <li
+    aria-controls="rc-dyn-tabs-p-1"
+    aria-expanded={true}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-selected={true}
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    role="tab"
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-1"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+  </li>
+  <li
+    aria-controls="rc-dyn-tabs-p-2"
+    aria-expanded={false}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-selected={false}
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    role="tab"
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-2"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+  </li>
+</div>
+`;
+
+exports[`tab structure with default options :  tab with provided tooltip and iconClass 1`] = `
+<div>
+  <li
+    aria-controls="rc-dyn-tabs-p-1"
+    aria-expanded={true}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-selected={true}
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    role="tab"
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-1"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+      title="tab tooltip"
+    >
+      tab title
+      <span
+        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        role="presentation"
+      />
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    aria-controls="rc-dyn-tabs-p-2"
+    aria-expanded={false}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-selected={false}
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    role="tab"
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      id="rc-dyn-tabs-l-2"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+      title="tab tooltip"
+    >
+      tab title
+      <span
+        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        role="presentation"
+      />
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="presentation"
+    >
+      ×
+    </span>
+  </li>
+</div>
+`;
+
+exports[`tab structure with rtl and none accessibility options :  default tab data 1`] = `
+<div>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+</div>
+`;
+
+exports[`tab structure with rtl and none accessibility options :  disabled tab 1`] = `
+<div>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected rc-dyn-tabs-disable"
+    onClick={[Function]}
+    tab-id="1"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-disable"
+    onClick={[Function]}
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+</div>
+`;
+
+exports[`tab structure with rtl and none accessibility options :  none closable tab 1`] = `
+<div>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="1"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+  </li>
+  <li
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="2"
+      tabIndex={-1}
+      title=""
+    >
+      
+    </button>
+  </li>
+</div>
+`;
+
+exports[`tab structure with rtl and none accessibility options :  tab with provided tooltip and iconClass 1`] = `
+<div>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    tab-id="1"
+    tabIndex={0}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="1"
+      tabIndex={-1}
+      title="tab tooltip"
+    >
+      tab title
+      <span
+        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        role="presentation"
+      />
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    tab-id="2"
+    tabIndex={-1}
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      tab-id="2"
+      tabIndex={-1}
+      title="tab tooltip"
+    >
+      tab title
+      <span
+        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        role="presentation"
+      />
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+</div>
 `;
