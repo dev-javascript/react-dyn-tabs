@@ -93,7 +93,7 @@ describe("actions", () => {
         expect(document.querySelector('[tab-id="2"]').className.includes('rc-dyn-tabs-selected')).toBe(true);
     });
     test('set options and tab data + call refresh', () => {
-        let _api;
+        let _api, counter = 0;
         act(() => {
             const App = function (props) {
                 const [Tablist, Panellist, api] = useDynTabs(op);
@@ -119,13 +119,24 @@ describe("actions", () => {
                     </a>
                 );
             });
+            _api.on('onInit', function () {
+                if (!counter) {
+                    counter++;
+                    this.setTab('1', {
+                        panelComponent: function (props) {
+                            return <div id="updatedPanel1"></div>;
+                        }
+                    }).refresh();
+                }
+            });
             _api.refresh();
         });
+        expect(document.getElementById('updatedPanel1') != null).toBe(true);
         expect(document.querySelector('li[tab-id="1"] .rc-dyn-tabs-close') == null).toBe(true);
         expect(document.querySelector('ul').className.includes('rc-dyn-tabs-rtl')).toBe(true);
         expect(document.querySelectorAll('a.rc-dyn-tabs-title').length === 2).toBe(true);
         expect(op.onChange.mock.calls.length).toBe(0);
-        expect(op.onInit.mock.calls.length).toBe(2);
+        expect(op.onInit.mock.calls.length).toBe(3);
     });
 });
 describe("events", () => {

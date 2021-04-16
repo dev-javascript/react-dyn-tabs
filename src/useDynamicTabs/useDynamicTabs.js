@@ -42,7 +42,7 @@ function useDynamicTabs(options) {
         _ref.PanelListCompoent = props => (
             <ApiContext.Provider value={api}>
                 <StateContext.Provider value={api.stateRef}>
-                    <ForceUpdateContext.Provider value={state}>
+                    <ForceUpdateContext.Provider value={api.forceUpdateState}>
                         <PanelList {...props}>props.children</PanelList>
                     </ForceUpdateContext.Provider>
                 </StateContext.Provider>
