@@ -5,7 +5,7 @@ const PanelList = memo(function PanelList(props) {
     const { openTabIDs, selectedTabID } = React.useContext(StateContext)
         , api = React.useContext(ApiContext)
         , setting = api.optionsManager.setting
-        , className = setting.panellistClass + ' ' + setting[api.getOption('direction') + 'class'];
+        , className = setting.panellistClass + ' ' + setting[api.getOption('direction') + 'Class'];
     return (
         <div className={className}>
             {openTabIDs.map(id =>
