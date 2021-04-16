@@ -131,6 +131,9 @@ describe("actions", () => {
 describe("events", () => {
     test('checking events execution count and their parameters ', () => {
         let _api, contextProps = '';
+        const onSelectHandler = jest.fn(function (param) {
+            expect(contextProps === Object.keys(this).join()).toBe(true);
+        });
         const op = {
             tabs: [{
                 id: '1',
@@ -169,6 +172,7 @@ describe("events", () => {
                 );
             };
             render(<App></App>, container);
+            _api.on('onSelect', onSelectHandler);
             _api.open({
                 id: '3',
                 title: 'mock tab 3',
@@ -187,10 +191,14 @@ describe("events", () => {
         expect(op.onChange.mock.calls[0][0].hasOwnProperty('currentData')).toBe(true);
         expect(op.onChange.mock.calls[0][0].hasOwnProperty('perviousData')).toBe(true);
         //onSelect 
+        expect(onSelectHandler.mock.calls.length).toBe(1);
         expect(op.onSelect.mock.calls.length).toBe(1);
         expect(Object.prototype.toString.call(op.onSelect.mock.calls[0][0]) === '[object Object]').toBe(true);
+        expect(Object.prototype.toString.call(onSelectHandler.mock.calls[0][0]) === '[object Object]').toBe(true);
         expect(op.onSelect.mock.calls[0][0].hasOwnProperty('currentSelectedTabId')).toBe(true);
+        expect(onSelectHandler.mock.calls[0][0].hasOwnProperty('currentSelectedTabId')).toBe(true);
         expect(op.onSelect.mock.calls[0][0].hasOwnProperty('perviousSelectedTabId')).toBe(true);
+        expect(onSelectHandler.mock.calls[0][0].hasOwnProperty('perviousSelectedTabId')).toBe(true);
         //onclose 
         expect(op.onClose.mock.calls.length).toBe(1);
         expect(op.onClose.mock.calls[0][0].constructor === Array && op.onClose.mock.calls[0][0][0] === '1').toBe(true);
