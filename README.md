@@ -15,6 +15,7 @@ React Dynamic Tabs with full API
 * **Return to last used tab when closing selected tab**
 * **PanelList can be rendered outside the TabList container**
 * **ARIA accessible**
+* **Supporting custom Tab component**
 
 
 ## Table of Contents
