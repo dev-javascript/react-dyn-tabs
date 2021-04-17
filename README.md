@@ -108,6 +108,13 @@ export default () => {
 ```
 
 
+**NOTE :**
+
+api Object will not be changed after re-rendering multiple times.
+Its value always refers to same reference.
+
+
+
 ## Options
 
 ### tabs
@@ -226,8 +233,10 @@ export default () => {
 ```
 or
 ```js
- api.setOption('direction','ltr');
- api.refresh();
+if( api.getOption('direction') !== 'ltr') {
+  api.setOption('direction','ltr');
+  api.refresh();
+}
 ```
 
 
@@ -345,8 +354,17 @@ api.refresh();
 ```
 or
 ```js
- api.setOption('accessibility',false).refresh();
+if( api.getOption('accessibility') == true ){
+  api.setOption('accessibility',false).refresh();
+}
 ```
+
+
+**NOTE :**
+
+This option assigns id attribute on panel element and text element inside the tab. 
+ for having elements without id attribute, set this option to false.
+
 
 
 ### onLoad
@@ -609,7 +627,8 @@ Parameters:
 **Example**
 
 ```js
-api.open({
+if( api.isOpen('2') == false ){
+   api.open({
     id: '2',
     title: 'contact',
     tooltip: 'contact',
@@ -617,9 +636,10 @@ api.open({
     closable: true,
     iconClass: '',
     panelComponent: <ContactPanel></ContactPanel>
-}).then(()=>{
-    //do sth here
-});
+   }).then(()=>{
+       //do sth here
+   });
+}
 ```
 
 
@@ -649,9 +669,11 @@ Parameters:
 **Example**
 
 ```js
-api.select('tab ID').then(()=>{
-    //do sth here
-});
+if( api.isSelected('your tab id') == false ){
+   api.select('your tab id').then(()=>{
+       //do sth here
+   });
+}
 ```
 
 
@@ -666,9 +688,11 @@ Parameters:
 **Example**
 
 ```js
-api.close('tab ID').then(()=>{
-    //do sth here
-});
+if( api.isOpen('2') == true ){
+   api.close('2').then(()=>{
+     //do sth here
+   });
+}
 ```
 
 
@@ -807,7 +831,7 @@ Return value : api
 Parameters:
 
 - `event Name : String (can be either of of onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
-- `function name`
+- `handler : function (A handler function previously attached for the event)`
 
 **Example**
 
