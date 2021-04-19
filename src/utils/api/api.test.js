@@ -5,8 +5,16 @@ beforeEach(() => {
 });
 describe('user api : ', () => {
     test('list all available props for consumer', () => {
-        const userApiProps = `getTab,setTab,off,on,one,getOption,setOption,getCopyPerviousData,getCopyData,isSelected,isOpen,select,open,close,refresh`;
-        expect(Object.keys(obj.userProxy).join() === userApiProps).toBe(true);
+        const userApi = ['getTab', 'setTab', 'off', 'on', 'one', 'getOption', 'setOption', 'getCopyPerviousData', 'getCopyData',
+            'isSelected', 'isOpen', 'select', 'open', 'close', 'refresh'];
+        expect(Object.keys(obj.userProxy).length === userApi.length).toBe(true);
+        let _isEqual = true;
+        userApi.map((value) => {
+            if (!obj.userProxy.hasOwnProperty(value)) {
+                _isEqual = false;
+            }
+        });
+        expect(_isEqual).toBe(true);
     });
 });
 

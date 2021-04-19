@@ -12,11 +12,14 @@ function useDynamicTabs(options) {
     const { current: { api } } = ref
         , _ref = ref.current
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
-    api.updateReducer(state, dispatch);
+    api.updateStateRef(state).updateDispatch(dispatch).setPerviousState(state);
     useLayoutEffect(() => {
         api.trigger('onLoad', api.userProxy);
         return () => { api.trigger('onDestroy', api.userProxy); };
     }, []);
+    useLayoutEffect(() => {
+        api.updatePerviousState(state);
+    }, [state]);
     useLayoutEffect(() => {
         api.trigger('onInit', api.userProxy);
     });

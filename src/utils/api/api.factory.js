@@ -41,9 +41,9 @@ const _apiProps = {
     getOption: function (name) { return this.optionsManager.getOption(name); },
     setOption: function (name, value) { return this.optionsManager.setOption(name, value); },
     getCopyPerviousData: function () { return this.helper.getCopyState(this._perviousState); },
-    getCopyData: function () { return this.helper.getCopyState(this._state); },
-    isSelected: function (id = missingParamEr('isSelected')) { return this._state.selectedTabID == id; },
-    isOpen: function (id = missingParamEr('isOpen')) { return this._state.openTabIDs.indexOf(id) >= 0; },
+    getCopyData: function () { return this.helper.getCopyState(this.stateRef); },
+    isSelected: function (id = missingParamEr('isSelected')) { return this.stateRef.selectedTabID == id; },
+    isOpen: function (id = missingParamEr('isOpen')) { return this.stateRef.openTabIDs.indexOf(id) >= 0; },
     _getOnChangePromise: function () {
         return new (Promise)(resolve => { this.one('onChange', () => { resolve.call(this.userProxy); }); });
     },
@@ -61,11 +61,11 @@ const _apiProps = {
                 return _findOpenedAndNoneDisableTabId.call(this, [...this.activedTabsHistory.tabsId], true);
             }
             , _getPreSiblingTabId = function () {
-                const data = this._state, arr = data.openTabIDs;
+                const data = this.stateRef, arr = data.openTabIDs;
                 return _findOpenedAndNoneDisableTabId.call(this, arr.slice(0, arr.indexOf(data.selectedTabID)), true);
             }
             , _getNextSiblingTabId = function () {
-                const data = this._state, arr = data.openTabIDs;
+                const data = this.stateRef, arr = data.openTabIDs;
                 return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.selectedTabID) + 1));
             };
         return function () {
@@ -94,7 +94,7 @@ const _apiProps = {
     },
     close: function (id = missingParamEr('close')) {
         if (this.isSelected(id)) {
-            const _openTabsId = [...this._state.openTabIDs];
+            const _openTabsId = [...this.stateRef.openTabIDs];
             _openTabsId.splice(_openTabsId.indexOf(id), 1);
             this.select(this._findTabIdForSwitching());
             return this.__close(id);

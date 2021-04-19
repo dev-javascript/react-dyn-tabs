@@ -2,13 +2,13 @@ import actions from '../stateManagement/actions';
 import Helper from '../helper.js';
 function BaseApi(helper) {
     this._helper = helper;
-    this._state = {};
+    this._state = null;// it will be updated after execution of useState
     this._initialState = null;
-    this._perviousState = {};
-    this._dispatch = () => { };
+    this._perviousState = null;// it is a pervious value of this._state
+    this._dispatch = null;
     helper.setNoneEnumProps(this, {
         forceUpdateState: {},
-        stateRef: {}
+        stateRef: {}// both of stateRef and state have a same reference. It will be updated in each execution of useDynamicTabs.js
     });
 }
 BaseApi.prototype._select = function (tabId) { this._dispatch({ type: actions.active, tabId }); };
@@ -19,13 +19,22 @@ BaseApi.prototype._refresh = function () {
     this._dispatch({ type: actions.refresh });
 };
 Helper.setNoneEnumProps(BaseApi.prototype, {
-    updateReducer: function (state, dispatch) {
+    updateStateRef: function (state) {
         this.stateRef = state;
+        return this;
+    },
+    updateDispatch: function (dispatch) { this._dispatch = dispatch; return this; },
+    setPerviousState: function (state) {
+        if (this._perviousState == null) {
+            this._perviousState = this._helper.getCopyState(state);
+            this._state = this._helper.getCopyState(state);
+        }
+        return this;
+    },
+    updatePerviousState: function (state) {
         this._perviousState = this._helper.getCopyState(this._state);
         this._state = this._helper.getCopyState(state);
-        this._perviousState = this._perviousState.hasOwnProperty('openTabIDs') ? this._perviousState :
-            this._helper.getCopyState(this._state);
-        this._dispatch = dispatch;
+        return this;
     }
 });
 export default BaseApi;

@@ -56,9 +56,11 @@ describe("actions", () => {
                 );
             };
             render(<App></App>, container);
-            _api.select('2');
+            if (_api.isSelected('2') == false)
+                _api.select('2');
         });
         expect(document.querySelector('[tab-id="2"]').className.includes('rc-dyn-tabs-selected')).toBe(true);
+        expect(op.onChange.mock.calls.length).toBe(1);
         expect(op.onSelect.mock.calls.length).toBe(1);
         expect(op.onLoad.mock.calls.length).toBe(1);
     });
@@ -76,13 +78,15 @@ describe("actions", () => {
                 );
             };
             render(<App></App>, container);
-            _api.open({
-                id: '3',
-                title: 'mock tab 3',
-                closable: true,
-                panelComponent: <p>tab3 content</p>
-            });
-            _api.close('1');
+            if (_api.isOpen('3') == false)
+                _api.open({
+                    id: '3',
+                    title: 'mock tab 3',
+                    closable: true,
+                    panelComponent: <p>tab3 content</p>
+                });
+            if (_api.isOpen('1'))
+                _api.close('1');
         });
         expect(_api.isOpen('3')).toBe(true);
         expect(_api.isOpen('1')).toBe(false);
@@ -106,30 +110,33 @@ describe("actions", () => {
                 );
             };
             render(<App></App>, container);
-            _api.setTab('1', { closable: false });
-            _api.setOption('direction', 'rtl');
-            _api.setOption('tabComponent', function (props) {
-                return (
-                    <a  {...props.tabProps}>
-                        {props.children}
-                        {
-                            props.hasOwnProperty('iconProps') &&
-                            <span {...props.iconProps}></span>
-                        }
-                    </a>
-                );
-            });
-            _api.on('onInit', function () {
-                if (!counter) {
-                    counter++;
-                    this.setTab('1', {
-                        panelComponent: function (props) {
-                            return <div id="updatedPanel1"></div>;
-                        }
-                    }).refresh();
-                }
-            });
-            _api.refresh();
+            if (_api.getTab('1').closable == true)
+                _api.setTab('1', { closable: false });
+            if (_api.getOption('direction') === 'ltr') {
+                _api.setOption('direction', 'rtl');
+                _api.setOption('tabComponent', function (props) {
+                    return (
+                        <a  {...props.tabProps}>
+                            {props.children}
+                            {
+                                props.hasOwnProperty('iconProps') &&
+                                <span {...props.iconProps}></span>
+                            }
+                        </a>
+                    );
+                });
+                _api.on('onInit', function () {
+                    if (!counter) {
+                        counter++;
+                        this.setTab('1', {
+                            panelComponent: function (props) {
+                                return <div id="updatedPanel1"></div>;
+                            }
+                        }).refresh();
+                    }
+                });
+                _api.refresh();
+            }
         });
         expect(document.getElementById('updatedPanel1') != null).toBe(true);
         expect(document.querySelector('li[tab-id="1"] .rc-dyn-tabs-close') == null).toBe(true);
@@ -137,6 +144,47 @@ describe("actions", () => {
         expect(document.querySelectorAll('a.rc-dyn-tabs-title').length === 2).toBe(true);
         expect(op.onChange.mock.calls.length).toBe(0);
         expect(op.onInit.mock.calls.length).toBe(3);
+    });
+});
+describe("calling some action inside the events options", () => {
+    let _api;
+    test("calling select method inside the onLoad option", () => {
+        const op = {
+            tabs: [{
+                id: '1',
+                title: 'mock tab 1',
+                closable: true,
+                panelComponent: <p>tab1 content</p>
+            }, {
+                id: '2',
+                title: 'mock tab 2',
+                iconClass: 'ui-icon ui-icon-seek-end',
+                closable: false,
+                panelComponent: <p>tab2 content</p>
+            }],
+            selectedTabID: '1',
+            onLoad: jest.fn(function () { this.select('2'); }),
+            onSelect: jest.fn(function () { }),
+            onChange: jest.fn(function () { }),
+            onInit: jest.fn(function () { })
+        };
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        expect(op.onLoad.mock.calls.length === 1).toBe(true);
+        expect(op.onInit.mock.calls.length === 2).toBe(true);
+        expect(op.onChange.mock.calls.length === 1).toBe(true);
+        expect(op.onSelect.mock.calls.length === 1).toBe(true);
     });
 });
 describe("events", () => {
@@ -183,14 +231,16 @@ describe("events", () => {
                 );
             };
             render(<App></App>, container);
-            _api.on('onSelect', onSelectHandler);
-            _api.open({
-                id: '3',
-                title: 'mock tab 3',
-                closable: true,
-                panelComponent: <p>tab3 content</p>
-            });
-            _api.close('1');
+            _api.one('onSelect', onSelectHandler);
+            if (_api.isOpen('3') == false)
+                _api.open({
+                    id: '3',
+                    title: 'mock tab 3',
+                    closable: true,
+                    panelComponent: <p>tab3 content</p>
+                });
+            if (_api.isSelected('2') == false)
+                _api.close('1');
         });
         //onload
         expect(op.onLoad.mock.calls.length).toBe(1);
@@ -201,6 +251,7 @@ describe("events", () => {
         expect(Object.prototype.toString.call(op.onChange.mock.calls[0][0]) === '[object Object]').toBe(true);
         expect(op.onChange.mock.calls[0][0].hasOwnProperty('currentData')).toBe(true);
         expect(op.onChange.mock.calls[0][0].hasOwnProperty('perviousData')).toBe(true);
+
         //onSelect 
         expect(onSelectHandler.mock.calls.length).toBe(1);
         expect(op.onSelect.mock.calls.length).toBe(1);
@@ -210,6 +261,7 @@ describe("events", () => {
         expect(onSelectHandler.mock.calls[0][0].hasOwnProperty('currentSelectedTabId')).toBe(true);
         expect(op.onSelect.mock.calls[0][0].hasOwnProperty('perviousSelectedTabId')).toBe(true);
         expect(onSelectHandler.mock.calls[0][0].hasOwnProperty('perviousSelectedTabId')).toBe(true);
+
         //onclose 
         expect(op.onClose.mock.calls.length).toBe(1);
         expect(op.onClose.mock.calls[0][0].constructor === Array && op.onClose.mock.calls[0][0][0] === '1').toBe(true);
