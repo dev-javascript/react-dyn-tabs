@@ -33,8 +33,9 @@ const _apiProps = {
         return this;
     },
     _subscribeSelectedTabsHistory: function () {
-        this.on('onChange', ({ isSwitched, oldState }) => {
-            isSwitched && this.activedTabsHistory.add(oldState.selectedTabID);
+        this.on('onChange', ({ currentData, perviousData }) => {
+            const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
+            isSwitched && this.activedTabsHistory.add(perviousData.selectedTabID);
         });
         return this;
     },
