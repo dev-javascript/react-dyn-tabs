@@ -8,16 +8,45 @@ export default {
                 id: '1',
                 title: 'mock tab 1',
                 closable: true,
-                panelComponent: <MockPanel1></MockPanel1>
+                disable: false,
+                panelComponent: MockPanel1 // or <MockPanel1></MockPanel1>
             }, {
                 id: '2',
                 title: 'mock tab 2',
-                iconClass: 'ui-icon ui-icon-seek-end',
+                tooltip: 'mock tab 2',
+                iconClass: 'css class for icon',
                 closable: true,
                 panelComponent: <MockPanel2></MockPanel2>
             }],
             selectedTabID: '1',
-            onSelect: (switchTabsId, api) => {
+            onLoad: function () {
+                const context = this;
+            },
+            onInit: function () {
+                const context = this;
+            },
+            onChange: function ({ currentData, perviousData }) {
+                const context = this;
+            },
+            beforeSelect: function (e, id) {
+                const context = this;
+                return true;
+            },
+            onSelect: ({ currentSelectedTabId, perviousSelectedTabId }) => {
+                const context = this;
+            },
+            beforeClose: function (e, id) {
+                const context = this;
+                return true;
+            },
+            onClose: function (closedTabsId) {
+                const context = this;
+            },
+            onOpen: function (openeTabsId) {
+                const context = this;
+            },
+            onDestroy: function () {
+                const context = this;
             }
         };
     }
