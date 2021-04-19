@@ -53,10 +53,12 @@ React Dynamic Tabs with full API
   * [setTab](#setTab)
   * [on](#on)
   * [one](#one)
-  * [off](#off)    
+  * [off](#off)   
+  * [getCopyData](#getCopyData)
 - [tabData](#tabData)
 - [Lazy Loading](#lazy-loading)
 - [Styling](#styling)
+- [Caveats](#caveats)
 - [Test](#test)
 - [License](#license)
 
@@ -95,7 +97,10 @@ export default () => {
                 panelComponent: ContactComponent // or can be <ContactComponent />
             }
         ],
-        selectedTabID: '1'
+        selectedTabID: '1',
+        onLoad: function(){
+           // do sth here
+        }
     };
     const [TabList, PanelList, api] = useDynTabs(options);
     return (
@@ -296,6 +301,8 @@ api.refresh();
 
 ### defaultPanelComponent
 
+Default value for panelComponent option.
+
 <table>
   <tbody>
     <tr>
@@ -379,7 +386,7 @@ This option assigns id attribute on panel element and text element inside the ta
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>This event is fired only once</td>
+      <td>This event is fired only once, after first render</td>
     </tr>
   </tbody>
 </table>
@@ -407,7 +414,7 @@ This option assigns id attribute on panel element and text element inside the ta
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>This event is executed after every execution of useDynTabs hook.</td>
+      <td>This event is triggered after every render.</td>
     </tr>
   </tbody>
 </table>
@@ -435,7 +442,7 @@ This option assigns id attribute on panel element and text element inside the ta
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires when we open|close|select a tab.</td>
+      <td>fires when we open|close|select a tab. this event is not fired initially</td>
     </tr>
   </tbody>
 </table>
@@ -599,6 +606,33 @@ This option assigns id attribute on panel element and text element inside the ta
 ```
 
 
+### onDestroy
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>function</td>
+      <td>false</td>
+      <td>fires before destroying useDynTabs hook</td>
+    </tr>
+  </tbody>
+</table>
+
+**Example**
+
+```js
+ const [ TabList , PanelList , api ] = useDynTabs({ onDestroy : function() {
+      // you can use 'this' here which refers to the api
+   }});
+ // or
+ api.setOption('onDestroy', () => { } ).refresh();
+```
+
 ## Methodes
 
 ### isOpen
@@ -617,6 +651,8 @@ const result = api.isOpen('tab ID');
 
 
 ### open
+
+triggers 'onChange', 'onInit' and 'onOpen' event.
 
 Return value : Promise
 
@@ -660,6 +696,8 @@ const result = api.isSelected('tab ID');
 
 ### select
 
+triggers 'onChange', 'onInit' and 'onSelect' event.
+
 Return value : Promise
 
 Parameters:
@@ -679,6 +717,8 @@ if( api.isSelected('your tab id') == false ){
 
 ### close
 
+triggers 'onChange', 'onInit' and 'onClose' event.
+
 Return value : Promise
 
 Parameters:
@@ -697,6 +737,8 @@ if( api.isOpen('2') == true ){
 
 
 ### refresh
+
+triggers onInit event.
 
 Return value : Promise
 
@@ -763,8 +805,8 @@ console.log(tabData.id); // 3
 
 ### setTab
 
-set tabData by id
-for re-rendering immediately after this function, you should call refresh method after it.
+set tabData by id.
+ for re-rendering immediately after this function, you should call refresh method after it.
 
 Return value : api
 
@@ -842,6 +884,16 @@ const onSelectHandler = function(params){
    this.off('onSelect', onSelectHandler);
 };
 api.on('onSelect', onSelectHandler);
+```
+
+### getCopyData
+
+Return value : Object
+
+**Example**
+
+```js
+const { selectedTabID , openTabIDs } = api.getCopyData();
 ```
 
 
@@ -927,12 +979,21 @@ upcoming...
 
 
 ## Styling
+
 react-dyn-tabs does not include any style loading by default. Default stylesheets and themes are provided and can be included in your application if desired.
+
 
 ```js
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/default.css';
 ```
+
+
+## Caveats
+
+Some actions like open, select, close and refresh cause re-rendering, 
+ and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause.
+you should use them inside event listeners or subscriptions.
 
 
 ## Test
