@@ -3,10 +3,12 @@ helper.checkArrIndex = (index, arrLength) => index >= 0 && (index < arrLength);
 helper.getInstance = function (Fn) { new (Function.prototype.bind.apply(Fn, arguments)); };
 helper.resolve = result => Promise.resolve(result);
 helper.getCopyState = function (state) {
-    const newState = { ...state };
-    if (newState.hasOwnProperty('openTabIDs'))
-        newState.openTabIDs = [...newState.openTabIDs];
-    return newState;
+    if (!state.hasOwnProperty('openTabIDs'))
+        state.openTabIDs = [];
+    return {
+        selectedTabID: state.selectedTabID,
+        openTabIDs: [...state.openTabIDs]
+    };
 };
 helper.assingAll = function (targetObj, ...sourcObjs) {
     // copy all enumerable and not enumerable properties into the target
