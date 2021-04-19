@@ -28,8 +28,8 @@ Pub_Sub.prototype.on = function (publisherName, fn) {
 //oneSubscribe
 Pub_Sub.prototype.one = function (publisherName, fn) {
     if (typeof fn === 'function' && this._publishers.hasOwnProperty(publisherName)) {
-        const _fn = param => {
-            fn(param);
+        const _fn = function () {
+            fn.apply(this, arguments);
             this.off(publisherName, _fn);
         };
         return this.on(publisherName, _fn);
