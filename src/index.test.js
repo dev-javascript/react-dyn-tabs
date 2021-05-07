@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { render, unmountComponentAtNode } from "react-dom";
-import useDynTabs from "./useDynamicTabs.js";
+import useDynTabs from "./index.js";
 import { act } from "react-dom/test-utils";
-import renderer from 'react-test-renderer';
 let container = document.createElement("div");
 let op = '';//options
 beforeAll(() => {
@@ -63,6 +62,31 @@ describe("actions", () => {
         expect(op.onChange.mock.calls.length).toBe(1);
         expect(op.onSelect.mock.calls.length).toBe(1);
         expect(op.onLoad.mock.calls.length).toBe(1);
+    });
+    test('result of select and close actions', () => {
+        expect.assertions(2);
+        let _api;
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            return _api.select('2').then(result => {
+                expect(typeof result != 'undefined').toBe(true);
+                return _api.close('2').then(result => {
+                    expect(typeof result != 'undefined').toBe(true);
+                });
+            });
+        });
     });
     test('opening new tab and closing selected tab', () => {
         let _api;
@@ -148,7 +172,7 @@ describe("actions", () => {
 });
 describe("calling some action inside the events options", () => {
     let _api;
-    test("calling select method inside the onLoad option", () => {
+    test("select method can be called inside the onLoad option", () => {
         const op = {
             tabs: [{
                 id: '1',

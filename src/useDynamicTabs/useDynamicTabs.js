@@ -1,24 +1,20 @@
 
 import React, { useReducer, useLayoutEffect, useRef } from "react";
-import TabList from "../tabList/tabList";
-import PanelList from "../panelList/panelList.js";
-import reducer from "../utils/stateManagement/reducer";
-import Api from '../utils/api';
-import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.js";
-function useDynamicTabs(options) {
+function useDynamicTabs(getDeps, options = {}) {
+    const { reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext } = getDeps();
     const ref = useRef(null);
     if (ref.current === null)
-        ref.current = { api: new (Api)({ options }), TabListComponent: null, PanelListComponent: null };
+        ref.current = { api: getApiInstance(options), TabListComponent: null, PanelListComponent: null };
     const { current: { api } } = ref
         , _ref = ref.current
         , [state, dispatch] = useReducer(reducer, api.getInitialState());
-    api.updateStateRef(state).updateDispatch(dispatch).setPerviousState(state);
+    api.updateStateRef(state).updateDispatchRef(dispatch);
     useLayoutEffect(() => {
         api.trigger('onLoad', api.userProxy);
         return () => { api.trigger('onDestroy', api.userProxy); };
     }, []);
     useLayoutEffect(() => {
-        api.updatePerviousState(state);
+        api.updateState(state);
     }, [state]);
     useLayoutEffect(() => {
         api.trigger('onInit', api.userProxy);
