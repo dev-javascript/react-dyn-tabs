@@ -1,5 +1,5 @@
 
-import React, { useReducer, useLayoutEffect, useRef } from "react";
+import React, { useState, useReducer, useLayoutEffect, useRef } from "react";
 function useDynamicTabs(getDeps, options = {}) {
     const { reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext } = getDeps();
     const ref = useRef(null);
@@ -7,8 +7,9 @@ function useDynamicTabs(getDeps, options = {}) {
         ref.current = { api: getApiInstance(options), TabListComponent: null, PanelListComponent: null };
     const { current: { api } } = ref
         , _ref = ref.current
-        , [state, dispatch] = useReducer(reducer, api.getInitialState());
-    api.updateStateRef(state).updateDispatchRef(dispatch);
+        , [state, dispatch] = useReducer(reducer, api.getInitialState())
+        , [flushState, setFlushState] = useState({});
+    api.updateStateRef(state, dispatch).updateFlushState(setFlushState);
     useLayoutEffect(() => {
         api.trigger('onLoad', api.userProxy);
         return () => { api.trigger('onDestroy', api.userProxy); };
@@ -19,6 +20,9 @@ function useDynamicTabs(getDeps, options = {}) {
     useLayoutEffect(() => {
         api.trigger('onInit', api.userProxy);
     });
+    useLayoutEffect(() => {
+        api.trigger('_onFlushEffects', api.userProxy, { currentData: api.getCopyData() });
+    }, [flushState]);
     useLayoutEffect(() => {
         const oldState = api.getCopyPerviousData()
             , [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs)

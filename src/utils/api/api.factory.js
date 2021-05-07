@@ -26,9 +26,10 @@ const _apiProps = {
     _subscribeCallbacksOptions: function () {
         const op = this.optionsManager.options;
         Object.keys(this._publishers).map(eventName => {
-            this.on(eventName, function () {
-                op[eventName].apply(this, arguments);
-            });
+            if (eventName[0] !== '_')
+                this.on(eventName, function () {
+                    op[eventName].apply(this, arguments);
+                });
         });
         return this;
     },
@@ -46,7 +47,7 @@ const _apiProps = {
     isSelected: function (id = missingParamEr('isSelected')) { return this.stateRef.selectedTabID == id; },
     isOpen: function (id = missingParamEr('isOpen')) { return this.stateRef.openTabIDs.indexOf(id) >= 0; },
     _getOnChangePromise: function () {
-        return new (Promise)(resolve => { this.one('onChange', () => { resolve.call(this.userProxy); }); });
+        return new (Promise)(resolve => { this.one('_onFlushEffects', function () { resolve.apply(this, arguments); }); });
     },
     select: function (id = missingParamEr('select')) {
         const result = this._getOnChangePromise();
