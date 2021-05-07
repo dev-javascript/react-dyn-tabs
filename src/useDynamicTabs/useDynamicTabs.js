@@ -21,7 +21,7 @@ function useDynamicTabs(getDeps, options = {}) {
         api.trigger('onInit', api.userProxy);
     });
     useLayoutEffect(() => {
-        api.trigger('_onFlushEffects', api.userProxy, { currentData: api.getCopyData() });
+        api.trigger('_onFlushEffects', api.userProxy, { currentData: api.getCopyData(), instance: api.userProxy });
     }, [flushState]);
     useLayoutEffect(() => {
         const oldState = api.getCopyPerviousData()
