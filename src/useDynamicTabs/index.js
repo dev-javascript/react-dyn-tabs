@@ -7,7 +7,7 @@ import useDynTabs from './useDynamicTabs.js';
 import { ApiContext, StateContext, ForceUpdateContext } from "../utils/context.js";
 const getDeps = function () {
     const getApiInstance = (options) => {
-        return new (Api)(options);
+        return new (Api)({ options });
     };
     return { reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext };
 };
