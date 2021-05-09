@@ -652,7 +652,7 @@ const result = api.isOpen('tab ID');
 
 ### open
 
-triggers 'onChange', 'onInit' and 'onOpen' event.
+triggers 'onInit', 'onChange' and 'onOpen' event.
 
 Return value : Promise
 
@@ -672,7 +672,7 @@ if( api.isOpen('2') == false ){
     closable: true,
     iconClass: '',
     panelComponent: <ContactPanel></ContactPanel>
-   }).then(()=>{
+   }).then(({currentDta,instance})=>{
        //do sth here
    });
 }
@@ -696,7 +696,7 @@ const result = api.isSelected('tab ID');
 
 ### select
 
-triggers 'onChange', 'onInit' and 'onSelect' event.
+triggers 'onInit', 'onChange' and 'onSelect' event.
 
 Return value : Promise
 
@@ -708,7 +708,7 @@ Parameters:
 
 ```js
 if( api.isSelected('your tab id') == false ){
-   api.select('your tab id').then(()=>{
+   api.select('your tab id').then(({currentDta,instance})=>{
        //do sth here
    });
 }
@@ -717,7 +717,7 @@ if( api.isSelected('your tab id') == false ){
 
 ### close
 
-triggers 'onChange', 'onInit' and 'onClose' event.
+triggers 'onInit', 'onChange' and 'onClose' event.
 
 Return value : Promise
 
@@ -729,7 +729,7 @@ Parameters:
 
 ```js
 if( api.isOpen('2') == true ){
-   api.close('2').then(()=>{
+   api.close('2').then(({currentDta,instance})=>{
      //do sth here
    });
 }
@@ -746,7 +746,7 @@ Return value : Promise
 **Example**
 
 ```js
-api.refresh().then(()=>{
+api.refresh().then(({currentDta,instance})=>{
     //do sth here
 });
 ```
