@@ -81,9 +81,9 @@ describe("actions", () => {
         });
         return act(() => {
             return _api.select('2').then(result => {
-                expect(typeof result != 'undefined').toBe(true);
+                expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
                 return _api.close('2').then(result => {
-                    expect(typeof result != 'undefined').toBe(true);
+                    expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
                 });
             });
         });
@@ -168,6 +168,195 @@ describe("actions", () => {
         expect(document.querySelectorAll('a.rc-dyn-tabs-title').length === 2).toBe(true);
         expect(op.onChange.mock.calls.length).toBe(0);
         expect(op.onInit.mock.calls.length).toBe(3);
+    });
+    test('select a tab twice', () => {
+        let _api;
+        expect.assertions(3);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            return _api.select('1').then(result => {
+                expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+            });
+        });
+    });
+    test('selecting none existent tab', () => {
+        let _api;
+        expect.assertions(5);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            return _api.select('3').then(result => {
+                expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+                expect(document.querySelector('.rc-dyn-tabs-selected') == null).toBe(true);
+                expect(_api.getCopyData().selectedTabID === '3').toBe(true);
+                expect(op.onChange.mock.calls.length === 1).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+            });
+        });
+    });
+    test('calling select method with falsy value as a parameter', () => {
+        let _api;
+        expect.assertions(6);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            try {
+                _api.select();
+                _api.select(undefined);
+            } catch (er) {
+                expect(_api.getCopyData().selectedTabID === '1').toBe(true);
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 1).toBe(true);
+            }
+            return _api.select(null).then(result => {
+                expect(op.onChange.mock.calls.length === 1).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+                expect(_api.getCopyData().selectedTabID === null).toBe(true);
+            });
+        });
+    });
+    test('close a none opened tab', () => {
+        let _api;
+        expect.assertions(3);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            return _api.close('4').then(result => {
+                expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+            });
+        });
+    });
+    test('calling close method with falsy value as a parameter', () => {
+        let _api;
+        expect.assertions(6);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            try {
+                _api.close();
+                _api.close(undefined);
+            } catch (er) {
+                expect(_api.getCopyData().selectedTabID === '1').toBe(true);
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 1).toBe(true);
+            }
+            return _api.close(null).then(result => {
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+                expect(_api.getCopyData().openTabIDs.length === 2).toBe(true);
+            });
+        });
+    });
+    test('open a tab twice', () => {
+        let _api;
+        expect.assertions(4);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        return act(() => {
+            return _api.open(op.tabs[0]).then(result => {
+                expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+                expect(op.onChange.mock.calls.length === 0).toBe(true);
+                expect(op.onInit.mock.calls.length === 2).toBe(true);
+                expect(_api.getCopyData().openTabIDs.length === 2).toBe(true);
+            });
+        });
+    });
+    test('calling open method with falsy value as a parameter', () => {
+        let _api;
+        expect.assertions(3);
+        act(() => {
+            const App = function (props) {
+                const [Tablist, Panellist, api] = useDynTabs(op);
+                _api = api;
+                return (
+                    <div>
+                        <Tablist></Tablist>
+                        <Panellist></Panellist>
+                    </div>
+                );
+            };
+            render(<App></App>, container);
+        });
+        try {
+            _api.open();
+            _api.open(undefined);
+            _api.open(null);
+        } catch (er) {
+            expect(_api.getCopyData().openTabIDs.length === 2).toBe(true);
+            expect(op.onChange.mock.calls.length === 0).toBe(true);
+            expect(op.onInit.mock.calls.length === 1).toBe(true);
+        }
     });
 });
 describe("calling some action inside the events options", () => {
