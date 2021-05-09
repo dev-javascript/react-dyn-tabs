@@ -50,7 +50,8 @@ const _apiProps = {
         return new (Promise)(resolve => { this.one('_onFlushEffects', function () { resolve.apply(this, arguments); }); });
     },
     select: function (id = missingParamEr('select')) {
-        id = id + '';//make sure id is string
+        if (id)
+            id = id + '';//make sure id is string
         const result = this._getOnChangePromise();
         this._select(id);
         return result;
@@ -84,7 +85,8 @@ const _apiProps = {
         return this;
     },
     open: function (tabObj = missingParamEr('open')) {
-        tabObj.id = tabObj.id + '';//make sure id is string
+        if (tabObj.id)
+            tabObj.id = tabObj.id + '';//make sure id is string
         const result = this._getOnChangePromise();
         this._open(tabObj.id);
         this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
@@ -97,7 +99,8 @@ const _apiProps = {
         return result;
     },
     close: function (id = missingParamEr('close')) {
-        id = id + '';//make sure id is string
+        if (id)
+            id = id + '';//make sure id is string
         if (this.isSelected(id)) {
             const _openTabsId = [...this.stateRef.openTabIDs];
             _openTabsId.splice(_openTabsId.indexOf(id), 1);
