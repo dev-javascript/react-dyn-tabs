@@ -47,17 +47,18 @@
     "babel-loader": "^8.1.0",
     "cross-env": "^7.0.3",
     "css-loader": "^4.3.0",
+    "jest": "^26.6.3",
+    "jest-extended": "^0.11.5",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-test-renderer": "^17.0.2",
     "reactstrap": "^8.5.1",
     "rollup": "^2.41.0",
     "rollup-plugin-terser": "7.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "react-test-renderer": "^17.0.2",
-    "jest": "^26.6.3"
+    "webpack-cli": "^3.3.12"
   },
   "files": [
     "dist",
@@ -87,6 +88,11 @@
   "license": "MIT",
   "directories": {
     "lib": "lib"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ]
   },
   "dependencies": {}
 }
