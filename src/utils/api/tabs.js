@@ -24,13 +24,18 @@ Tabs.prototype._prepareTabData = (function () {
         };
     };
     return function (tabData, DefaultPanelComponent) {
+        if (Object.prototype.toString.call(tabData) !== '[object Object]')
+            throw new Error('tabData must be type of Object');
         tabData.panelComponent = this._checkPanelComponent(DefaultPanelComponent, tabData.panelComponent);
-        return Object.assign(_getDefaultTabData(DefaultPanelComponent), tabData);
+        const newTabData = Object.assign(_getDefaultTabData(DefaultPanelComponent), tabData);
+        newTabData.id = newTabData.id + '';//make sure id is string
+        return newTabData
     };
 })();
 Tabs.prototype._addTab = function (tabObj, { defaultPanelComponent }) {
-    this._data.push(this._prepareTabData(tabObj, defaultPanelComponent));
-    return this;
+    const newTabObj = this._prepareTabData(tabObj, defaultPanelComponent);
+    this._data.push(newTabObj);
+    return newTabObj;
 };
 Tabs.prototype._removeTab = function (id) {
     const delIndex = this._data.findIndex(tab => tab.id === id);

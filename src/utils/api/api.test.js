@@ -4,7 +4,7 @@ beforeEach(() => {
 });
 describe('user api : ', () => {
     test('list all available props for consumer', () => {
-        const obj = new (API)({ a: 2 });
+        const obj = new (API)();
         const userApi = ['getTab', 'setTab', 'off', 'on', 'one', 'getOption', 'setOption', 'getCopyPerviousData', 'getCopyData',
             'isSelected', 'isOpen', 'select', 'open', 'close', 'refresh'];
         expect(Object.keys(obj.userProxy).length === userApi.length).toBe(true);

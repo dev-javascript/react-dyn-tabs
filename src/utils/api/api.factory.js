@@ -85,11 +85,9 @@ const _apiProps = {
         return this;
     },
     open: function (tabObj = missingParamEr('open')) {
-        if (tabObj.id)
-            tabObj.id = tabObj.id + '';//make sure id is string
+        const newTabObj = this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
         const result = this._getOnChangePromise();
-        this._open(tabObj.id);
-        this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
+        this._open(newTabObj.id);
         return result;
     },
     __close: function (id) {
@@ -121,10 +119,13 @@ Helper.setNoneEnumProps(_apiProps, {
         if (!this._initialState) {
             const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
             tabs.map(tab => {
-                this._addTab(tab, { defaultPanelComponent });
-                openTabIDs.push(tab.id);
+                const newTab = this._addTab(tab, { defaultPanelComponent });
+                openTabIDs.push(newTab.id);
             });
-            this._initialState = { selectedTabID, openTabIDs };
+            this._initialState = {
+                selectedTabID: selectedTabID + '', //make sure it is type of string
+                openTabIDs
+            };
         }
         return this._initialState;
     },
