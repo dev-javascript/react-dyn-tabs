@@ -652,7 +652,8 @@ const result = api.isOpen('tab ID');
 
 ### open
 
-triggers 'onInit', 'onChange' and 'onOpen' event.
+Triggers 'onInit', 'onChange' and 'onOpen' event. 
+opening an already opened tab just triggers 'onInit' event.
 
 Return value : Promise
 
@@ -696,7 +697,8 @@ const result = api.isSelected('tab ID');
 
 ### select
 
-triggers 'onInit', 'onChange' and 'onSelect' event.
+Triggers 'onInit', 'onChange' and 'onSelect' event. 
+Selecting an already selected tab just triggers 'onInit' event.
 
 Return value : Promise
 
@@ -717,7 +719,8 @@ if( api.isSelected('your tab id') == false ){
 
 ### close
 
-triggers 'onInit', 'onChange' and 'onClose' event.
+Triggers 'onInit', 'onChange' and 'onClose' event. 
+Closing an already closed tab just triggers 'onInit' event.
 
 Return value : Promise
 
