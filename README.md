@@ -397,8 +397,6 @@ This option assigns id attribute on panel element and button element inside the 
  const [ TabList , PanelList , instance ] = useDynTabs({ onLoad : function() {
       // you can use 'this' here which refers to the instance
  } });
- // or
- instance.setOption('onLoad', () => { } ).refresh();
 ```
 
 
