@@ -369,7 +369,7 @@ if( api.getOption('accessibility') == true ){
 
 **NOTE :**
 
-This option assigns id attribute on panel element and text element inside the tab. 
+This option assigns id attribute on panel element and button element inside the tab. 
  for having elements without id attribute, set this option to false.
 
 
@@ -483,9 +483,10 @@ This option assigns id attribute on panel element and text element inside the ta
 ```js
  const [ TabList , PanelList , api ] = useDynTabs({ beforeSelect : function(e, id) {
       // you can use 'this' here which refers to the api
+      return true;
  } });
  // or
- api.setOption('beforeSelect', (e, id) => { } ).refresh();
+ api.setOption('beforeSelect', (e, id) => { return true; } ).refresh();
 ```
 
 
@@ -572,9 +573,10 @@ This option assigns id attribute on panel element and text element inside the ta
 ```js
  const [ TabList , PanelList , api ] = useDynTabs({ beforeClose : function(e, id) {
       // you can use 'this' here which refers to the api
+      return true;
  } });
  // or
- api.setOption('beforeClose', (e, id) => { } ).refresh();
+ api.setOption('beforeClose', (e, id) => { return true;} ).refresh();
 ```
 
 
