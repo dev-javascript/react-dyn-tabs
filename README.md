@@ -655,7 +655,7 @@ const result = instance.isOpen('tab ID');
 ### open
 
 Triggers 'onInit', 'onChange' and 'onOpen' event. 
-opening an already opened tab just triggers 'onInit' event.
+opening an already opened tab only triggers 'onInit' event.
 
 Return value : Promise
 
@@ -700,7 +700,7 @@ const result = instance.isSelected('tab ID');
 ### select
 
 Triggers 'onInit', 'onChange' and 'onSelect' event. 
-Selecting an already selected tab just triggers 'onInit' event.
+Selecting an already selected tab only triggers 'onInit' event.
 
 Return value : Promise
 
@@ -721,14 +721,19 @@ if( instance.isSelected('your tab id') == false ){
 
 ### close
 
-Triggers 'onInit', 'onChange' and 'onClose' event. 
-Closing an already closed tab just triggers 'onInit' event.
+Triggers 'onInit', 'onChange' and 'onClose' event.
+
+Closing an already closed tab only triggers 'onInit' event.
+
+It switches to the previously selected tab before closing if switching parameter
+was true and tab was already opened and selected.
 
 Return value : Promise
 
 Parameters:
 
 - `id: string`
+- `switching: boolean (default : true)`
 
 **Example**
 
