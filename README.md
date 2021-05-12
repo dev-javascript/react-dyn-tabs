@@ -471,7 +471,7 @@ This option assigns id attribute on panel element and button element inside the 
       <td>function</td>
       <td>false</td>
       <td>
-        fires when the user click on the tab, but before select them. 
+        fires when the user clicks on the tab, but before select them. 
         This event should return boolean true or false,  If the event return false the tab is not selected.
       </td>
     </tr>
@@ -561,7 +561,7 @@ This option assigns id attribute on panel element and button element inside the 
       <td>function</td>
       <td>false</td>
       <td>
-        fires when the user click on the close icon, but before close them. 
+        fires when the user clicks on the close icon, but before close them. 
         This event should return boolean true or false,  If the event return false the tab is not closed.
       </td>
     </tr>
@@ -727,6 +727,8 @@ Closing an already closed tab only triggers 'onInit' event.
 
 It switches to the previously selected tab before closing if switching parameter
 was true and tab was already opened and selected.
+
+When the user clicks on the default close icon, close function is called with true value as a switching parameter.
 
 Return value : Promise
 
