@@ -46,13 +46,13 @@ const _apiProps = {
     getCopyData: function () { return this.helper.getCopyState(this.stateRef); },
     isSelected: function (id = missingParamEr('isSelected')) { return this.stateRef.selectedTabID == id; },
     isOpen: function (id = missingParamEr('isOpen')) { return this.stateRef.openTabIDs.indexOf(id) >= 0; },
-    _getOnChangePromise: function () {
+    _getFlushEffectsPromise: function () {
         return new (Promise)(resolve => { this.one('_onFlushEffects', function () { resolve.apply(this, arguments); }); });
     },
     select: function (id = missingParamEr('select')) {
         if (id)
             id = id + '';//make sure id is string
-        const result = this._getOnChangePromise();
+        const result = this._getFlushEffectsPromise();
         this._select(id);
         return result;
     },
@@ -86,20 +86,20 @@ const _apiProps = {
     },
     open: function (tabObj = missingParamEr('open')) {
         const newTabObj = this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
-        const result = this._getOnChangePromise();
+        const result = this._getFlushEffectsPromise();
         this._open(newTabObj.id);
         return result;
     },
     __close: function (id) {
-        const result = this._getOnChangePromise();
+        const result = this._getFlushEffectsPromise();
         this._close(id);
         this._removeTab(id);
         return result;
     },
-    close: function (id = missingParamEr('close')) {
+    close: function (id = missingParamEr('close'), switching = true) {
         if (id)
             id = id + '';//make sure id is string
-        if (this.isSelected(id)) {
+        if (switching && this.isOpen(id) && this.isSelected(id)) {
             const _openTabsId = [...this.stateRef.openTabIDs];
             _openTabsId.splice(_openTabsId.indexOf(id), 1);
             this.select(this._findTabIdForSwitching());
@@ -109,7 +109,7 @@ const _apiProps = {
             return this.__close(id);
     },
     refresh: function () {
-        const result = this._getOnChangePromise();
+        const result = this._getFlushEffectsPromise();
         this._refresh();
         return result;
     }
@@ -148,7 +148,7 @@ Helper.setNoneEnumProps(_apiProps, {
         const el = e.target, parentEl = el.parentElement, { closeClass, tabClass } = this.optionsManager.setting;
         if (el.className.includes(closeClass) && parentEl && parentEl.lastChild && (parentEl.lastChild == el)
             && parentEl.className.includes(tabClass)) {
-            (this.getOption('beforeClose').call(this.userProxy, e, id) !== false) && this.close(id);
+            (this.getOption('beforeClose').call(this.userProxy, e, id) !== false) && this.close(id, true);
         }
         else {
             (this.getOption('beforeSelect').call(this.userProxy, e, id) !== false) && this.select(id);
