@@ -102,7 +102,7 @@ export default () => {
            // do sth here
         }
     };
-    const [TabList, PanelList, api] = useDynTabs(options);
+    const [TabList, PanelList, instance] = useDynTabs(options);
     return (
         <div>
             <TabList></TabList>
@@ -115,7 +115,7 @@ export default () => {
 
 **NOTE :**
 
-api Object will not be changed after re-rendering multiple times.
+instance Object will not be changed after re-rendering multiple times.
 Its value always refers to same reference.
 
 
@@ -146,7 +146,7 @@ Its value always refers to same reference.
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({
+ const [ TabList , PanelList , instance ] = useDynTabs({
    tabs : [
      {
          id: '1',
@@ -190,7 +190,7 @@ Its value always refers to same reference.
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({
+ const [ TabList , PanelList , instance ] = useDynTabs({
    tabs : [
      {
          id: '1',
@@ -234,13 +234,13 @@ Its value always refers to same reference.
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ direction : 'rtl' });
+ const [ TabList , PanelList , instance ] = useDynTabs({ direction : 'rtl' });
 ```
 or
 ```js
-if( api.getOption('direction') !== 'ltr') {
-  api.setOption('direction','ltr');
-  api.refresh();
+if( instance.getOption('direction') !== 'ltr') {
+  instance.setOption('direction','ltr');
+  instance.refresh();
 }
 ```
 
@@ -265,9 +265,9 @@ if( api.getOption('direction') !== 'ltr') {
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ 
+ const [ TabList , PanelList , instance ] = useDynTabs({ 
      tabComponent : props => {
-       const { id , isSelected , api } = props;
+       const { id , isSelected , instance } = props;
        return (
                 <button  {...props.tabProps}>
                     {props.children}
@@ -283,7 +283,7 @@ if( api.getOption('direction') !== 'ltr') {
 or
 ```js
 const CustomTabComponent = props => {
-    const { id, isSelected, api } = props;
+    const { id, isSelected, instance } = props;
     return (
         <button  {...props.tabProps}>
             {props.children}
@@ -294,8 +294,8 @@ const CustomTabComponent = props => {
         </button>
     );
 };
-api.setOption('tabComponent', CustomTabComponent);
-api.refresh();
+instance.setOption('tabComponent', CustomTabComponent);
+instance.refresh();
 ```
 
 
@@ -321,17 +321,17 @@ Default value for panelComponent option.
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ 
+ const [ TabList , PanelList , instance ] = useDynTabs({ 
      defaultPanelComponent : props => {
-       const { id , isSelected , api } = props;
+       const { id , isSelected , instance } = props;
        return <div></div>
      }
    });
 ```
 or
 ```js
-api.setOption('defaultPanelComponent', props => <p></p>);
-api.refresh();
+instance.setOption('defaultPanelComponent', props => <p></p>);
+instance.refresh();
 ```
 
 
@@ -357,12 +357,12 @@ api.refresh();
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ accessibility : false });
+ const [ TabList , PanelList , instance ] = useDynTabs({ accessibility : false });
 ```
 or
 ```js
-if( api.getOption('accessibility') == true ){
-  api.setOption('accessibility',false).refresh();
+if( instance.getOption('accessibility') == true ){
+  instance.setOption('accessibility',false).refresh();
 }
 ```
 
@@ -394,11 +394,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onLoad : function() {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onLoad : function() {
+      // you can use 'this' here which refers to the instance
  } });
  // or
- api.setOption('onLoad', () => { } ).refresh();
+ instance.setOption('onLoad', () => { } ).refresh();
 ```
 
 
@@ -422,11 +422,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onInit : function() {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onInit : function() {
+      // you can use 'this' here which refers to the instance
  } });
  // or
- api.setOption('onInit', () => { } ).refresh();
+ instance.setOption('onInit', () => { } ).refresh();
 ```
 
 
@@ -450,11 +450,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onChange : function({ currentData , perviousData }) {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onChange : function({ currentData , perviousData }) {
+      // you can use 'this' here which refers to the instance
  } });
  // or
- api.setOption('onChange', ({ currentData , perviousData }) => { } ).refresh();
+ instance.setOption('onChange', ({ currentData , perviousData }) => { } ).refresh();
 ```
 
 
@@ -481,12 +481,12 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ beforeSelect : function(e, id) {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ beforeSelect : function(e, id) {
+      // you can use 'this' here which refers to the instance
       return true;
  } });
  // or
- api.setOption('beforeSelect', (e, id) => { return true; } ).refresh();
+ instance.setOption('beforeSelect', (e, id) => { return true; } ).refresh();
 ```
 
 
@@ -510,13 +510,13 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ 
+ const [ TabList , PanelList , instance ] = useDynTabs({ 
    onSelect : function({currentSelectedTabId , perviousSelectedTabId}) {
-      // you can use 'this' here which refers to the api
+      // you can use 'this' here which refers to the instance
    } 
  });
  // or
- api.setOption('onSelect', ({currentSelectedTabId , perviousSelectedTabId}) => { } ).refresh();
+ instance.setOption('onSelect', ({currentSelectedTabId , perviousSelectedTabId}) => { } ).refresh();
 ```
 
 ### onOpen
@@ -539,11 +539,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onOpen : function(openedTabIDs) {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onOpen : function(openedTabIDs) {
+      // you can use 'this' here which refers to the instance
    }});
  // or
- api.setOption('onOpen', (openedTabIDs) => { } ).refresh();
+ instance.setOption('onOpen', (openedTabIDs) => { } ).refresh();
 ```
 
 
@@ -571,12 +571,12 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ beforeClose : function(e, id) {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ beforeClose : function(e, id) {
+      // you can use 'this' here which refers to the instance
       return true;
  } });
  // or
- api.setOption('beforeClose', (e, id) => { return true;} ).refresh();
+ instance.setOption('beforeClose', (e, id) => { return true;} ).refresh();
 ```
 
 
@@ -600,11 +600,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onClose : function(closedTabIDs) {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onClose : function(closedTabIDs) {
+      // you can use 'this' here which refers to the instance
    }});
  // or
- api.setOption('onClose', closedTabIDs => { } ).refresh();
+ instance.setOption('onClose', closedTabIDs => { } ).refresh();
 ```
 
 
@@ -628,11 +628,11 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , api ] = useDynTabs({ onDestroy : function() {
-      // you can use 'this' here which refers to the api
+ const [ TabList , PanelList , instance ] = useDynTabs({ onDestroy : function() {
+      // you can use 'this' here which refers to the instance
    }});
  // or
- api.setOption('onDestroy', () => { } ).refresh();
+ instance.setOption('onDestroy', () => { } ).refresh();
 ```
 
 ## Methodes
@@ -648,7 +648,7 @@ Parameters:
 **Example**
 
 ```js
-const result = api.isOpen('tab ID');
+const result = instance.isOpen('tab ID');
 ```
 
 
@@ -666,8 +666,8 @@ Parameters:
 **Example**
 
 ```js
-if( api.isOpen('2') == false ){
-   api.open({
+if( instance.isOpen('2') == false ){
+   instance.open({
     id: '2',
     title: 'contact',
     tooltip: 'contact',
@@ -693,7 +693,7 @@ Parameters:
 **Example**
 
 ```js
-const result = api.isSelected('tab ID');
+const result = instance.isSelected('tab ID');
 ```
 
 
@@ -711,8 +711,8 @@ Parameters:
 **Example**
 
 ```js
-if( api.isSelected('your tab id') == false ){
-   api.select('your tab id').then(({currentDta,instance})=>{
+if( instance.isSelected('your tab id') == false ){
+   instance.select('your tab id').then(({currentDta,instance})=>{
        //do sth here
    });
 }
@@ -733,8 +733,8 @@ Parameters:
 **Example**
 
 ```js
-if( api.isOpen('2') == true ){
-   api.close('2').then(({currentDta,instance})=>{
+if( instance.isOpen('2') == true ){
+   instance.close('2').then(({currentDta,instance})=>{
      //do sth here
    });
 }
@@ -751,7 +751,7 @@ Return value : Promise
 **Example**
 
 ```js
-api.refresh().then(({currentDta,instance})=>{
+instance.refresh().then(({currentDta,instance})=>{
     //do sth here
 });
 ```
@@ -766,8 +766,8 @@ Parameters:
 **Example**
 
 ```js
-const direction = api.getOption('direction');
-const onSelect = api.getOption('onSelect');
+const direction = instance.getOption('direction');
+const onSelect = instance.getOption('onSelect');
 ```
 
 
@@ -775,7 +775,7 @@ const onSelect = api.getOption('onSelect');
 
 for re-rendering immediately after this function, you should call refresh method after it.
 
-Return value : api
+Return value : instance
 
 Parameters:
 
@@ -785,8 +785,8 @@ Parameters:
 **Example**
 
 ```js
-api.setOption('direction','rtl');
-api.setOption('onSelect',()=>{});
+instance.setOption('direction','rtl');
+instance.setOption('onSelect',()=>{});
 ```
 
 
@@ -803,7 +803,7 @@ Parameters:
 **Example**
 
 ```js
-const tabData = api.getTab('3');
+const tabData = instance.getTab('3');
 console.log(tabData.id); // 3
 ``` 
 
@@ -813,7 +813,7 @@ console.log(tabData.id); // 3
 set tabData by id.
  for re-rendering immediately after this function, you should call refresh method after it.
 
-Return value : api
+Return value : instance
 
 Parameters:
 
@@ -823,8 +823,8 @@ Parameters:
 **Example**
 
 ```js
-api.setTab('disable',true);
-api.setTab('panelComponent' , props => <p/>);
+instance.setTab('disable',true);
+instance.setTab('panelComponent' , props => <p/>);
 ```
 
 
@@ -832,7 +832,7 @@ api.setTab('panelComponent' , props => <p/>);
 
 Attach an event handler function for one event.
 
-Return value : api
+Return value : instance
 
 Parameters:
 
@@ -842,9 +842,9 @@ Parameters:
 **Example**
 
 ```js
-api.on('onSelect',function(params){
+instance.on('onSelect',function(params){
     const {currentSelectedTabId , perviousSelectedTabId} = params;
-   // can use 'this' here which refers to the api
+   // can use 'this' here which refers to the instance
 });
 ```
 
@@ -853,7 +853,7 @@ api.on('onSelect',function(params){
 
 Attach a handler to an event. The handler is executed at most once.
 
-Return value : api
+Return value : instance
 
 Parameters:
 
@@ -863,8 +863,8 @@ Parameters:
 **Example**
 
 ```js
-api.one('onSelect',function({currentSelectedTabId , perviousSelectedTabId}){
-   // can use 'this' here which refers to the api
+instance.one('onSelect',function({currentSelectedTabId , perviousSelectedTabId}){
+   // can use 'this' here which refers to the instance
 });
 ```
 
@@ -873,7 +873,7 @@ api.one('onSelect',function({currentSelectedTabId , perviousSelectedTabId}){
 
 Remove an event handler.
 
-Return value : api
+Return value : instance
 
 Parameters:
 
@@ -885,10 +885,10 @@ Parameters:
 ```js
 const onSelectHandler = function(params){
    const {currentSelectedTabId , perviousSelectedTabId} = params;
-   // can use 'this' here which refers to the api
+   // can use 'this' here which refers to the instance
    this.off('onSelect', onSelectHandler);
 };
-api.on('onSelect', onSelectHandler);
+instance.on('onSelect', onSelectHandler);
 ```
 
 ### getCopyData
@@ -898,7 +898,7 @@ Return value : Object
 **Example**
 
 ```js
-const { selectedTabID , openTabIDs } = api.getCopyData();
+const { selectedTabID , openTabIDs } = instance.getCopyData();
 ```
 
 
@@ -970,10 +970,10 @@ const tabData = {
     closable: false,
     panelComponent: porps => <p> contact content </p>
 };
- const [ TabList , PanelList , api ] = useDynTabs( { tabs : [tabData] } );
+ const [ TabList , PanelList , instance ] = useDynTabs( { tabs : [tabData] } );
  // or
- if(api.isOpen(tabData.id) == false ){
-    api.open(tabData).then(()=>{});
+ if(instance.isOpen(tabData.id) == false ){
+    instance.open(tabData).then(()=>{});
  }
 ```
 
