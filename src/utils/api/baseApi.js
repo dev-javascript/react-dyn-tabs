@@ -7,6 +7,7 @@ function BaseApi(helper) {
     this._perviousState = null;// it is a pervious value of this._state
     this._dispatch = null;
     this._setFlushState = null;
+    this._isReady = false;
     helper.setNoneEnumProps(this, {
         forceUpdateState: {},
         stateRef: {}// have a same reference with state . It will be updated in each execution of useDynamicTabs.js

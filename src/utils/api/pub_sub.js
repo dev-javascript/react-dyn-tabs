@@ -9,6 +9,7 @@ const Pub_Sub = function () {
         , onSelect: []
         , onInit: []
         , _onFlushEffects: []
+        , _onReady: []
         , onFirstSelect: []
     };
 };
