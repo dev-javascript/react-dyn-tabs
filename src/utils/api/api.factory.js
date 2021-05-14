@@ -2,8 +2,9 @@ import Helper from '../helper.js';
 const { throwMissingParam: missingParamEr, throwInvalidParam: invalidParamEr } = Helper;
 export const apiConstructor = function (getDeps, param = { options: {} }) {
     const { optionsManager, helper, activedTabsHistory } = getDeps.call(this, param.options);
-    helper.setNoneEnumProps(this, { optionsManager, helper, activedTabsHistory });
-    this._setUserProxy()._subscribeSelectedTabsHistory()._subscribeCallbacksOptions();//._subscribeOnChange();
+    helper.setNoneEnumProps(this, { optionsManager, helper, activedTabsHistory, userProxy: {} });
+    this._setUserProxy()._subscribeOnReadyEvent()._createReadyFunction()
+        ._subscribeSelectedTabsHistory()._subscribeCallbacksOptions();
 };
 const _apiProps = {
     _setUserProxy: function () {
@@ -23,6 +24,35 @@ const _apiProps = {
         this.userProxy = userProxy;
         return this;
     },
+    _subscribeOnReadyEvent: function () {
+        this.one('_onReady', () => {
+            this._isReady = true;
+        });
+        return this;
+    },
+    _createReadyFunction: function () {
+        let ready = fn => {
+            if (this._isReady === true) {
+                fn.call(this.userProxy, this.userProxy);
+            } else {
+                this.one('_onReady', () => {
+                    fn.call(this.userProxy, this.userProxy);
+                });
+            }
+        };
+        ready = ready.bind(this);
+        // make ready function object for supporting deprecated api
+        Object.assign(ready, this.userProxy);
+        this.helper.setNoneEnumProps(this, { ready });
+        return this;
+    },
+    _subscribeSelectedTabsHistory: function () {
+        this.on('onChange', ({ currentData, perviousData }) => {
+            const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
+            isSwitched && this.activedTabsHistory.add(perviousData.selectedTabID);
+        });
+        return this;
+    },
     _subscribeCallbacksOptions: function () {
         const op = this.optionsManager.options;
         Object.keys(this._publishers).map(eventName => {
@@ -30,13 +60,6 @@ const _apiProps = {
                 this.on(eventName, function () {
                     op[eventName].apply(this, arguments);
                 });
-        });
-        return this;
-    },
-    _subscribeSelectedTabsHistory: function () {
-        this.on('onChange', ({ currentData, perviousData }) => {
-            const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
-            isSwitched && this.activedTabsHistory.add(perviousData.selectedTabID);
         });
         return this;
     },
