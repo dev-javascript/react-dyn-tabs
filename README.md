@@ -72,6 +72,12 @@ React Dynamic Tabs with full API
 $ npm install react-dyn-tabs --save
 ```
 
+or
+
+```js
+$ yarn add react-dyn-tabs
+```
+
 
 ## Basic Example
 
@@ -673,7 +679,7 @@ if( instance.isOpen('2') == false ){
     closable: true,
     iconClass: '',
     panelComponent: <ContactPanel></ContactPanel>
-   }).then(({currentDta,instance})=>{
+   }).then(({currentData,instance})=>{
        //do sth here
    });
 }
@@ -710,7 +716,7 @@ Parameters:
 
 ```js
 if( instance.isSelected('your tab id') == false ){
-   instance.select('your tab id').then(({currentDta,instance})=>{
+   instance.select('your tab id').then(({currentData,instance})=>{
        //do sth here
    });
 }
@@ -739,7 +745,7 @@ Parameters:
 
 ```js
 if( instance.isOpen('2') == true ){
-   instance.close('2').then(({currentDta,instance})=>{
+   instance.close('2').then(({currentData,instance})=>{
      //do sth here
    });
 }
@@ -756,7 +762,7 @@ Return value : Promise
 **Example**
 
 ```js
-instance.refresh().then(({currentDta,instance})=>{
+instance.refresh().then(({currentData,instance})=>{
     //do sth here
 });
 ```
