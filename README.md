@@ -59,6 +59,7 @@ React Dynamic Tabs with full API
 - [Lazy Loading](#lazy-loading)
 - [Styling](#styling)
 - [Caveats](#caveats)
+- [Deprecated features](#Deprecated-features)
 - [Test](#test)
 - [License](#license)
 
@@ -82,7 +83,7 @@ $ yarn add react-dyn-tabs
 ## Basic Example
 
 ```js
-import React from 'react';
+import React, { useEffect } from 'react';
 import useDynTabs from 'react-dyn-tabs';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/default.css';
@@ -104,11 +105,18 @@ export default () => {
             }
         ],
         selectedTabID: '1',
-        onLoad: function(){
-           // do sth here
-        }
+        onLoad: function () { }
     };
-    const [TabList, PanelList, instance] = useDynTabs(options);
+    const [TabList, PanelList, ready] = useDynTabs(options);
+    useEffect(() => {
+        ready(instance => {
+            // open more tabs
+            instance.open({ id: '3', title: 'Tab 3', panelComponent: porps => <p> Tab 3 content </p> });
+            instance.open({ id: '4', title: 'Tab 4', panelComponent: porps => <p> Tab 4 content </p> });
+            // switch to new tab
+            instance.select('4');
+        });
+    }, []);
     return (
         <div>
             <TabList></TabList>
@@ -121,8 +129,13 @@ export default () => {
 
 **NOTE :**
 
-instance Object will not be changed after re-rendering multiple times.
-Its value always refers to same reference.
+* ready function and instance Object will not be changed after re-rendering multiple times.
+
+* Tabs can't be manipulated safely before the first render, use ready() to make a function available after the component is mounted.
+
+* ready function accepts a function as a parameter and calls it with instance object after the first render, when the component is mounted.
+
+* When ready function is called after the first render, it calls its function parameter with instance object immediately.
 
 
 
@@ -1011,6 +1024,23 @@ Some actions like open, select, close and refresh cause re-rendering,
  and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause.
 you should use them inside event listeners or subscriptions.
 
+## Deprecated features
+
+These deprecated features can still be used, but should be used with caution because they are expected to be removed entirely sometime in the future. You should work to remove their use from your code.
+
+* Third element of returned array by useDynTabs hook should not be used as an object, it is no longer recommended and only be kept for backwards compatibility purposes, may be removed in the future. Avoid using it as an object and use the code below instead of it.
+
+```js
+const [TabList, PanelList, ready] = useDynTabs(options);
+const open_tab_3 = function () {
+    ready(function (instance) {
+        if (instance.isOpen('3') === false) {
+            instance.open({ id: '3', title: 'mock tab 3' });
+            instance.select('3');
+        }
+    });
+};
+```
 
 ## Test
 
