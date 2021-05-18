@@ -165,7 +165,7 @@ export default () => {
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({
+ const [ TabList , PanelList , ready ] = useDynTabs({
    tabs : [
      {
          id: '1',
@@ -209,7 +209,7 @@ export default () => {
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({
+ const [ TabList , PanelList , ready ] = useDynTabs({
    tabs : [
      {
          id: '1',
@@ -253,7 +253,7 @@ export default () => {
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ direction : 'rtl' });
+ const [ TabList , PanelList , ready ] = useDynTabs({ direction : 'rtl' });
 ```
 or
 ```js
@@ -284,7 +284,7 @@ if( instance.getOption('direction') !== 'ltr') {
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ 
+ const [ TabList , PanelList , ready ] = useDynTabs({ 
      tabComponent : props => {
        const { id , isSelected , instance } = props;
        return (
@@ -340,7 +340,7 @@ Default value for panelComponent option.
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ 
+ const [ TabList , PanelList , ready ] = useDynTabs({ 
      defaultPanelComponent : props => {
        const { id , isSelected , instance } = props;
        return <div></div>
@@ -376,7 +376,7 @@ instance.refresh();
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ accessibility : false });
+ const [ TabList , PanelList , ready ] = useDynTabs({ accessibility : false });
 ```
 or
 ```js
@@ -413,7 +413,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onLoad : function() {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onLoad : function() {
       // you can use 'this' here which refers to the instance
  } });
 ```
@@ -439,11 +439,13 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onInit : function() {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onInit : function() {
       // you can use 'this' here which refers to the instance
  } });
  // or
  instance.setOption('onInit', () => { } ).refresh();
+ // or
+ instance.on('onInit',()=>{ });
 ```
 
 
@@ -467,7 +469,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onChange : function({ currentData , perviousData }) {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onChange : function({ currentData , perviousData }) {
       // you can use 'this' here which refers to the instance
  } });
  // or
@@ -498,7 +500,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ beforeSelect : function(e, id) {
+ const [ TabList , PanelList , ready ] = useDynTabs({ beforeSelect : function(e, id) {
       // you can use 'this' here which refers to the instance
       return true;
  } });
@@ -527,7 +529,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ 
+ const [ TabList , PanelList , ready ] = useDynTabs({ 
    onSelect : function({currentSelectedTabId , perviousSelectedTabId}) {
       // you can use 'this' here which refers to the instance
    } 
@@ -556,7 +558,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onOpen : function(openedTabIDs) {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onOpen : function(openedTabIDs) {
       // you can use 'this' here which refers to the instance
    }});
  // or
@@ -588,7 +590,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ beforeClose : function(e, id) {
+ const [ TabList , PanelList , ready ] = useDynTabs({ beforeClose : function(e, id) {
       // you can use 'this' here which refers to the instance
       return true;
  } });
@@ -617,7 +619,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onClose : function(closedTabIDs) {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onClose : function(closedTabIDs) {
       // you can use 'this' here which refers to the instance
    }});
  // or
@@ -645,7 +647,7 @@ This option assigns id attribute on panel element and button element inside the 
 **Example**
 
 ```js
- const [ TabList , PanelList , instance ] = useDynTabs({ onDestroy : function() {
+ const [ TabList , PanelList , ready ] = useDynTabs({ onDestroy : function() {
       // you can use 'this' here which refers to the instance
    }});
  // or
@@ -994,7 +996,7 @@ const tabData = {
     closable: false,
     panelComponent: porps => <p> contact content </p>
 };
- const [ TabList , PanelList , instance ] = useDynTabs( { tabs : [tabData] } );
+ const [ TabList , PanelList , ready ] = useDynTabs( { tabs : [tabData] } );
  // or
  if(instance.isOpen(tabData.id) == false ){
     instance.open(tabData).then(()=>{});
