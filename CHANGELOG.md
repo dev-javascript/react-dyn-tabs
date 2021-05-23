@@ -5,6 +5,8 @@
 
 * Third element of returned array by useDynTabs hook should not be used as an object, it is no longer recommended and only be kept for backwards compatibility purposes, may be removed in the future. Avoid using it as an object.
 
+* Returned Promise by select|open|close will be resloved after onSelect|onOpen|onClose event
+
 # v2.2.0
 
 * close function can take switching parameter
