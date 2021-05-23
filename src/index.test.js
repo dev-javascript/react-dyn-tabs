@@ -135,7 +135,7 @@ describe("apply multiple actions : ", () => {
             }
         });
         expect(document.getElementById('updatedPanel1') != null).toBe(true);
-        expect(document.querySelector('li[tab-id="1"] .rc-dyn-tabs-close') == null).toBe(true);
+        expect(document.querySelector('li[tab-id="1"] .rc-dyn-tabs-close')).toBe(null);
         expect(document.querySelector('ul').className.includes('rc-dyn-tabs-rtl')).toBe(true);
         expect(document.querySelectorAll('a.rc-dyn-tabs-title').length === 2).toBe(true);
         expect(op.onChange.mock.calls.length).toBe(0);

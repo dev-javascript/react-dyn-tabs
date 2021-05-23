@@ -7,16 +7,16 @@ function useDynamicTabs(getDeps, options = {}) {
         ref.current = { api: getApiInstance(options), TabListComponent: null, PanelListComponent: null };
     const { current: { api } } = ref
         , _ref = ref.current
-        , [state, dispatch] = useReducer(reducer, api.getInitialState())
+        , [state, dispatch] = useReducer(reducer, api.optionsManager.initialState)
         , [flushState, setFlushState] = useState({});
     api.updateStateRef(state, dispatch).updateFlushState(setFlushState);
+    useLayoutEffect(() => {
+        api.updateState(state);
+    }, [state]);
     useLayoutEffect(() => {
         api.trigger('onLoad', api.userProxy);
         return () => { api.trigger('onDestroy', api.userProxy); };
     }, []);
-    useLayoutEffect(() => {
-        api.updateState(state);
-    }, [state]);
     useLayoutEffect(() => {
         api.trigger('onInit', api.userProxy);
     });

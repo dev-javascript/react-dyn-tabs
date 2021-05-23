@@ -7,8 +7,11 @@ import Tabs from './tabs.js';
 import BaseApi from './baseApi.js';
 const getDeps = function (options = {}) {
     const activedTabsHistory = new (ActivedTabsHistory)(), optionsManager = new (OptionManager)({ options });
-    BaseApi.call(this, helper);
-    Tabs.call(this);
+    BaseApi.call(this, {
+        helper,
+        initialState: optionsManager.initialState
+    });
+    Tabs.call(this, { initialTabs: optionsManager.initialTabs, });
     Pub_Sub.call(this);
     return { activedTabsHistory, helper, optionsManager };
 };

@@ -65,7 +65,9 @@ const _apiProps = {
     },
     getOption: function (name) { return this.optionsManager.getOption(name); },
     setOption: function (name, value) { return this.optionsManager.setOption(name, value); },
-    getCopyPerviousData: function () { return this.helper.getCopyState(this._perviousState); },
+    getCopyPerviousData: function () {
+        return this.helper.getCopyState(this._perviousState);
+    },
     getCopyData: function () { return this.helper.getCopyState(this.stateRef); },
     isSelected: function (id = missingParamEr('isSelected')) { return this.stateRef.selectedTabID == id; },
     isOpen: function (id = missingParamEr('isOpen')) { return this.stateRef.openTabIDs.indexOf(id) >= 0; },
@@ -103,13 +105,15 @@ const _apiProps = {
             return tabId;
         };
     })(),
-    setTab: function (id, newData) {
-        this._setTab(id, newData, this.getOption('defaultPanelComponent'));
+    setTab: function (id, newData = {}) {
+        this.optionsManager.validateObjectiveTabData(newData).validatePanelComponent(newData);
+        this._setTab(id, newData);
         return this;
     },
     open: function (tabObj = missingParamEr('open')) {
-        const newTabObj = this._addTab(tabObj, { defaultPanelComponent: this.getOption('defaultPanelComponent') });
+        const newTabObj = this.optionsManager.validateTabData(tabObj);
         const result = this._getFlushEffectsPromise();
+        this._addTab(newTabObj);
         this._open(newTabObj.id);
         return result;
     },
@@ -138,20 +142,20 @@ const _apiProps = {
     }
 };
 Helper.setNoneEnumProps(_apiProps, {
-    getInitialState: function () {
-        if (!this._initialState) {
-            const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
-            tabs.map(tab => {
-                const newTab = this._addTab(tab, { defaultPanelComponent });
-                openTabIDs.push(newTab.id);
-            });
-            this._initialState = {
-                selectedTabID: selectedTabID + '', //make sure it is type of string
-                openTabIDs
-            };
-        }
-        return this._initialState;
-    },
+    // getInitialState: function () {
+    //     if (!this._initialState) {
+    //         const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
+    //         tabs.map(tab => {
+    //             const newTab = this._addTab(tab, { defaultPanelComponent });
+    //             openTabIDs.push(newTab.id);
+    //         });
+    //         this._initialState = {
+    //             selectedTabID: selectedTabID + '', //make sure it is type of string
+    //             openTabIDs
+    //         };
+    //     }
+    //     return this._initialState;
+    // },
     onChange: function ({ newState, oldState, closedTabsId, openedTabsId, isSwitched }) {
         if (isSwitched || openedTabsId.length || closedTabsId.length) {
             this.trigger('onChange', this.userProxy, {

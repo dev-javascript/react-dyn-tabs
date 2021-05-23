@@ -14,43 +14,41 @@ beforeAll(() => {
 beforeEach(() => {
     getDeps = function (options = {}) {
         const activedTabsHistory = new (ActivedTabsHistory)(), optionsManager = new (OptionManager)({ options });
-        BaseApi.call(this, helper);
-        Tabs.call(this);
+        BaseApi.call(this, {
+            helper,
+            initialState: optionsManager.initialState
+        });
+        Tabs.call(this, { initialTabs: optionsManager.initialTabs, });
         Pub_Sub.call(this);
         return { activedTabsHistory, helper, optionsManager };
     };
-    obj = new (apiConstructor)(getDeps, { options: {} });
+    obj = new (apiConstructor)(getDeps, {
+        options: {
+            tabs: [{
+                id: 'tab1',
+                title: 'tabTitle1'
+            }, {
+                id: 'tab2',
+                title: 'tabTitle2'
+            }],
+            selectedTabID: 'tab1'
+        }
+    });
 });
 afterEach(() => {
     getDeps = null;
     obj = null;
 });
-describe('Api.prototype.getInitialState : ', () => {
-    test('it should call _addTab internally per each tabData option', () => {
-        const obj = new (apiConstructor)(getDeps, {
-            options: {
-                tabs: [
-                    { id: '1', title: 'tab1' },
-                    { id: '2', title: 'tab2' },
-                    { id: '3', title: 'tab3' }
-                ]
-            }
-        });
-        obj._addTab = jest.fn(() => ({ id: '2' }));
-        obj.getInitialState();
-        expect(obj._addTab.mock.calls.length === 3).toBe(true);
-    });
-});
 describe('Api.prototype.open : ', () => {
-    test('it should call _addTab internally', () => {
+    test('it should call optionsManager.validateTabData internally', () => {
         Object.assign(obj, {
-            _addTab: jest.fn(() => ({ id: '2' })),
             _getFlushEffectsPromise: jest.fn(() => Promise),
             _open: jest.fn(() => { })
         });
+        obj.optionsManager.validateTabData = jest.fn(data => data);
         obj.open({ id: '2' });
-        expect(obj._addTab.mock.calls.length === 1).toBe(true);
-        expect(obj._addTab).toHaveBeenCalledBefore(obj._getFlushEffectsPromise);
+        expect(obj.optionsManager.validateTabData.mock.calls.length === 1).toBe(true);
+        expect(obj.optionsManager.validateTabData).toHaveBeenCalledBefore(obj._getFlushEffectsPromise);
         expect(obj._getFlushEffectsPromise).toHaveBeenCalledBefore(obj._open);
     });
     test('it throws an error if is called with falsy value of id parameter', () => {
@@ -393,5 +391,49 @@ describe('Api.prototype.eventHandlerFactory : ', () => {
             expect(beforeClose.mock.calls[0][0]).toBe(e);
             expect(beforeClose.mock.calls[0][1]).toBe(id);
         }
+    });
+});
+describe('Api.prototype.getCopyPerviouseData', () => {
+    test('In the onLoad event, return data is equal to getInitialState() and getCopyData()', () => {
+        expect.assertions(3);
+        const _state = { selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] };
+        obj.setOption('onLoad', function () {
+            const perviousData = this.getCopyPerviousData();
+            const data = this.getCopyData();
+            expect(perviousData).toEqual(_state);
+            expect(perviousData).toEqual(data);
+            expect(perviousData !== null).toBe(true);
+        });
+        obj.updateStateRef(_state, () => { });
+        obj.trigger('onLoad', obj.userProxy);
+    });
+});
+describe('Api.prototype.getCopyPerviousData', () => {
+    test('returned data should be equal to optionsManager.initialState in onLoad event', () => {
+        expect.assertions(2);
+        obj.setOption('onLoad', function () {
+            const perviousData = this.getCopyPerviousData();
+            const data = this.getCopyData();
+            expect(perviousData).toEqual(obj.optionsManager.initialState);
+            expect(perviousData).not.toEqual(data);
+        });
+        obj.updateState({ selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] });
+        obj.trigger('onLoad', obj.userProxy);
+    });
+    test('returned data should be equal to currentData in onLoad event', () => {
+        expect.assertions(1);
+        obj.setOption('onLoad', function () {
+            expect(this.getCopyPerviousData()).toEqual(this.getCopyData());
+        });
+        obj.updateStateRef({ selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] }, () => { });
+        obj.trigger('onLoad', obj.userProxy);
+    });
+});
+describe('Api.prototype.setTab : ', () => {
+    test('it should call optionsManager.validateObjectiveTabData and validatePanelComponent internally', () => {
+        obj.optionsManager.validateObjectiveTabData = jest.fn(() => obj.optionsManager);
+        obj.optionsManager.validatePanelComponent = jest.fn(() => obj.optionsManager);
+        obj.setTab('1', { title: 'c' });
+        expect(obj.optionsManager.validateObjectiveTabData).toHaveBeenCalledBefore(obj.optionsManager.validatePanelComponent);
     });
 });
