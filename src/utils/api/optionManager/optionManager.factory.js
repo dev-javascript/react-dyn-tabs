@@ -24,10 +24,8 @@ OptionManager.prototype.setOption = function (name = missingParamEr('setOption')
 OptionManager.prototype.validatePanelComponent = function (tabData) {
     // convert panel element into a  function component.
     if (tabData.panelComponent && typeof tabData.panelComponent !== 'function' && React.isValidElement(tabData.panelComponent)) {
-        tabData.panelComponent = function (props) {
-            const PanelElement = tabData.panelComponent;
-            return PanelElement;
-        };
+        const PanelElement = tabData.panelComponent;
+        tabData.panelComponent = function (props) { return PanelElement; };
     }
     return this;
 };
