@@ -142,7 +142,8 @@ describe('OptionManager.prototype.setOption : ', () => {
         const tabs = obj.getOption('tabs');
         obj.setOption('tabs', [{ id: '3', title: 'c' }]);
         const newTabs = obj.getOption('tabs');
-        expect(tabs).toBe(newTabs);
+        expect(tabs).not.toBe(newTabs);
+        expect(tabs).toEqual(newTabs);
     });
     it('it can not set selectedTabID option', () => {
         const selectedTabID = obj.getOption('selectedTabID');

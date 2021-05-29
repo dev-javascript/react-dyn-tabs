@@ -393,21 +393,6 @@ describe('Api.prototype.eventHandlerFactory : ', () => {
         }
     });
 });
-describe('Api.prototype.getCopyPerviouseData', () => {
-    test('In the onLoad event, return data is equal to getInitialState() and getCopyData()', () => {
-        expect.assertions(3);
-        const _state = { selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] };
-        obj.setOption('onLoad', function () {
-            const perviousData = this.getCopyPerviousData();
-            const data = this.getCopyData();
-            expect(perviousData).toEqual(_state);
-            expect(perviousData).toEqual(data);
-            expect(perviousData !== null).toBe(true);
-        });
-        obj.updateStateRef(_state, () => { });
-        obj.trigger('onLoad', obj.userProxy);
-    });
-});
 describe('Api.prototype.getCopyPerviousData', () => {
     test('returned data should be equal to optionsManager.initialState in onLoad event', () => {
         expect.assertions(2);
@@ -426,6 +411,19 @@ describe('Api.prototype.getCopyPerviousData', () => {
             expect(this.getCopyPerviousData()).toEqual(this.getCopyData());
         });
         obj.updateStateRef({ selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] }, () => { });
+        obj.trigger('onLoad', obj.userProxy);
+    });
+    test('In the onLoad event, return data is equal to getInitialState() and getCopyData()', () => {
+        expect.assertions(3);
+        const _state = { selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2'] };
+        obj.setOption('onLoad', function () {
+            const perviousData = this.getCopyPerviousData();
+            const data = this.getCopyData();
+            expect(perviousData).toEqual(_state);
+            expect(perviousData).toEqual(data);
+            expect(perviousData !== null).toBe(true);
+        });
+        obj.updateStateRef(_state, () => { });
         obj.trigger('onLoad', obj.userProxy);
     });
 });
