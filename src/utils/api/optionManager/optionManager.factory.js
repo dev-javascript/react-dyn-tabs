@@ -11,11 +11,18 @@ function OptionManager(getDeps, { options }) {
     this.initialTabs = [];
     this._setSetting()._setInitialData();
 };
-OptionManager.prototype.getOption = function (OptionName) {
-    return this.options[OptionName];
+OptionManager.prototype.getOption = function (optionName) {
+    if (optionName === 'tabs') { // returned result should be immutable
+        let arr = [];
+        for (let i = 0, tabs = this.options.tabs, l = tabs.length; i < l; i++) {
+            arr.push({ ...tabs[i] });
+        }
+        return arr;
+    }
+    return this.options[optionName];
 };
 OptionManager.prototype.setOption = function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
-    if (name.toUpperCase() === ('SELECTEDTABID' || 'OPENTABIDS' || 'DATA'))
+    if (['SELECTEDTABID', 'TABS'].indexOf(name.toUpperCase()) >= 0)
         return this;
     if (this._defaultOptions.hasOwnProperty(name))
         this.options[name] = value;
