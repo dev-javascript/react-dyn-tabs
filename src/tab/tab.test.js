@@ -4,39 +4,19 @@ import Tab from "./tab";
 import { act } from "react-dom/test-utils";
 import renderer from 'react-test-renderer';
 import DefaultTabInner from './defaulTabInner.js';
+import Api from '../utils/api/api.js';
 let container = document.createElement("div"), realUseContext;
 const getDefaultApi = () => ({
-    getTab: jest.fn((id) => ({
-        title: "",
-        tooltip: "",
-        panelComponent: null,
-        closable: true,
-        iconClass: "",
-        disable: false,
-        id: 1
-    })),
-    eventHandlerFactory: jest.fn(({ e, id }) => { }),
-    getOption: jest.fn(opName => DefaultTabInner),
-    userProxy: {},
-    optionsManager: {
-        options: {
-            accessibility: true, direction: 'ltr'
-        },
-        setting: {
-            tabClass: 'rc-dyn-tabs-tab',
-            titleClass: 'rc-dyn-tabs-title',
-            iconClass: 'rc-dyn-tabs-icon',
-            selectedClass: 'rc-dyn-tabs-selected',
-            closeClass: 'rc-dyn-tabs-close',
-            disableClass: 'rc-dyn-tabs-disable',
-            panelIdTemplate: jest.fn(id => `rc-dyn-tabs-p-${id}`),
-            ariaLabelledbyIdTemplate: jest.fn(id => `rc-dyn-tabs-l-${id}`)
-        }
-    }
-})
-    , setMockUseContext = (api) => {
-        React.useContext = jest.fn(() => Object.assign({}, getDefaultApi(), api || {}));
-    };
+    tabs: [
+        { id: '1', title: 'tab1', tooltip: 'tab1 tootltip', closable: false },
+        { id: '2', title: 'tab2', iconClass: 'ui-icon ui-icon-disk' },
+        { id: '3', title: 'tab3', disable: true },
+        { id: '4', title: 'tab4', panelComponent: props => <div>tab4</div> }
+    ]
+});
+const setMockUseContext = (op = {}) => {
+    React.useContext = jest.fn(() => new (Api)({ options: Object.assign({}, getDefaultApi(), op) }));
+};
 beforeAll(() => {
     document.body.appendChild(container);
     realUseContext = React.useContext;
@@ -55,7 +35,25 @@ afterAll(() => {
 });
 describe('tab structure with default options : ', () => {
     test('default tab data', () => {
-        setMockUseContext();
+        setMockUseContext({
+            tabs: [{
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: false,
+                id: '1'
+            }, {
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: false,
+                id: '2'
+            }]
+        });
         const tree = renderer
             .create(<div>
                 <Tab id="1" selectedTabID="1"></Tab>
@@ -66,15 +64,26 @@ describe('tab structure with default options : ', () => {
     });
     test('none closable tab', () => {
         setMockUseContext({
-            getTab: jest.fn((id) => ({
-                title: "",
-                tooltip: "",
-                panelComponent: null,
-                closable: false,
-                iconClass: "",
-                disable: false,
-                id: 1
-            }))
+            tabs: [
+                {
+                    title: "",
+                    tooltip: "",
+                    panelComponent: null,
+                    closable: false,
+                    iconClass: "",
+                    disable: false,
+                    id: '1'
+                },
+                {
+                    title: "",
+                    tooltip: "",
+                    panelComponent: null,
+                    closable: false,
+                    iconClass: "",
+                    disable: false,
+                    id: '2'
+                }
+            ]
         });
         const tree = renderer
             .create(<div>
@@ -86,15 +95,23 @@ describe('tab structure with default options : ', () => {
     });
     test('disabled tab', () => {
         setMockUseContext({
-            getTab: jest.fn((id) => ({
+            tabs: [{
                 title: "",
                 tooltip: "",
                 panelComponent: null,
                 closable: true,
                 iconClass: "",
                 disable: true,
-                id: 1
-            }))
+                id: '1'
+            }, {
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: true,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
@@ -106,15 +123,23 @@ describe('tab structure with default options : ', () => {
     });
     test('tab with provided tooltip and iconClass', () => {
         setMockUseContext({
-            getTab: jest.fn((id) => ({
+            tabs: [{
                 title: "tab title",
                 tooltip: "tab tooltip",
                 panelComponent: null,
                 closable: true,
                 iconClass: "ui-icon ui-icon-heart",
                 disable: false,
-                id: 1
-            }))
+                id: '1'
+            }, {
+                title: "tab title",
+                tooltip: "tab tooltip",
+                panelComponent: null,
+                closable: true,
+                iconClass: "ui-icon ui-icon-heart",
+                disable: false,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
@@ -128,21 +153,24 @@ describe('tab structure with default options : ', () => {
 describe('tab structure with rtl and none accessibility options : ', () => {
     test('default tab data', () => {
         setMockUseContext({
-            optionsManager: {
-                options: {
-                    accessibility: false, direction: 'rtl'
-                },
-                setting: {
-                    tabClass: 'rc-dyn-tabs-tab',
-                    titleClass: 'rc-dyn-tabs-title',
-                    iconClass: 'rc-dyn-tabs-icon',
-                    selectedClass: 'rc-dyn-tabs-selected',
-                    closeClass: 'rc-dyn-tabs-close',
-                    disableClass: 'rc-dyn-tabs-disable',
-                    panelIdTemplate: jest.fn(id => `rc-dyn-tabs-p-${id}`),
-                    ariaLabelledbyIdTemplate: jest.fn(id => `rc-dyn-tabs-l-${id}`)
-                }
-            }
+            accessibility: false, direction: 'rtl',
+            tabs: [{
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: false,
+                id: '1'
+            }, {
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: false,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
@@ -154,30 +182,24 @@ describe('tab structure with rtl and none accessibility options : ', () => {
     });
     test('none closable tab', () => {
         setMockUseContext({
-            optionsManager: {
-                options: {
-                    accessibility: false, direction: 'rtl'
-                },
-                setting: {
-                    tabClass: 'rc-dyn-tabs-tab',
-                    titleClass: 'rc-dyn-tabs-title',
-                    iconClass: 'rc-dyn-tabs-icon',
-                    selectedClass: 'rc-dyn-tabs-selected',
-                    closeClass: 'rc-dyn-tabs-close',
-                    disableClass: 'rc-dyn-tabs-disable',
-                    panelIdTemplate: jest.fn(id => `rc-dyn-tabs-p-${id}`),
-                    ariaLabelledbyIdTemplate: jest.fn(id => `rc-dyn-tabs-l-${id}`)
-                }
-            },
-            getTab: jest.fn((id) => ({
+            accessibility: false, direction: 'rtl',
+            tabs: [{
                 title: "",
                 tooltip: "",
                 panelComponent: null,
                 closable: false,
                 iconClass: "",
                 disable: false,
-                id: 1
-            }))
+                id: '1'
+            }, {
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: false,
+                iconClass: "",
+                disable: false,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
@@ -189,30 +211,24 @@ describe('tab structure with rtl and none accessibility options : ', () => {
     });
     test('disabled tab', () => {
         setMockUseContext({
-            optionsManager: {
-                options: {
-                    accessibility: false, direction: 'rtl'
-                },
-                setting: {
-                    tabClass: 'rc-dyn-tabs-tab',
-                    titleClass: 'rc-dyn-tabs-title',
-                    iconClass: 'rc-dyn-tabs-icon',
-                    selectedClass: 'rc-dyn-tabs-selected',
-                    closeClass: 'rc-dyn-tabs-close',
-                    disableClass: 'rc-dyn-tabs-disable',
-                    panelIdTemplate: jest.fn(id => `rc-dyn-tabs-p-${id}`),
-                    ariaLabelledbyIdTemplate: jest.fn(id => `rc-dyn-tabs-l-${id}`)
-                }
-            },
-            getTab: jest.fn((id) => ({
+            accessibility: false, direction: 'rtl',
+            tabs: [{
                 title: "",
                 tooltip: "",
                 panelComponent: null,
                 closable: true,
                 iconClass: "",
                 disable: true,
-                id: 1
-            }))
+                id: '1'
+            }, {
+                title: "",
+                tooltip: "",
+                panelComponent: null,
+                closable: true,
+                iconClass: "",
+                disable: true,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
@@ -224,35 +240,55 @@ describe('tab structure with rtl and none accessibility options : ', () => {
     });
     test('tab with provided tooltip and iconClass', () => {
         setMockUseContext({
-            optionsManager: {
-                options: {
-                    accessibility: false, direction: 'rtl'
-                },
-                setting: {
-                    tabClass: 'rc-dyn-tabs-tab',
-                    titleClass: 'rc-dyn-tabs-title',
-                    iconClass: 'rc-dyn-tabs-icon',
-                    selectedClass: 'rc-dyn-tabs-selected',
-                    closeClass: 'rc-dyn-tabs-close',
-                    disableClass: 'rc-dyn-tabs-disable',
-                    panelIdTemplate: jest.fn(id => `rc-dyn-tabs-p-${id}`),
-                    ariaLabelledbyIdTemplate: jest.fn(id => `rc-dyn-tabs-l-${id}`)
-                }
-            },
-            getTab: jest.fn((id) => ({
+            accessibility: false, direction: 'rtl',
+            tabs: [{
                 title: "tab title",
                 tooltip: "tab tooltip",
                 panelComponent: null,
                 closable: true,
                 iconClass: "ui-icon ui-icon-heart",
                 disable: false,
-                id: 1
-            }))
+                id: '1'
+            }, {
+                title: "tab title",
+                tooltip: "tab tooltip",
+                panelComponent: null,
+                closable: true,
+                iconClass: "ui-icon ui-icon-heart",
+                disable: false,
+                id: '2'
+            }]
         });
         const tree = renderer
             .create(<div>
                 <Tab id="1" selectedTabID="1"></Tab>
                 <Tab id="2" selectedTabID="1"></Tab>
+            </div>)
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+});
+describe('tab structure with custom tab component : ', () => {
+    test('default options', () => {
+        setMockUseContext({ tabComponent: DefaultTabInner });
+        const tree = renderer
+            .create(<div>
+                <Tab id="1" selectedTabID="1"></Tab>
+                <Tab id="2" selectedTabID="1"></Tab>
+                <Tab id="3" selectedTabID="1"></Tab>
+                <Tab id="4" selectedTabID="1"></Tab>
+            </div>)
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+    test('rtl and none accessibility options', () => {
+        setMockUseContext({ tabComponent: DefaultTabInner, direction: 'rtl', accessibility: false });
+        const tree = renderer
+            .create(<div>
+                <Tab id="1" selectedTabID="1"></Tab>
+                <Tab id="2" selectedTabID="1"></Tab>
+                <Tab id="3" selectedTabID="1"></Tab>
+                <Tab id="4" selectedTabID="1"></Tab>
             </div>)
             .toJSON();
         expect(tree).toMatchSnapshot();
