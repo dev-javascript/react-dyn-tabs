@@ -286,7 +286,7 @@ if( instance.getOption('direction') !== 'ltr') {
 ```js
  const [ TabList , PanelList , ready ] = useDynTabs({ 
      tabComponent : props => {
-       const { id , isSelected , instance } = props;
+       const { id , isSelected , api:instance } = props;
        return (
                 <button  {...props.tabProps}>
                     {props.children}
@@ -302,7 +302,7 @@ if( instance.getOption('direction') !== 'ltr') {
 or
 ```js
 const CustomTabComponent = props => {
-    const { id, isSelected, instance } = props;
+    const { id, isSelected, api:instance } = props;
     return (
         <button  {...props.tabProps}>
             {props.children}
@@ -342,7 +342,7 @@ Default value for panelComponent option.
 ```js
  const [ TabList , PanelList , ready ] = useDynTabs({ 
      defaultPanelComponent : props => {
-       const { id , isSelected , instance } = props;
+       const { id , isSelected , api:instance } = props;
        return <div></div>
      }
    });
