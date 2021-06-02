@@ -155,12 +155,12 @@ describe('OptionManager.prototype.setOption : ', () => {
 describe('OptionManager.prototype.getOption : ', () => {
     it('it returns tabs prop as an immutable array', () => {
         const newTitle = 'newTitle';
-        let oldTitle;
+        let oldPanelComponent;
         const tabs = obj.getOption('tabs');
-        oldTitle = tabs[0].title;
-        tabs[0].title = newTitle;
+        oldPanelComponent = tabs[0].panelComponent;
+        tabs[0].panelComponent = () => { };
         const newTabs = obj.getOption('tabs');
-        expect(newTabs[0].title).toBe(oldTitle);
+        expect(newTabs[0].panelComponent).toBe(oldPanelComponent);
     });
     it('it returns undefined when it is called with wrong option name', () => {
         const result = obj.getOption('Tabs');

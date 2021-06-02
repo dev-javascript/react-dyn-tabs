@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`panel structure :  custom panelComponent 1`] = `
+<div>
+  <div
+    aria-hidden={false}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-p-1"
+    role="tabpanel"
+    tab-id="1"
+  >
+    <span
+      className="custom-panel-selected"
+    >
+      tab1 panel
+    </span>
+  </div>
+  <div
+    aria-hidden={true}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    className="rc-dyn-tabs-panel"
+    id="rc-dyn-tabs-p-2"
+    role="tabpanel"
+    tab-id="2"
+  >
+    <span
+      className="custom-panel-none-selected"
+    >
+      tab2 panel
+    </span>
+  </div>
+</div>
+`;
+
+exports[`panel structure :  custom panelComponent with rtl and none accessibility options 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+    tab-id="1"
+  >
+    <span
+      className="custom-panel-selected"
+    >
+      tab1 panel
+    </span>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="2"
+  >
+    <span
+      className="custom-panel-none-selected"
+    >
+      tab2 panel
+    </span>
+  </div>
+</div>
+`;
+
+exports[`panel structure :  default options 1`] = `
+<div>
+  <div
+    aria-hidden={false}
+    aria-labelledby="rc-dyn-tabs-l-1"
+    className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-p-1"
+    role="tabpanel"
+    tab-id="1"
+  >
+    <p>
+      tab1 panel
+    </p>
+  </div>
+  <div
+    aria-hidden={true}
+    aria-labelledby="rc-dyn-tabs-l-2"
+    className="rc-dyn-tabs-panel"
+    id="rc-dyn-tabs-p-2"
+    role="tabpanel"
+    tab-id="2"
+  >
+    <p>
+      tab2 panel
+    </p>
+  </div>
+  <div
+    aria-hidden={true}
+    aria-labelledby="rc-dyn-tabs-l-3"
+    className="rc-dyn-tabs-panel"
+    id="rc-dyn-tabs-p-3"
+    role="tabpanel"
+    tab-id="3"
+  >
+    <div />
+  </div>
+  <div
+    aria-hidden={true}
+    aria-labelledby="rc-dyn-tabs-l-4"
+    className="rc-dyn-tabs-panel"
+    id="rc-dyn-tabs-p-4"
+    role="tabpanel"
+    tab-id="4"
+  >
+    <div
+      class="custom-panel"
+    >
+      panel 4 is not selected
+    </div>
+  </div>
+  <div
+    aria-hidden={true}
+    aria-labelledby="rc-dyn-tabs-l-5"
+    className="rc-dyn-tabs-panel"
+    id="rc-dyn-tabs-p-5"
+    role="tabpanel"
+    tab-id="5"
+  >
+    <span>
+      panel 6
+    </span>
+  </div>
+</div>
+`;
+
+exports[`panel structure :  rtl and none accessibility options 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+    tab-id="1"
+  >
+    <p>
+      tab1 panel
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="2"
+  >
+    <p>
+      tab2 panel
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="3"
+  >
+    <div />
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="4"
+  >
+    <div
+      class="custom-panel"
+    >
+      panel 4 is not selected
+    </div>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="5"
+  >
+    <span>
+      panel 6
+    </span>
+  </div>
+</div>
+`;
