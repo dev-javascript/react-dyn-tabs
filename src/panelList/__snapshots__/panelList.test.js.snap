@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PanelList structure :  default options 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-panellist rc-dyn-tabs-ltr"
+  >
+    <div
+      aria-hidden={false}
+      aria-labelledby="rc-dyn-tabs-l-1"
+      className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+      id="rc-dyn-tabs-p-1"
+      role="tabpanel"
+      tab-id="1"
+    >
+      <div />
+    </div>
+    <div
+      aria-hidden={true}
+      aria-labelledby="rc-dyn-tabs-l-2"
+      className="rc-dyn-tabs-panel"
+      id="rc-dyn-tabs-p-2"
+      role="tabpanel"
+      tab-id="2"
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PanelList structure :  rtl option 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-panellist rc-dyn-tabs-rtl"
+  >
+    <div
+      aria-hidden={false}
+      aria-labelledby="rc-dyn-tabs-l-1"
+      className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+      id="rc-dyn-tabs-p-1"
+      role="tabpanel"
+      tab-id="1"
+    >
+      <div />
+    </div>
+    <div
+      aria-hidden={true}
+      aria-labelledby="rc-dyn-tabs-l-2"
+      className="rc-dyn-tabs-panel"
+      id="rc-dyn-tabs-p-2"
+      role="tabpanel"
+      tab-id="2"
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
