@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabList structure :  default options 1`] = `
+<div>
+  <ul
+    className="rc-dyn-tabs-tablist rc-dyn-tabs-ltr"
+    role="tablist"
+  >
+    <li
+      aria-controls="rc-dyn-tabs-p-1"
+      aria-expanded={true}
+      aria-labelledby="rc-dyn-tabs-l-1"
+      aria-selected={true}
+      className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+      onClick={[Function]}
+      role="tab"
+      tab-id="1"
+      tabIndex={0}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        id="rc-dyn-tabs-l-1"
+        role="presentation"
+        tab-id="1"
+        tabIndex={-1}
+        title=""
+      >
+        tab1
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+        role="presentation"
+      >
+        ×
+      </span>
+    </li>
+    <li
+      aria-controls="rc-dyn-tabs-p-2"
+      aria-expanded={false}
+      aria-labelledby="rc-dyn-tabs-l-2"
+      aria-selected={false}
+      className="rc-dyn-tabs-tab"
+      onClick={[Function]}
+      role="tab"
+      tab-id="2"
+      tabIndex={-1}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        id="rc-dyn-tabs-l-2"
+        role="presentation"
+        tab-id="2"
+        tabIndex={-1}
+        title=""
+      >
+        tab2
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+        role="presentation"
+      >
+        ×
+      </span>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`TabList structure :  none accessibility option 1`] = `
+<div>
+  <ul
+    className="rc-dyn-tabs-tablist rc-dyn-tabs-ltr"
+  >
+    <li
+      className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+      onClick={[Function]}
+      tab-id="1"
+      tabIndex={0}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        tab-id="1"
+        tabIndex={-1}
+        title=""
+      >
+        tab1
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+      >
+        ×
+      </span>
+    </li>
+    <li
+      className="rc-dyn-tabs-tab"
+      onClick={[Function]}
+      tab-id="2"
+      tabIndex={-1}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        tab-id="2"
+        tabIndex={-1}
+        title=""
+      >
+        tab2
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+      >
+        ×
+      </span>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`TabList structure :  rtl option 1`] = `
+<div>
+  <ul
+    className="rc-dyn-tabs-tablist rc-dyn-tabs-rtl"
+    role="tablist"
+  >
+    <li
+      aria-controls="rc-dyn-tabs-p-1"
+      aria-expanded={true}
+      aria-labelledby="rc-dyn-tabs-l-1"
+      aria-selected={true}
+      className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+      onClick={[Function]}
+      role="tab"
+      tab-id="1"
+      tabIndex={0}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        id="rc-dyn-tabs-l-1"
+        role="presentation"
+        tab-id="1"
+        tabIndex={-1}
+        title=""
+      >
+        tab1
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+        role="presentation"
+      >
+        ×
+      </span>
+    </li>
+    <li
+      aria-controls="rc-dyn-tabs-p-2"
+      aria-expanded={false}
+      aria-labelledby="rc-dyn-tabs-l-2"
+      aria-selected={false}
+      className="rc-dyn-tabs-tab"
+      onClick={[Function]}
+      role="tab"
+      tab-id="2"
+      tabIndex={-1}
+    >
+      <button
+        className="rc-dyn-tabs-title"
+        id="rc-dyn-tabs-l-2"
+        role="presentation"
+        tab-id="2"
+        tabIndex={-1}
+        title=""
+      >
+        tab2
+      </button>
+      <span
+        className="rc-dyn-tabs-close"
+        role="presentation"
+      >
+        ×
+      </span>
+    </li>
+  </ul>
+</div>
+`;
