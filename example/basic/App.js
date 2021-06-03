@@ -4,9 +4,7 @@ import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/default.css';
 
 function App() {
-  return (
-    <Basic></Basic>
-  );
+  return <Basic></Basic>;
 }
 
 export default App;
