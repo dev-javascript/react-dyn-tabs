@@ -15,7 +15,7 @@ const PanelComponent = function PanelComponent(props) {
     </div>
   );
 };
-PanelComponent.propTypes = {
+PanelComponent.propTypes /* remove-proptypes */ = {
   id: PropTypes.string,
   selectedTabID: PropTypes.string,
 };

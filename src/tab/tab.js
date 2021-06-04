@@ -23,7 +23,7 @@ const TabComponent = function TabComponent(props) {
     </li>
   );
 };
-TabComponent.propTypes = {
+TabComponent.propTypes /* remove-proptypes */ = {
   id: PropTypes.string,
   selectedTabID: PropTypes.string,
 };

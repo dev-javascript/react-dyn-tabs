@@ -8,7 +8,7 @@ const DefaulTabInner = function DefaulTabInner(props) {
     </button>
   );
 };
-DefaulTabInner.propTypes = {
+DefaulTabInner.propTypes /* remove-proptypes */ = {
   tabProps: PropTypes.object,
   children: PropTypes.node,
   iconProps: PropTypes.object,
