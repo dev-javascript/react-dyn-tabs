@@ -23,6 +23,11 @@
   },
   "plugins": ["eslint-plugin-react", "eslint-plugin-prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   }
 }
