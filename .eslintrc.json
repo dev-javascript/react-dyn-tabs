@@ -21,6 +21,7 @@
     "sourceType": "module",
     "allowImportExportEverywhere": false
   },
+  "plugins": ["eslint-plugin-react", "eslint-plugin-prettier"],
   "rules": {
     "prettier/prettier": "error"
   }
