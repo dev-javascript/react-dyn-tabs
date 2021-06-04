@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act} from 'react-dom/test-utils';
 import TabList from '../tabList/tabList';
@@ -49,8 +49,8 @@ beforeEach(() => {
     beforeSelect: jest.fn(function () {}),
   };
   renderApp = (getDeps, rerender) => {
-    const App = function (props) {
-      const [Tablist, Panellist, ready] = useDynTabs(getDeps, op);
+    const App = function () {
+      const [Tablist, Panellist] = useDynTabs(getDeps, op);
       return (
         <div>
           <Tablist></Tablist>
@@ -94,7 +94,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -122,7 +122,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -144,7 +144,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -171,7 +171,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -196,7 +196,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -222,7 +222,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -247,7 +247,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -273,7 +273,7 @@ describe('checking number of tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: (props) => null,
+        PanelList: () => null,
         TabList,
         ApiContext,
         StateContext,
@@ -307,7 +307,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -335,7 +335,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -357,7 +357,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -384,7 +384,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -409,7 +409,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -435,7 +435,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -460,7 +460,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -486,7 +486,7 @@ describe('checking number of panels renders : ', () => {
         reducer,
         getApiInstance,
         PanelList,
-        TabList: (props) => null,
+        TabList: () => null,
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -518,7 +518,7 @@ describe('output : ', () => {
       secondTabList,
       firstPanelList,
       secondPanelList;
-    const App = function (props) {
+    const App = function () {
       const [TabList, PanelList, ready] = useDynTabs(getDeps, op);
       if (counter === 0) {
         firstPanelList = PanelList;

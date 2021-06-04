@@ -24,7 +24,7 @@ OptionManager.prototype.getOption = function (optionName) {
 };
 OptionManager.prototype.setOption = function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
   if (['SELECTEDTABID', 'TABS'].indexOf(name.toUpperCase()) >= 0) return this;
-  if (this._defaultOptions.hasOwnProperty(name)) this.options[name] = value;
+  if (Object.prototype.hasOwnProperty.call(this._defaultOptions, name)) this.options[name] = value;
   return this;
 };
 OptionManager.prototype.validatePanelComponent = function (tabData) {
@@ -35,7 +35,7 @@ OptionManager.prototype.validatePanelComponent = function (tabData) {
     React.isValidElement(tabData.panelComponent)
   ) {
     const PanelElement = tabData.panelComponent;
-    tabData.panelComponent = function (props) {
+    tabData.panelComponent = function () {
       return PanelElement;
     };
   }

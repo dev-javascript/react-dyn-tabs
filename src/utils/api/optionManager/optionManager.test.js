@@ -1,7 +1,5 @@
 import OptionManager from './optionManager.js';
 import React from 'react';
-import DefaultOptions from './defaultOptions.js';
-import DefaultTabInnerComponent from '../../../tab/defaulTabInner.js';
 let obj;
 beforeEach(() => {
   const options = {
@@ -19,12 +17,12 @@ describe('OptionManager constructor : ', () => {
   test('it should throw an error when is called with undefined parameter', () => {
     expect.assertions(2);
     try {
-      const obj = new OptionManager();
+      new OptionManager();
     } catch (er) {
       expect(1).toBe(1);
     }
     try {
-      const obj = new OptionManager(undefined);
+      new OptionManager(undefined);
     } catch (er) {
       expect(1).toBe(1);
     }
@@ -32,7 +30,7 @@ describe('OptionManager constructor : ', () => {
   test('object parameter should have options property', () => {
     expect.assertions(1);
     try {
-      const obj = new OptionManager({});
+      new OptionManager({});
     } catch (er) {
       expect(1).toBe(1);
     }
@@ -40,7 +38,7 @@ describe('OptionManager constructor : ', () => {
   test('parameter should be type of an object', () => {
     expect.assertions(1);
     try {
-      const obj = new OptionManager([]);
+      new OptionManager([]);
     } catch (er) {
       expect(1).toBe(1);
     }
@@ -94,16 +92,16 @@ describe('OptionManager options prop : ', () => {
 describe('OptionManager.prototype.validateTabData :  ', () => {
   test('validateTabData method should work correctly with empty object as a parameter', () => {
     const tabData = obj.validateTabData({});
-    expect(tabData.hasOwnProperty('title')).toBe(true);
-    expect(tabData.hasOwnProperty('tooltip')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'title')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'tooltip')).toBe(true);
     expect(typeof tabData.panelComponent === 'function').toBe(true);
     expect(tabData.closable === true).toBe(true);
-    expect(tabData.hasOwnProperty('iconClass')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'iconClass')).toBe(true);
     expect(tabData.disable === false).toBe(true);
     expect(typeof tabData.id === 'string').toBe(true);
   });
   test('validateTabData method should work correctly when is called with parameters', () => {
-    const panelComponent = (props) => <p></p>;
+    const panelComponent = () => <p></p>;
     const tabData = obj.validateTabData({
       id: '3',
       title: 'a',
@@ -137,11 +135,11 @@ describe('OptionManager.prototype.validateTabData :  ', () => {
   });
   test('it should work correctly when is called with a react element as a panelComponent parameter', () => {
     const tabData = obj.validateTabData({panelComponent: <div></div>});
-    expect(tabData.hasOwnProperty('title')).toBe(true);
-    expect(tabData.hasOwnProperty('tooltip')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'title')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'tooltip')).toBe(true);
     expect(typeof tabData.panelComponent === 'function').toBe(true);
     expect(tabData.closable === true).toBe(true);
-    expect(tabData.hasOwnProperty('iconClass')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tabData, 'iconClass')).toBe(true);
     expect(tabData.disable === false).toBe(true);
     expect(typeof tabData.id === 'string').toBe(true);
   });
@@ -163,7 +161,6 @@ describe('OptionManager.prototype.setOption : ', () => {
 });
 describe('OptionManager.prototype.getOption : ', () => {
   it('it returns tabs prop as an immutable array', () => {
-    const newTitle = 'newTitle';
     let oldPanelComponent;
     const tabs = obj.getOption('tabs');
     oldPanelComponent = tabs[0].panelComponent;

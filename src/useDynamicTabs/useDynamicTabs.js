@@ -36,7 +36,7 @@ function useDynamicTabs(getDeps, options = {}) {
     api.trigger('_onFlushEffects', api.userProxy, {currentData: api.getCopyData(), instance: api.userProxy});
   }, [flushState]);
   if (!_ref.TabListComponent)
-    _ref.TabListComponent = (props = {}) => {
+    _ref.TabListComponent = function TabListComponent(props = {}) {
       return (
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
@@ -48,15 +48,17 @@ function useDynamicTabs(getDeps, options = {}) {
       );
     };
   if (!_ref.PanelListCompoent)
-    _ref.PanelListCompoent = (props) => (
-      <ApiContext.Provider value={api}>
-        <StateContext.Provider value={api.stateRef}>
-          <ForceUpdateContext.Provider value={api.forceUpdateState}>
-            <PanelList {...props}>props.children</PanelList>
-          </ForceUpdateContext.Provider>
-        </StateContext.Provider>
-      </ApiContext.Provider>
-    );
+    _ref.PanelListCompoent = function PanelListCompoent(props) {
+      return (
+        <ApiContext.Provider value={api}>
+          <StateContext.Provider value={api.stateRef}>
+            <ForceUpdateContext.Provider value={api.forceUpdateState}>
+              <PanelList {...props}>props.children</PanelList>
+            </ForceUpdateContext.Provider>
+          </StateContext.Provider>
+        </ApiContext.Provider>
+      );
+    };
   return [_ref.TabListComponent, _ref.PanelListCompoent, api.ready];
 }
 export default useDynamicTabs;

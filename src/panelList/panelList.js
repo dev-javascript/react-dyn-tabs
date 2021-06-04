@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Panel from '../panel/panel.js';
 import {ApiContext, StateContext} from '../utils/context.js';
 const PanelList = memo(
-  function PanelList(props) {
+  function PanelList() {
     const {openTabIDs, selectedTabID} = React.useContext(StateContext),
       api = React.useContext(ApiContext),
       setting = api.optionsManager.setting,

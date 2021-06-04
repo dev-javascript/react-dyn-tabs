@@ -3,7 +3,7 @@ const DefaulTabInner = function (props) {
   return (
     <button {...props.tabProps}>
       {props.children}
-      {props.hasOwnProperty('iconProps') && <span {...props.iconProps}></span>}
+      {Object.prototype.hasOwnProperty.call(props, 'iconProps') && <span {...props.iconProps}></span>}
     </button>
   );
 };

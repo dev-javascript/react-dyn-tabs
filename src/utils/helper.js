@@ -5,7 +5,7 @@ helper.getInstance = function (Fn) {
 };
 helper.resolve = (result) => Promise.resolve(result);
 helper.getCopyState = function (state) {
-  if (!state.hasOwnProperty('openTabIDs')) state.openTabIDs = [];
+  if (!Object.prototype.hasOwnProperty.call(state, 'openTabIDs')) state.openTabIDs = [];
   return {
     selectedTabID: state.selectedTabID,
     openTabIDs: [...state.openTabIDs],
@@ -54,9 +54,6 @@ helper.arrFilterUntilFirstValue = (arr, callback, isRightToLeft) => {
 };
 helper.throwMissingParam = (FnName) => {
   throw `Missing parameter in "${FnName}" function`;
-};
-helper.throwInvalidParam = (FnName) => {
-  throw `Invalid parameter error in "${FnName}" function`;
 };
 helper.isObj = (obj) => Object.prototype.toString.call(obj) === '[object Object]';
 export default helper;

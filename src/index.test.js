@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import useDynTabs from './index.js';
 import {act} from 'react-dom/test-utils';
@@ -35,7 +35,7 @@ beforeEach(() => {
     beforeSelect: jest.fn(function () {}),
     onDestroy: jest.fn(function () {}),
   };
-  App = function (props) {
+  App = function App() {
     const [Tablist, Panellist, readyFunction] = useDynTabs(op);
     ready = readyFunction;
     readyFunction((instanceParam) => {
@@ -72,8 +72,8 @@ describe('apply multiple actions : ', () => {
     expect.assertions(1);
     renderApp();
     return act(() => {
-      return instance.select('2').then((result) => {
-        return instance.close('2').then((result) => {
+      return instance.select('2').then(() => {
+        return instance.close('2').then(() => {
           expect(document.querySelector('[tab-id="1"]').className.includes('rc-dyn-tabs-selected')).toBe(true);
         });
       });
@@ -82,7 +82,7 @@ describe('apply multiple actions : ', () => {
   test('opening new tab and closing selected tab', () => {
     let _api;
     act(() => {
-      const App = function (props) {
+      const App = function () {
         const [Tablist, Panellist, api] = useDynTabs(op);
         _api = api;
         return (
@@ -122,13 +122,13 @@ describe('apply multiple actions : ', () => {
           return (
             <a {...props.tabProps}>
               {props.children}
-              {props.hasOwnProperty('iconProps') && <span {...props.iconProps}></span>}
+              {Object.prototype.hasOwnProperty.call(props, 'iconProps') && <span {...props.iconProps}></span>}
             </a>
           );
         });
         instance.one('onInit', function () {
           this.setTab('1', {
-            panelComponent: function (props) {
+            panelComponent: function panelComponent() {
               return <div id="updatedPanel1"></div>;
             },
           }).refresh();
@@ -215,7 +215,7 @@ describe('select method : ', () => {
     expect.assertions(2);
     renderApp();
     return act(() => {
-      return instance.select('1').then((result) => {
+      return instance.select('1').then(() => {
         expect(op.onChange.mock.calls.length === 0).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
       });
@@ -225,7 +225,7 @@ describe('select method : ', () => {
     expect.assertions(4);
     renderApp();
     return act(() => {
-      return instance.select('3').then((result) => {
+      return instance.select('3').then(() => {
         expect(document.querySelector('.rc-dyn-tabs-selected') == null).toBe(true);
         expect(instance.getCopyData().selectedTabID === '3').toBe(true);
         expect(op.onChange.mock.calls.length === 1).toBe(true);
@@ -268,7 +268,7 @@ describe('close method : ', () => {
     expect.assertions(2);
     renderApp();
     return act(() => {
-      return instance.close('4').then((result) => {
+      return instance.close('4').then(() => {
         expect(op.onChange.mock.calls.length === 0).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
       });
@@ -320,7 +320,7 @@ describe('open method : ', () => {
     expect.assertions(3);
     renderApp();
     return act(() => {
-      return instance.open(op.tabs[0]).then((result) => {
+      return instance.open(op.tabs[0]).then(() => {
         expect(op.onChange.mock.calls.length === 0).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
         expect(instance.getCopyData().openTabIDs.length === 2).toBe(true);
@@ -362,7 +362,7 @@ describe('ready function : ', () => {
       ready((instance) => {
         instance.one('onLoad', onLoad).one('onInit', onInit);
       });
-      return instance.refresh().then((result) => {
+      return instance.refresh().then(() => {
         expect(op.onLoad.mock.calls.length === 1).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
         expect(onInit.mock.calls.length === 1).toBe(true);

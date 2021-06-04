@@ -1,13 +1,6 @@
 import Tabs from './tabs.js';
-import React from 'react';
-import {TestScheduler} from 'jest';
-let obj;
-beforeEach(() => {
-  obj = new Tabs();
-});
-afterEach(() => {
-  obj = null;
-});
+beforeEach(() => {});
+afterEach(() => {});
 describe('Tabs constructor :  ', () => {
   test('it should call _addTab for each initialTab data', () => {
     const addTab = Tabs.prototype._addTab;

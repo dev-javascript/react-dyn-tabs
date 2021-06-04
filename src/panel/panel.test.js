@@ -7,22 +7,30 @@ let container = document.createElement('div'),
   realUseContext;
 const getDefaultApi = () => ({
   tabs: [
-    {id: '1', title: 'tab1', panelComponent: (props) => <p>{props.api.getTab(props.id).title + ' panel'}</p>},
+    {
+      id: '1',
+      title: 'tab1',
+      panelComponent: function panelComponent1(props) {
+        return <p>{props.api.getTab(props.id).title + ' panel'}</p>;
+      },
+    },
     {
       id: '2',
       title: 'tab2',
       disable: true,
-      panelComponent: (props) => <p>{props.api.getTab(props.id).title + ' panel'}</p>,
+      panelComponent: function panelComponent3(props) {
+        return <p>{props.api.getTab(props.id).title + ' panel'}</p>;
+      },
     },
     {id: '3', title: 'tab3'},
     {
       id: '4',
       title: 'tab4',
-      panelComponent: (props) => {
+      panelComponent: function panelComponent4(props) {
         let panelContent = 'panel 4 is ';
         props.isSelected || (panelContent = panelContent + 'not ');
         panelContent = panelContent + 'selected';
-        return <div class="custom-panel">{panelContent}</div>;
+        return <div className="custom-panel">{panelContent}</div>;
       },
     },
     {id: '5', title: 'tab5', panelComponent: <span>panel 6</span>},
@@ -84,7 +92,7 @@ describe('panel structure : ', () => {
         {id: '1', title: 'tab1'},
         {id: '2', title: 'tab2'},
       ],
-      defaultPanelComponent: (props) => {
+      defaultPanelComponent: function defaultPanelComponent(props) {
         const panelContent = props.api.getTab(props.id).title + ' panel';
         const className = props.isSelected ? 'custom-panel-selected' : 'custom-panel-none-selected';
         return <span className={className}>{panelContent}</span>;
@@ -108,7 +116,7 @@ describe('panel structure : ', () => {
       ],
       direction: 'rtl',
       accessibility: false,
-      defaultPanelComponent: (props) => {
+      defaultPanelComponent: function defaultPanelComponent(props) {
         const panelContent = props.api.getTab(props.id).title + ' panel';
         const className = props.isSelected ? 'custom-panel-selected' : 'custom-panel-none-selected';
         return <span className={className}>{panelContent}</span>;

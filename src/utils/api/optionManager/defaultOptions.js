@@ -11,21 +11,21 @@ DefaultOptions.prototype._getOptions = function () {
   const _options = {
     tabs: [],
     selectedTabID: '',
-    beforeSelect: function (e, id) {
+    beforeSelect: function () {
       return true;
     },
-    beforeClose: function (e, id) {
+    beforeClose: function () {
       return true;
     },
-    onOpen: function (IDs) {},
-    onClose: function (IDs) {},
-    onSelect: function ({currentSelectedTabId, perviousSelectedTabId}) {},
-    onChange: function ({currentData, perviousData}) {},
-    onLoad: function (api) {},
+    onOpen: function () {},
+    onClose: function () {},
+    onSelect: function () {},
+    onChange: function () {},
+    onLoad: function () {},
     onDestroy: function () {},
     onInit: function () {},
     accessibility: true,
-    defaultPanelComponent: function (props) {
+    defaultPanelComponent: function defaultPanelComponent() {
       return <div></div>;
     },
   };

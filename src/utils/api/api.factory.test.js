@@ -5,7 +5,6 @@ import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
 import Tabs from './tabs.js';
 import BaseApi from './baseApi.js';
-import {TestScheduler} from 'jest';
 let getDeps, obj;
 beforeAll(() => {
   apiConstructor.prototype = Object.create(BaseApi.prototype);
@@ -101,7 +100,10 @@ describe('Api.prototype.close : ', () => {
       isSelected: jest.fn(() => true),
     });
     return obj.close('2', true).then((result) => {
-      expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(result, 'currentData') &&
+          Object.prototype.hasOwnProperty.call(result, 'instance'),
+      ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
       expect(obj.select).toHaveBeenCalledBefore(obj.__close);
     });
@@ -119,7 +121,10 @@ describe('Api.prototype.close : ', () => {
       isSelected: jest.fn(() => true),
     });
     return obj.close('2').then((result) => {
-      expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(result, 'currentData') &&
+          Object.prototype.hasOwnProperty.call(result, 'instance'),
+      ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
       expect(obj.select).toHaveBeenCalledBefore(obj.__close);
     });
@@ -137,7 +142,10 @@ describe('Api.prototype.close : ', () => {
       isSelected: jest.fn(() => true),
     });
     return obj.close('2', false).then((result) => {
-      expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(result, 'currentData') &&
+          Object.prototype.hasOwnProperty.call(result, 'instance'),
+      ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
       expect(obj.select.mock.calls.length === 0).toBe(true);
     });
@@ -155,7 +163,10 @@ describe('Api.prototype.close : ', () => {
       isSelected: jest.fn(() => true),
     });
     return obj.close('2', true).then((result) => {
-      expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(result, 'currentData') &&
+          Object.prototype.hasOwnProperty.call(result, 'instance'),
+      ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
       expect(obj.select.mock.calls.length === 0).toBe(true);
     });
@@ -173,7 +184,10 @@ describe('Api.prototype.close : ', () => {
       isSelected: jest.fn(() => false),
     });
     return obj.close('2', true).then((result) => {
-      expect(result.hasOwnProperty('currentData') && result.hasOwnProperty('instance')).toBe(true);
+      expect(
+        Object.prototype.hasOwnProperty.call(result, 'currentData') &&
+          Object.prototype.hasOwnProperty.call(result, 'instance'),
+      ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
       expect(obj.select.mock.calls.length === 0).toBe(true);
     });
@@ -181,7 +195,7 @@ describe('Api.prototype.close : ', () => {
 });
 describe('Api.prototype.ready : ', () => {
   test('ready function must be a binded function', () => {
-    expect(obj.ready.hasOwnProperty('prototype') === false).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(obj.ready, 'prototype') === false).toBe(true);
   });
   test('ready function should contain all userProxy properties :', () => {
     const readyProps = Object.keys(obj.ready).join();
@@ -193,7 +207,7 @@ describe('Api.prototype.ready : ', () => {
   });
   test('ready function takes a function as a parameter and calls it immediately if _onReady is triggered', () => {
     obj.trigger('_onReady', obj.userProxy);
-    const fn = jest.fn(function (instance) {});
+    const fn = jest.fn(function () {});
     obj.ready(fn);
     expect(fn.mock.calls.length === 1).toBe(true);
   });
@@ -217,7 +231,7 @@ describe('Api.prototype.ready : ', () => {
     expect(obj.one.mock.calls.length === 1).toBe(true);
   });
   test(`ready function will call its function parameter whenever _onReady event is triggered`, () => {
-    const fn = jest.fn(function (instance) {});
+    const fn = jest.fn(function () {});
     obj.ready(fn);
     expect(fn.mock.calls.length === 0).toBe(true);
     obj.trigger('_onReady', obj.userProxy);

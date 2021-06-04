@@ -3,7 +3,7 @@ import {ApiContext, StateContext} from '../utils/context.js';
 import Tab from '../tab/tab.js';
 import tablistPropsManager from './tablistPropsManager.js';
 const TabList = memo(
-  function TabList(props) {
+  function TabList() {
     const {openTabIDs, selectedTabID} = React.useContext(StateContext),
       api = React.useContext(ApiContext),
       tablistProps = tablistPropsManager({api});

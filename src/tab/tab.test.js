@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
+import React from 'react';
+import {unmountComponentAtNode} from 'react-dom';
 import Tab from './tab';
-import {act} from 'react-dom/test-utils';
 import renderer from 'react-test-renderer';
 import DefaultTabInner from './defaulTabInner.js';
 import Api from '../utils/api/api.js';
@@ -12,7 +11,13 @@ const getDefaultApi = () => ({
     {id: '1', title: 'tab1', tooltip: 'tab1 tootltip', closable: false},
     {id: '2', title: 'tab2', iconClass: 'ui-icon ui-icon-disk'},
     {id: '3', title: 'tab3', disable: true},
-    {id: '4', title: 'tab4', panelComponent: (props) => <div>tab4</div>},
+    {
+      id: '4',
+      title: 'tab4',
+      panelComponent: function panelComponent4() {
+        return <div>tab4</div>;
+      },
+    },
   ],
 });
 const setMockUseContext = (op = {}) => {

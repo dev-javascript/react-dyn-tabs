@@ -23,7 +23,7 @@ describe('user api : ', () => {
     expect(Object.keys(obj.userProxy).length === userApi.length).toBe(true);
     let _isEqual = true;
     userApi.map((value) => {
-      if (!obj.userProxy.hasOwnProperty(value)) {
+      if (!Object.prototype.hasOwnProperty.call(obj.userProxy, value)) {
         _isEqual = false;
       }
     });

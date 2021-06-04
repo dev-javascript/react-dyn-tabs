@@ -15,7 +15,7 @@ const Pub_Sub = function () {
 };
 //unSubscribe
 Pub_Sub.prototype.off = function (publisherName, fn) {
-  if (typeof fn === 'function' && this._publishers.hasOwnProperty(publisherName)) {
+  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
     const _index = this._publishers[publisherName].indexOf(fn);
     _index >= 0 && this._publishers[publisherName].splice(_index, 1);
   }
@@ -23,13 +23,13 @@ Pub_Sub.prototype.off = function (publisherName, fn) {
 };
 //subscribe
 Pub_Sub.prototype.on = function (publisherName, fn) {
-  if (typeof fn === 'function' && this._publishers.hasOwnProperty(publisherName))
+  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName))
     this._publishers[publisherName].push(fn);
   return this;
 };
 //oneSubscribe
 Pub_Sub.prototype.one = function (publisherName, fn) {
-  if (typeof fn === 'function' && this._publishers.hasOwnProperty(publisherName)) {
+  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
     const _fn = function () {
       fn.apply(this, arguments);
       this.off(publisherName, _fn);
