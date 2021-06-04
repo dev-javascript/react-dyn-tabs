@@ -103,7 +103,7 @@ exports[`panel structure :  default options 1`] = `
     tab-id="4"
   >
     <div
-      class="custom-panel"
+      className="custom-panel"
     >
       panel 4 is not selected
     </div>
@@ -152,7 +152,7 @@ exports[`panel structure :  rtl and none accessibility options 1`] = `
     tab-id="4"
   >
     <div
-      class="custom-panel"
+      className="custom-panel"
     >
       panel 4 is not selected
     </div>
