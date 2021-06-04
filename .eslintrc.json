@@ -6,7 +6,7 @@
     "node": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
   "settings": {
     "react": {
       "version": "detect"
@@ -21,6 +21,7 @@
     "sourceType": "module",
     "allowImportExportEverywhere": false
   },
-  "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }
