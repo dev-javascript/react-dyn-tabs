@@ -458,12 +458,12 @@ instance.on('onInit', () => {});
 
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
-  onChange: function ({currentData, perviousData}) {
+  onChange: function ({currentData, perviousData, closedTabIDs, openedTabIDs}) {
     // you can use 'this' here which refers to the instance
   },
 });
 // or
-instance.setOption('onChange', ({currentData, perviousData}) => {}).refresh();
+instance.setOption('onChange', ({currentData, perviousData, closedTabIDs, openedTabIDs}) => {}).refresh();
 ```
 
 ### beforeSelect
