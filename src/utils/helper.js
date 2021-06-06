@@ -47,7 +47,7 @@ helper.getArraysDiff = function (arr1, arr2) {
   });
   return [arr1Copy, arr2Copy];
 };
-helper.arrFilterUntilFirstValue = (arr, callback, isRightToLeft) => {
+helper.filterArrayUntilFirstValue = (arr, callback, isRightToLeft) => {
   isRightToLeft && arr.reverse();
   for (let i = 0, l = arr.length; i < l; i++) if (callback(arr[i], i, arr)) return arr[i];
   return null;

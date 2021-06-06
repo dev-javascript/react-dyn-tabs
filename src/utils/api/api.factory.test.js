@@ -323,7 +323,7 @@ describe('context of callback options should be userProxy object : ', () => {
     };
     const obj = new apiConstructor(getDeps, {options});
     expect(options.onChange.mock.calls.length === 0).toBe(true);
-    obj.trigger('onChange', obj.userProxy, {currentData: {}, perviousData: {}});
+    obj.trigger('onChange', obj.userProxy, {currentData: {}, perviousData: {}, closeTabIDs: [], openTabIDs: []});
     expect(options.onChange.mock.calls.length === 1).toBe(true);
   });
 });
@@ -462,5 +462,69 @@ describe('Api.prototype.setTab : ', () => {
     expect(obj.optionsManager.validateObjectiveTabData).toHaveBeenCalledBefore(
       obj.optionsManager.validatePanelComponent,
     );
+  });
+});
+describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
+  test('it should call "on" method', () => {
+    obj.on = jest.fn(() => {});
+    obj._subscribeSelectedTabsHistory();
+    expect(obj.on.mock.calls.length).toBe(1);
+    expect(obj.on.mock.calls[0][0]).toBe('onChange');
+  });
+  test('subscribed function should call activedTabsHistory.remove per each closed tabID when onChange event is triggered', () => {
+    obj.activedTabsHistory.remove = jest.fn(() => {});
+    const currentData = {selectedTabID: '2', openTabIDs: ['2']};
+    const perviousData = {selectedTabID: '2', openTabIDs: ['2']};
+    const closeTabIDs = ['1', '3'];
+    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closeTabIDs, openTabIDs: []});
+    expect(obj.activedTabsHistory.remove.mock.calls.length).toBe(2);
+    expect(obj.activedTabsHistory.remove.mock.calls[0][0]).toBe('1');
+    expect(obj.activedTabsHistory.remove.mock.calls[1][0]).toBe('3');
+  });
+  test(`when onChange event is triggered, subscribed function should call activedTabsHistory.add with 
+        previously selectedTabID as a parameter if it is open, not selected and none disable.`, () => {
+    obj.activedTabsHistory.add = jest.fn(() => {});
+    obj.isOpen = jest.fn((id) => {
+      if (id === '1' || id === '2') return true;
+      return false;
+    });
+    obj.isSelected = jest.fn((id) => {
+      if (id === '2') return true;
+      return false;
+    });
+    const currentData = {selectedTabID: '2', openTabIDs: ['1', '2']};
+    const perviousData = {selectedTabID: '1', openTabIDs: ['1', '2']};
+    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closeTabIDs: [], openTabIDs: []});
+    expect(obj.activedTabsHistory.add.mock.calls.length).toBe(1);
+    expect(obj.activedTabsHistory.add.mock.calls[0][0]).toBe('1');
+  });
+});
+describe('Api.prototype._getPreSelectedTabId : ', () => {
+  test(`it calls activeTabsHistory.popLastTabID repeatedly until it returns a tabID 
+    which is opened, not selected and none disable`, () => {
+    const obj = new apiConstructor(getDeps, {
+      options: {
+        tabs: [{id: '1'}, {id: '2'}, {id: '3'}, {id: '4'}, {id: '5'}],
+        selectedTabID: 'tab1',
+      },
+    });
+    obj.stateRef = {selectedTabID: '1', openTabIDs: ['1', '2', '3', '4']};
+    obj.activedTabsHistory.tabsId = ['3', '2', '1', '3', '1', '3', '4', '5'];
+    obj.setTab('3', {disable: true}).setTab('4', {disable: true});
+    const tabID = obj._getPreSelectedTabId();
+    expect(tabID).toBe('2');
+    expect(obj.activedTabsHistory.tabsId).toEqual(['3']);
+  });
+  test('it should return an empty string if activedTabsHistory.tabsId is empty or does not contain any valid tabID', () => {
+    obj.stateRef = {selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']};
+    expect(obj._getPreSelectedTabId()).toBe('');
+    obj.activedTabsHistory.tabsId = ['tab1'];
+    expect(obj._getPreSelectedTabId()).toBe('');
+    obj.activedTabsHistory.tabsId = ['tab1', ' ', '', null, 'tab2'];
+    obj.setTab('tab2', {disable: true});
+    expect(obj._getPreSelectedTabId()).toBe('');
+    obj.activedTabsHistory.tabsId = ['tab1', 'tab2'];
+    obj.setTab('tab2', {disable: false});
+    expect(obj._getPreSelectedTabId()).toBe('tab2');
   });
 });

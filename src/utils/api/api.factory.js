@@ -51,9 +51,13 @@ const _apiProps = {
     return this;
   },
   _subscribeSelectedTabsHistory: function () {
-    this.on('onChange', ({currentData, perviousData}) => {
+    this.on('onChange', ({currentData, perviousData, closeTabIDs}) => {
+      for (let i = 0, l = closeTabIDs.length; i < l; i++) {
+        this.activedTabsHistory.remove(closeTabIDs[i]);
+      }
       const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
-      isSwitched && this.activedTabsHistory.add(perviousData.selectedTabID);
+      if (isSwitched && this.isOpen(perviousData.selectedTabID) && !this.isSelected(perviousData.selectedTabID))
+        this.activedTabsHistory.add(perviousData.selectedTabID);
     });
     return this;
   },
@@ -98,37 +102,37 @@ const _apiProps = {
     this._select(id);
     return result;
   },
-  _findTabIdForSwitching: (function () {
-    const _findOpenedAndNoneDisableTabId = function (tabsIdArr, isRightToLeft) {
-        return (
-          this.helper.arrFilterUntilFirstValue(
-            tabsIdArr,
-            (id) => this.isOpen(id) && !this.getTab(id).disable && !this.isSelected(id),
-            isRightToLeft,
-          ) || ''
-        );
-      },
-      _getPreSelectedTabId = function () {
-        return _findOpenedAndNoneDisableTabId.call(this, [...this.activedTabsHistory.tabsId], true);
-      },
-      _getPreSiblingTabId = function () {
-        const data = this.stateRef,
-          arr = data.openTabIDs;
-        return _findOpenedAndNoneDisableTabId.call(this, arr.slice(0, arr.indexOf(data.selectedTabID)), true);
-      },
-      _getNextSiblingTabId = function () {
-        const data = this.stateRef,
-          arr = data.openTabIDs;
-        return _findOpenedAndNoneDisableTabId.call(this, arr.slice(arr.indexOf(data.selectedTabID) + 1));
-      };
-    return function () {
-      let tabId = '';
-      tabId = _getPreSelectedTabId.call(this);
-      tabId = tabId || _getPreSiblingTabId.call(this);
-      tabId = tabId || _getNextSiblingTabId.call(this);
-      return tabId;
-    };
-  })(),
+  _getPreSelectedTabId: function () {
+    const selectedTabHistory = this.activedTabsHistory;
+    let tabID = '';
+    while (!tabID && selectedTabHistory.tabsId.length) {
+      const _tabID = selectedTabHistory.popLastTabID();
+      if (_tabID) {
+        const _tabData = this.getTab(_tabID);
+        if (_tabData && !_tabData.disable && this.isOpen(_tabID) && !this.isSelected(_tabID)) tabID = _tabID;
+      }
+    }
+    return tabID;
+  },
+  _getPreSiblingTabId: function () {
+    const {selectedTabID, openTabIDs} = this.stateRef;
+    const isRightToLeft = true;
+    const arr = openTabIDs.slice(0, openTabIDs.indexOf(selectedTabID));
+    return this.helper.filterArrayUntilFirstValue(arr, (id) => !this.getTab(id).disable, isRightToLeft);
+  },
+  _getNextSiblingTabId: function () {
+    const {selectedTabID, openTabIDs} = this.stateRef;
+    const isRightToLeft = false;
+    const arr = openTabIDs.slice(openTabIDs.indexOf(selectedTabID) + 1);
+    return this.helper.filterArrayUntilFirstValue(arr, (id) => !this.getTab(id).disable, isRightToLeft);
+  },
+  _findTabIdForSwitching: function () {
+    let tabId = '';
+    tabId = this._getPreSelectedTabId();
+    tabId = tabId || this._getPreSiblingTabId();
+    tabId = tabId || this._getNextSiblingTabId();
+    return tabId || '';
+  },
   setTab: function (id, newData = {}) {
     this.optionsManager.validateObjectiveTabData(newData).validatePanelComponent(newData);
     this._setTab(id, newData);
@@ -163,28 +167,16 @@ const _apiProps = {
   },
 };
 Helper.setNoneEnumProps(_apiProps, {
-  // getInitialState: function () {
-  //     if (!this._initialState) {
-  //         const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
-  //         tabs.map(tab => {
-  //             const newTab = this._addTab(tab, { defaultPanelComponent });
-  //             openTabIDs.push(newTab.id);
-  //         });
-  //         this._initialState = {
-  //             selectedTabID: selectedTabID + '', //make sure it is type of string
-  //             openTabIDs
-  //         };
-  //     }
-  //     return this._initialState;
-  // },
-  onChange: function ({newState, oldState, closedTabsId, openedTabsId, isSwitched}) {
-    if (isSwitched || openedTabsId.length || closedTabsId.length) {
+  onChange: function ({newState, oldState, closeTabIDs, openedTabIDs, isSwitched}) {
+    if (isSwitched || openedTabIDs.length || closeTabIDs.length) {
       this.trigger('onChange', this.userProxy, {
         currentData: {...newState},
         perviousData: {...oldState},
+        closeTabIDs,
+        openedTabIDs,
       });
-      openedTabsId.length && this.trigger('onOpen', this.userProxy, openedTabsId);
-      closedTabsId.length && this.trigger('onClose', this.userProxy, closedTabsId);
+      openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
+      closeTabIDs.length && this.trigger('onClose', this.userProxy, closeTabIDs);
       isSwitched &&
         this.trigger('onSelect', this.userProxy, {
           currentSelectedTabId: newState.selectedTabID,

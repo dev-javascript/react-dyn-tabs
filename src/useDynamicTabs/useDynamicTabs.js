@@ -28,9 +28,9 @@ function useDynamicTabs(getDeps, options = {}) {
   }, []);
   useLayoutEffect(() => {
     const oldState = api.getCopyPerviousData(),
-      [openedTabsId, closedTabsId] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs),
+      [openedTabIDs, closeTabIDs] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs),
       isSwitched = oldState.selectedTabID !== state.selectedTabID;
-    api.onChange({newState: state, oldState, closedTabsId, openedTabsId, isSwitched});
+    api.onChange({newState: state, oldState, closeTabIDs, openedTabIDs, isSwitched});
   }, [state]);
   useLayoutEffect(() => {
     api.trigger('_onFlushEffects', api.userProxy, {currentData: api.getCopyData(), instance: api.userProxy});
