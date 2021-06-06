@@ -1,14 +1,20 @@
 const HistoryActiveTabs = function () {
   this.tabsId = [];
 };
-HistoryActiveTabs.prototype.getTab = function () {
+HistoryActiveTabs.prototype.popLastTabID = function () {
   return this.tabsId.pop();
 };
 HistoryActiveTabs.prototype.reset = function () {
   this.tabsId = [];
 };
 HistoryActiveTabs.prototype.add = function (id) {
-  const tabsId = this.tabsId;
-  tabsId[tabsId.length - 1] === id || tabsId.push(id);
+  this.tabsId.push(id);
+};
+HistoryActiveTabs.prototype.remove = function (id) {
+  const tabIDs = this.tabsId;
+  while (tabIDs.indexOf(id) >= 0) {
+    tabIDs.splice(tabIDs.indexOf(id), 1);
+  }
+  return this;
 };
 export default HistoryActiveTabs;
