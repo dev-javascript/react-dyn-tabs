@@ -163,28 +163,16 @@ const _apiProps = {
   },
 };
 Helper.setNoneEnumProps(_apiProps, {
-  // getInitialState: function () {
-  //     if (!this._initialState) {
-  //         const { selectedTabID, tabs, defaultPanelComponent } = this.optionsManager.options, openTabIDs = [];
-  //         tabs.map(tab => {
-  //             const newTab = this._addTab(tab, { defaultPanelComponent });
-  //             openTabIDs.push(newTab.id);
-  //         });
-  //         this._initialState = {
-  //             selectedTabID: selectedTabID + '', //make sure it is type of string
-  //             openTabIDs
-  //         };
-  //     }
-  //     return this._initialState;
-  // },
-  onChange: function ({newState, oldState, closedTabsId, openedTabsId, isSwitched}) {
-    if (isSwitched || openedTabsId.length || closedTabsId.length) {
+  onChange: function ({newState, oldState, closedTabIDs, openedTabIDs, isSwitched}) {
+    if (isSwitched || openedTabIDs.length || closedTabIDs.length) {
       this.trigger('onChange', this.userProxy, {
         currentData: {...newState},
         perviousData: {...oldState},
+        closedTabIDs,
+        openedTabIDs,
       });
-      openedTabsId.length && this.trigger('onOpen', this.userProxy, openedTabsId);
-      closedTabsId.length && this.trigger('onClose', this.userProxy, closedTabsId);
+      openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
+      closedTabIDs.length && this.trigger('onClose', this.userProxy, closedTabIDs);
       isSwitched &&
         this.trigger('onSelect', this.userProxy, {
           currentSelectedTabId: newState.selectedTabID,
