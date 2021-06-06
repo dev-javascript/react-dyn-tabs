@@ -51,9 +51,9 @@ const _apiProps = {
     return this;
   },
   _subscribeSelectedTabsHistory: function () {
-    this.on('onChange', ({currentData, perviousData, closeTabIDs}) => {
-      for (let i = 0, l = closeTabIDs.length; i < l; i++) {
-        this.activedTabsHistory.remove(closeTabIDs[i]);
+    this.on('onChange', ({currentData, perviousData, closedTabIDs}) => {
+      for (let i = 0, l = closedTabIDs.length; i < l; i++) {
+        this.activedTabsHistory.remove(closedTabIDs[i]);
       }
       const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
       if (isSwitched && this.isOpen(perviousData.selectedTabID) && !this.isSelected(perviousData.selectedTabID))
@@ -167,16 +167,16 @@ const _apiProps = {
   },
 };
 Helper.setNoneEnumProps(_apiProps, {
-  onChange: function ({newState, oldState, closeTabIDs, openedTabIDs, isSwitched}) {
-    if (isSwitched || openedTabIDs.length || closeTabIDs.length) {
+  onChange: function ({newState, oldState, closedTabIDs, openedTabIDs, isSwitched}) {
+    if (isSwitched || openedTabIDs.length || closedTabIDs.length) {
       this.trigger('onChange', this.userProxy, {
         currentData: {...newState},
         perviousData: {...oldState},
-        closeTabIDs,
+        closedTabIDs,
         openedTabIDs,
       });
       openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
-      closeTabIDs.length && this.trigger('onClose', this.userProxy, closeTabIDs);
+      closedTabIDs.length && this.trigger('onClose', this.userProxy, closedTabIDs);
       isSwitched &&
         this.trigger('onSelect', this.userProxy, {
           currentSelectedTabId: newState.selectedTabID,

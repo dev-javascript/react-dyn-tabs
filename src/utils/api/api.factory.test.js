@@ -323,7 +323,7 @@ describe('context of callback options should be userProxy object : ', () => {
     };
     const obj = new apiConstructor(getDeps, {options});
     expect(options.onChange.mock.calls.length === 0).toBe(true);
-    obj.trigger('onChange', obj.userProxy, {currentData: {}, perviousData: {}, closeTabIDs: [], openTabIDs: []});
+    obj.trigger('onChange', obj.userProxy, {currentData: {}, perviousData: {}, closedTabIDs: [], openTabIDs: []});
     expect(options.onChange.mock.calls.length === 1).toBe(true);
   });
 });
@@ -475,8 +475,8 @@ describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
     obj.activedTabsHistory.remove = jest.fn(() => {});
     const currentData = {selectedTabID: '2', openTabIDs: ['2']};
     const perviousData = {selectedTabID: '2', openTabIDs: ['2']};
-    const closeTabIDs = ['1', '3'];
-    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closeTabIDs, openTabIDs: []});
+    const closedTabIDs = ['1', '3'];
+    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closedTabIDs, openTabIDs: []});
     expect(obj.activedTabsHistory.remove.mock.calls.length).toBe(2);
     expect(obj.activedTabsHistory.remove.mock.calls[0][0]).toBe('1');
     expect(obj.activedTabsHistory.remove.mock.calls[1][0]).toBe('3');
@@ -494,7 +494,7 @@ describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
     });
     const currentData = {selectedTabID: '2', openTabIDs: ['1', '2']};
     const perviousData = {selectedTabID: '1', openTabIDs: ['1', '2']};
-    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closeTabIDs: [], openTabIDs: []});
+    obj.trigger('onChange', obj.userProxy, {currentData, perviousData, closedTabIDs: [], openTabIDs: []});
     expect(obj.activedTabsHistory.add.mock.calls.length).toBe(1);
     expect(obj.activedTabsHistory.add.mock.calls[0][0]).toBe('1');
   });
