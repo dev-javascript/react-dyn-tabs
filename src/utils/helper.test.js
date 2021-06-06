@@ -30,3 +30,30 @@ describe('helper : ', () => {
     expect(copyState2.openTabIDs != state2.openTabIDs).toBe(true);
   });
 });
+describe('helper.filterArrayUntilFirstValue : ', () => {
+  test('filterArrayUntilFirstValue function should work correctly and it may change the original array', () => {
+    expect.assertions(3);
+    const arr = ['1', '33', '2', '3', '22', '4'];
+    const result1 = helper.filterArrayUntilFirstValue(arr, (item, index, _arr) => {
+      if (item.includes('3')) {
+        expect(_arr).toEqual(arr);
+      }
+      return item.includes('3');
+    });
+    expect(result1).toBe('33');
+    const result2 = helper.filterArrayUntilFirstValue(arr, (item) => item.includes('2'), true);
+    expect(result2).toBe('22');
+  });
+  test('it may change the original array', () => {
+    const arr = ['1', '33', '2', '3', '22', '4'];
+    const originalArr = [...arr];
+    expect(originalArr).toEqual(arr);
+    helper.filterArrayUntilFirstValue(arr, (item) => item.includes('2'), true);
+    expect(originalArr).not.toEqual(arr);
+  });
+  test('it should return null if there is not desired element in the array', () => {
+    const arr = ['1', '2'];
+    const result = helper.filterArrayUntilFirstValue(arr, (item) => item > 5);
+    expect(result).toBe(null);
+  });
+});
