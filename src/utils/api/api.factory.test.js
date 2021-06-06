@@ -528,3 +528,23 @@ describe('Api.prototype._getPreSelectedTabId : ', () => {
     expect(obj._getPreSelectedTabId()).toBe('tab2');
   });
 });
+describe('Api.prototype._getPreSiblingTabId : ', () => {
+  test('it should call helper.filterArrayUntilFirstValue with appropriate parameters', () => {
+    obj.helper.filterArrayUntilFirstValue = jest.fn(() => {});
+    obj.stateRef = {selectedTabID: '2', openTabIDs: ['1', '2', '3']};
+    obj._getPreSiblingTabId();
+    expect(obj.helper.filterArrayUntilFirstValue.mock.calls.length).toBe(1);
+    expect(obj.helper.filterArrayUntilFirstValue.mock.calls[0][0]).toEqual(['1']);
+    expect(obj.helper.filterArrayUntilFirstValue.mock.calls[0][2]).toBe(true);
+  });
+});
+describe('Api.prototype._getNextSiblingTabId : ', () => {
+  test('it should call helper.filterArrayUntilFirstValue with appropriate parameters', () => {
+    obj.helper.filterArrayUntilFirstValue = jest.fn(() => {});
+    obj.stateRef = {selectedTabID: '2', openTabIDs: ['1', '2', '3']};
+    obj._getNextSiblingTabId();
+    expect(obj.helper.filterArrayUntilFirstValue.mock.calls.length).toBe(1);
+    expect(obj.helper.filterArrayUntilFirstValue.mock.calls[0][0]).toEqual(['3']);
+    expect(!obj.helper.filterArrayUntilFirstValue.mock.calls[0][2]).toBe(true);
+  });
+});
