@@ -78,7 +78,7 @@ const _apiProps = {
     return this.optionsManager.setOption(name, value);
   },
   getCopyPerviousData: function () {
-    return this.helper.getCopyState(this._perviousState);
+    return this.helper.getCopyState(this.previousState);
   },
   getCopyData: function () {
     return this.helper.getCopyState(this.stateRef);
