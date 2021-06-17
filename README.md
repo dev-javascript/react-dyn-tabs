@@ -458,12 +458,12 @@ instance.on('onInit', () => {});
 
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
-  onChange: function ({currentData, perviousData, closedTabIDs, openedTabIDs}) {
+  onChange: function ({currentData, previousData, closedTabIDs, openedTabIDs}) {
     // you can use 'this' here which refers to the instance
   },
 });
 // or
-instance.setOption('onChange', ({currentData, perviousData, closedTabIDs, openedTabIDs}) => {}).refresh();
+instance.setOption('onChange', ({currentData, previousData, closedTabIDs, openedTabIDs}) => {}).refresh();
 ```
 
 ### beforeSelect
@@ -1024,6 +1024,8 @@ const open_tab_3 = function () {
 ```
 
 - First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
+
+- First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
 
 ## Test
 

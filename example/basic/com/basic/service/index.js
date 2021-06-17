@@ -28,7 +28,7 @@ export default {
       onInit: function () {
         const context = this;
       },
-      onChange: function ({currentData, perviousData}) {
+      onChange: function ({currentData, previousData}) {
         const context = this;
       },
       beforeSelect: function (e, id) {

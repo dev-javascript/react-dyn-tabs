@@ -191,11 +191,6 @@ describe('select method : ', () => {
     expect(op.onInit.mock.calls.length === 2).toBe(true);
     expect(op.onChange.mock.calls.length === 1).toBe(true);
     expect(op.onSelect.mock.calls.length === 1).toBe(true);
-    expect(op.onSelect.mock.calls[0][0]).toEqual({
-      currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
-      previousSelectedTabId: '1',
-    });
     expect(onSelect.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '2',
       perviousSelectedTabId: '1',
@@ -391,7 +386,7 @@ describe('ready function : ', () => {
     expect(op.onChange.mock.calls.length).toBe(0);
   });
 });
-describe('onLoad, onInit and onChange events : ', () => {
+describe('initial events : ', () => {
   test('onLoad and then onInit are called initially but onChange is not called', () => {
     renderApp();
     expect(op.onLoad.mock.calls.length).toBe(1);
@@ -399,13 +394,37 @@ describe('onLoad, onInit and onChange events : ', () => {
     expect(op.onChange.mock.calls.length).toBe(0);
     expect(op.onLoad).toHaveBeenCalledBefore(op.onInit);
   });
-  test('onChange is called with {currentData,perviousData} object as a parameter', () => {
+});
+describe('onChange callback : ', () => {
+  test(`onChange is called with {currentData,previousData,perviousData,openedTabIDs,closedTabIDs} 
+    object as a parameter`, () => {
     renderApp();
     act(() => {
       instance.select('2');
     });
     expect(op.onChange.mock.calls.length).toBe(1);
+    expect(op.onChange.mock.calls[0][0]).toEqual({
+      currentData: {selectedTabID: '2', openTabIDs: ['1', '2']},
+      previousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
+      perviousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
+      openedTabIDs: [],
+      closedTabIDs: [],
+    });
     expect(op.onChange.mock.calls[0][0].currentData).toEqual(instance.getCopyData());
-    expect(op.onChange.mock.calls[0][0].perviousData).toEqual(instance.getCopyPerviousData());
+    expect(op.onChange.mock.calls[0][0].previousData).toEqual(instance.getCopyPerviousData());
+  });
+});
+describe('onSelect callback : ', () => {
+  test('onSelect is called with {currentSelectedTabId,previousSelectedTabId,perviousSelectedTabId} object as a parameter', () => {
+    renderApp();
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
   });
 });

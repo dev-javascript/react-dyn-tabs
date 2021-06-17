@@ -51,13 +51,13 @@ const _apiProps = {
     return this;
   },
   _subscribeSelectedTabsHistory: function () {
-    this.on('onChange', ({currentData, perviousData, closedTabIDs}) => {
+    this.on('onChange', ({currentData, previousData, closedTabIDs}) => {
       for (let i = 0, l = closedTabIDs.length; i < l; i++) {
         this.activedTabsHistory.remove(closedTabIDs[i]);
       }
-      const isSwitched = perviousData.selectedTabID !== currentData.selectedTabID;
-      if (isSwitched && this.isOpen(perviousData.selectedTabID) && !this.isSelected(perviousData.selectedTabID))
-        this.activedTabsHistory.add(perviousData.selectedTabID);
+      const isSwitched = previousData.selectedTabID !== currentData.selectedTabID;
+      if (isSwitched && this.isOpen(previousData.selectedTabID) && !this.isSelected(previousData.selectedTabID))
+        this.activedTabsHistory.add(previousData.selectedTabID);
     });
     return this;
   },
@@ -171,6 +171,7 @@ Helper.setNoneEnumProps(_apiProps, {
     if (isSwitched || openedTabIDs.length || closedTabIDs.length) {
       this.trigger('onChange', this.userProxy, {
         currentData: {...newState},
+        previousData: {...oldState},
         perviousData: {...oldState},
         closedTabIDs,
         openedTabIDs,
