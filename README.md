@@ -524,12 +524,12 @@ instance
 
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
-  onSelect: function ({currentSelectedTabId, perviousSelectedTabId}) {
+  onSelect: function ({currentSelectedTabId, previousSelectedTabId}) {
     // you can use 'this' here which refers to the instance
   },
 });
 // or
-instance.setOption('onSelect', ({currentSelectedTabId, perviousSelectedTabId}) => {}).refresh();
+instance.setOption('onSelect', ({currentSelectedTabId, previousSelectedTabId}) => {}).refresh();
 ```
 
 ### onOpen
@@ -858,7 +858,7 @@ Parameters:
 
 ```js
 instance.on('onSelect', function (params) {
-  const {currentSelectedTabId, perviousSelectedTabId} = params;
+  const {currentSelectedTabId, previousSelectedTabId} = params;
   // can use 'this' here which refers to the instance
 });
 ```
@@ -877,7 +877,7 @@ Parameters:
 **Example**
 
 ```js
-instance.one('onSelect', function ({currentSelectedTabId, perviousSelectedTabId}) {
+instance.one('onSelect', function ({currentSelectedTabId, previousSelectedTabId}) {
   // can use 'this' here which refers to the instance
 });
 ```
@@ -897,7 +897,7 @@ Parameters:
 
 ```js
 const onSelectHandler = function (params) {
-  const {currentSelectedTabId, perviousSelectedTabId} = params;
+  const {currentSelectedTabId, previousSelectedTabId} = params;
   // can use 'this' here which refers to the instance
   this.off('onSelect', onSelectHandler);
 };
@@ -1022,6 +1022,8 @@ const open_tab_3 = function () {
   });
 };
 ```
+
+- First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
 
 ## Test
 

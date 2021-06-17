@@ -35,7 +35,7 @@ export default {
         const context = this;
         return true;
       },
-      onSelect: ({currentSelectedTabId, perviousSelectedTabId}) => {
+      onSelect: ({currentSelectedTabId, previousSelectedTabId}) => {
         const context = this;
       },
       beforeClose: function (e, id) {

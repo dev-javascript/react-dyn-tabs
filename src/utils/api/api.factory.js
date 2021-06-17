@@ -180,6 +180,7 @@ Helper.setNoneEnumProps(_apiProps, {
       isSwitched &&
         this.trigger('onSelect', this.userProxy, {
           currentSelectedTabId: newState.selectedTabID,
+          previousSelectedTabId: oldState.selectedTabID,
           perviousSelectedTabId: oldState.selectedTabID,
         });
     }

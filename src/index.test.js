@@ -191,8 +191,16 @@ describe('select method : ', () => {
     expect(op.onInit.mock.calls.length === 2).toBe(true);
     expect(op.onChange.mock.calls.length === 1).toBe(true);
     expect(op.onSelect.mock.calls.length === 1).toBe(true);
-    expect(op.onSelect.mock.calls[0][0]).toEqual({currentSelectedTabId: '2', perviousSelectedTabId: '1'});
-    expect(onSelect.mock.calls[0][0]).toEqual({currentSelectedTabId: '2', perviousSelectedTabId: '1'});
+    expect(op.onSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+    expect(onSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
     expect(op.onInit).toHaveBeenCalledBefore(op.onChange);
     expect(op.onChange).toHaveBeenCalledBefore(op.onSelect);
     expect(op.onSelect).toHaveBeenCalledBefore(onSelect);
