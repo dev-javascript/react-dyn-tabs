@@ -53,6 +53,7 @@ React Dynamic Tabs with full API
   - [one](#one)
   - [off](#off)
   - [getCopyData](#getCopyData)
+  - [getPreviousData](#getPreviousData)
 - [tabData](#tabData)
 - [Lazy Loading](#lazy-loading)
 - [Styling](#styling)
@@ -914,6 +915,18 @@ Return value : Object
 const {selectedTabID, openTabIDs} = instance.getCopyData();
 ```
 
+### getPreviousData
+
+get a copy of data in previous render
+
+Return value : Object
+
+**Example**
+
+```js
+const {selectedTabID, openTabIDs} = instance.getPreviousData();
+```
+
 ## tabData
 
 <table>
@@ -1026,6 +1039,8 @@ const open_tab_3 = function () {
 - First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
 
 - First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
+
+- getCopyPerviousData method is deprecated. use getPreviousData method instead of it.
 
 ## Test
 
