@@ -411,7 +411,7 @@ describe('onChange callback : ', () => {
       closedTabIDs: [],
     });
     expect(op.onChange.mock.calls[0][0].currentData).toEqual(instance.getCopyData());
-    expect(op.onChange.mock.calls[0][0].previousData).toEqual(instance.getCopyPerviousData());
+    expect(op.onChange.mock.calls[0][0].previousData).toEqual(instance.getPreviousData());
   });
 });
 describe('onSelect callback : ', () => {

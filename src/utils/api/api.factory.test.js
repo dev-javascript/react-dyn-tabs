@@ -420,14 +420,14 @@ describe('Api.prototype.eventHandlerFactory : ', () => {
     }
   });
 });
-describe('Api.prototype.getCopyPerviousData', () => {
+describe('Api.prototype.getPreviousData', () => {
   test('returned data should be equal to optionsManager.initialState in onLoad event', () => {
     expect.assertions(2);
     obj.setOption('onLoad', function () {
-      const perviousData = this.getCopyPerviousData();
+      const previousData = this.getPreviousData();
       const data = this.getCopyData();
-      expect(perviousData).toEqual(obj.optionsManager.initialState);
-      expect(perviousData).not.toEqual(data);
+      expect(previousData).toEqual(obj.optionsManager.initialState);
+      expect(previousData).not.toEqual(data);
     });
     obj.updateState({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']});
     obj.trigger('onLoad', obj.userProxy);
@@ -435,7 +435,7 @@ describe('Api.prototype.getCopyPerviousData', () => {
   test('returned data should be equal to currentData in onLoad event', () => {
     expect.assertions(1);
     obj.setOption('onLoad', function () {
-      expect(this.getCopyPerviousData()).toEqual(this.getCopyData());
+      expect(this.getPreviousData()).toEqual(this.getCopyData());
     });
     obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
     obj.trigger('onLoad', obj.userProxy);
@@ -444,11 +444,11 @@ describe('Api.prototype.getCopyPerviousData', () => {
     expect.assertions(3);
     const _state = {selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']};
     obj.setOption('onLoad', function () {
-      const perviousData = this.getCopyPerviousData();
+      const previousData = this.getPreviousData();
       const data = this.getCopyData();
-      expect(perviousData).toEqual(_state);
-      expect(perviousData).toEqual(data);
-      expect(perviousData !== null).toBe(true);
+      expect(previousData).toEqual(_state);
+      expect(previousData).toEqual(data);
+      expect(previousData !== null).toBe(true);
     });
     obj.updateStateRef(_state, () => {});
     obj.trigger('onLoad', obj.userProxy);
