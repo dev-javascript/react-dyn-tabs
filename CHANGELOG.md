@@ -1,3 +1,13 @@
+# v4.0.0
+
+- add getData method, a new version of getCopyData method.
+
+- add getPreviousData method, a new version of getCopyPerviousData method.
+
+- First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
+
+- First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
+
 # v3.1.1
 
 - since version v3.1.1, returning to last used tab after closing selected tab, should work correctly.
