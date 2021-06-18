@@ -23,6 +23,7 @@ React Dynamic Tabs with full API
 
 - [Installation](#installation)
 - [Basic Example](#basic-example)
+- [ready function](#ready-function)
 - [Options](#options)
   - [tabs](#tabs)
   - [selectedTabID](#selectedTabID)
@@ -123,13 +124,17 @@ export default () => {
 };
 ```
 
-**NOTE :**
+## ready function
 
-- ready function and instance Object will not be changed after re-rendering multiple times.
+- ready function is returned by useDynTabs hook.
+
+- ready function accepts a function as a parameter and calls it with instance object after the first render, when the component is mounted.
 
 - Tabs can't be manipulated safely before the first render, use ready() to make a function available after the component is mounted.
 
-- ready function accepts a function as a parameter and calls it with instance object after the first render, when the component is mounted.
+- ready function can be called multiple times
+
+- ready function and instance Object will not be changed after re-rendering multiple times.
 
 - When ready function is called after the first render, it calls its function parameter with instance object immediately.
 
