@@ -40,7 +40,7 @@ React Dynamic Tabs with full API
   - [beforeClose](#beforeClose)
   - [onClose](#onClose)
   - [onDestroy](#onDestroy)
-- [Methodes](#methodes)
+- [Methods](#Methods)
   - [isOpen](#isOpen)
   - [open](#open)
   - [isSelected](#isSelected)
@@ -663,7 +663,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 instance.setOption('onDestroy', () => {}).refresh();
 ```
 
-## Methodes
+## Methods
 
 ### isOpen
 
