@@ -15,6 +15,7 @@ React Dynamic Tabs with full API
 - **PanelList can be rendered outside the TabList container**
 - **ARIA accessible**
 - **Supporting custom Tab component**
+- **Batching updates**
 
 ## Table of Contents
 
@@ -52,7 +53,7 @@ React Dynamic Tabs with full API
   - [on](#on)
   - [one](#one)
   - [off](#off)
-  - [getCopyData](#getCopyData)
+  - [getData](#getData)
   - [getPreviousData](#getPreviousData)
 - [tabData](#tabData)
 - [Lazy Loading](#lazy-loading)
@@ -516,7 +517,7 @@ instance
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after selecting tabs</td>
+      <td>fires after selecting tabs. this event is not fired initially</td>
     </tr>
   </tbody>
 </table>
@@ -545,7 +546,7 @@ instance.setOption('onSelect', ({currentSelectedTabId, previousSelectedTabId}) =
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after opening tabs</td>
+      <td>fires after opening tabs. this event is not fired initially</td>
     </tr>
   </tbody>
 </table>
@@ -611,7 +612,7 @@ instance
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after closing tabs</td>
+      <td>fires after closing tabs. this event is not fired initially</td>
     </tr>
   </tbody>
 </table>
@@ -719,7 +720,11 @@ const result = instance.isSelected('tab ID');
 
 ### select
 
-Triggers 'onInit', 'onChange' and 'onSelect' event. Selecting an already selected tab only triggers 'onInit' event.
+Makes current and previous selected tab to be re-rendered
+
+Triggers 'onInit', 'onChange' and 'onSelect' event.
+
+Selecting an already selected tab only triggers 'onInit' event.
 
 Return value : Promise
 
@@ -765,6 +770,8 @@ if (instance.isOpen('2') == true) {
 ```
 
 ### refresh
+
+Makes all tabs to be re-rendered.
 
 triggers onInit event.
 
@@ -905,15 +912,21 @@ const onSelectHandler = function (params) {
 instance.on('onSelect', onSelectHandler);
 ```
 
-### getCopyData
+### getData
+
+get a copy of data
 
 Return value : Object
 
 **Example**
 
 ```js
-const {selectedTabID, openTabIDs} = instance.getCopyData();
+const {selectedTabID, openTabIDs} = instance.getData();
 ```
+
+**NOTE :**
+
+- getCopyData function is an older version of getData function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
 
 ### getPreviousData
 
@@ -926,6 +939,10 @@ Return value : Object
 ```js
 const {selectedTabID, openTabIDs} = instance.getPreviousData();
 ```
+
+**NOTE :**
+
+- getCopyPerviousData function is an older version of getPreviousData function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
 
 ## tabData
 
@@ -1039,8 +1056,6 @@ const open_tab_3 = function () {
 - First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
 
 - First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
-
-- getCopyPerviousData method is deprecated. use getPreviousData method instead of it.
 
 ## Test
 
