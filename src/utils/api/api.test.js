@@ -13,6 +13,7 @@ describe('user api : ', () => {
       'setOption',
       'getPreviousData',
       'getCopyPerviousData',
+      'getData',
       'getCopyData',
       'isSelected',
       'isOpen',

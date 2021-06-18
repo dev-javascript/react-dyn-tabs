@@ -83,8 +83,11 @@ const _apiProps = {
   getCopyPerviousData: function () {
     return this.getPreviousData();
   },
-  getCopyData: function () {
+  getData: function () {
     return this.helper.getCopyState(this.stateRef);
+  },
+  getCopyData: function () {
+    return this.getData();
   },
   isSelected: function (id = missingParamEr('isSelected')) {
     return this.stateRef.selectedTabID == id;

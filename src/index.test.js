@@ -174,7 +174,7 @@ describe('calling some action inside the events options', () => {
       this.select('2');
     });
     renderApp();
-    expect(instance.getCopyData().selectedTabID === '2').toBe(true);
+    expect(instance.getData().selectedTabID === '2').toBe(true);
     expect(op.onLoad.mock.calls.length === 1).toBe(true);
     expect(op.onInit.mock.calls.length === 2).toBe(true);
     expect(op.onChange.mock.calls.length === 1).toBe(true);
@@ -205,7 +205,7 @@ describe('select method : ', () => {
     renderApp();
     return act(() => {
       return instance.select('2').then((result) => {
-        expect(result.currentData).toEqual(instance.getCopyData());
+        expect(result.currentData).toEqual(instance.getData());
         expect(result.instance).toBe(instance);
         expect(document.querySelector('[tab-id="2"]').className.includes('rc-dyn-tabs-selected')).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
@@ -230,7 +230,7 @@ describe('select method : ', () => {
     return act(() => {
       return instance.select('3').then(() => {
         expect(document.querySelector('.rc-dyn-tabs-selected') == null).toBe(true);
-        expect(instance.getCopyData().selectedTabID === '3').toBe(true);
+        expect(instance.getData().selectedTabID === '3').toBe(true);
         expect(op.onChange.mock.calls.length === 1).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
       });
@@ -258,7 +258,7 @@ describe('close method : ', () => {
     renderApp();
     return act(() => {
       return instance.close('2').then((result) => {
-        expect(result.currentData).toEqual(instance.getCopyData());
+        expect(result.currentData).toEqual(instance.getData());
         expect(result.instance).toBe(instance);
         expect(document.querySelector('[tab-id="1"]').className.includes('rc-dyn-tabs-selected')).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
@@ -311,7 +311,7 @@ describe('open method : ', () => {
           title: 'tab3',
         })
         .then((result) => {
-          expect(result.currentData).toEqual(instance.getCopyData());
+          expect(result.currentData).toEqual(instance.getData());
           expect(result.instance).toBe(instance);
           expect(op.onInit.mock.calls.length === 2).toBe(true);
           expect(op.onChange.mock.calls.length === 1).toBe(true);
@@ -326,7 +326,7 @@ describe('open method : ', () => {
       return instance.open(op.tabs[0]).then(() => {
         expect(op.onChange.mock.calls.length === 0).toBe(true);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
-        expect(instance.getCopyData().openTabIDs.length === 2).toBe(true);
+        expect(instance.getData().openTabIDs.length === 2).toBe(true);
       });
     });
   });
@@ -345,7 +345,7 @@ describe('refresh method : ', () => {
     renderApp();
     return act(() => {
       return instance.refresh().then((result) => {
-        expect(result.currentData).toEqual(instance.getCopyData());
+        expect(result.currentData).toEqual(instance.getData());
         expect(result.instance).toBe(instance);
         expect(op.onInit.mock.calls.length === 2).toBe(true);
         expect(op.onChange.mock.calls.length === 0).toBe(true);
@@ -410,7 +410,7 @@ describe('onChange callback : ', () => {
       openedTabIDs: [],
       closedTabIDs: [],
     });
-    expect(op.onChange.mock.calls[0][0].currentData).toEqual(instance.getCopyData());
+    expect(op.onChange.mock.calls[0][0].currentData).toEqual(instance.getData());
     expect(op.onChange.mock.calls[0][0].previousData).toEqual(instance.getPreviousData());
   });
 });

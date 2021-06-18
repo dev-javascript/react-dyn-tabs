@@ -420,12 +420,12 @@ describe('Api.prototype.eventHandlerFactory : ', () => {
     }
   });
 });
-describe('Api.prototype.getPreviousData', () => {
+describe('Api.prototype.getPreviousData and Api.prototype.getData : ', () => {
   test('returned data should be equal to optionsManager.initialState in onLoad event', () => {
     expect.assertions(2);
     obj.setOption('onLoad', function () {
       const previousData = this.getPreviousData();
-      const data = this.getCopyData();
+      const data = this.getData();
       expect(previousData).toEqual(obj.optionsManager.initialState);
       expect(previousData).not.toEqual(data);
     });
@@ -435,17 +435,17 @@ describe('Api.prototype.getPreviousData', () => {
   test('returned data should be equal to currentData in onLoad event', () => {
     expect.assertions(1);
     obj.setOption('onLoad', function () {
-      expect(this.getPreviousData()).toEqual(this.getCopyData());
+      expect(this.getPreviousData()).toEqual(this.getData());
     });
     obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
     obj.trigger('onLoad', obj.userProxy);
   });
-  test('In the onLoad event, return data is equal to getInitialState() and getCopyData()', () => {
+  test('In the onLoad event, return data is equal to getInitialState() and getData()', () => {
     expect.assertions(3);
     const _state = {selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']};
     obj.setOption('onLoad', function () {
       const previousData = this.getPreviousData();
-      const data = this.getCopyData();
+      const data = this.getData();
       expect(previousData).toEqual(_state);
       expect(previousData).toEqual(data);
       expect(previousData !== null).toBe(true);
@@ -453,6 +453,21 @@ describe('Api.prototype.getPreviousData', () => {
     obj.updateStateRef(_state, () => {});
     obj.trigger('onLoad', obj.userProxy);
   });
+  test('getCopyData method should call getData internally and result of two method should be equal', () => {
+    obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
+    expect(obj.getData()).toEqual(obj.getCopyData());
+    obj.getData = jest.fn(() => {});
+    obj.getCopyData();
+    expect(obj.getData.mock.calls.length).toBe(1);
+  });
+  test('getCopyPerviousData method should call getPreviousData internally and result of two method should be equal', () => {
+    obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
+    expect(obj.getPreviousData()).toEqual(obj.getCopyPerviousData());
+    obj.getPreviousData = jest.fn(() => {});
+    obj.getCopyPerviousData();
+    expect(obj.getPreviousData.mock.calls.length).toBe(1);
+  });
+  //
 });
 describe('Api.prototype.setTab : ', () => {
   test('it should call optionsManager.validateObjectiveTabData and validatePanelComponent internally', () => {
