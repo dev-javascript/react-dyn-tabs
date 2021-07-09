@@ -31,6 +31,7 @@ React Dynamic Tabs with full API
   - [tabComponent](#tabComponent)
   - [defaultPanelComponent](#defaultPanelComponent)
   - [accessibility](#accessibility)
+  - [isVertical](#isVertical)
   - [onLoad](#onLoad)
   - [onInit](#onInit)
   - [onChange](#onChange)
@@ -385,6 +386,31 @@ if (instance.getOption('accessibility') == true) {
 **NOTE :**
 
 This option assigns id attribute on panel element and button element inside the tab. for having elements without id attribute, set this option to false.
+
+### isVertical
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>default value</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td>false</td>
+      <td>false</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+**Example**
+
+```js
+const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
+```
 
 ### onLoad
 

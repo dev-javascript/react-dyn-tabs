@@ -15,6 +15,7 @@ describe('DefaultOptions.prototype.getOptions : ', () => {
       onDestroy: expect.any(Function),
       onInit: expect.any(Function),
       accessibility: true,
+      isVertical: false,
       defaultPanelComponent: expect.any(Function),
       direction: 'ltr',
       tabComponent: expect.any(Function),

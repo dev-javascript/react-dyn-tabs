@@ -4,6 +4,9 @@ export default function ({api}) {
     result = {
       className: _setting.tablistClass + ' ' + _setting[_op.direction + 'Class'],
     };
+  if (_op.isVertical) {
+    result.className += ' ' + _setting.verticalClass;
+  }
   if (_op.accessibility) {
     result.role = 'tablist';
   }

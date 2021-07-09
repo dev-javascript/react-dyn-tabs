@@ -85,6 +85,7 @@ OptionManager.prototype._setSetting = function () {
     disableClass: 'rc-dyn-tabs-disable',
     ltrClass: 'rc-dyn-tabs-ltr',
     rtlClass: 'rc-dyn-tabs-rtl',
+    verticalClass: 'rc-dyn-tabs-vertical',
     panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
     ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
     getDefaultTabData: () => {

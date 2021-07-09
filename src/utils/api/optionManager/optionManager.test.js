@@ -57,6 +57,7 @@ describe('OptionManager constructor : ', () => {
       disableClass: 'rc-dyn-tabs-disable',
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
+      verticalClass: 'rc-dyn-tabs-vertical',
       panelIdTemplate: expect.any(Function),
       ariaLabelledbyIdTemplate: expect.any(Function),
       getDefaultTabData: expect.any(Function),

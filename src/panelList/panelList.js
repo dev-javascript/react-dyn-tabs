@@ -6,7 +6,11 @@ const PanelList = memo(
     const {openTabIDs, selectedTabID} = React.useContext(StateContext),
       api = React.useContext(ApiContext),
       setting = api.optionsManager.setting,
-      className = setting.panellistClass + ' ' + setting[api.getOption('direction') + 'Class'];
+      options = api.optionsManager.options;
+    let className = setting.panellistClass + ' ' + setting[options.direction + 'Class'];
+    if (options.isVertical) {
+      className += ' ' + setting.verticalClass;
+    }
     return (
       <div className={className}>
         {openTabIDs.map((id) => (

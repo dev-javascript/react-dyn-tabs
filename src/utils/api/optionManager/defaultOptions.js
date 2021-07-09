@@ -25,6 +25,7 @@ DefaultOptions.prototype._getOptions = function () {
     onDestroy: function () {},
     onInit: function () {},
     accessibility: true,
+    isVertical: false,
     defaultPanelComponent: function defaultPanelComponent() {
       return <div></div>;
     },
