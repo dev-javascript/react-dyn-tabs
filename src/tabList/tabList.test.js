@@ -67,4 +67,15 @@ describe('TabList structure : ', () => {
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
+  test('isVertical option', () => {
+    setMockUseContext({isVertical: true});
+    const tree = renderer
+      .create(
+        <div>
+          <TabList></TabList>
+        </div>,
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
