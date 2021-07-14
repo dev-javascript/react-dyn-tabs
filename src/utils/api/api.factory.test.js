@@ -478,6 +478,23 @@ describe('Api.prototype.setTab : ', () => {
       obj.optionsManager.validatePanelComponent,
     );
   });
+  test('it should return the context', () => {
+    obj.optionsManager.validateObjectiveTabData = jest.fn(() => obj.optionsManager);
+    obj.optionsManager.validatePanelComponent = jest.fn(() => obj.optionsManager);
+    const result = obj.setTab('1', {title: 'c'});
+    expect(result).toEqual(obj);
+  });
+});
+describe('Api.prototype.setOption : ', () => {
+  test('it should call optionsManager.setOption internally', () => {
+    obj.optionsManager.setOption = jest.fn(() => obj.optionsManager);
+    obj.setOption('isVertical', true);
+    expect(obj.optionsManager.setOption.mock.calls.length).toBe(1);
+  });
+  test('it should return the context', () => {
+    const result = obj.setOption('isVertical', true);
+    expect(result).toEqual(obj);
+  });
 });
 describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
   test('it should call "on" method', () => {
