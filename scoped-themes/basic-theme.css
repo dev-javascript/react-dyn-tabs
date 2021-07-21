@@ -1,0 +1,34 @@
+.basic-theme .rc-dyn-tabs-tablist {
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.basic-theme .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title {
+  background-color: inherit;
+  border: none;
+  transition: 0.3s;
+  padding: 0.8em 1.5em;
+  min-width: 160px;
+  min-height: 40px;
+}
+.basic-theme .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title:hover {
+  background-color: #ddd;
+}
+.basic-theme .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title:active:hover {
+  background-color: #ddd;
+}
+.basic-theme .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 0px;
+}
+.basic-theme .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-selected > .rc-dyn-tabs-title {
+  background-color: #ccc;
+}
+.basic-theme .rc-dyn-tabs-tablist.rc-dyn-tabs-ltr > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
+  right: 10px;
+}
+.basic-theme .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
+  left: 10px;
+}
+
+/*# sourceMappingURL=basic-theme.css.map */

@@ -1,0 +1,4 @@
+@use '../../themes/scss/modules/react-dyn-tabs-classic' as m;
+.classic-theme {
+  @include m.main;
+}
