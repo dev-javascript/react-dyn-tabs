@@ -1,0 +1,133 @@
+$title-color: #495057;
+$border-color: #dee2e6;
+$background-color: #fff;
+
+@mixin tab {
+  color: $title-color;
+  border-style: solid;
+}
+
+@mixin tablistBorder($isVertical: false, $isRtl: false) {
+  @if $isVertical {
+    @if $isRtl {
+      border-width: 0px 0px 0px 1px;
+    } @else {
+      border-width: 0px 1px 0px 0px;
+    }
+  } @else {
+    border-width: 0px 0px 1px;
+  }
+
+  border-color: $border-color;
+}
+
+@mixin tabBorder($isVertical: false, $isRtl: false) {
+  @if $isVertical {
+    @if $isRtl {
+      border-width: 0px 0px 0px 1px;
+      margin: 0px 0px 0px -1px;
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    } @else {
+      border-width: 0px 1px 0px 0px;
+      margin: 0px -1px 0px 0px;
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+  } @else {
+    border-width: 0px 0px 1px 0px;
+    margin: 0px 0px -1px 0px;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+
+  border-color: transparent;
+}
+
+@mixin selectedTabBorder($isVertical: false, $isRtl: false) {
+  border-width: 1px;
+
+  @if $isVertical {
+    @if $isRtl {
+      border-color: $border-color $border-color $border-color $background-color;
+    } @else {
+      border-color: $border-color $background-color $border-color $border-color;
+    }
+  } @else {
+    border-color: $border-color $border-color $background-color $border-color;
+  }
+}
+
+@mixin main {
+  .rc-dyn-tabs-tablist {
+    @include tab;
+    @include tablistBorder;
+    background-color: $background-color;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: unset;
+
+    .rc-dyn-tabs-tab {
+      background-color: transparent;
+
+      & > .rc-dyn-tabs-title {
+        @include tab;
+        @include tabBorder;
+        background-color: transparent;
+        padding: 0.5rem 1rem;
+        transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+      }
+
+      & > .rc-dyn-tabs-title:hover {
+        background-color: #eee;
+        border-color: #eee #eee transparent;
+      }
+    }
+
+    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      background-color: $background-color;
+
+      & > .rc-dyn-tabs-title {
+        @include selectedTabBorder;
+        background-color: $background-color;
+      }
+    }
+  }
+
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
+    flex-direction: column;
+    @include tablistBorder($isVertical: true);
+
+    .rc-dyn-tabs-tab {
+      direction: rtl;
+
+      & > .rc-dyn-tabs-title {
+        @include tabBorder($isVertical: true);
+      }
+    }
+
+    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      & > .rc-dyn-tabs-title {
+        @include selectedTabBorder($isVertical: true);
+      }
+    }
+  }
+
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+    @include tablistBorder($isVertical: true, $isRtl: true);
+
+    .rc-dyn-tabs-tab {
+      direction: ltr;
+
+      & > .rc-dyn-tabs-title {
+        @include tabBorder($isVertical: true, $isRtl: true);
+      }
+    }
+
+    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      & > .rc-dyn-tabs-title {
+        @include selectedTabBorder($isVertical: true, $isRtl: true);
+      }
+    }
+  }
+}
