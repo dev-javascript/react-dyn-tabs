@@ -1,7 +1,7 @@
 @mixin main {
   .rc-dyn-tabs-panellist {
     padding: 6px 12px;
-
+    position: relative;
     .rc-dyn-tabs-panel {
       display: none;
     }
@@ -41,7 +41,7 @@
     float: none;
     position: relative;
 
-    .rc-dyn-tabs-tab {
+    & > .rc-dyn-tabs-tab {
       display: list-item;
       list-style: none;
       text-align: center;
@@ -76,7 +76,7 @@
       }
     }
 
-    .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
+    & > .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
       pointer-events: none;
       opacity: 0.7;
     }
@@ -121,10 +121,9 @@
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    width: 200px;
-    float: left;
+    width: 12em;
     height: 100%;
-
+    float: left;
     & > .rc-dyn-tabs-tab {
       float: none;
 
@@ -139,5 +138,8 @@
         line-height: 0px;
       }
     }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+    float: right;
   }
 }

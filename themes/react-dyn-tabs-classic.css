@@ -27,6 +27,7 @@
   border-style: solid;
   border-width: 1px 1px 0px 1px;
   color: #416da3;
+  min-width: 100px;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-selected > .rc-dyn-tabs-title {
   background-image: none;

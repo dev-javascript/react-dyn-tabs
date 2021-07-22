@@ -75,6 +75,7 @@ $background-color: #fff;
         @include tabBorder;
         background-color: transparent;
         padding: 0.5rem 1rem;
+        min-width: 100px;
         transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
       }
 
@@ -93,7 +94,9 @@ $background-color: #fff;
       }
     }
   }
-
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+    flex-direction: row-reverse;
+  }
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
     flex-direction: column;
     @include tablistBorder($isVertical: true);
