@@ -21,6 +21,7 @@
   border-color: transparent;
   background-color: transparent;
   padding: 0.5rem 1rem;
+  min-width: 100px;
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 .bootstrap-theme .rc-dyn-tabs-tablist .rc-dyn-tabs-tab > .rc-dyn-tabs-title:hover {
@@ -34,6 +35,9 @@
   border-width: 1px;
   border-color: #dee2e6 #dee2e6 #fff #dee2e6;
   background-color: #fff;
+}
+.bootstrap-theme .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+  flex-direction: row-reverse;
 }
 .bootstrap-theme .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
   flex-direction: column;
@@ -72,5 +76,3 @@
   border-width: 1px;
   border-color: #dee2e6 #dee2e6 #dee2e6 #fff;
 }
-
-/*# sourceMappingURL=bootstrap-theme.css.map */
