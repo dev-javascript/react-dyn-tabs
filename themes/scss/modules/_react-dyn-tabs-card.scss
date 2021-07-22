@@ -1,0 +1,110 @@
+$tablist-border-color: rgba(0, 0, 0, 0.12);
+$tab-background-color: #fff;
+$tab-color: rgba(0, 0, 0, 0.63);
+$selected-tab-color: black;
+$indicator-color: #3f51b5;
+$tab-hover-background: #e6e6e6;
+$actived-tab-background-color: #d4d4d4;
+$ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
+@mixin main {
+  .rc-dyn-tabs-tablist {
+    background-color: transparent;
+    border-style: solid;
+    border-color: $tablist-border-color;
+    border-width: 0px 0px 1px 0px;
+    & > .rc-dyn-tabs-tab {
+      color: $tab-color;
+      & > .rc-dyn-tabs-title {
+        min-width: 160px;
+        min-height: 48px;
+        transform: translate3d(0, 0, 0);
+        border-color: transparent;
+        border-style: solid;
+        border-width: 1px 1px 3px 1px;
+        border-radius: 1px;
+        background-color: $tab-background-color;
+        opacity: 1;
+      }
+      & > .rc-dyn-tabs-title:active:after {
+        transform: scale(0, 0);
+        opacity: 0.2;
+        transition: 0s;
+      }
+      &.rc-dyn-tabs-selected {
+        & > .rc-dyn-tabs-title {
+          color: $selected-tab-color;
+          background-color: transparent;
+          border-color: $indicator-color;
+          border-style: solid;
+          border-width: 0px 0px 3px 0px;
+          opacity: 1;
+        }
+      }
+      & > .rc-dyn-tabs-title:hover {
+        color: $tab-color;
+        background: $tab-hover-background;
+        transition: background 0.8s;
+      }
+      & > .rc-dyn-tabs-title:active:hover {
+        color: $tab-color;
+        background-color: $actived-tab-background-color;
+      }
+      & > .rc-dyn-tabs-title:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        background-image: $ripple;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        transform: scale(10, 10);
+        opacity: 0;
+        transition: transform 0.5s, opacity 1s;
+      }
+      & > .rc-dyn-tabs-close {
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 0px;
+        right: 10px;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-close {
+        right: auto;
+        left: 10px;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
+    border-width: 0px 1px 0px 0px;
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-title {
+        border-width: 0px 1px 0px 0px;
+      }
+    }
+    & > .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      & > .rc-dyn-tabs-title {
+        border-width: 0px 3px 0px 0px;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+    border-width: 0px 0px 0px 1px;
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-title {
+        border-width: 0px 0px 0px 1px;
+      }
+    }
+    & > .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      & > .rc-dyn-tabs-title {
+        border-width: 0px 0px 0px 3px;
+      }
+    }
+  }
+}

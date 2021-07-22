@@ -1,0 +1,51 @@
+$tablist-background-color: #f1f1f1;
+$tablist-border-color: #ccc;
+$tab-hover-background-color: #ddd;
+$actived-tab-background-color: #ddd;
+$selected-tab-background-color: #ccc;
+@mixin main {
+  .rc-dyn-tabs-tablist {
+    border: 1px solid $tablist-border-color;
+    background-color: $tablist-background-color;
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-title {
+        background-color: inherit;
+        border: none;
+        transition: 0.3s;
+        padding: 0.8em 1.5em;
+        min-width: 160px;
+        min-height: 40px;
+      }
+      & > .rc-dyn-tabs-title:hover {
+        background-color: $tab-hover-background-color;
+      }
+      & > .rc-dyn-tabs-title:active:hover {
+        background-color: $actived-tab-background-color;
+      }
+      & > .rc-dyn-tabs-close {
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 0px;
+      }
+    }
+    & > .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+      & > .rc-dyn-tabs-title {
+        background-color: $selected-tab-background-color;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-ltr {
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-close {
+        right: 10px;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+    & > .rc-dyn-tabs-tab {
+      & > .rc-dyn-tabs-close {
+        left: 10px;
+      }
+    }
+  }
+}
