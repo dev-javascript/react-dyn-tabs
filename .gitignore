@@ -15,6 +15,9 @@ example/node_modules
 /lib
 /dist
 
+# demo
+/demo
+
 # misc
 .DS_Store
 .env.local
