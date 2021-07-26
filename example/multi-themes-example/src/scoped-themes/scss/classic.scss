@@ -1,0 +1,5 @@
+@use '../../../node_modules/react-dyn-tabs/themes/scss/modules/react-dyn-tabs-classic'as m;
+
+.classic {
+  @include m.main;
+}

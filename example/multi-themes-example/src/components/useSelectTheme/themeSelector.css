@@ -1,0 +1,20 @@
+#theme-container {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translate(0px, -50%);
+  margin-top: 5px;
+  color: #6767a3;
+}
+@media only screen and (max-width: 580px) {
+  #theme-container {
+    position: relative;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+#theme-container #theme-selector {
+  padding: 2px 8px;
+  border: 1px solid #c5c5e9;
+  color: #6767a3;
+}

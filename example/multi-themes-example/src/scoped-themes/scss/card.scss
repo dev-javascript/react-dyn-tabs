@@ -1,0 +1,5 @@
+@use '../../../node_modules/react-dyn-tabs/themes/scss/modules/react-dyn-tabs-card'as m;
+
+.card {
+  @include m.main;
+}
