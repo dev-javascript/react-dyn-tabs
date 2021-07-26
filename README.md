@@ -1003,7 +1003,7 @@ import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
 
 **NOTE :**
 
-You can find other themes at src/themes folder.
+You can find other themes at themes folder.
 
 ## Caveats
 
