@@ -2,7 +2,7 @@
 
 React Dynamic Tabs with full API
 
-### [document](https://github.com/dev-javascript/react-dyn-tabs/)
+### [Demo](https://dev-javascript.github.io/react-dyn-tabs/)
 
 ## Features
 
@@ -85,7 +85,7 @@ $ yarn add react-dyn-tabs
 import React, {useEffect} from 'react';
 import useDynTabs from 'react-dyn-tabs';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/default.css';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
 import ContactComponent from './contact-component';
 
 export default () => {
@@ -255,15 +255,6 @@ const [TabList, PanelList, ready] = useDynTabs({
 const [TabList, PanelList, ready] = useDynTabs({direction: 'rtl'});
 ```
 
-or
-
-```js
-if (instance.getOption('direction') !== 'ltr') {
-  instance.setOption('direction', 'ltr');
-  instance.refresh();
-}
-```
-
 ### tabComponent
 
 <table>
@@ -297,22 +288,6 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
-or
-
-```js
-const CustomTabComponent = (props) => {
-  const {id, isSelected, api: instance} = props;
-  return (
-    <button {...props.tabProps}>
-      {props.children}
-      {props.iconProps && <span {...props.iconProps}></span>}
-    </button>
-  );
-};
-instance.setOption('tabComponent', CustomTabComponent);
-instance.refresh();
-```
-
 ### defaultPanelComponent
 
 Default value for panelComponent option.
@@ -343,13 +318,6 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
-or
-
-```js
-instance.setOption('defaultPanelComponent', (props) => <p></p>);
-instance.refresh();
-```
-
 ### accessibility
 
 <table>
@@ -373,14 +341,6 @@ instance.refresh();
 
 ```js
 const [TabList, PanelList, ready] = useDynTabs({accessibility: false});
-```
-
-or
-
-```js
-if (instance.getOption('accessibility') == true) {
-  instance.setOption('accessibility', false).refresh();
-}
 ```
 
 **NOTE :**
@@ -464,10 +424,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onInit', () => {}).refresh();
-// or
-instance.on('onInit', () => {});
 ```
 
 ### onChange
@@ -495,8 +451,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onChange', ({currentData, previousData, closedTabIDs, openedTabIDs}) => {}).refresh();
 ```
 
 ### beforeSelect
@@ -528,12 +482,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     return true;
   },
 });
-// or
-instance
-  .setOption('beforeSelect', (e, id) => {
-    return true;
-  })
-  .refresh();
 ```
 
 ### onSelect
@@ -561,8 +509,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onSelect', ({currentSelectedTabId, previousSelectedTabId}) => {}).refresh();
 ```
 
 ### onOpen
@@ -590,8 +536,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onOpen', (openedTabIDs) => {}).refresh();
 ```
 
 ### beforeClose
@@ -623,12 +567,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     return true;
   },
 });
-// or
-instance
-  .setOption('beforeClose', (e, id) => {
-    return true;
-  })
-  .refresh();
 ```
 
 ### onClose
@@ -656,8 +594,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onClose', (closedTabIDs) => {}).refresh();
 ```
 
 ### onDestroy
@@ -685,8 +621,6 @@ const [TabList, PanelList, ready] = useDynTabs({
     // you can use 'this' here which refers to the instance
   },
 });
-// or
-instance.setOption('onDestroy', () => {}).refresh();
 ```
 
 ## Methods
@@ -718,10 +652,10 @@ Parameters:
 **Example**
 
 ```js
-if (instance.isOpen('2') == false) {
+if (instance.isOpen('contact') == false) {
   instance
     .open({
-      id: '2',
+      id: 'contact',
       title: 'contact',
       tooltip: 'contact',
       disable: false,
@@ -730,7 +664,7 @@ if (instance.isOpen('2') == false) {
       panelComponent: <ContactPanel></ContactPanel>,
     })
     .then(({currentData, instance}) => {
-      //do sth here
+      console.log('contact tab is open');
     });
 }
 ```
@@ -766,9 +700,9 @@ Parameters:
 **Example**
 
 ```js
-if (instance.isSelected('your tab id') == false) {
-  instance.select('your tab id').then(({currentData, instance}) => {
-    //do sth here
+if (instance.isSelected('1') == false) {
+  instance.select('1').then(({currentData, instance}) => {
+    console.log('tab 1 is selected');
   });
 }
 ```
@@ -795,7 +729,7 @@ Parameters:
 ```js
 if (instance.isOpen('2') == true) {
   instance.close('2').then(({currentData, instance}) => {
-    //do sth here
+    console.log('tab 2 is closed');
   });
 }
 ```
@@ -831,9 +765,11 @@ const onSelect = instance.getOption('onSelect');
 
 ### setOption
 
-for re-rendering immediately after this function, you should call refresh method after it.
+You can use this method for setting all options except selectedTabID and tabs options.
 
-Return value : instance
+For re-rendering immediately after this function, you should call refresh method after it.
+
+Return value : instance object
 
 Parameters:
 
@@ -845,6 +781,7 @@ Parameters:
 ```js
 instance.setOption('direction', 'rtl');
 instance.setOption('onSelect', () => {});
+instance.setOption('beforeSelect', () => false);
 ```
 
 ### getTab
@@ -872,14 +809,14 @@ Return value : instance
 
 Parameters:
 
-- `optionName : String`
-- `optionValue : string|boolean|object|function`
+- `tab id : String`
+- `source object : containing the properties you want to apply`
 
 **Example**
 
 ```js
-instance.setTab('disable', true);
-instance.setTab('panelComponent', (props) => <p />);
+instance.setTab('home', {disable: true});
+instance.setTab('contact', {closable: false, panelComponent: (props) => <p>contact panel</p>});
 ```
 
 ### on
@@ -1058,13 +995,21 @@ upcoming...
 react-dyn-tabs does not include any style loading by default. Default stylesheets and themes are provided and can be included in your application if desired.
 
 ```js
-import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/default.css';
+import 'react-dyn-tabs/style/react-dyn-tabs.min.css';
+// or import 'react-dyn-tabs/style/scss/react-dyn-tabs.scss';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
+// or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-card.scss';
 ```
+
+**NOTE :**
+
+You can find other themes at src/themes folder.
 
 ## Caveats
 
-Some actions like open, select, close and refresh cause re-rendering, and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause. you should use them inside event listeners or subscriptions.
+- Some actions like open, select, close and refresh cause re-rendering, and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause. you should use them inside event listeners or subscriptions.
+
+- Do not use setState inside the onInit callback because it leads to an infinite loop.
 
 ## Deprecated features
 
