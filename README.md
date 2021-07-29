@@ -833,10 +833,11 @@ Parameters:
 **Example**
 
 ```js
-instance.on('onSelect', function (params) {
+const handler = React.useCallback(function (params) {
   const {currentSelectedTabId, previousSelectedTabId} = params;
   // can use 'this' here which refers to the instance
-});
+}, []);
+instance.on('onSelect', handler);
 ```
 
 ### one
@@ -872,12 +873,13 @@ Parameters:
 **Example**
 
 ```js
-const onSelectHandler = function (params) {
-  const {currentSelectedTabId, previousSelectedTabId} = params;
-  // can use 'this' here which refers to the instance
-  this.off('onSelect', onSelectHandler);
+const handler = React.useCallback(function () {}, []);
+const attachHandler = () => {
+  instance.on('onSelect', handler);
 };
-instance.on('onSelect', onSelectHandler);
+const deattachHandler = () => {
+  instance.off('onSelect', handler);
+};
 ```
 
 ### getData
