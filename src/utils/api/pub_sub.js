@@ -23,8 +23,12 @@ Pub_Sub.prototype.off = function (publisherName, fn) {
 };
 //subscribe
 Pub_Sub.prototype.on = function (publisherName, fn) {
-  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName))
-    this._publishers[publisherName].push(fn);
+  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
+    // check if it has not existed
+    if (this._publishers[publisherName].indexOf(fn) === -1) {
+      this._publishers[publisherName].push(fn);
+    }
+  }
   return this;
 };
 //oneSubscribe
