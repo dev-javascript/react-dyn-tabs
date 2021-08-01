@@ -144,6 +144,17 @@ describe('OptionManager.prototype.validateTabData :  ', () => {
     expect(tabData.disable === false).toBe(true);
     expect(typeof tabData.id === 'string').toBe(true);
   });
+  test('panelComponent parameter can be null', () => {
+    const tabData = obj.validateTabData({panelComponent: null});
+    expect(tabData.panelComponent).toBe(null);
+  });
+});
+describe('OptionManager.prototype.validatePanelComponent', () => {
+  it('validatePanelComponent function does not change value of panelComponent property when it is null', () => {
+    const tabData = {panelComponent: null};
+    obj.validatePanelComponent(tabData);
+    expect(tabData.panelComponent).toBe(null);
+  });
 });
 describe('OptionManager.prototype.setOption : ', () => {
   it('it can not set tabs option', () => {

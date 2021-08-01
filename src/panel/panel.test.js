@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 import Api from '../utils/api/api.js';
 let container = document.createElement('div'),
   realUseContext;
-const getDefaultApi = () => ({
+const getDefaultOptions = () => ({
   tabs: [
     {
       id: '1',
@@ -18,9 +18,7 @@ const getDefaultApi = () => ({
       id: '2',
       title: 'tab2',
       disable: true,
-      panelComponent: function panelComponent3(props) {
-        return <p>{props.api.getTab(props.id).title + ' panel'}</p>;
-      },
+      panelComponent: null,
     },
     {id: '3', title: 'tab3'},
     {
@@ -37,7 +35,7 @@ const getDefaultApi = () => ({
   ],
 });
 const setMockUseContext = (op = {}) => {
-  const defaultOp = getDefaultApi();
+  const defaultOp = getDefaultOptions();
   const instance = new Api({options: Object.assign({}, defaultOp, op)});
   React.useContext = jest.fn(() => instance);
 };

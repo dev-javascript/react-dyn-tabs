@@ -944,8 +944,8 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
     </tr>
     <tr>
       <td>panelComponent</td>
-      <td>can be either of React Element or React Component</td>
-      <td></td>
+      <td>React Element | React Component | null</td>
+      <td>function component which returns empty div</td>
       <td>false</td>
     </tr>
     <tr>

@@ -79,11 +79,7 @@ exports[`panel structure :  default options 1`] = `
     id="rc-dyn-tabs-p-2"
     role="tabpanel"
     tab-id="2"
-  >
-    <p>
-      tab2 panel
-    </p>
-  </div>
+  />
   <div
     aria-hidden={true}
     aria-labelledby="rc-dyn-tabs-l-3"
@@ -136,11 +132,7 @@ exports[`panel structure :  rtl and none accessibility options 1`] = `
   <div
     className="rc-dyn-tabs-panel"
     tab-id="2"
-  >
-    <p>
-      tab2 panel
-    </p>
-  </div>
+  />
   <div
     className="rc-dyn-tabs-panel"
     tab-id="3"

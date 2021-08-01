@@ -11,7 +11,7 @@ const PanelComponent = function PanelComponent(props) {
     PanelComponent = api.getTab(id).panelComponent;
   return (
     <div {...panelProps}>
-      <PanelComponent id={id} isSelected={isSelected} api={api.userProxy}></PanelComponent>
+      {PanelComponent ? <PanelComponent id={id} isSelected={isSelected} api={api.userProxy}></PanelComponent> : null}
     </div>
   );
 };
