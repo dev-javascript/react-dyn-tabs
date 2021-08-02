@@ -419,10 +419,14 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onLoad: function () {
-    // you can use 'this' here which refers to the instance
+    console.log('[onLoad]');
   },
 });
 ```
+
+**NOTE :**
+
+You can use 'this' keyword inside all callback options which refers to the instance object.
 
 ### onInit
 
@@ -446,7 +450,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onInit: function () {
-    // you can use 'this' here which refers to the instance
+    console.log('[onInit]');
   },
 });
 ```
@@ -477,7 +481,7 @@ Do not use setState inside the onInit callback because it leads to an infinite l
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onChange: function ({currentData, previousData, closedTabIDs, openedTabIDs}) {
-    // you can use 'this' here which refers to the instance
+    console.log('[onChange]');
   },
 });
 ```
@@ -507,7 +511,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   beforeSelect: function (e, id) {
-    // you can use 'this' here which refers to the instance
+    console.log('[beforeSelect]');
     return true;
   },
 });
@@ -535,7 +539,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onSelect: function ({currentSelectedTabId, previousSelectedTabId}) {
-    // you can use 'this' here which refers to the instance
+    console.log('[onSelect]');
   },
 });
 ```
@@ -562,7 +566,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onOpen: function (openedTabIDs) {
-    // you can use 'this' here which refers to the instance
+    console.log('[onOpen]');
   },
 });
 ```
@@ -592,7 +596,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   beforeClose: function (e, id) {
-    // you can use 'this' here which refers to the instance
+    console.log('[beforeClose]');
     return true;
   },
 });
@@ -620,7 +624,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onClose: function (closedTabIDs) {
-    // you can use 'this' here which refers to the instance
+    console.log('[onClose]');
   },
 });
 ```
@@ -647,7 +651,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 ```js
 const [TabList, PanelList, ready] = useDynTabs({
   onDestroy: function () {
-    // you can use 'this' here which refers to the instance
+    console.log('[onDestroy]');
   },
 });
 ```
