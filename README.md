@@ -23,7 +23,7 @@ React Dynamic Tabs with full API
 
 - [Installation](#installation)
 - [Basic Example](#basic-example)
-- [ready function](#ready-function)
+- [Simple manipulation](#simple-manipulation)
 - [Options](#options)
   - [tabs](#tabs)
   - [selectedTabID](#selectedTabID)
@@ -82,62 +82,87 @@ $ yarn add react-dyn-tabs
 ## Basic Example
 
 ```js
-import React, {useEffect} from 'react';
-import useDynTabs from 'react-dyn-tabs';
+import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
-import ContactComponent from './contact-component';
+import useDynTabs from 'react-dyn-tabs';
 
 export default () => {
   const options = {
     tabs: [
       {
         id: '1',
-        title: 'home',
-        closable: false,
-        panelComponent: (porps) => <p> home content </p>,
+        title: 'tab 1',
+        panelComponent: (porps) => <p> panel 1 </p>,
       },
       {
         id: '2',
-        title: 'contact',
-        panelComponent: ContactComponent, // or can be <ContactComponent />
+        title: 'tab 2',
+        panelComponent: (porps) => <p> panel 2 </p>,
       },
     ],
     selectedTabID: '1',
-    onLoad: function () {},
   };
-  const [TabList, PanelList, ready] = useDynTabs(options);
-  useEffect(() => {
-    ready((instance) => {
-      // open more tabs
-      instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> Tab 3 content </p>});
-      instance.open({id: '4', title: 'Tab 4', panelComponent: (porps) => <p> Tab 4 content </p>});
-      // switch to new tab
-      instance.select('4');
-    });
-  }, []);
+  const [TabList, PanelList] = useDynTabs(options);
   return (
-    <div>
+    <>
       <TabList></TabList>
       <PanelList></PanelList>
-    </div>
+    </>
   );
 };
 ```
 
-## ready function
+## Simple manipulation
 
-- ready function is returned by useDynTabs hook.
+```js
+import React from 'react';
+import 'react-dyn-tabs/style/scss/react-dyn-tabs.scss';
+import 'react-dyn-tabs/themes/scss/react-dyn-tabs-card.scss';
+import useDynTabs from 'react-dyn-tabs';
 
-- ready function accepts a function as a parameter and calls it with instance object after the first render, when the component is mounted.
+export default () => {
+  const options = {
+    tabs: [
+      {
+        id: '1',
+        title: 'tab1',
+        panelComponent: (porps) => <p> panel 1 </p>,
+      },
+      {
+        id: '2',
+        title: 'tab2',
+        panelComponent: (porps) => <p> panel 2 </p>,
+      },
+    ],
+    selectedTabID: '1',
+  };
+  let _instance;
+  const [TabList, PanelList, ready] = useDynTabs(options);
+  ready((instance) => {
+    _instance = instance;
+  });
+  const addTab3 = function () {
+    // open tab 3
+    _instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>});
+    // switch to tab 3
+    _instance.select('3');
+  };
+  return (
+    <>
+      <button onClick={addTab3}>Add tab 3</button>
+      <TabList></TabList>
+      <PanelList></PanelList>
+    </>
+  );
+};
+```
+
+**NOTE :**
 
 - Tabs can't be manipulated safely before the first render, use ready() to make a function available after the component is mounted.
 
-- ready function can be called multiple times
-
 - ready function and instance Object will not be changed after re-rendering multiple times.
-
-- When ready function is called after the first render, it calls its function parameter with instance object immediately.
 
 ## Options
 
@@ -426,6 +451,10 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
+**NOTE :**
+
+Do not use setState inside the onInit callback because it leads to an infinite loop.
+
 ### onChange
 
 <table>
@@ -636,7 +665,7 @@ Parameters:
 **Example**
 
 ```js
-const result = instance.isOpen('tab ID');
+const result = instance.isOpen('Your tab ID');
 ```
 
 ### open
@@ -680,7 +709,7 @@ Parameters:
 **Example**
 
 ```js
-const result = instance.isSelected('tab ID');
+const result = instance.isSelected('Your tab ID');
 ```
 
 ### select
@@ -715,8 +744,6 @@ Closing an already closed tab only triggers 'onInit' event.
 
 It switches to the previously selected tab before closing if switching parameter was true and tab was already opened and selected.
 
-When the user clicks on the default close icon, close function is called with true value as a switching parameter.
-
 Return value : Promise
 
 Parameters:
@@ -745,9 +772,7 @@ Return value : Promise
 **Example**
 
 ```js
-instance.refresh().then(({currentData, instance}) => {
-  //do sth here
-});
+instance.refresh().then(({currentData, instance}) => {});
 ```
 
 ### getOption
@@ -945,7 +970,7 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
     <tr>
       <td>panelComponent</td>
       <td>React Element | React Component | null</td>
-      <td>function component which returns empty div</td>
+      <td>A function component which returns empty div</td>
       <td>false</td>
     </tr>
     <tr>
