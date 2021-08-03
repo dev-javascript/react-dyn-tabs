@@ -2,6 +2,8 @@
 
 React Dynamic Tabs with full API
 
+> _Support react >= `v16.8.0`_
+
 ### [Demo](https://dev-javascript.github.io/react-dyn-tabs/)
 
 ## Features
@@ -144,9 +146,13 @@ export default () => {
   });
   const addTab3 = function () {
     // open tab 3
-    _instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>});
+    _instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
+      console.log('tab 3 is open');
+    });
     // switch to tab 3
-    _instance.select('3');
+    _instance.select('3').then(() => {
+      console.log('tab 3 is selected');
+    });
   };
   return (
     <>
@@ -864,7 +870,6 @@ Parameters:
 ```js
 const handler = React.useCallback(function (params) {
   const {currentSelectedTabId, previousSelectedTabId} = params;
-  // can use 'this' here which refers to the instance
 }, []);
 instance.on('onSelect', handler);
 ```
@@ -883,9 +888,7 @@ Parameters:
 **Example**
 
 ```js
-instance.one('onSelect', function ({currentSelectedTabId, previousSelectedTabId}) {
-  // can use 'this' here which refers to the instance
-});
+instance.one('onSelect', function ({currentSelectedTabId, previousSelectedTabId}) {});
 ```
 
 ### off
