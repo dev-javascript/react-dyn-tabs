@@ -38,6 +38,7 @@ React Dynamic Tabs with full API
   - [onInit](#onInit)
   - [onChange](#onChange)
   - [beforeSelect](#beforeSelect)
+  - [onFirstSelect](#onFirstSelect)
   - [onSelect](#onSelect)
   - [onOpen](#onOpen)
   - [beforeClose](#beforeClose)
