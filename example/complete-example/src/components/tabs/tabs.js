@@ -11,8 +11,8 @@ export default function () {
   ref.current.log = log;
   const allComponents = {
     Panel1: (props) => <p>tab content 1</p>,
-    Panel2: <p>tab content 2</p>,
-    Panel3: <p>tab content 3</p>,
+    Panel2: (props) => <p>tab content 2</p>,
+    Panel3: (props) => <p>tab content 3</p>,
     Panel4: (props) => <p>tab content 4</p>,
   };
   const options = {
@@ -50,6 +50,9 @@ export default function () {
       ref.current.log('[beforeSelect]');
       return true;
     },
+    onFirstSelect: function () {
+      ref.current.log('[onFirstSelect]');
+    },
     onSelect: function () {
       ref.current.log('[onSelect]');
     },
@@ -72,11 +75,15 @@ export default function () {
   });
   const actions = {
     openNewTab: () => {
-      _instance.open({
-        title: 'new tab',
-        closable: false,
-        panelComponent: (props) => <p>new tab content</p>,
-      });
+      _instance
+        .open({
+          title: 'new tab',
+          closable: false,
+          panelComponent: (props) => <p>new tab content</p>,
+        })
+        .then(() => {
+          ref.current.log('(new tab is open)');
+        });
     },
     toggleDirection: () => {
       _instance.setOption('direction', _instance.getOption('direction') === 'ltr' ? 'rtl' : 'ltr').refresh();
