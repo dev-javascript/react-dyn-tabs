@@ -580,3 +580,38 @@ describe('Api.prototype._getNextSiblingTabId : ', () => {
     expect(!obj.helper.filterArrayUntilFirstValue.mock.calls[0][2]).toBe(true);
   });
 });
+describe('Api.prorotype.onChange : ', () => {
+  it('it should trigger onFirstSelect if isSwitched parameter was true and activedTabsHistory.tabsId does not include new selected tab id', () => {
+    obj.trigger = jest.fn(() => {});
+    obj.onChange({
+      newState: {selectedTabID: '2'},
+      oldState: {selectedTabID: '1'},
+      closedTabIDs: [],
+      openedTabIDs: [],
+      isSwitched: true,
+    });
+    expect(obj.trigger.mock.calls.length).toBe(3);
+    expect(obj.trigger.mock.calls[0][0]).toBe('onChange');
+    expect(obj.trigger.mock.calls[1][0]).toBe('onFirstSelect');
+    expect(obj.trigger.mock.calls[2][0]).toBe('onSelect');
+    expect(obj.trigger.mock.calls[1][1]).toBe(obj.userProxy);
+    expect(obj.trigger.mock.calls[1][2]).toEqual({
+      currentSelectedTabId: '2',
+      previousSelectedTabId: '1',
+    });
+  });
+  it('it should not trigger onFirstSelect if activedTabsHistory.tabsId includes new selected tab id', () => {
+    obj.trigger = jest.fn(() => {});
+    obj.activedTabsHistory.tabsId = ['1', '2'];
+    obj.onChange({
+      newState: {selectedTabID: '2'},
+      oldState: {selectedTabID: '1'},
+      closedTabIDs: [],
+      openedTabIDs: [],
+      isSwitched: true,
+    });
+    expect(obj.trigger.mock.calls.length).toBe(2);
+    expect(obj.trigger.mock.calls[0][0]).toBe('onChange');
+    expect(obj.trigger.mock.calls[1][0]).toBe('onSelect');
+  });
+});

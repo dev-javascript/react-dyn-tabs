@@ -523,6 +523,33 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
+### onFirstSelect
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>function</td>
+      <td>false</td>
+      <td>fires after selecting a tab for the first time. It is not fired for the initial selected tab</td>
+    </tr>
+  </tbody>
+</table>
+
+**Example**
+
+```js
+const [TabList, PanelList, ready] = useDynTabs({
+  onFirstSelect: function ({currentSelectedTabId, previousSelectedTabId}) {
+    console.log('[onFirstSelect]');
+  },
+});
+```
+
 ### onSelect
 
 <table>

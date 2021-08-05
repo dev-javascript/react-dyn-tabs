@@ -185,12 +185,19 @@ Helper.setNoneEnumProps(_apiProps, {
       });
       openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
       closedTabIDs.length && this.trigger('onClose', this.userProxy, closedTabIDs);
-      isSwitched &&
+      if (isSwitched) {
+        if (this.activedTabsHistory.tabsId.indexOf(newState.selectedTabID) === -1) {
+          this.trigger('onFirstSelect', this.userProxy, {
+            currentSelectedTabId: newState.selectedTabID,
+            previousSelectedTabId: oldState.selectedTabID,
+          });
+        }
         this.trigger('onSelect', this.userProxy, {
           currentSelectedTabId: newState.selectedTabID,
           previousSelectedTabId: oldState.selectedTabID,
           perviousSelectedTabId: oldState.selectedTabID,
         });
+      }
     }
     return this;
   },
