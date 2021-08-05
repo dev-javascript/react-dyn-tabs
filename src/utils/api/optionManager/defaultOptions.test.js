@@ -9,6 +9,7 @@ describe('DefaultOptions.prototype.getOptions : ', () => {
       beforeClose: expect.any(Function),
       onOpen: expect.any(Function),
       onClose: expect.any(Function),
+      onFirstSelect: expect.any(Function),
       onSelect: expect.any(Function),
       onChange: expect.any(Function),
       onLoad: expect.any(Function),

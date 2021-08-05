@@ -19,6 +19,7 @@ DefaultOptions.prototype._getOptions = function () {
     },
     onOpen: function () {},
     onClose: function () {},
+    onFirstSelect: function () {},
     onSelect: function () {},
     onChange: function () {},
     onLoad: function () {},
