@@ -79,6 +79,7 @@ describe('OptionManager constructor : ', () => {
       closable: true,
       iconClass: '',
       disable: false,
+      lazy: false,
       id: defaultTabData.id,
     });
     expect(defaultTabData.id.includes('tab_')).toBe(true);

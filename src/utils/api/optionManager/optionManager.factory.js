@@ -96,6 +96,7 @@ OptionManager.prototype._setSetting = function () {
         closable: true,
         iconClass: '',
         disable: false,
+        lazy: false,
         id: `tab_${new Date().getTime()}`,
       };
     },

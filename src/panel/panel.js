@@ -8,10 +8,18 @@ const PanelComponent = function PanelComponent(props) {
     api = React.useContext(ApiContext),
     isSelected = id === selectedTabID,
     panelProps = panelPropsManager({isSelected, api, id}),
-    PanelComponent = api.getTab(id).panelComponent;
+    {panelComponent: PanelComponent, lazy} = api.getTab(id);
+  let hasBeenSelected = false;
+  if (!lazy || isSelected || api.activedTabsHistory.tabsId.indexOf(id) >= 0) {
+    hasBeenSelected = true;
+  }
   return (
     <div {...panelProps}>
-      {PanelComponent ? <PanelComponent id={id} isSelected={isSelected} api={api.userProxy}></PanelComponent> : null}
+      {hasBeenSelected ? (
+        PanelComponent ? (
+          <PanelComponent id={id} isSelected={isSelected} api={api.userProxy}></PanelComponent>
+        ) : null
+      ) : null}
     </div>
   );
 };
