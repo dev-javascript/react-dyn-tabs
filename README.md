@@ -890,7 +890,7 @@ Return value : instance
 
 Parameters:
 
-- `event Name : String (can be either of onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
+- `event Name : String (can be either of onFirstSelect|onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
 - `handler : function`
 
 **Example**
@@ -910,7 +910,7 @@ Return value : instance
 
 Parameters:
 
-- `event Name : String (can be either of onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
+- `event Name : String (can be either of onFirstSelect|onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
 - `handler : function`
 
 **Example**
@@ -927,7 +927,7 @@ Return value : instance
 
 Parameters:
 
-- `event Name : String (can be either of onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
+- `event Name : String (can be either of onFirstSelect|onSelect|onClose|onOpen|onInit|onChange|onDestroy)`
 - `handler : function (A handler function previously attached for the event)`
 
 **Example**
