@@ -119,6 +119,47 @@ exports[`panel structure :  default options 1`] = `
 </div>
 `;
 
+exports[`panel structure :  lazy panels 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="1"
+  >
+    <p>
+      lazy panel 1
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel rc-dyn-tabs-selected"
+    tab-id="2"
+  >
+    <p>
+      lazy panel 2
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="3"
+  >
+    <p>
+      lazy panel 3
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="4"
+  >
+    <p>
+      loading...
+    </p>
+  </div>
+  <div
+    className="rc-dyn-tabs-panel"
+    tab-id="5"
+  />
+</div>
+`;
+
 exports[`panel structure :  rtl and none accessibility options 1`] = `
 <div>
   <div

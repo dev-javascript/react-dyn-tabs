@@ -177,8 +177,8 @@ describe('apply multiple actions : ', () => {
   });
 });
 describe('lazy tabs : ', () => {
-  const Panel = React.lazy(() => import('./mock/mock-lazy-panel-1.js'));
   const LazyPanel = () => {
+    const Panel = React.lazy(() => import('./mock/mock-lazy-panel-1.js'));
     return (
       <React.Suspense fallback={<p>loading...</p>}>
         <Panel></Panel>

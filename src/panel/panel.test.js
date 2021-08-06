@@ -34,9 +34,10 @@ const getDefaultOptions = () => ({
     {id: '5', title: 'tab5', panelComponent: <span>panel 6</span>},
   ],
 });
-const setMockUseContext = (op = {}) => {
+const setMockUseContext = (op = {}, onCreateInstance = () => {}) => {
   const defaultOp = getDefaultOptions();
   const instance = new Api({options: Object.assign({}, defaultOp, op)});
+  onCreateInstance(instance);
   React.useContext = jest.fn(() => instance);
 };
 beforeAll(() => {
@@ -125,6 +126,42 @@ describe('panel structure : ', () => {
         <div>
           <Panel id="1" selectedTabID="1"></Panel>
           <Panel id="2" selectedTabID="1"></Panel>
+        </div>,
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+  test('lazy panels', () => {
+    setMockUseContext({accessibility: false}, (instance) => {
+      instance.state.selectedTabID = '1';
+      instance.activedTabsHistory.tabsId = ['3', '4'];
+      instance.getTab = (id) => ({
+        lazy: true,
+        panelComponent: () => {
+          let LazyPanel;
+          if (id === '4') {
+            LazyPanel = (props) => {
+              const Panel = React.lazy(() => import('../mock/mock-lazy-panel-1.js'));
+              return (
+                <React.Suspense fallback={<p>loading...</p>}>
+                  <Panel></Panel>
+                </React.Suspense>
+              );
+            };
+            return <LazyPanel></LazyPanel>;
+          }
+          return <p>{`lazy panel ${id}`}</p>;
+        },
+      });
+    });
+    const tree = renderer
+      .create(
+        <div>
+          <Panel id="1" selectedTabID="2"></Panel>
+          <Panel id="2" selectedTabID="2"></Panel>
+          <Panel id="3" selectedTabID="2"></Panel>
+          <Panel id="4" selectedTabID="2"></Panel>
+          <Panel id="5" selectedTabID="2"></Panel>
         </div>,
       )
       .toJSON();
