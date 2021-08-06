@@ -8,9 +8,10 @@ const PanelComponent = function PanelComponent(props) {
     api = React.useContext(ApiContext),
     isSelected = id === selectedTabID,
     panelProps = panelPropsManager({isSelected, api, id}),
+    previousSelectedTabID = api.state.selectedTabID,
     {panelComponent: PanelComponent, lazy} = api.getTab(id);
   let hasBeenSelected = false;
-  if (!lazy || isSelected || api.activedTabsHistory.tabsId.indexOf(id) >= 0) {
+  if (!lazy || isSelected || previousSelectedTabID === id || api.activedTabsHistory.tabsId.indexOf(id) >= 0) {
     hasBeenSelected = true;
   }
   return (

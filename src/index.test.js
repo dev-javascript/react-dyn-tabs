@@ -35,8 +35,16 @@ beforeEach(() => {
     beforeSelect: jest.fn(function () {}),
     onDestroy: jest.fn(function () {}),
   };
-  App = function App() {
-    const [Tablist, Panellist, readyFunction] = useDynTabs(op);
+  App = function App({options}) {
+    const _options = Object.assign({}, op, options);
+    if (_options.tabs) {
+      const _tabs = [];
+      _options.tabs.map((tab) => {
+        _tabs.push({...tab});
+      });
+      _options.tabs = _tabs;
+    }
+    const [Tablist, Panellist, readyFunction] = useDynTabs(_options);
     ready = readyFunction;
     readyFunction((instanceParam) => {
       instance = instanceParam;
@@ -48,9 +56,9 @@ beforeEach(() => {
       </div>
     );
   };
-  renderApp = () => {
+  renderApp = (options = {}) => {
     act(() => {
-      render(<App></App>, container);
+      render(<App options={options}></App>, container);
     });
   };
 });
@@ -166,6 +174,74 @@ describe('apply multiple actions : ', () => {
     expect(op.onOpen.mock.calls.length).toBe(1);
     expect(op.beforeClose.mock.calls.length).toBe(0);
     expect(op.beforeSelect.mock.calls.length).toBe(0);
+  });
+});
+describe('lazy tabs : ', () => {
+  const Panel = React.lazy(() => import('./mock/mock-lazy-panel-1.js'));
+  const LazyPanel = () => {
+    return (
+      <React.Suspense fallback={<p>loading...</p>}>
+        <Panel></Panel>
+      </React.Suspense>
+    );
+  };
+  const renderLazyApp = () =>
+    renderApp({
+      tabs: [
+        {
+          id: '1',
+          title: 'mock tab 1',
+          lazy: true,
+          panelComponent: <p>tab1 content</p>,
+        },
+        {
+          id: '2',
+          title: 'mock tab 2',
+          panelComponent: <p>tab2 content</p>,
+        },
+        {
+          id: '3',
+          title: 'mock tab 3',
+          lazy: true,
+          panelComponent: () => <p>tab3 content</p>,
+        },
+        {
+          id: '4',
+          title: 'mock tab 4',
+          lazy: true,
+          panelComponent: LazyPanel,
+        },
+      ],
+    });
+  test('lazy panels should be null initially expect selected panel', () => {
+    expect.assertions(16);
+    renderLazyApp();
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="1"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="2"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="3"] p') === null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="4"] p') === null).toBe(true);
+    act(() => {
+      instance.select('4');
+      instance.select('3');
+    });
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="1"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="2"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="3"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="4"] p') === null).toBe(true);
+    act(() => {
+      instance.select('4');
+    });
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="1"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="2"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="3"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="4"] p') !== null).toBe(true);
+    act(() => {
+      instance.select('3');
+    });
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="1"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="2"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="3"] p') !== null).toBe(true);
+    expect(document.querySelector('.rc-dyn-tabs-panel[tab-id="4"] p') !== null).toBe(true);
   });
 });
 describe('calling some action inside the events options', () => {
