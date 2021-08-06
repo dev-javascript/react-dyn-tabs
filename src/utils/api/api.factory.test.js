@@ -440,7 +440,7 @@ describe('Api.prototype.getPreviousData and Api.prototype.getData : ', () => {
     obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
     obj.trigger('onLoad', obj.userProxy);
   });
-  test('In the onLoad event, return data is equal to getInitialState() and getData()', () => {
+  test('In the onLoad event, returned data is equal to getInitialState() and getData()', () => {
     expect.assertions(3);
     const _state = {selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']};
     obj.setOption('onLoad', function () {
