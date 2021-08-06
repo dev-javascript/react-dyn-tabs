@@ -2,13 +2,13 @@ import actions from '../stateManagement/actions';
 import Helper from '../helper.js';
 function BaseApi({helper, initialState}) {
   this._helper = helper;
-  this._state = this._helper.getCopyState(initialState); // it will be updated after each render
   this._dispatch = null;
   this._setFlushState = null;
   this._isReady = false;
   helper.setNoneEnumProps(this, {
+    state: this._helper.getCopyState(initialState), // it will be updated after each render
     forceUpdateState: {},
-    previousState: this._helper.getCopyState(initialState), // it is a previous value of this._state
+    previousState: this._helper.getCopyState(initialState), // it is a previous value of this.state
     stateRef: {}, // have a same reference with state . It will be updated in each execution of useDynamicTabs.js
   });
 }
@@ -39,8 +39,8 @@ Helper.setNoneEnumProps(BaseApi.prototype, {
     return this;
   },
   updateState: function (state) {
-    this.previousState = this._helper.getCopyState(this._state);
-    this._state = this._helper.getCopyState(state);
+    this.previousState = this._helper.getCopyState(this.state);
+    this.state = this._helper.getCopyState(state);
     return this;
   },
   updateFlushState: function (setFlushState) {
