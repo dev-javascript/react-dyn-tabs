@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import useDynTabs from './index.js';
@@ -177,7 +178,7 @@ describe('apply multiple actions : ', () => {
   });
 });
 describe('lazy tabs : ', () => {
-  const LazyPanel = () => {
+  const LazyPanel = function LazyPanel() {
     const Panel = React.lazy(() => import('./mock/mock-lazy-panel-1.js'));
     return (
       <React.Suspense fallback={<p>loading...</p>}>
@@ -192,18 +193,24 @@ describe('lazy tabs : ', () => {
           id: '1',
           title: 'mock tab 1',
           lazy: true,
-          panelComponent: <p>tab1 content</p>,
+          panelComponent: function Panel() {
+            return <p>tab1 content</p>;
+          },
         },
         {
           id: '2',
           title: 'mock tab 2',
-          panelComponent: <p>tab2 content</p>,
+          panelComponent: function Panel() {
+            return <p>tab2 content</p>;
+          },
         },
         {
           id: '3',
           title: 'mock tab 3',
           lazy: true,
-          panelComponent: () => <p>tab3 content</p>,
+          panelComponent: function Panel() {
+            return <p>tab3 content</p>;
+          },
         },
         {
           id: '4',

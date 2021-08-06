@@ -137,10 +137,10 @@ describe('panel structure : ', () => {
       instance.activedTabsHistory.tabsId = ['3', '4'];
       instance.getTab = (id) => ({
         lazy: true,
-        panelComponent: () => {
+        panelComponent: function Panel() {
           let LazyPanel;
           if (id === '4') {
-            LazyPanel = (props) => {
+            LazyPanel = function LazyPanel() {
               const Panel = React.lazy(() => import('../mock/mock-lazy-panel-1.js'));
               return (
                 <React.Suspense fallback={<p>loading...</p>}>
