@@ -26,6 +26,7 @@ beforeEach(() => {
       },
     ],
     selectedTabID: '1',
+    onFirstSelect: jest.fn(function () {}),
     onSelect: jest.fn(function () {}),
     onChange: jest.fn(function () {}),
     onInit: jest.fn(function () {}),
@@ -153,7 +154,7 @@ describe('apply multiple actions : ', () => {
     expect(op.onInit.mock.calls.length).toBe(3);
   });
   test('checking events execution count', () => {
-    expect.assertions(9);
+    expect.assertions(10);
     const onSelectHandler = jest.fn(() => {});
     renderApp();
     act(() => {
@@ -170,6 +171,7 @@ describe('apply multiple actions : ', () => {
     expect(op.onInit.mock.calls.length).toBe(2);
     expect(op.onChange.mock.calls.length).toBe(1);
     expect(onSelectHandler.mock.calls.length).toBe(1);
+    expect(op.onFirstSelect.mock.calls.length).toBe(1);
     expect(op.onSelect.mock.calls.length).toBe(1);
     expect(op.onClose.mock.calls.length).toBe(1);
     expect(op.onOpen.mock.calls.length).toBe(1);
@@ -261,6 +263,7 @@ describe('calling some action inside the events options', () => {
     expect(op.onLoad.mock.calls.length === 1).toBe(true);
     expect(op.onInit.mock.calls.length === 2).toBe(true);
     expect(op.onChange.mock.calls.length === 1).toBe(true);
+    expect(op.onFirstSelect.mock.calls.length === 1).toBe(true);
     expect(op.onSelect.mock.calls.length === 1).toBe(true);
   });
 });
@@ -507,6 +510,41 @@ describe('onSelect callback : ', () => {
     expect(op.onSelect.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '2',
       perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+  });
+});
+describe('onFirstSelect callback : ', () => {
+  test('it is not triggered initially', () => {
+    renderApp();
+    expect(op.onFirstSelect.mock.calls.length).toBe(0);
+  });
+  test('it is triggered at most once per each tab, before onSelect event. if the tab has not been selected yet', () => {
+    renderApp();
+    expect(op.onFirstSelect.mock.calls.length).toBe(0);
+    expect(op.onSelect.mock.calls.length).toBe(0);
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls.length).toBe(1);
+    expect(op.onFirstSelect).toHaveBeenCalledBefore(op.onSelect);
+    act(() => {
+      instance.select('1');
+    });
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls.length).toBe(3);
+  });
+  test('onFirstSelect is called with {currentSelectedTabId,previousSelectedTabId} object as a parameter', () => {
+    renderApp();
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
       previousSelectedTabId: '1',
     });
   });
