@@ -983,48 +983,66 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
       <th>type</th>
       <th>default value</th>
       <th>required</th>
+      <th>description</th>
     </tr>
     <tr>
       <td>id</td>
       <td>string</td>
       <td></td>
       <td>false</td>
+      <td>a unique identifier for each tab</td>
     </tr>
     <tr>
       <td>title</td>
       <td>string</td>
       <td>' '</td>
       <td>false</td>
+      <td></td>
     </tr>
     <tr>
       <td>tooltip</td>
       <td>string</td>
       <td>' '</td>
       <td>false</td>
+      <td></td>
     </tr>
     <tr>
       <td>panelComponent</td>
       <td>React Element | React Component | null</td>
       <td>A function component which returns empty div</td>
       <td>false</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>lazy</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>false</td>
+      <td>
+       If set to false the panel will be rendered initially.
+       if set to true the panel will not be rendered until the tab is activated
+      </td>
     </tr>
     <tr>
       <td>closable</td>
       <td>boolean</td>
       <td>true</td>
       <td>false</td>
+      <td></td>
     </tr>
     <tr>
       <td>iconClass</td>
       <td>string</td>
       <td>' '</td>
       <td>false</td>
+      <td>class name for the icon</td>
     </tr>
     <tr>
       <td>disable</td>
       <td>boolean</td>
       <td>false</td>
       <td>false</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -1037,6 +1055,7 @@ const tabData = {
   title: 'contactTitle',
   tooltip: 'contactTooltip',
   disable: true,
+  lazy: true,
   iconClass: 'fa fa-home',
   closable: false,
   panelComponent: (porps) => <p> contact content </p>,
@@ -1050,7 +1069,57 @@ if (instance.isOpen(tabData.id) == false) {
 
 ## Lazy Loading
 
-upcoming...
+Defer loading of tab content until the tab is activated
+
+Example 1
+
+```js
+const Panel3 = React.lazy(() => import('./components/panel3.js'));
+function LazyLoadingPanel3(porps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Panel3 {...porps}></Panel3>
+    </Suspense>
+  );
+}
+useDynTabs({
+  tabs: [
+    {id: '1', title: 'eager loading tab 1', panelComponent: <p>panel 1</p>},
+    {id: '2', title: 'eager loading tab 2', lazy: true, panelComponent: <p>panel 2</p>},
+    {id: '3', title: 'lazy loading tab 3', lazy: true, panelComponent: LazyLoadingPanel3},
+  ],
+  selectedTabID: '1',
+});
+```
+
+**NOTE :**
+
+- panel 1 is eagerly loaded and rendered.
+- panel 2 is eagerly loaded but will not be rendered until tab 2 is activated.
+- panel 3 will not be loaded and rendered until tab 3 is activated.
+
+Example 2 ( using onFirstSelect event )
+
+```js
+useDynTabs({
+  tabs: [
+    {id: '1', title: 'eager loading tab 1', panelComponent: <p>panel 1</p>},
+    {id: '2', title: 'eager loading tab 2', lazy: true, panelComponent: <p>panel 2</p>},
+    {id: '3', title: 'lazy loading tab 3', lazy: true, panelComponent: <div>Loading...</div>},
+  ],
+  onFirstSelect: function ({currentSelectedTabId, previousSelectedTabId}) {
+    const instance = this;
+    if (currentSelectedTabId === '3') {
+      import('./components/panel3.js').then((defaultExportedModule) => {
+        const Panel3 = defaultExportedModule.default;
+        instance.setTab('3', {panelComponent: Panel3});
+        instance.refresh();
+      });
+    }
+  },
+  selectedTabID: '1',
+});
+```
 
 ## Styling
 
@@ -1065,7 +1134,7 @@ import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
 
 **NOTE :**
 
-You can find other themes at themes folder.
+You can find other themes at themes folder and multiple themes example at example/multi-themes-example folder.
 
 ## Caveats
 
