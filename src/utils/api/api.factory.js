@@ -110,10 +110,10 @@ const _apiProps = {
     return result;
   },
   _getPreSelectedTabId: function () {
-    const selectedTabHistory = this.activedTabsHistory;
+    const selectedTabHistory = [...this.activedTabsHistory.tabsId];
     let tabID = '';
-    while (!tabID && selectedTabHistory.tabsId.length) {
-      const _tabID = selectedTabHistory.popLastTabID();
+    while (!tabID && selectedTabHistory.length) {
+      const _tabID = selectedTabHistory.pop();
       if (_tabID) {
         const _tabData = this.getTab(_tabID);
         if (_tabData && !_tabData.disable && this.isOpen(_tabID) && !this.isSelected(_tabID)) tabID = _tabID;
@@ -186,7 +186,7 @@ Helper.setNoneEnumProps(_apiProps, {
       openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
       closedTabIDs.length && this.trigger('onClose', this.userProxy, closedTabIDs);
       if (isSwitched) {
-        if (this.activedTabsHistory.tabsId.indexOf(newState.selectedTabID) === -1) {
+        if (newState.selectedTabID && this.activedTabsHistory.tabsId.indexOf(newState.selectedTabID) === -1) {
           this.trigger('onFirstSelect', this.userProxy, {
             currentSelectedTabId: newState.selectedTabID,
             previousSelectedTabId: oldState.selectedTabID,

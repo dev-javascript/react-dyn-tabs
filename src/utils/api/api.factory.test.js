@@ -532,8 +532,7 @@ describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
   });
 });
 describe('Api.prototype._getPreSelectedTabId : ', () => {
-  test(`it calls activeTabsHistory.popLastTabID repeatedly until it returns a tabID 
-    which is opened, not selected and none disable`, () => {
+  test(`it should find an item from activeTabsHistory.tabsId which is opened, not selected and none disable`, () => {
     const obj = new apiConstructor(getDeps, {
       options: {
         tabs: [{id: '1'}, {id: '2'}, {id: '3'}, {id: '4'}, {id: '5'}],
@@ -545,7 +544,6 @@ describe('Api.prototype._getPreSelectedTabId : ', () => {
     obj.setTab('3', {disable: true}).setTab('4', {disable: true});
     const tabID = obj._getPreSelectedTabId();
     expect(tabID).toBe('2');
-    expect(obj.activedTabsHistory.tabsId).toEqual(['3']);
   });
   test('it should return an empty string if activedTabsHistory.tabsId is empty or does not contain any valid tabID', () => {
     obj.stateRef = {selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']};
