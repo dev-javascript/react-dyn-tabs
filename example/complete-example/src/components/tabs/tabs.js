@@ -1,36 +1,35 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, Suspense} from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
 import useDynTabs from 'react-dyn-tabs';
 import useLog from '../useLog.js';
 import './tabs.css';
-export default function () {
+export default function (props) {
   const ref = useRef({});
   const [ConsoleComponent, log] = useLog();
   // assign and update ref.current.log with new value of log function
   ref.current.log = log;
-  const allComponents = {
-    Panel1: (props) => <p>tab content 1</p>,
-    Panel2: (props) => <p>tab content 2</p>,
-    Panel3: (props) => <p>tab content 3</p>,
-    Panel4: (props) => <p>tab content 4</p>,
-  };
+  // define panel components
+  function Panel1() {
+    return <p>tab content 1</p>;
+  }
+  function Panel2() {
+    return <p>tab content 2</p>;
+  }
+  const Panel3 = React.lazy(() => import('./lazyPanel.js'));
+  function LazyPanel3(props) {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Panel3 {...props}></Panel3>
+      </Suspense>
+    );
+  }
+  // options
   const options = {
     tabs: [
-      {
-        id: '1',
-        title: 'tab 1',
-        panelComponent: allComponents.Panel1,
-        iconClass: 'fa fa-home',
-      },
-      {
-        id: '2',
-        title: 'tab 2',
-        panelComponent: allComponents.Panel2,
-        iconClass: 'fa fa-book',
-      },
-      {id: '3', title: 'tab 3', panelComponent: allComponents.Panel3},
-      {id: '4', title: 'tab 4', panelComponent: allComponents.Panel4},
+      {id: '1', title: 'tab 1', panelComponent: Panel1, iconClass: 'fa fa-home'},
+      {id: '2', title: 'tab 2', lazy: true, panelComponent: Panel2, iconClass: 'fa fa-book'},
+      {id: '3', title: 'lazy tab 3', lazy: true, panelComponent: LazyPanel3},
     ],
     selectedTabID: '1',
     onLoad: function () {
@@ -93,17 +92,19 @@ export default function () {
       _instance.setOption('isVertical', !_isVertical).refresh();
       setIsVertical(!_isVertical);
     },
-    selectTab4: () => {
-      _instance.isOpen('4') &&
-        _instance.select('4').then(() => {
-          ref.current.log('(tab 4 is selected)');
+    selectTab3: () => {
+      if (_instance.isOpen('3')) {
+        _instance.select('3').then(() => {
+          ref.current.log('(tab 3 is selected)');
         });
+      }
     },
     disableSelectedTab: () => {
       _instance.setTab(_instance.getData().selectedTabID, {disable: true}).refresh();
     },
     closeSelectedTab: () => {
-      _instance.close(_instance.getData().selectedTabID);
+      const {selectedTabID} = _instance.getData();
+      _instance.close(selectedTabID);
     },
     disableAccessibility: () => {
       _instance.setOption('accessibility', false).refresh();
@@ -149,7 +150,7 @@ export default function () {
           <button onClick={actions.openNewTab}>open new tab</button>
           <button onClick={actions.toggleDirection}>toggle direction</button>
           <button onClick={actions.toggleVertical}>vertical | horizontal</button>
-          <button onClick={actions.selectTab4}>select tab 4</button>
+          <button onClick={actions.selectTab3}>select tab 3</button>
           <button onClick={actions.disableSelectedTab}>disable selected tab</button>
           <button onClick={actions.closeSelectedTab}>close selected tab</button>
           <button onClick={actions.disableAccessibility}>disable accessibility</button>
