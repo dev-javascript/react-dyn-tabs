@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/lazyPanel.js"],"names":["LazyPanel","props","id"],"mappings":"iIAAA,mEACe,SAASA,EAAUC,GAChC,OAAO,0CAAgBA,EAAMC,GAAtB","file":"static/js/3.f730ea06.chunk.js","sourcesContent":["import React from 'react';\r\nexport default function LazyPanel(props) {\r\n  return <p>tab content {props.id} is loaded lazily.</p>;\r\n}\r\n"],"sourceRoot":""}
