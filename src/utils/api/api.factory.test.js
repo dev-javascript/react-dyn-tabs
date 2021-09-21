@@ -432,6 +432,13 @@ describe('Api.prototype.getPreviousData and Api.prototype.getData : ', () => {
     obj.updateState({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']});
     obj.trigger('onLoad', obj.userProxy);
   });
+  test('it should return a copy of data and so data would be immutable', () => {
+    obj.updateStateRef({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
+    const FirstCopyData = obj.getCopyData();
+    FirstCopyData.newProp = 1;
+    FirstCopyData.openTabIDs = [];
+    expect(obj.getCopyData()).toEqual({selectedTabID: 'tab1', openTabIDs: ['tab1', 'tab2']}, () => {});
+  });
   test('returned data should be equal to currentData in onLoad event', () => {
     expect.assertions(1);
     obj.setOption('onLoad', function () {
