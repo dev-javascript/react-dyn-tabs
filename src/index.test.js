@@ -489,7 +489,7 @@ describe('onLoad callback : ', () => {
     expect.assertions(2);
     op.onLoad = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     op.onLoad = function () {};
@@ -505,7 +505,7 @@ describe('onInit callback : ', () => {
     expect.assertions(2);
     op.onInit = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     op.onInit = function () {};
@@ -541,7 +541,7 @@ describe('onChange callback : ', () => {
       currentData.selectedTabID = '6';
       previousData.selectedTabID = '6';
     });
-    const onChange2 = jest.fn(({currentData, previousData, closedTabIDs, openedTabIDs}) => {});
+    const onChange2 = jest.fn(() => {});
     const onOpen = jest.fn(() => {});
     const onClose = jest.fn(() => {});
     const onSelect = jest.fn(() => {});
@@ -587,7 +587,7 @@ describe('onChange callback : ', () => {
     expect.assertions(2);
     op.onChange = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     act(() => {
@@ -618,7 +618,7 @@ describe('onSelect callback : ', () => {
     const onSelect1 = jest.fn((param) => {
       param.previousSelectedTabId = 19;
     });
-    const onSelect2 = jest.fn((param) => {});
+    const onSelect2 = jest.fn(() => {});
     act(() => {
       instance.setOption('onSelect', (param) => {
         param.currentSelectedTabId = 10;
@@ -637,7 +637,7 @@ describe('onSelect callback : ', () => {
     expect.assertions(2);
     op.onSelect = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     act(() => {
@@ -685,7 +685,7 @@ describe('onFirstSelect callback : ', () => {
     const onFirstSelect1 = jest.fn((param) => {
       param.previousSelectedTabId = 19;
     });
-    const onFirstSelect2 = jest.fn((param) => {});
+    const onFirstSelect2 = jest.fn(() => {});
     act(() => {
       instance.setOption('onFirstSelect', (param) => {
         param.currentSelectedTabId = 10;
@@ -703,7 +703,7 @@ describe('onFirstSelect callback : ', () => {
     expect.assertions(2);
     op.onFirstSelect = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     act(() => {
@@ -730,7 +730,7 @@ describe('onOpen callback : ', () => {
     const onOpen1 = jest.fn((openedTabIDs) => {
       openedTabIDs.push('5');
     });
-    const onOpen2 = jest.fn((openedTabIDs) => {});
+    const onOpen2 = jest.fn(() => {});
     act(() => {
       instance.setOption('onOpen', (openedTabIDs) => {
         openedTabIDs.push('4');
@@ -745,11 +745,11 @@ describe('onOpen callback : ', () => {
     expect.assertions(2);
     op.onOpen = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     act(() => {
-      instance.open({id:'3'});
+      instance.open({id: '3'});
     });
     op.onOpen = function () {};
   });
@@ -772,7 +772,7 @@ describe('onClose callback : ', () => {
     const onClose1 = jest.fn((closedTabIDs) => {
       closedTabIDs.push('4');
     });
-    const onClose2 = jest.fn((closedTabIDs) => {});
+    const onClose2 = jest.fn(() => {});
     act(() => {
       instance.setOption('onClose', (closedTabIDs) => {
         closedTabIDs.push('3');
@@ -787,7 +787,7 @@ describe('onClose callback : ', () => {
     expect.assertions(2);
     op.onClose = jest.fn(function () {
       expect(Object.prototype.toString.call(this)).toBe('[object Object]');
-      expect(this.hasOwnProperty('getData')).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(this, 'getData')).toBe(true);
     });
     renderApp();
     act(() => {
