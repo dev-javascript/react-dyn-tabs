@@ -549,3 +549,139 @@ describe('onFirstSelect callback : ', () => {
     });
   });
 });
+describe('callbacks should be called with immutable parameters : ', () => {
+  test('onSelect parameters should be immutable', () => {
+    renderApp();
+    const onSelect1 = jest.fn((param) => {
+      param.previousSelectedTabId = 19;
+    });
+    const onSelect2 = jest.fn((param) => {
+      param.previousSelectedTabId = 20;
+    });
+    act(() => {
+      instance.setOption('onSelect', (param) => {
+        param.currentSelectedTabId = 10;
+      });
+      instance.on('onSelect', onSelect1);
+      instance.on('onSelect', onSelect2);
+      instance.select('2');
+    });
+    expect(onSelect2.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('onFirstSelect parameters should be immutable', () => {
+    renderApp();
+    const onFirstSelect1 = jest.fn((param) => {
+      param.previousSelectedTabId = 19;
+    });
+    const onFirstSelect2 = jest.fn((param) => {
+      param.previousSelectedTabId = 20;
+    });
+    act(() => {
+      instance.setOption('onFirstSelect', (param) => {
+        param.currentSelectedTabId = 10;
+      });
+      instance.on('onFirstSelect', onFirstSelect1);
+      instance.on('onFirstSelect', onFirstSelect2);
+      instance.select('2');
+    });
+    expect(onFirstSelect2.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('onOpen parameters should be immutable', () => {
+    renderApp();
+    const onOpen1 = jest.fn((openedTabIDs) => {
+      openedTabIDs.push('5');
+    });
+    const onOpen2 = jest.fn((openedTabIDs) => {
+      openedTabIDs.push('6');
+    });
+    act(() => {
+      instance.setOption('onOpen', (openedTabIDs) => {
+        openedTabIDs.push('4');
+      });
+      instance.on('onOpen', onOpen1);
+      instance.on('onOpen', onOpen2);
+      instance.open({id: '3'});
+    });
+    expect(onOpen2.mock.calls[0][0]).toEqual(['3']);
+  });
+  test('onClose parameters should be immutable', () => {
+    renderApp();
+    const onClose1 = jest.fn((closedTabIDs) => {
+      closedTabIDs.push('4');
+    });
+    const onClose2 = jest.fn((closedTabIDs) => {
+      closedTabIDs.push('5');
+    });
+    act(() => {
+      instance.setOption('onClose', (closedTabIDs) => {
+        closedTabIDs.push('3');
+      });
+      instance.on('onClose', onClose1);
+      instance.on('onClose', onClose2);
+      instance.close('2');
+    });
+    expect(onClose2.mock.calls[0][0]).toEqual(['2']);
+  });
+  test('onChange parameters should be immutable', () => {
+    renderApp();
+    const onChange1 = jest.fn(({currentData, previousData, closedTabIDs, openedTabIDs}) => {
+      closedTabIDs.push('6');
+      openedTabIDs.push('6');
+      currentData.selectedTabID = '6';
+      previousData.selectedTabID = '6';
+    });
+    const onChange2 = jest.fn(({currentData, previousData, closedTabIDs, openedTabIDs}) => {
+      closedTabIDs.push('7');
+      openedTabIDs.push('7');
+      currentData.selectedTabID = '7';
+      previousData.selectedTabID = '7';
+    });
+    const onOpen = jest.fn(() => {});
+    const onClose = jest.fn(() => {});
+    const onSelect = jest.fn(() => {});
+    const onFirstSelect = jest.fn(() => {});
+    act(() => {
+      instance.setOption('onChange', ({currentData, previousData, closedTabIDs, openedTabIDs}) => {
+        closedTabIDs.push('5');
+        openedTabIDs.push('5');
+        currentData.selectedTabID = '5';
+        previousData.selectedTabID = '5';
+      });
+      instance.one('onChange', onChange1);
+      instance.on('onChange', onChange2);
+      instance.on('onOpen', onOpen);
+      instance.on('onClose', onClose);
+      instance.on('onSelect', onSelect);
+      instance.on('onFirstSelect', onFirstSelect);
+      instance.close('2');
+      instance.open({id: '3'});
+      instance.select('3');
+    });
+
+    expect(onSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '3',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+    expect(onFirstSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '3',
+      previousSelectedTabId: '1',
+    });
+    expect(onClose.mock.calls[0][0]).toEqual(['2']);
+    expect(onOpen.mock.calls[0][0]).toEqual(['3']);
+    expect(onChange2.mock.calls[0][0]).toEqual({
+      currentData: {selectedTabID: '3', openTabIDs: ['1', '3']},
+      previousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
+      perviousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
+      closedTabIDs: ['2'],
+      openedTabIDs: ['3'],
+    });
+  });
+});
