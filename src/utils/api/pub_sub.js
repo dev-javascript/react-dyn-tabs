@@ -43,12 +43,12 @@ Pub_Sub.prototype.one = function (publisherName, fn) {
   return this;
 };
 helper.setNoneEnumProps(Pub_Sub.prototype, {
-  trigger: function (publisherName, context, ...param) {
+  trigger: function (publisherName, context, generateParamsCallback = () => []) {
     context = context || null;
     const result = [];
     const _subscribers = [...this._publishers[publisherName]];
     _subscribers.map((subscriber) => {
-      result.push(subscriber.apply(context, param));
+      result.push(subscriber.apply(context, generateParamsCallback()));
     });
     return result;
   },

@@ -33,7 +33,9 @@ function useDynamicTabs(getDeps, options = {}) {
     api.onChange({newState: state, oldState, closedTabIDs, openedTabIDs, isSwitched});
   }, [state]);
   useLayoutEffect(() => {
-    api.trigger('_onFlushEffects', api.userProxy, {currentData: api.getData(), instance: api.userProxy});
+    api.trigger('_onFlushEffects', api.userProxy, () => {
+      return [{currentData: api.getData(), instance: api.userProxy}];
+    });
   }, [flushState]);
   if (!_ref.TabListComponent)
     _ref.TabListComponent = function TabListComponent(props = {}) {

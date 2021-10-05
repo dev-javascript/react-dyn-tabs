@@ -441,7 +441,9 @@ describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
     const currentData = {selectedTabID: '2', openTabIDs: ['2']};
     const previousData = {selectedTabID: '2', openTabIDs: ['2']};
     const closedTabIDs = ['1', '3'];
-    obj.trigger('onChange', obj.userProxy, {currentData, previousData, closedTabIDs, openTabIDs: []});
+    obj.trigger('onChange', obj.userProxy, () => {
+      return [{currentData, previousData, closedTabIDs, openTabIDs: []}];
+    });
     expect(obj.activedTabsHistory.remove.mock.calls.length).toBe(2);
     expect(obj.activedTabsHistory.remove.mock.calls[0][0]).toBe('1');
     expect(obj.activedTabsHistory.remove.mock.calls[1][0]).toBe('3');
@@ -459,7 +461,9 @@ describe('Api.prototype._subscribeSelectedTabsHistory : ', () => {
     });
     const currentData = {selectedTabID: '2', openTabIDs: ['1', '2']};
     const previousData = {selectedTabID: '1', openTabIDs: ['1', '2']};
-    obj.trigger('onChange', obj.userProxy, {currentData, previousData, closedTabIDs: [], openTabIDs: []});
+    obj.trigger('onChange', obj.userProxy, () => {
+      return [{currentData, previousData, closedTabIDs: [], openTabIDs: []}];
+    });
     expect(obj.activedTabsHistory.add.mock.calls.length).toBe(1);
     expect(obj.activedTabsHistory.add.mock.calls[0][0]).toBe('1');
   });
@@ -526,10 +530,12 @@ describe('Api.prorotype.onChange : ', () => {
     expect(obj.trigger.mock.calls[1][0]).toBe('onFirstSelect');
     expect(obj.trigger.mock.calls[2][0]).toBe('onSelect');
     expect(obj.trigger.mock.calls[1][1]).toBe(obj.userProxy);
-    expect(obj.trigger.mock.calls[1][2]).toEqual({
-      currentSelectedTabId: '2',
-      previousSelectedTabId: '1',
-    });
+    expect(obj.trigger.mock.calls[1][2]()).toEqual([
+      {
+        currentSelectedTabId: '2',
+        previousSelectedTabId: '1',
+      },
+    ]);
   });
   it('it should not trigger onFirstSelect if activedTabsHistory.tabsId includes new selected tab id', () => {
     obj.trigger = jest.fn(() => {});

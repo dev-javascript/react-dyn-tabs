@@ -176,26 +176,44 @@ const _apiProps = {
 Helper.setNoneEnumProps(_apiProps, {
   onChange: function ({newState, oldState, closedTabIDs, openedTabIDs, isSwitched}) {
     if (isSwitched || openedTabIDs.length || closedTabIDs.length) {
-      this.trigger('onChange', this.userProxy, {
-        currentData: {...newState},
-        previousData: {...oldState},
-        perviousData: {...oldState},
-        closedTabIDs,
-        openedTabIDs,
+      this.trigger('onChange', this.userProxy, () => {
+        return [
+          {
+            currentData: this.helper.getCopyState(newState),
+            previousData: this.helper.getCopyState(oldState),
+            perviousData: this.helper.getCopyState(oldState),
+            closedTabIDs: closedTabIDs.slice(),
+            openedTabIDs: openedTabIDs.slice(),
+          },
+        ];
       });
-      openedTabIDs.length && this.trigger('onOpen', this.userProxy, openedTabIDs);
-      closedTabIDs.length && this.trigger('onClose', this.userProxy, closedTabIDs);
+      openedTabIDs.length &&
+        this.trigger('onOpen', this.userProxy, () => {
+          return [openedTabIDs.slice()];
+        });
+      closedTabIDs.length &&
+        this.trigger('onClose', this.userProxy, () => {
+          return [closedTabIDs.slice()];
+        });
       if (isSwitched) {
         if (newState.selectedTabID && this.activedTabsHistory.tabsId.indexOf(newState.selectedTabID) === -1) {
-          this.trigger('onFirstSelect', this.userProxy, {
-            currentSelectedTabId: newState.selectedTabID,
-            previousSelectedTabId: oldState.selectedTabID,
+          this.trigger('onFirstSelect', this.userProxy, () => {
+            return [
+              {
+                currentSelectedTabId: newState.selectedTabID,
+                previousSelectedTabId: oldState.selectedTabID,
+              },
+            ];
           });
         }
-        this.trigger('onSelect', this.userProxy, {
-          currentSelectedTabId: newState.selectedTabID,
-          previousSelectedTabId: oldState.selectedTabID,
-          perviousSelectedTabId: oldState.selectedTabID,
+        this.trigger('onSelect', this.userProxy, () => {
+          return [
+            {
+              currentSelectedTabId: newState.selectedTabID,
+              previousSelectedTabId: oldState.selectedTabID,
+              perviousSelectedTabId: oldState.selectedTabID,
+            },
+          ];
         });
       }
     }

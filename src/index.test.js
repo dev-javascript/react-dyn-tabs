@@ -541,12 +541,7 @@ describe('onChange callback : ', () => {
       currentData.selectedTabID = '6';
       previousData.selectedTabID = '6';
     });
-    const onChange2 = jest.fn(({currentData, previousData, closedTabIDs, openedTabIDs}) => {
-      closedTabIDs.push('7');
-      openedTabIDs.push('7');
-      currentData.selectedTabID = '7';
-      previousData.selectedTabID = '7';
-    });
+    const onChange2 = jest.fn(({currentData, previousData, closedTabIDs, openedTabIDs}) => {});
     const onOpen = jest.fn(() => {});
     const onClose = jest.fn(() => {});
     const onSelect = jest.fn(() => {});
@@ -595,6 +590,9 @@ describe('onChange callback : ', () => {
       expect(this.hasOwnProperty('getData')).toBe(true);
     });
     renderApp();
+    act(() => {
+      instance.select('2');
+    });
     op.onChange = function () {};
   });
 });
@@ -620,9 +618,7 @@ describe('onSelect callback : ', () => {
     const onSelect1 = jest.fn((param) => {
       param.previousSelectedTabId = 19;
     });
-    const onSelect2 = jest.fn((param) => {
-      param.previousSelectedTabId = 20;
-    });
+    const onSelect2 = jest.fn((param) => {});
     act(() => {
       instance.setOption('onSelect', (param) => {
         param.currentSelectedTabId = 10;
@@ -644,6 +640,9 @@ describe('onSelect callback : ', () => {
       expect(this.hasOwnProperty('getData')).toBe(true);
     });
     renderApp();
+    act(() => {
+      instance.select('2');
+    });
     op.onSelect = function () {};
   });
 });
@@ -686,9 +685,7 @@ describe('onFirstSelect callback : ', () => {
     const onFirstSelect1 = jest.fn((param) => {
       param.previousSelectedTabId = 19;
     });
-    const onFirstSelect2 = jest.fn((param) => {
-      param.previousSelectedTabId = 20;
-    });
+    const onFirstSelect2 = jest.fn((param) => {});
     act(() => {
       instance.setOption('onFirstSelect', (param) => {
         param.currentSelectedTabId = 10;
@@ -709,6 +706,9 @@ describe('onFirstSelect callback : ', () => {
       expect(this.hasOwnProperty('getData')).toBe(true);
     });
     renderApp();
+    act(() => {
+      instance.select('2');
+    });
     op.onFirstSelect = function () {};
   });
 });
@@ -730,9 +730,7 @@ describe('onOpen callback : ', () => {
     const onOpen1 = jest.fn((openedTabIDs) => {
       openedTabIDs.push('5');
     });
-    const onOpen2 = jest.fn((openedTabIDs) => {
-      openedTabIDs.push('6');
-    });
+    const onOpen2 = jest.fn((openedTabIDs) => {});
     act(() => {
       instance.setOption('onOpen', (openedTabIDs) => {
         openedTabIDs.push('4');
@@ -750,6 +748,9 @@ describe('onOpen callback : ', () => {
       expect(this.hasOwnProperty('getData')).toBe(true);
     });
     renderApp();
+    act(() => {
+      instance.open({id:'3'});
+    });
     op.onOpen = function () {};
   });
 });
@@ -771,9 +772,7 @@ describe('onClose callback : ', () => {
     const onClose1 = jest.fn((closedTabIDs) => {
       closedTabIDs.push('4');
     });
-    const onClose2 = jest.fn((closedTabIDs) => {
-      closedTabIDs.push('5');
-    });
+    const onClose2 = jest.fn((closedTabIDs) => {});
     act(() => {
       instance.setOption('onClose', (closedTabIDs) => {
         closedTabIDs.push('3');
@@ -791,6 +790,9 @@ describe('onClose callback : ', () => {
       expect(this.hasOwnProperty('getData')).toBe(true);
     });
     renderApp();
+    act(() => {
+      instance.close('2');
+    });
     op.onClose = function () {};
   });
 });

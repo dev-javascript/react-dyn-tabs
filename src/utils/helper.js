@@ -5,10 +5,9 @@ helper.getInstance = function (Fn) {
 };
 helper.resolve = (result) => Promise.resolve(result);
 helper.getCopyState = function (state) {
-  if (!Object.prototype.hasOwnProperty.call(state, 'openTabIDs')) state.openTabIDs = [];
   return {
     selectedTabID: state.selectedTabID,
-    openTabIDs: [...state.openTabIDs],
+    openTabIDs: (state.openTabIDs || []).slice(),
   };
 };
 helper.assingAll = function (targetObj, ...sourcObjs) {
