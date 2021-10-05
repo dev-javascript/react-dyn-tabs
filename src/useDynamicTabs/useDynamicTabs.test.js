@@ -76,7 +76,7 @@ afterAll(() => {
   document.body.removeChild(container);
   container = null;
 });
-describe('checking number of tabs renders : ', () => {
+describe('counting tabs renders : ', () => {
   test('each tab should be rendered once initially', () => {
     let _api;
     const getApiInstance = function (op) {
@@ -288,7 +288,7 @@ describe('checking number of tabs renders : ', () => {
     expect(_api.optionsManager.setting.panelIdTemplate.mock.calls.length).toBe(3);
   });
 });
-describe('checking number of panels renders : ', () => {
+describe('counting panels renders : ', () => {
   test('each panel should be rendered once initially', () => {
     let _api;
     const getApiInstance = function (op) {

@@ -472,13 +472,43 @@ describe('ready function : ', () => {
     expect(op.onChange.mock.calls.length).toBe(0);
   });
 });
-describe('initial events : ', () => {
-  test('onLoad and then onInit are called initially but onChange is not called', () => {
+describe('onLoad callback : ', () => {
+  test('onLoad callback should be called once time initially without any parameters', () => {
     renderApp();
     expect(op.onLoad.mock.calls.length).toBe(1);
+    expect(op.onLoad.mock.calls[0].length).toBe(0);
+    act(() => {
+      instance.select('3');
+      instance.close('1');
+      instance.open({id: '3'});
+      instance.refresh();
+    });
+    expect(op.onLoad.mock.calls.length).toBe(1);
+  });
+  test('checking context of onLoad callback', () => {
+    expect.assertions(2);
+    op.onLoad = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onLoad = function () {};
+  });
+});
+describe('onInit callback : ', () => {
+  test('onInit callback should be called initially without any parameters', () => {
+    renderApp();
     expect(op.onInit.mock.calls.length).toBe(1);
-    expect(op.onChange.mock.calls.length).toBe(0);
-    expect(op.onLoad).toHaveBeenCalledBefore(op.onInit);
+    expect(op.onInit.mock.calls[0].length).toBe(0);
+  });
+  test('checking context of onInit callback', () => {
+    expect.assertions(2);
+    op.onInit = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onInit = function () {};
   });
 });
 describe('onChange callback : ', () => {
@@ -499,135 +529,9 @@ describe('onChange callback : ', () => {
     expect(op.onChange.mock.calls[0][0].currentData).toEqual(instance.getData());
     expect(op.onChange.mock.calls[0][0].previousData).toEqual(instance.getPreviousData());
   });
-});
-describe('onSelect callback : ', () => {
-  test('onSelect is called with {currentSelectedTabId,previousSelectedTabId,perviousSelectedTabId} object as a parameter', () => {
+  test('it is not called initially', () => {
     renderApp();
-    act(() => {
-      instance.select('2');
-    });
-    expect(op.onSelect.mock.calls.length).toBe(1);
-    expect(op.onSelect.mock.calls[0][0]).toEqual({
-      currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
-      previousSelectedTabId: '1',
-    });
-  });
-});
-describe('onFirstSelect callback : ', () => {
-  test('it is not triggered initially', () => {
-    renderApp();
-    expect(op.onFirstSelect.mock.calls.length).toBe(0);
-  });
-  test('it is triggered at most once per each tab, before onSelect event. if the tab has not been selected yet', () => {
-    renderApp();
-    expect(op.onFirstSelect.mock.calls.length).toBe(0);
-    expect(op.onSelect.mock.calls.length).toBe(0);
-    act(() => {
-      instance.select('2');
-    });
-    expect(op.onFirstSelect.mock.calls.length).toBe(1);
-    expect(op.onSelect.mock.calls.length).toBe(1);
-    expect(op.onFirstSelect).toHaveBeenCalledBefore(op.onSelect);
-    act(() => {
-      instance.select('1');
-    });
-    act(() => {
-      instance.select('2');
-    });
-    expect(op.onFirstSelect.mock.calls.length).toBe(1);
-    expect(op.onSelect.mock.calls.length).toBe(3);
-  });
-  test('onFirstSelect is called with {currentSelectedTabId,previousSelectedTabId} object as a parameter', () => {
-    renderApp();
-    act(() => {
-      instance.select('2');
-    });
-    expect(op.onFirstSelect.mock.calls[0][0]).toEqual({
-      currentSelectedTabId: '2',
-      previousSelectedTabId: '1',
-    });
-  });
-});
-describe('callbacks should be called with immutable parameters : ', () => {
-  test('onSelect parameters should be immutable', () => {
-    renderApp();
-    const onSelect1 = jest.fn((param) => {
-      param.previousSelectedTabId = 19;
-    });
-    const onSelect2 = jest.fn((param) => {
-      param.previousSelectedTabId = 20;
-    });
-    act(() => {
-      instance.setOption('onSelect', (param) => {
-        param.currentSelectedTabId = 10;
-      });
-      instance.on('onSelect', onSelect1);
-      instance.on('onSelect', onSelect2);
-      instance.select('2');
-    });
-    expect(onSelect2.mock.calls[0][0]).toEqual({
-      currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
-      previousSelectedTabId: '1',
-    });
-  });
-  test('onFirstSelect parameters should be immutable', () => {
-    renderApp();
-    const onFirstSelect1 = jest.fn((param) => {
-      param.previousSelectedTabId = 19;
-    });
-    const onFirstSelect2 = jest.fn((param) => {
-      param.previousSelectedTabId = 20;
-    });
-    act(() => {
-      instance.setOption('onFirstSelect', (param) => {
-        param.currentSelectedTabId = 10;
-      });
-      instance.on('onFirstSelect', onFirstSelect1);
-      instance.on('onFirstSelect', onFirstSelect2);
-      instance.select('2');
-    });
-    expect(onFirstSelect2.mock.calls[0][0]).toEqual({
-      currentSelectedTabId: '2',
-      previousSelectedTabId: '1',
-    });
-  });
-  test('onOpen parameters should be immutable', () => {
-    renderApp();
-    const onOpen1 = jest.fn((openedTabIDs) => {
-      openedTabIDs.push('5');
-    });
-    const onOpen2 = jest.fn((openedTabIDs) => {
-      openedTabIDs.push('6');
-    });
-    act(() => {
-      instance.setOption('onOpen', (openedTabIDs) => {
-        openedTabIDs.push('4');
-      });
-      instance.on('onOpen', onOpen1);
-      instance.on('onOpen', onOpen2);
-      instance.open({id: '3'});
-    });
-    expect(onOpen2.mock.calls[0][0]).toEqual(['3']);
-  });
-  test('onClose parameters should be immutable', () => {
-    renderApp();
-    const onClose1 = jest.fn((closedTabIDs) => {
-      closedTabIDs.push('4');
-    });
-    const onClose2 = jest.fn((closedTabIDs) => {
-      closedTabIDs.push('5');
-    });
-    act(() => {
-      instance.setOption('onClose', (closedTabIDs) => {
-        closedTabIDs.push('3');
-      });
-      instance.on('onClose', onClose1);
-      instance.on('onClose', onClose2);
-      instance.close('2');
-    });
-    expect(onClose2.mock.calls[0][0]).toEqual(['2']);
+    expect(op.onChange.mock.calls.length).toBe(0);
   });
   test('onChange parameters should be immutable', () => {
     renderApp();
@@ -683,5 +587,210 @@ describe('callbacks should be called with immutable parameters : ', () => {
       closedTabIDs: ['2'],
       openedTabIDs: ['3'],
     });
+  });
+  test('checking context of onChange callback', () => {
+    expect.assertions(2);
+    op.onChange = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onChange = function () {};
+  });
+});
+describe('onSelect callback : ', () => {
+  test('onSelect is called with {currentSelectedTabId,previousSelectedTabId,perviousSelectedTabId} object as a parameter', () => {
+    renderApp();
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('it is not called initially', () => {
+    renderApp();
+    expect(op.onSelect.mock.calls.length).toBe(0);
+  });
+  test('onSelect parameters should be immutable', () => {
+    renderApp();
+    const onSelect1 = jest.fn((param) => {
+      param.previousSelectedTabId = 19;
+    });
+    const onSelect2 = jest.fn((param) => {
+      param.previousSelectedTabId = 20;
+    });
+    act(() => {
+      instance.setOption('onSelect', (param) => {
+        param.currentSelectedTabId = 10;
+      });
+      instance.on('onSelect', onSelect1);
+      instance.on('onSelect', onSelect2);
+      instance.select('2');
+    });
+    expect(onSelect2.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      perviousSelectedTabId: '1',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('checking context of onSelect callback', () => {
+    expect.assertions(2);
+    op.onSelect = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onSelect = function () {};
+  });
+});
+describe('onFirstSelect callback : ', () => {
+  test('it is not triggered initially', () => {
+    renderApp();
+    expect(op.onFirstSelect.mock.calls.length).toBe(0);
+  });
+  test('it is triggered at most once per each tab, before onSelect event. if the tab has not been selected yet', () => {
+    renderApp();
+    expect(op.onFirstSelect.mock.calls.length).toBe(0);
+    expect(op.onSelect.mock.calls.length).toBe(0);
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls.length).toBe(1);
+    expect(op.onFirstSelect).toHaveBeenCalledBefore(op.onSelect);
+    act(() => {
+      instance.select('1');
+    });
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls.length).toBe(1);
+    expect(op.onSelect.mock.calls.length).toBe(3);
+  });
+  test('onFirstSelect is called with {currentSelectedTabId,previousSelectedTabId} object as a parameter', () => {
+    renderApp();
+    act(() => {
+      instance.select('2');
+    });
+    expect(op.onFirstSelect.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('onFirstSelect parameters should be immutable', () => {
+    renderApp();
+    const onFirstSelect1 = jest.fn((param) => {
+      param.previousSelectedTabId = 19;
+    });
+    const onFirstSelect2 = jest.fn((param) => {
+      param.previousSelectedTabId = 20;
+    });
+    act(() => {
+      instance.setOption('onFirstSelect', (param) => {
+        param.currentSelectedTabId = 10;
+      });
+      instance.on('onFirstSelect', onFirstSelect1);
+      instance.on('onFirstSelect', onFirstSelect2);
+      instance.select('2');
+    });
+    expect(onFirstSelect2.mock.calls[0][0]).toEqual({
+      currentSelectedTabId: '2',
+      previousSelectedTabId: '1',
+    });
+  });
+  test('checking context of onFirstSelect callback', () => {
+    expect.assertions(2);
+    op.onFirstSelect = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onFirstSelect = function () {};
+  });
+});
+describe('onOpen callback : ', () => {
+  test('checking onOpen parameters', () => {
+    renderApp();
+    act(() => {
+      instance.open({id: '3'});
+    });
+    expect(op.onOpen.mock.calls.length).toBe(1);
+    expect(op.onOpen.mock.calls[0][0]).toEqual(['3']);
+  });
+  test('it is not called initially', () => {
+    renderApp();
+    expect(op.onOpen.mock.calls.length).toBe(0);
+  });
+  test('onOpen parameters should be immutable', () => {
+    renderApp();
+    const onOpen1 = jest.fn((openedTabIDs) => {
+      openedTabIDs.push('5');
+    });
+    const onOpen2 = jest.fn((openedTabIDs) => {
+      openedTabIDs.push('6');
+    });
+    act(() => {
+      instance.setOption('onOpen', (openedTabIDs) => {
+        openedTabIDs.push('4');
+      });
+      instance.on('onOpen', onOpen1);
+      instance.on('onOpen', onOpen2);
+      instance.open({id: '3'});
+    });
+    expect(onOpen2.mock.calls[0][0]).toEqual(['3']);
+  });
+  test('checking context of onOpen callback', () => {
+    expect.assertions(2);
+    op.onOpen = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onOpen = function () {};
+  });
+});
+describe('onClose callback : ', () => {
+  test('checking onClose parameters', () => {
+    renderApp();
+    act(() => {
+      instance.close('2');
+    });
+    expect(op.onClose.mock.calls.length).toBe(1);
+    expect(op.onClose.mock.calls[0][0]).toEqual(['2']);
+  });
+  test('it is not called initially', () => {
+    renderApp();
+    expect(op.onClose.mock.calls.length).toBe(0);
+  });
+  test('onClose parameters should be immutable', () => {
+    renderApp();
+    const onClose1 = jest.fn((closedTabIDs) => {
+      closedTabIDs.push('4');
+    });
+    const onClose2 = jest.fn((closedTabIDs) => {
+      closedTabIDs.push('5');
+    });
+    act(() => {
+      instance.setOption('onClose', (closedTabIDs) => {
+        closedTabIDs.push('3');
+      });
+      instance.on('onClose', onClose1);
+      instance.on('onClose', onClose2);
+      instance.close('2');
+    });
+    expect(onClose2.mock.calls[0][0]).toEqual(['2']);
+  });
+  test('checking context of onClose callback', () => {
+    expect.assertions(2);
+    op.onClose = jest.fn(function () {
+      expect(Object.prototype.toString.call(this)).toBe('[object Object]');
+      expect(this.hasOwnProperty('getData')).toBe(true);
+    });
+    renderApp();
+    op.onClose = function () {};
   });
 });

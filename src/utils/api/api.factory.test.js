@@ -87,7 +87,7 @@ describe('Api.prototype.close : ', () => {
       expect(1 === 1).toBe(true);
     }
   });
-  test('it should call select function internally if switch parameter was true and tab was already opended and selected', () => {
+  test('it will call select function internally if switch parameter was true and tab was already opended and selected', () => {
     expect.assertions(3);
     Object.assign(obj, {
       __close: jest.fn(() => {
@@ -129,7 +129,7 @@ describe('Api.prototype.close : ', () => {
       expect(obj.select).toHaveBeenCalledBefore(obj.__close);
     });
   });
-  test('it should not call select function internally if switch parameter was false', () => {
+  test('it will not call select function internally if switch parameter was false', () => {
     expect.assertions(3);
     Object.assign(obj, {
       __close: jest.fn(() => {
@@ -150,7 +150,7 @@ describe('Api.prototype.close : ', () => {
       expect(obj.select.mock.calls.length === 0).toBe(true);
     });
   });
-  test('it should not call select function internally if tab was not opened', () => {
+  test('it will not call select function internally if tab was not opened', () => {
     expect.assertions(3);
     Object.assign(obj, {
       __close: jest.fn(() => {
@@ -171,7 +171,7 @@ describe('Api.prototype.close : ', () => {
       expect(obj.select.mock.calls.length === 0).toBe(true);
     });
   });
-  test('it should not call select function internally if tab was not selected', () => {
+  test('it will not call select function internally if tab was not selected', () => {
     expect.assertions(3);
     Object.assign(obj, {
       __close: jest.fn(() => {
@@ -251,80 +251,6 @@ describe('Api.prototype.select : ', () => {
     } catch (er) {
       expect(1 === 1).toBe(true);
     }
-  });
-});
-describe('context of callback options should be userProxy object : ', () => {
-  test('ctx of onSelect', () => {
-    expect.assertions(3);
-    const options = {
-      onSelect: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onSelect.mock.calls.length === 0).toBe(true);
-    obj.trigger('onSelect', obj.userProxy);
-    expect(options.onSelect.mock.calls.length === 1).toBe(true);
-  });
-  test('ctx of onClose', () => {
-    expect.assertions(3);
-    const options = {
-      onClose: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onClose.mock.calls.length === 0).toBe(true);
-    obj.trigger('onClose', obj.userProxy);
-    expect(options.onClose.mock.calls.length === 1).toBe(true);
-  });
-  test('ctx of onOpen', () => {
-    expect.assertions(3);
-    const options = {
-      onOpen: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onOpen.mock.calls.length === 0).toBe(true);
-    obj.trigger('onOpen', obj.userProxy);
-    expect(options.onOpen.mock.calls.length === 1).toBe(true);
-  });
-  test('ctx of onInit', () => {
-    expect.assertions(3);
-    const options = {
-      onInit: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onInit.mock.calls.length === 0).toBe(true);
-    obj.trigger('onInit', obj.userProxy);
-    expect(options.onInit.mock.calls.length === 1).toBe(true);
-  });
-  test('ctx of onLoad', () => {
-    expect.assertions(3);
-    const options = {
-      onLoad: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onLoad.mock.calls.length === 0).toBe(true);
-    obj.trigger('onLoad', obj.userProxy);
-    expect(options.onLoad.mock.calls.length === 1).toBe(true);
-  });
-  test('ctx of onChange', () => {
-    expect.assertions(3);
-    const options = {
-      onChange: jest.fn(function () {
-        expect(this === obj.userProxy).toBe(true);
-      }),
-    };
-    const obj = new apiConstructor(getDeps, {options});
-    expect(options.onChange.mock.calls.length === 0).toBe(true);
-    obj.trigger('onChange', obj.userProxy, {currentData: {}, previousData: {}, closedTabIDs: [], openTabIDs: []});
-    expect(options.onChange.mock.calls.length === 1).toBe(true);
   });
 });
 describe('Api.prototype.eventHandlerFactory : ', () => {
