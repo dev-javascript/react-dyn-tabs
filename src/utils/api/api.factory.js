@@ -1,8 +1,16 @@
 import Helper from '../helper.js';
 const {throwMissingParam: missingParamEr} = Helper;
 export const apiConstructor = function (getDeps, param = {options: {}}) {
-  const {optionsManager, helper, activedTabsHistory} = getDeps.call(this, param.options);
-  helper.setNoneEnumProps(this, {optionsManager, helper, activedTabsHistory, userProxy: {}});
+  const {optionsManager, helper, activedTabsHistory, moreButtonContainerComponent} = getDeps.call(this, param.options);
+  helper.setNoneEnumProps(this, {
+    moreButtonContainerComponent,
+    optionsManager,
+    helper,
+    activedTabsHistory,
+    userProxy: {},
+    topScrollButtonComponent: null,
+    bottomScrollButtonComponent: null,
+  });
   this._setUserProxy()
     ._subscribeOnReadyEvent()
     ._createReadyFunction()

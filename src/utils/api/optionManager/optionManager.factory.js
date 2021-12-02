@@ -73,6 +73,10 @@ OptionManager.prototype._setInitialData = function () {
 };
 OptionManager.prototype._setSetting = function () {
   this.setting = {
+    scrollContainerClass: 'rc-dyn-tabs-scroll-container',
+    tablistContainerClass: 'rc-dyn-tabs-tablist-container',
+    tabIndicatorContainerClass: 'rc-dyn-tabs-indicator-container',
+    tabIndicatorClass: 'rc-dyn-tabs-indicator',
     tabClass: 'rc-dyn-tabs-tab',
     titleClass: 'rc-dyn-tabs-title',
     iconClass: 'rc-dyn-tabs-icon',
