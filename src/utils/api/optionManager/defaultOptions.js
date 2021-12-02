@@ -27,6 +27,7 @@ DefaultOptions.prototype._getOptions = function () {
     onInit: function () {},
     accessibility: true,
     isVertical: false,
+    enableTabIndicator: false,
     defaultPanelComponent: function defaultPanelComponent() {
       return <div></div>;
     },
