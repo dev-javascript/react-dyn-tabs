@@ -14,16 +14,16 @@ const TabListContainer = memo(
       {scrollContainerClass, tablistContainerClass, tabIndicatorContainerClass} = api.optionsManager.setting;
     return (
       <div className={scrollContainerClass}>
-        <TopScrollButton></TopScrollButton>
+        <TopScrollButton />
         <div className={tablistContainerClass}>
           <div className={tabIndicatorContainerClass}>
             <MoreButtonContainer>
-              <Tablist></Tablist>
+              <Tablist />
             </MoreButtonContainer>
-            <TabIndicator></TabIndicator>
+            <TabIndicator />
           </div>
         </div>
-        <BottomScrollButton></BottomScrollButton>
+        <BottomScrollButton />
       </div>
     );
   },

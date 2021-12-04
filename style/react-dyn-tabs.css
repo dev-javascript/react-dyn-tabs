@@ -27,20 +27,24 @@
   text-align: left;
 }
 
+.rc-dyn-tabs-indicator-container {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  z-index: 1;
+}
+
 .rc-dyn-tabs-tablist {
-  list-style-type: none;
+  display: flex;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  float: none;
   position: relative;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab {
-  display: list-item;
-  list-style: none;
-  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   padding: 0px;
-  text-decoration: none;
   position: relative;
   pointer-events: visible;
   opacity: 1;

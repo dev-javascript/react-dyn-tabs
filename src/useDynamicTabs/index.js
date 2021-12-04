@@ -1,4 +1,4 @@
-import TabList from '../tabList/tabList.js';
+import TabList from '../tablistContainer/tablistContainer.js';
 import PanelList from '../panelList/panelList.js';
 import reducer from '../utils/stateManagement/reducer.js';
 import Api from '../utils/api/api.js';
