@@ -11,6 +11,7 @@ const Pub_Sub = function () {
     _onFlushEffects: [],
     _onReady: [],
     onFirstSelect: [],
+    _onTabMount: [],
   };
 };
 //unSubscribe

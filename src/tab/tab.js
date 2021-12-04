@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ApiContext, ForceUpdateContext} from '../utils/context.js';
 import TabPropsManager from './tabPropsManager.js';
 import PropTypes from 'prop-types';
@@ -7,19 +7,22 @@ const TabComponent = function TabComponent(props) {
   const {id, selectedTabID} = props,
     api = React.useContext(ApiContext),
     TabInnerComponent = api.getOption('tabComponent'),
-    tabObj = api.getTab(id),
+    {closable, title} = api.getTab(id),
     propsManager = new TabPropsManager({api, id, isSelected: selectedTabID === id}),
     clkHandler = function (e) {
       api.eventHandlerFactory({e, id});
     };
+  useEffect(() => {
+    api.trigger('_onTabMount', api.userProxy, () => [props.id]);
+  }, []);
   return (
     <li
       {...propsManager.getTabProps()}
       onClick={(e) => {
         clkHandler(e);
       }}>
-      <TabInnerComponent {...propsManager.getTabInnerProps()}>{tabObj.title}</TabInnerComponent>
-      {tabObj.closable ? <span {...propsManager.getCloseIconProps()}>&times;</span> : null}
+      <TabInnerComponent {...propsManager.getTabInnerProps()}>{title}</TabInnerComponent>
+      {closable ? <span {...propsManager.getCloseIconProps()}>&times;</span> : null}
     </li>
   );
 };
