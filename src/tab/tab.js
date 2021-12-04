@@ -17,7 +17,7 @@ const TabComponent = function TabComponent(props) {
   }, []);
   return (
     <li
-      {...propsManager.getTabProps()}
+      {...propsManager.getTabProps(api.getTabExtraProps(id))}
       onClick={(e) => {
         clkHandler(e);
       }}>

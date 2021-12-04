@@ -6,12 +6,15 @@ const TabPropsManager = function ({api, id, isSelected}) {
   this._setting = api.optionsManager.setting;
   this._tabObj = api.getTab(id);
 };
-TabPropsManager.prototype.getTabProps = function () {
-  const outputProps = {
-    'tab-id': this._id,
-    className: this._setting.tabClass,
-    tabIndex: -1,
-  };
+TabPropsManager.prototype.getTabProps = function (extraProps = {}) {
+  const outputProps = Object.assign(
+    {
+      'tab-id': this._id,
+      className: this._setting.tabClass,
+      tabIndex: -1,
+    },
+    extraProps,
+  );
 
   //check if tab is selected
   if (this._isSelected) {
