@@ -8,8 +8,12 @@ export const apiConstructor = function (getDeps, param = {options: {}}) {
     helper,
     activedTabsHistory,
     userProxy: {},
-    topScrollButtonComponent: null,
-    bottomScrollButtonComponent: null,
+    topScrollButtonComponent: function TopScrollButton() {
+      return null;
+    },
+    bottomScrollButtonComponent: function BottomScrollButton() {
+      return null;
+    },
   });
   this._setUserProxy()
     ._subscribeOnReadyEvent()
