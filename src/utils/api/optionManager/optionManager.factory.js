@@ -2,10 +2,10 @@ import React from 'react';
 import Helper from '../../helper.js';
 const {throwMissingParam: missingParamEr} = Helper;
 function OptionManager(getDeps, {options}) {
-  const {globalDefaultOptions} = getDeps();
+  const {globalDefaultOptions, privateOptions} = getDeps();
   this._defaultOptions = globalDefaultOptions;
   this._validateOptions(options);
-  this.options = Object.assign({}, this._defaultOptions, options);
+  this.options = Object.assign({}, this._defaultOptions, options, privateOptions);
   this.setting = {};
   this.initialState = {};
   this.initialTabs = [];

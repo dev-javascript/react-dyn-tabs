@@ -2,7 +2,7 @@ import factory from './optionManager.factory.js';
 import DefaultTabInnerComponent from '../../../tab/defaulTabInner.js';
 import DefaultOptions from './defaultOptions.js';
 const getDeps = function () {
-  const globalDefaultOptions = new DefaultOptions(DefaultTabInnerComponent).getOptions();
-  return {globalDefaultOptions};
+  const op = new DefaultOptions(DefaultTabInnerComponent);
+  return {globalDefaultOptions: op.getOptions(), privateOptions: op.getPrivateOptions()};
 };
 export default factory.bind(null, getDeps);

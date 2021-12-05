@@ -24,6 +24,12 @@ TabPropsManager.prototype.getTabProps = function () {
     outputProps.tabIndex = -1;
     outputProps.className += ` ${this._setting.disableClass}`;
   }
+  // check if _enableTabRefs is enable
+  if (this._op._enableTabRefs) {
+    outputProps.ref = (ref) => {
+      this._api.setTab(this._id, {_ref: ref});
+    };
+  }
 
   // check if accessibility option is enable
   if (this._op.accessibility) {

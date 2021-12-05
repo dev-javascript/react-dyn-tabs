@@ -60,4 +60,9 @@ DefaultOptions.prototype._getOptions = function () {
   });
   return _options;
 };
+DefaultOptions.prototype.getPrivateOptions = function () {
+  return {
+    _enableTabRefs: false,
+  };
+};
 export default DefaultOptions;
