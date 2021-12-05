@@ -63,6 +63,15 @@ DefaultOptions.prototype._getOptions = function () {
 DefaultOptions.prototype.getPrivateOptions = function () {
   return {
     _enableTabRefs: false,
+    _moreButtonContainerComponent: function MoreButtonContainer(props) {
+      return props.children;
+    },
+    _topScrollButtonComponent: function TopScrollButton() {
+      return null;
+    },
+    _bottomScrollButtonComponent: function BottomScrollButton() {
+      return null;
+    },
   };
 };
 export default DefaultOptions;

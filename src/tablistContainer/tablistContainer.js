@@ -6,12 +6,13 @@ const TabListContainer = memo(
   function TabListContainer() {
     useContext(ForceUpdateContext);
     const api = useContext(ApiContext),
+      _optionsManager = api.optionsManager,
       {
-        moreButtonContainerComponent: MoreButtonContainer,
-        topScrollButtonComponent: TopScrollButton,
-        bottomScrollButtonComponent: BottomScrollButton,
-      } = api,
-      {scrollContainerClass, tablistContainerClass, tabIndicatorContainerClass} = api.optionsManager.setting;
+        _moreButtonContainerComponent: MoreButtonContainer,
+        _topScrollButtonComponent: TopScrollButton,
+        _bottomScrollButtonComponent: BottomScrollButton,
+      } = _optionsManager.options,
+      {scrollContainerClass, tablistContainerClass, tabIndicatorContainerClass} = _optionsManager.setting;
     return (
       <div className={scrollContainerClass}>
         <TopScrollButton />
