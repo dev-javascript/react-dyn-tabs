@@ -20,8 +20,7 @@ export const apiConstructor = function (getDeps, param = {options: {}}) {
     ._subscribeOnReadyEvent()
     ._createReadyFunction()
     ._subscribeSelectedTabsHistory()
-    ._subscribeCallbacksOptions()
-    ._setTablistContainerRef();
+    ._subscribeCallbacksOptions();
 };
 const _apiProps = {
   _setUserProxy: function () {
@@ -84,11 +83,6 @@ const _apiProps = {
         });
     });
     return this;
-  },
-  _setTablistContainerRef: function () {
-    this.on('_onTablistContainerMount', (ref) => {
-      this.tablistContainerRef = ref;
-    });
   },
   getOption: function (name) {
     return this.optionsManager.getOption(name);
