@@ -92,6 +92,7 @@ OptionManager.prototype._setSetting = function () {
     verticalClass: 'rc-dyn-tabs-vertical',
     panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
     ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
+    visibility: {visible: 'visible', hidden: 'hidden'},
     getDefaultTabData: () => {
       return {
         title: '',
@@ -102,6 +103,7 @@ OptionManager.prototype._setSetting = function () {
         disable: false,
         lazy: false,
         id: `tab_${new Date().getTime()}`,
+        _visibility: this.setting.visibility.visible,
       };
     },
   };

@@ -11,6 +11,7 @@ TabPropsManager.prototype.getTabProps = function () {
     'tab-id': this._id,
     className: this._setting.tabClass,
     tabIndex: -1,
+    style={visibility:this._tabObj._visibility}
   };
 
   //check if tab is selected
