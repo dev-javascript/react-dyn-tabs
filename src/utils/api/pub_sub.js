@@ -12,6 +12,7 @@ const Pub_Sub = function () {
     _onReady: [],
     onFirstSelect: [],
     _onTabMount: [],
+    _onTablistContainerMount: [],
   };
 };
 //unSubscribe

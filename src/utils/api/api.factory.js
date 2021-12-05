@@ -8,6 +8,7 @@ export const apiConstructor = function (getDeps, param = {options: {}}) {
     helper,
     activedTabsHistory,
     userProxy: {},
+    tablistContainerRef: null,
     topScrollButtonComponent: function TopScrollButton() {
       return null;
     },
@@ -19,7 +20,8 @@ export const apiConstructor = function (getDeps, param = {options: {}}) {
     ._subscribeOnReadyEvent()
     ._createReadyFunction()
     ._subscribeSelectedTabsHistory()
-    ._subscribeCallbacksOptions();
+    ._subscribeCallbacksOptions()
+    ._setTablistContainerRef();
 };
 const _apiProps = {
   _setUserProxy: function () {
@@ -82,6 +84,11 @@ const _apiProps = {
         });
     });
     return this;
+  },
+  _setTablistContainerRef: function () {
+    this.on('_onTablistContainerMount', (ref) => {
+      this.tablistContainerRef = ref;
+    });
   },
   getOption: function (name) {
     return this.optionsManager.getOption(name);
