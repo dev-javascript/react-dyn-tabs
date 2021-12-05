@@ -187,9 +187,6 @@ const _apiProps = {
   },
 };
 Helper.setNoneEnumProps(_apiProps, {
-  getTabExtraProps: function () {
-    return {};
-  },
   onChange: function ({newState, oldState, closedTabIDs, openedTabIDs, isSwitched}) {
     if (isSwitched || openedTabIDs.length || closedTabIDs.length) {
       this.trigger('onChange', this.userProxy, () => {
