@@ -1,6 +1,6 @@
 import Helper from '../helper.js';
 const {throwMissingParam: missingParamEr} = Helper;
-export const apiConstructor = function (getDeps, param = {options: {}}) {
+export const apiConstructor = function (getDeps, param = {options: {}}, plugins = []) {
   const {optionsManager, helper, activedTabsHistory} = getDeps.call(this, param.options);
   helper.setNoneEnumProps(this, {
     optionsManager,
@@ -14,6 +14,9 @@ export const apiConstructor = function (getDeps, param = {options: {}}) {
     ._createReadyFunction()
     ._subscribeSelectedTabsHistory()
     ._subscribeCallbacksOptions();
+  plugins.forEach((plugin) => {
+    new plugin(this);
+  });
 };
 const _apiProps = {
   _setUserProxy: function () {
