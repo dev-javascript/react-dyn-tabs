@@ -5,7 +5,8 @@ function OptionManager(getDeps, {options}) {
   const {globalDefaultOptions, privateOptions} = getDeps();
   this._defaultOptions = globalDefaultOptions;
   this._validateOptions(options);
-  this.options = Object.assign({}, this._defaultOptions, options, privateOptions);
+  this._privateOptions = privateOptions;
+  this.options = Object.assign({}, this._defaultOptions, options, this._privateOptions);
   this.setting = {};
   this.initialState = {};
   this.initialTabs = [];

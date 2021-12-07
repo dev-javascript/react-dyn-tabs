@@ -62,6 +62,7 @@ describe('OptionManager constructor : ', () => {
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
+      visibility: {visible: 'visible', hidden: 'hidden'},
       panelIdTemplate: expect.any(Function),
       ariaLabelledbyIdTemplate: expect.any(Function),
       getDefaultTabData: expect.any(Function),
@@ -80,6 +81,7 @@ describe('OptionManager constructor : ', () => {
       title: '',
       tooltip: '',
       panelComponent: obj.options.defaultPanelComponent,
+      _visibility: obj.setting.visibility.visible,
       closable: true,
       iconClass: '',
       disable: false,
@@ -90,9 +92,10 @@ describe('OptionManager constructor : ', () => {
   });
 });
 describe('OptionManager options prop : ', () => {
-  test('it should be equal to defaultOptions if options parameter is an empty object', () => {
+  test(`if options parameter is an empty object then options property is 
+        the merging of _defaultOptions and _privateOptions`, () => {
     const obj = new OptionManager({options: {}});
-    expect(obj.options).toEqual(obj._defaultOptions);
+    expect(obj.options).toEqual(Object.assign(obj._defaultOptions, obj._privateOptions));
   });
 });
 describe('OptionManager.prototype.validateTabData :  ', () => {
