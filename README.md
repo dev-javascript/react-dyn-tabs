@@ -167,7 +167,7 @@ export default () => {
 
 **NOTE :**
 
-- Tabs can't be manipulated safely before the first render, use ready() to make a function available after the component is mounted.
+- Tabs can't be manipulated safely before the first render, use ready() to access the instance object when the component is mounted.
 
 - ready function and instance Object will not be changed after re-rendering multiple times.
 
@@ -232,7 +232,7 @@ const [TabList, PanelList, ready] = useDynTabs({
       <td>string</td>
       <td>' '</td>
       <td>false</td>
-      <td>initial selected tab id</td>
+      <td>specifies initial selected tab</td>
     </tr>
   </tbody>
 </table>
@@ -345,7 +345,7 @@ Default value for panelComponent option.
 const [TabList, PanelList, ready] = useDynTabs({
   defaultPanelComponent: (props) => {
     const {id, isSelected, api: instance} = props;
-    return <div></div>;
+    return <div>loading...</div>;
   },
 });
 ```
@@ -377,7 +377,7 @@ const [TabList, PanelList, ready] = useDynTabs({accessibility: false});
 
 **NOTE :**
 
-This option assigns id attribute on panel element and button element inside the tab. for having elements without id attribute, set this option to false.
+When accessibility option is true, it sets the id attribute of panel and button elements.
 
 ### isVertical
 
@@ -416,7 +416,7 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>This event is fired only once, after first render</td>
+      <td>This event is fired only once, after the first render</td>
     </tr>
   </tbody>
 </table>
@@ -433,7 +433,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 
 **NOTE :**
 
-You can use 'this' keyword inside all callback options which refers to the instance object.
+You can use 'this' keyword inside all callback options. It refers to the instance object.
 
 ### onInit
 
@@ -563,7 +563,7 @@ const [TabList, PanelList, ready] = useDynTabs({
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after selecting tabs. this event is not fired initially</td>
+      <td>fires after selecting a tab. this event is not fired initially</td>
     </tr>
   </tbody>
 </table>
@@ -708,7 +708,7 @@ const result = instance.isOpen('Your tab ID');
 
 ### open
 
-Triggers 'onInit', 'onChange' and 'onOpen' event. opening an already opened tab only triggers 'onInit' event.
+Triggers 'onInit', 'onChange' and 'onOpen' event.
 
 Return value : Promise
 
@@ -756,8 +756,6 @@ Makes current and previous selected tab to be re-rendered
 
 Triggers 'onInit', 'onChange' and 'onSelect' event.
 
-Selecting an already selected tab only triggers 'onInit' event.
-
 Return value : Promise
 
 Parameters:
@@ -778,9 +776,7 @@ if (instance.isSelected('1') == false) {
 
 Triggers 'onInit', 'onChange' and 'onClose' event.
 
-Closing an already closed tab only triggers 'onInit' event.
-
-It switches to the previously selected tab before closing if switching parameter was true and tab was already opened and selected.
+When switching parameter is true, it switches to previous selected tab
 
 Return value : Promise
 
@@ -990,7 +986,7 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
       <td>string</td>
       <td></td>
       <td>false</td>
-      <td>a unique identifier for each tab</td>
+      <td>an unique identifier for each tab</td>
     </tr>
     <tr>
       <td>title</td>
@@ -1105,19 +1101,22 @@ useDynTabs({
   tabs: [
     {id: '1', title: 'eager loading tab 1', panelComponent: <p>panel 1</p>},
     {id: '2', title: 'eager loading tab 2', lazy: true, panelComponent: <p>panel 2</p>},
-    {id: '3', title: 'lazy loading tab 3', lazy: true, panelComponent: <div>Loading...</div>},
+    {id: '3', title: 'lazy loading tab 3', lazy: true},
   ],
-  onFirstSelect: function ({currentSelectedTabId, previousSelectedTabId}) {
+  selectedTabID: '1',
+  defaultPanelComponent: function DefaultPanel() {
+    return <div>loading...</div>;
+  },
+  onFirstSelect: function ({currentSelectedTabId}) {
     const instance = this;
     if (currentSelectedTabId === '3') {
-      import('./components/panel3.js').then((defaultExportedModule) => {
+      import('path to/panel3.js').then((defaultExportedModule) => {
         const Panel3 = defaultExportedModule.default;
         instance.setTab('3', {panelComponent: Panel3});
         instance.refresh();
       });
     }
   },
-  selectedTabID: '1',
 });
 ```
 
@@ -1146,19 +1145,7 @@ You can find other themes at themes folder and multiple themes example at exampl
 
 These deprecated features can still be used, but should be used with caution because they are expected to be removed entirely sometime in the future. You should work to remove their use from your code.
 
-- Third element of returned array by useDynTabs hook should not be used as an object, it is no longer recommended and only be kept for backwards compatibility purposes, may be removed in the future. Avoid using it as an object and use the code below instead of it.
-
-```js
-const [TabList, PanelList, ready] = useDynTabs(options);
-const open_tab_3 = function () {
-  ready(function (instance) {
-    if (instance.isOpen('3') === false) {
-      instance.open({id: '3', title: 'mock tab 3'});
-      instance.select('3');
-    }
-  });
-};
-```
+- Third element of returned array by useDynTabs hook should not be used as an object, it is no longer recommended and only be kept for backwards compatibility purposes, it should be used as a function.
 
 - First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
 
