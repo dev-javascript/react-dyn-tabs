@@ -167,7 +167,7 @@ export default () => {
 
 **NOTE :**
 
-- Tabs can't be manipulated safely before the first render, use ready() to access the instance object when the component is mounted.
+- Tabs can't be manipulated safely before the first render, use ready() to access the instance object, it guarantees that the instance object won't be available before the tab has mounted.
 
 - ready function and instance Object will not be changed after re-rendering multiple times.
 
