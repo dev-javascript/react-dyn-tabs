@@ -1,2 +1,0 @@
-(this["webpackJsonpreact-dyn-tabs-demo"]=this["webpackJsonpreact-dyn-tabs-demo"]||[]).push([[3],{22:function(t,n,e){"use strict";e.r(n),e.d(n,"default",(function(){return r}));var a=e(0),c=e.n(a);function r(t){return c.a.createElement("p",null,"tab content ",t.id," is loaded lazily.")}}}]);
-//# sourceMappingURL=3.f730ea06.chunk.js.map
