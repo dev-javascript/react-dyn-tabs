@@ -710,6 +710,8 @@ const result = instance.isOpen('Your tab ID');
 
 Triggers 'onInit', 'onChange' and 'onOpen' event.
 
+It only triggers 'onInit' event, if the tab is already open.
+
 Return value : Promise
 
 Parameters:
@@ -756,6 +758,8 @@ Makes current and previous selected tab to be re-rendered
 
 Triggers 'onInit', 'onChange' and 'onSelect' event.
 
+It only triggers 'onInit' event, if the tab is already selected.
+
 Return value : Promise
 
 Parameters:
@@ -775,6 +779,8 @@ if (instance.isSelected('1') == false) {
 ### close
 
 Triggers 'onInit', 'onChange' and 'onClose' event.
+
+It only triggers 'onInit' event, if the tab is already closed.
 
 When switching parameter is true, it switches to previous selected tab
 
