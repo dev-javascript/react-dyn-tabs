@@ -1,11 +1,10 @@
 import {terser} from 'rollup-plugin-terser';
-import commonjs from '@rollup/plugin-commonjs';
+import pkg from './package.json';
 import nodeResolve from '@rollup/plugin-node-resolve';
-const requirePolyfills = process.env.INCLUDE_POLYFILLS;
-export default {
-  input: requirePolyfills ? 'lib/esm-including-polyfills/index.js' : 'lib/esm/index.js',
+const getConfig = (en) => ({
+  input: pkg.module,
   output: {
-    file: requirePolyfills ? 'dist/react-dyn-tabs.including-polyfills.umd.min.js' : 'dist/react-dyn-tabs.umd.min.js',
+    file: en === 'dev' ? 'dist/react-dyn-tabs.umd.js' : 'dist/react-dyn-tabs.umd.min.js',
     format: 'umd',
     name: 'useDynTabs',
     globals: {
@@ -15,8 +14,15 @@ export default {
     },
     sourcemap: true,
   },
-  plugins: [terser(), commonjs(), nodeResolve({preferBuiltins: false})],
+  plugins: (function () {
+    const _plugins = [nodeResolve({preferBuiltins: false})];
+    if (en === 'prod') {
+      _plugins.push(terser());
+    }
+    return _plugins;
+  })(),
   external: function (id) {
     return /prop-types$|react$|react-dom$|.test.js$|.js.snap$|.css$/g.test(id);
   },
-};
+});
+export default [getConfig('dev'), getConfig('prod')];
