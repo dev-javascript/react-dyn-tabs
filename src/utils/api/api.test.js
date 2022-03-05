@@ -20,6 +20,7 @@ describe('user api : ', () => {
       'select',
       'open',
       'close',
+      'sort',
       'refresh',
     ];
     expect(Object.keys(obj.userProxy).length === userApi.length).toBe(true);

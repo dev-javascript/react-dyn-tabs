@@ -439,6 +439,42 @@ describe('refresh method : ', () => {
     });
   });
 });
+describe('sort method : ', () => {
+  test('it should work correctly', () => {
+    expect.assertions(4);
+    renderApp();
+    const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
+    expect(buttons[0].id).toBe('rc-dyn-tabs-l-1');
+    expect(buttons[1].id).toBe('rc-dyn-tabs-l-2');
+    return act(() => {
+      return instance.sort(['2', '1']).then(() => {
+        const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
+        expect(buttons[0].id).toBe('rc-dyn-tabs-l-2');
+        expect(buttons[1].id).toBe('rc-dyn-tabs-l-1');
+      });
+    });
+  });
+  test('it should fire onInit event', () => {
+    renderApp();
+    act(() => {
+      instance.sort([]);
+    });
+    expect(op.onInit.mock.calls.length === 2).toBe(true);
+    expect(op.onChange.mock.calls.length === 0).toBe(true);
+  });
+  test('returned Promise from sort method is resolved with {currentData,instance} parameter after onInit event', () => {
+    expect.assertions(4);
+    renderApp();
+    return act(() => {
+      return instance.sort([]).then((result) => {
+        expect(result.currentData).toEqual(instance.getData());
+        expect(result.instance).toBe(instance);
+        expect(op.onInit.mock.calls.length === 2).toBe(true);
+        expect(op.onChange.mock.calls.length === 0).toBe(true);
+      });
+    });
+  });
+});
 describe('ready function : ', () => {
   // test('ready function and instance parameters always refer to same reference after re-rendering multiple times', () => {
   // });

@@ -253,6 +253,44 @@ describe('Api.prototype.select : ', () => {
     }
   });
 });
+describe('Api.prototype.sort : ', () => {
+  test('should be called with an array of all tabs IDs', () => {
+    expect.assertions(2);
+    const realSort = obj._sort;
+    obj._sort = () => Promise.resolve(null);
+    const {openTabIDs} = obj.getData();
+    try {
+      obj.sort();
+    } catch (er) {
+      expect(1 === 1).toBe(true);
+    }
+    try {
+      obj.sort({openTabIDs});
+    } catch (er) {
+      expect(1 === 1).toBe(true);
+    }
+    try {
+      const sortedTabIDs = [...openTabIDs];
+      sortedTabIDs.push('29');
+      obj.sort(sortedTabIDs);
+    } catch (er) {
+      expect(1 === 1).toBe(true);
+    }
+    try {
+      obj.sort([...openTabIDs].reverse());
+    } catch (er) {
+      expect(1 === 1).toBe(true);
+    }
+    obj._sort = realSort;
+  });
+  test('it should return a thenable object', () => {
+    const realSort = obj._sort;
+    obj._sort = () => {};
+    const result = obj.sort([]);
+    expect(typeof result.then).toBe('function');
+    obj._sort = realSort;
+  });
+});
 describe('Api.prototype.eventHandlerFactory : ', () => {
   test('eventHandlerFactory method calls select function with switching=true if beforeSelect callback returned true', () => {
     expect.assertions(7);

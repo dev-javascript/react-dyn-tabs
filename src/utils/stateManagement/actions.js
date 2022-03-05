@@ -3,5 +3,6 @@ const actions = {
   close: 'close',
   active: 'active',
   refresh: 'refresh',
+  sort: 'sort',
 };
 export default actions;

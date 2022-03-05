@@ -29,6 +29,10 @@ BaseApi.prototype._refresh = function () {
   this._dispatch({type: actions.refresh});
   this.__flushEffects();
 };
+BaseApi.prototype._sort = function (tabId) {
+  this._dispatch({type: actions.sort, tabId});
+  this.__flushEffects();
+};
 BaseApi.prototype.__flushEffects = function () {
   this._setFlushState({});
 };

@@ -1,5 +1,5 @@
 import Helper from '../helper.js';
-const {throwMissingParam: missingParamEr} = Helper;
+const {throwMissingParam: missingParamEr, isArray, thorwInvalidParam} = Helper;
 export const apiConstructor = function (getDeps, param = {options: {}}) {
   const {optionsManager, helper, activedTabsHistory} = getDeps.call(this, param.options);
   helper.setNoneEnumProps(this, {optionsManager, helper, activedTabsHistory, userProxy: {}});
@@ -150,6 +150,14 @@ const _apiProps = {
     const result = this._getFlushEffectsPromise();
     this._addTab(newTabObj);
     this._open(newTabObj.id);
+    return result;
+  },
+  sort: function (tabIDs = missingParamEr('sort')) {
+    if (!isArray(tabIDs)) {
+      thorwInvalidParam('sort');
+    }
+    const result = this._getFlushEffectsPromise();
+    this._sort(tabIDs);
     return result;
   },
   __close: function (id) {

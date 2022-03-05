@@ -60,6 +60,7 @@ React Dynamic Tabs with full API
   - [off](#off)
   - [getData](#getData)
   - [getPreviousData](#getPreviousData)
+  - [sort](#sort)
 - [tabData](#tabData)
 - [Lazy Loading](#lazy-loading)
 - [Styling](#styling)
@@ -167,9 +168,9 @@ export default () => {
 
 **NOTE :**
 
-- Tabs can't be manipulated safely before the first render, use ready() to access the instance object, ready accepts a function as its parameter and calls it when tabs are mounted.
+- Tabs can't be manipulated safely before the first render, use `ready()` to access the instance object, `ready` accepts a function as its parameter and calls it when tabs are mounted.
 
-- ready function and instance Object will not be changed after re-rendering multiple times.
+- `ready` function identity is stable and won’t change on re-renders.
 
 ## Options
 
@@ -975,6 +976,27 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
 **NOTE :**
 
 - getCopyPerviousData function is an older version of getPreviousData function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
+
+### sort
+
+Useful for sorting tabs manually.
+
+Triggers `onInit` event.
+
+Return value : Promise
+
+Parameters:
+
+- `Array of all tabs IDs`
+
+**Example**
+
+```js
+const {openTabIDs} = instance.getData();
+instance.sort(openTabIDs.reverse()).then(({currentData, instance}) => {
+  console.log('sorting tabs has finished');
+});
+```
 
 ## tabData
 

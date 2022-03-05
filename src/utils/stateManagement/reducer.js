@@ -29,7 +29,16 @@ export default function reducer(state, action) {
       if (state.selectedTabID !== tabId) return {selectedTabID: tabId, openTabIDs: state.openTabIDs};
       return state;
     }
-
+    case actions.sort: {
+      const arr = state.openTabIDs,
+        newArr = action.tabId,
+        newArrCount = newArr.length;
+      if (arr.length !== newArrCount) return state;
+      for (let i = 0; i < newArrCount; i++) {
+        if (arr.indexOf(newArr[i]) === -1) return state;
+      }
+      return {selectedTabID: state.selectedTabID, openTabIDs: newArr};
+    }
     default:
       throw new Error(`Undefined action type '${action.type}'`);
   }
