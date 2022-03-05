@@ -12,30 +12,32 @@ function BaseApi({helper, initialState}) {
     stateRef: {}, // have a same reference with state . It will be updated in each execution of useDynamicTabs.js
   });
 }
-BaseApi.prototype._select = function (tabId) {
-  this._dispatch({type: actions.active, tabId});
-  this.__flushEffects();
-};
-BaseApi.prototype._close = function (tabId) {
-  this._dispatch({type: actions.close, tabId});
-  this.__flushEffects();
-};
-BaseApi.prototype._open = function (tabId) {
-  this._dispatch({type: actions.open, tabId});
-  this.__flushEffects();
-};
-BaseApi.prototype._refresh = function () {
-  this.forceUpdateState = {};
-  this._dispatch({type: actions.refresh});
-  this.__flushEffects();
-};
-BaseApi.prototype._sort = function (tabId) {
-  this._dispatch({type: actions.sort, tabId});
-  this.__flushEffects();
-};
-BaseApi.prototype.__flushEffects = function () {
-  this._setFlushState({});
-};
+Object.assign(BaseApi.prototype, {
+  _select: function (tabId) {
+    this._dispatch({type: actions.active, tabId});
+    this.__flushEffects();
+  },
+  _close: function (tabId) {
+    this._dispatch({type: actions.close, tabId});
+    this.__flushEffects();
+  },
+  _open: function (tabId) {
+    this._dispatch({type: actions.open, tabId});
+    this.__flushEffects();
+  },
+  _refresh: function () {
+    this.forceUpdateState = {};
+    this._dispatch({type: actions.refresh});
+    this.__flushEffects();
+  },
+  _sort: function (tabId) {
+    this._dispatch({type: actions.sort, tabId});
+    this.__flushEffects();
+  },
+  __flushEffects: function () {
+    this._setFlushState({});
+  },
+});
 Helper.setNoneEnumProps(BaseApi.prototype, {
   updateStateRef: function (state, dispatch) {
     this.stateRef = state;

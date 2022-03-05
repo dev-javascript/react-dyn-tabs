@@ -13,35 +13,37 @@ const Pub_Sub = function () {
     onFirstSelect: [],
   };
 };
-//unSubscribe
-Pub_Sub.prototype.off = function (publisherName, fn) {
-  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
-    const _index = this._publishers[publisherName].indexOf(fn);
-    _index >= 0 && this._publishers[publisherName].splice(_index, 1);
-  }
-  return this;
-};
-//subscribe
-Pub_Sub.prototype.on = function (publisherName, fn) {
-  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
-    // check if it has not existed
-    if (this._publishers[publisherName].indexOf(fn) === -1) {
-      this._publishers[publisherName].push(fn);
+Object.assign(Pub_Sub.prototype, {
+  //unSubscribe
+  off: function (publisherName, fn) {
+    if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
+      const _index = this._publishers[publisherName].indexOf(fn);
+      _index >= 0 && this._publishers[publisherName].splice(_index, 1);
     }
-  }
-  return this;
-};
-//oneSubscribe
-Pub_Sub.prototype.one = function (publisherName, fn) {
-  if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
-    const _fn = function () {
-      fn.apply(this, arguments);
-      this.off(publisherName, _fn);
-    };
-    return this.on(publisherName, _fn);
-  }
-  return this;
-};
+    return this;
+  },
+  //subscribe
+  on: function (publisherName, fn) {
+    if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
+      // check if it has not existed
+      if (this._publishers[publisherName].indexOf(fn) === -1) {
+        this._publishers[publisherName].push(fn);
+      }
+    }
+    return this;
+  },
+  //oneSubscribe
+  one: function (publisherName, fn) {
+    if (typeof fn === 'function' && Object.prototype.hasOwnProperty.call(this._publishers, publisherName)) {
+      const _fn = function () {
+        fn.apply(this, arguments);
+        this.off(publisherName, _fn);
+      };
+      return this.on(publisherName, _fn);
+    }
+    return this;
+  },
+});
 helper.setNoneEnumProps(Pub_Sub.prototype, {
   trigger: function (publisherName, context, generateParamsCallback = () => []) {
     context = context || null;
