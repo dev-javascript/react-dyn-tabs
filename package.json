@@ -2,7 +2,10 @@
   "name": "react-dyn-tabs",
   "version": "4.6.2",
   "private": false,
-  "author": "dev-javascript",
+  "author": {
+    "name": "dev-javascript",
+    "email": "javascript.code.dev@gmail.com"
+  },
   "description": "React dynamic tabs with full API",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
