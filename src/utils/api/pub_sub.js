@@ -49,7 +49,7 @@ helper.setNoneEnumProps(Pub_Sub.prototype, {
     context = context || null;
     const result = [];
     const _subscribers = [...this._publishers[publisherName]];
-    _subscribers.map((subscriber) => {
+    _subscribers.forEach((subscriber) => {
       result.push(subscriber.apply(context, generateParamsCallback()));
     });
     return result;

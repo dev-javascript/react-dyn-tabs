@@ -12,9 +12,9 @@ const helper = {
   },
   assingAll: function (targetObj, ...sourcObjs) {
     // copy all enumerable and not enumerable properties into the target
-    sourcObjs.map((sourcObj) => {
+    sourcObjs.forEach((sourcObj) => {
       const enum_only = Object.keys(sourcObj);
-      Object.getOwnPropertyNames(sourcObj).map((prop) => {
+      Object.getOwnPropertyNames(sourcObj).forEach((prop) => {
         if (enum_only.indexOf(prop) >= 0) targetObj[prop] = sourcObj[prop];
         else
           Object.defineProperty(targetObj, prop, {
@@ -27,7 +27,7 @@ const helper = {
   },
   setNoneEnumProps: function (obj, props) {
     const noneEnum = {};
-    Object.keys(props).map((prop) => {
+    Object.keys(props).forEach((prop) => {
       noneEnum[prop] = {
         writable: true,
         value: props[prop],
@@ -38,7 +38,7 @@ const helper = {
   getArraysDiff: function (arr1, arr2) {
     const arr1Copy = [...arr1],
       arr2Copy = [...arr2];
-    arr1.map((item) => {
+    arr1.forEach((item) => {
       if (arr2.indexOf(item) >= 0) {
         arr1Copy.splice(arr1Copy.indexOf(item), 1);
         arr2Copy.splice(arr2Copy.indexOf(item), 1);

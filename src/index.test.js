@@ -41,7 +41,7 @@ beforeEach(() => {
     const _options = Object.assign({}, op, options);
     if (_options.tabs) {
       const _tabs = [];
-      _options.tabs.map((tab) => {
+      _options.tabs.forEach((tab) => {
         _tabs.push({...tab});
       });
       _options.tabs = _tabs;

@@ -63,7 +63,7 @@ const _apiProps = {
   },
   _subscribeCallbacksOptions: function () {
     const op = this.optionsManager.options;
-    Object.keys(this._publishers).map((eventName) => {
+    Object.keys(this._publishers).forEach((eventName) => {
       if (eventName[0] !== '_')
         this.on(eventName, function () {
           op[eventName].apply(this, arguments);

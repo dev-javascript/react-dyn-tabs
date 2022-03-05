@@ -1,7 +1,7 @@
 function Tabs({initialTabs} = {initialTabs: []}) {
   this._data = [];
   if (initialTabs && initialTabs.constructor === Array && initialTabs.length) {
-    initialTabs.map((tab) => {
+    initialTabs.forEach((tab) => {
       this._addTab(tab);
     });
   }

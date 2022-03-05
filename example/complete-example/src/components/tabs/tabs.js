@@ -117,7 +117,7 @@ export default function (props) {
         ref.current.log('[beforeSelect]');
         return true;
       });
-      _instance.getData().openTabIDs.map((id) => {
+      _instance.getData().openTabIDs.forEach((id) => {
         _instance.setTab(id, {closable: false});
       });
       _instance
