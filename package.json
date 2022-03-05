@@ -72,13 +72,13 @@
   },
   "files": [
     "dist",
-    "docs",
     "flow-typed",
     "lib",
-    "src",
     "style",
     "theme",
-    "themes"
+    "themes",
+    "!*.test.js",
+    "!*.test.js.snap"
   ],
   "keywords": [
     "react",
