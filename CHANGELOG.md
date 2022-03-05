@@ -1,3 +1,7 @@
+# v4.7.0
+
+- Adding sort method
+
 # v4.6.0
 
 - Adding lazy property into tabData object
