@@ -1,9 +1,9 @@
 import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
-function useDynamicTabs(getDeps, options = {}) {
+function useDynamicTabs(getDeps, options = {}, plugins = []) {
   const {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext} = getDeps();
   const ref = useRef(null);
   if (ref.current === null)
-    ref.current = {api: getApiInstance(options), TabListComponent: null, PanelListComponent: null};
+    ref.current = {api: getApiInstance(options, plugins), TabListComponent: null, PanelListComponent: null};
   const {
       current: {api},
     } = ref,
