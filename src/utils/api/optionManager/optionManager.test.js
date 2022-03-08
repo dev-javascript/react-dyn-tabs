@@ -60,6 +60,7 @@ describe('OptionManager constructor : ', () => {
       verticalClass: 'rc-dyn-tabs-vertical',
       panelIdTemplate: expect.any(Function),
       ariaLabelledbyIdTemplate: expect.any(Function),
+      getRenderableTabs: expect.any(Function),
       getDefaultTabData: expect.any(Function),
     };
     expect(obj.setting).toEqual(_setting);

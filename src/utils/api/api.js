@@ -1,3 +1,4 @@
+import React from 'react';
 import {apiProps, apiConstructor} from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
@@ -14,7 +15,8 @@ const getDeps = function (options = {}) {
   });
   Tabs.call(this, {initialTabs: optionsManager.initialTabs});
   Pub_Sub.call(this);
-  return {activedTabsHistory, helper, optionsManager};
+  const tablistRef = React.createRef();
+  return {activedTabsHistory, helper, optionsManager, tablistRef};
 };
 apiConstructor.prototype = Object.create(BaseApi.prototype);
 helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;

@@ -43,7 +43,9 @@ function useDynamicTabs(getDeps, options = {}, plugins = []) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <TabList {...props}>props.children</TabList>
+              <TabList ref={api.tablistRef} {...props}>
+                props.children
+              </TabList>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>

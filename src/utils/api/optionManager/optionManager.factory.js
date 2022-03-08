@@ -90,6 +90,7 @@ Object.assign(OptionManager.prototype, {
       verticalClass: 'rc-dyn-tabs-vertical',
       panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
       ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
+      getRenderableTabs: (openTabIDs) => openTabIDs,
       getDefaultTabData: () => {
         return {
           title: '',
