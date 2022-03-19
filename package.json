@@ -108,6 +108,7 @@
     ]
   },
   "dependencies": {
+    "element-resize-detector": "^1.2.4",
     "prop-types": "^15.7.2"
   }
 }
