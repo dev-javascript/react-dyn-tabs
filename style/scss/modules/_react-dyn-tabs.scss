@@ -1,7 +1,8 @@
 @mixin main {
   .rc-dyn-tabs-panellist {
-    padding: 6px 12px;
+    padding : 6px 12px;
     position: relative;
+
     .rc-dyn-tabs-panel {
       display: none;
     }
@@ -21,124 +22,131 @@
 
   .rc-dyn-tabs-panellist.rc-dyn-tabs-rtl {
     .rc-dyn-tabs-panel {
-      direction: rtl;
+      direction : rtl;
       text-align: right;
     }
   }
 
   .rc-dyn-tabs-panellist.rc-dyn-tabs-ltr {
     .rc-dyn-tabs-panel {
-      direction: ltr;
+      direction : ltr;
       text-align: left;
     }
   }
 
   .rc-dyn-tabs-tablist {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    float: none;
-    position: relative;
+    margin         : 0;
+    padding        : 0;
+    overflow       : hidden;
+    float          : none;
+    position       : relative;
+    display        : flex;
 
-    & > .rc-dyn-tabs-tab {
-      display: list-item;
-      list-style: none;
-      text-align: center;
-      padding: 0px;
+    &>.rc-dyn-tabs-tab {
+      display        : list-item;
+      list-style     : none;
+      text-align     : center;
+      padding        : 0px;
       text-decoration: none;
-      position: relative;
-      pointer-events: visible;
-      opacity: 1;
+      position       : relative;
+      pointer-events : visible;
+      opacity        : 1;
 
-      & > .rc-dyn-tabs-title {
-        position: relative;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
+      &>.rc-dyn-tabs-title {
+        position       : relative;
+        display        : flex;
+        align-items    : center;
+        overflow       : hidden;
         text-decoration: none;
-        cursor: pointer;
-        white-space: nowrap;
-        padding: 0.5em 1em;
-        font-weight: 500;
-        outline: none;
+        cursor         : pointer;
+        white-space    : nowrap;
+        padding        : 0.5em 1em;
+        font-weight    : 500;
+        outline        : none;
         justify-content: center;
 
-        & > .rc-dyn-tabs-icon {
+        &>.rc-dyn-tabs-icon {
           display: inline-block;
         }
       }
 
-      & > .rc-dyn-tabs-close {
+      &>.rc-dyn-tabs-close {
         position: absolute;
-        top: 1px;
-        cursor: pointer;
+        top     : 1px;
+        cursor  : pointer;
+      }
+
+      &.rc-dyn-tabs-hide {
+        display: none;
       }
     }
 
-    & > .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
+    &>.rc-dyn-tabs-tab.rc-dyn-tabs-disable {
       pointer-events: none;
-      opacity: 0.7;
+      opacity       : 0.7;
     }
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-ltr {
-    & > .rc-dyn-tabs-tab {
+    &>.rc-dyn-tabs-tab {
       float: left;
 
-      & > .rc-dyn-tabs-title {
+      &>.rc-dyn-tabs-title {
         direction: rtl;
 
-        & > .rc-dyn-tabs-icon {
+        &>.rc-dyn-tabs-icon {
           padding-right: 0.4em;
         }
       }
 
-      & > .rc-dyn-tabs-close {
+      &>.rc-dyn-tabs-close {
         right: 4px;
-        left: auto;
+        left : auto;
       }
     }
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
-    & > .rc-dyn-tabs-tab {
+    &>.rc-dyn-tabs-tab {
       float: right;
 
-      & > .rc-dyn-tabs-title {
+      &>.rc-dyn-tabs-title {
         direction: ltr;
 
-        & > .rc-dyn-tabs-icon {
+        &>.rc-dyn-tabs-icon {
           padding-left: 0.4em;
         }
       }
 
-      & > .rc-dyn-tabs-close {
-        left: 4px;
+      &>.rc-dyn-tabs-close {
+        left : 4px;
         right: auto;
       }
     }
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    width: 12em;
+    width : 12em;
     height: 100%;
-    float: left;
-    & > .rc-dyn-tabs-tab {
+    float : left;
+
+    &>.rc-dyn-tabs-tab {
       float: none;
 
-      & > .rc-dyn-tabs-title {
+      &>.rc-dyn-tabs-title {
         display: block;
-        width: 100%;
+        width  : 100%;
       }
 
-      & > .rc-dyn-tabs-close {
-        top: 50%;
-        transform: translateY(-50%);
+      &>.rc-dyn-tabs-close {
+        top        : 50%;
+        transform  : translateY(-50%);
         line-height: 0px;
       }
     }
   }
+
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     float: right;
   }

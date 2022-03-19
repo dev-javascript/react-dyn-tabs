@@ -34,6 +34,7 @@
   overflow: hidden;
   float: none;
   position: relative;
+  display: flex;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab {
   display: list-item;
@@ -65,6 +66,9 @@
   position: absolute;
   top: 1px;
   cursor: pointer;
+}
+.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-hide {
+  display: none;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
   pointer-events: none;
