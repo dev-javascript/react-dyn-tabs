@@ -4,7 +4,7 @@ var resizerIns = elementResizeDetectorMaker({
   callOnAdd: false,
 });
 const originalListenTo = resizerIns.listenTo;
-resizerIns.listenTo = function (el, callback, op = {delay: 50}) {
+resizerIns.listenTo = function (el, callback, op = {delay: 30}) {
   let __onResize;
   originalListenTo.call(resizerIns, el, (el) => {
     clearTimeout(__onResize);
