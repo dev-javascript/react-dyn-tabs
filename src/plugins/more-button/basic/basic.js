@@ -10,42 +10,79 @@ const Basic = function (resizeDetectorIns, ctx) {
     });
   });
   ctx.on('onChange', () => {
-    this.setTabsVisibility(ctx.getData());
+    this.onResize();
   });
-  // todo
-  ctx.on('onResize', () => {
-    this.setTabsVisibility(ctx.getData());
-  });
+  ctx.userProxy.resize = () => {
+    this.onResize();
+    return ctx.userProxy;
+  };
 };
 Object.assign(Basic.prototype, {
   onResize: function () {
-    this.setTabsVisibility(this.api.getData());
+    window.requestAnimationFrame(() => {
+      this.setTabsVisibility(this.api.getData());
+    });
+  },
+  _getElTotalWidth: function (element) {
+    const style = element.currentStyle || window.getComputedStyle(element),
+      width = element.offsetWidth, // or use style.width
+      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight),
+      padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight),
+      border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+    return width + margin + padding + border;
+  },
+  _findSelectedTabIndex: function (selectedTabID, openTabIDs) {
+    for (let i = 0, c = openTabIDs.length; i < c; i++) {
+      if (openTabIDs[i] === selectedTabID) return i;
+    }
+    return null;
+  },
+  _hide: function (el) {
+    el.classList.add(this.hiddenClass);
+    //el.style.transform = 'scale(0)';
+  },
+  _show: function (el) {
+    el.classList.remove(this.hiddenClass);
+    //el.style.transform = 'scale(1)';
   },
   setTabsVisibility: function ({selectedTabID, openTabIDs}) {
     // ltr direction
-    const {tablistEl, hiddenClass} = this,
+    const {tablistEl} = this,
       tabEls = tablistEl.childNodes,
-      tabsCount = tabEls.length,
-      _openTabIDs = openTabIDs.slice(0, openTabIDs.indexOf(tabEls[tabsCount - 1].getAttribute('tab-id')) + 1);
+      tabsCount = tabEls.length;
     // make all tabs visible
+    this._hide(this.tablistEl);
+    for (let j = 0; j < tabsCount; j++) {
+      this._show(tabEls[j]);
+    }
+    this._show(this.tablistEl);
+    // find firstHiddenChildIndex value
+    const selectedTabIndex = this._findSelectedTabIndex(selectedTabID, openTabIDs),
+      selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
+      availableWidth = tablistEl.clientWidth - selectedTabWidth;
+    let totalWidth = 0,
+      firstHiddenChildIndex = -1;
     for (let i = 0; i < tabsCount; i++) {
-      const el = tabEls[i];
-      el.classList.remove(hiddenClass);
-    }
-    let counter = 0;
-    while (tablistEl.clientWidth < tablistEl.scrollWidth) {
-      if (counter === tabsCount) {
+      // if is selected
+      if (i === selectedTabIndex) {
+        continue;
+      }
+      const elWidth = this._getElTotalWidth(tabEls[i]);
+      if (elWidth + totalWidth > availableWidth) {
+        firstHiddenChildIndex = i;
         break;
-      }
-      counter++;
-      const tabID = _openTabIDs.pop();
-      if (tabID === selectedTabID) {
-        tabEls[tabsCount - counter].classList.remove(hiddenClass);
       } else {
-        tabEls[tabsCount - counter].classList.add(hiddenClass);
+        totalWidth += elWidth;
       }
     }
-    // rtl direction todo
+    // make overflowed tabs hidden
+    if (firstHiddenChildIndex !== -1) {
+      this._hide(this.tablistEl);
+      for (let k = firstHiddenChildIndex; k < tabsCount; k++) {
+        if (k !== selectedTabIndex) this._hide(tabEls[k]);
+      }
+      this._show(this.tablistEl);
+    }
   },
 });
 export default Basic;
