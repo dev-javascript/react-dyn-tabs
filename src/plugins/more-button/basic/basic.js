@@ -31,12 +31,6 @@ Object.assign(Basic.prototype, {
       border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
     return width + margin + padding + border;
   },
-  _findSelectedTabIndex: function (selectedTabID, openTabIDs) {
-    for (let i = 0, c = openTabIDs.length; i < c; i++) {
-      if (openTabIDs[i] === selectedTabID) return i;
-    }
-    return null;
-  },
   _hide: function (el) {
     el.classList.add(this.hiddenClass);
     //el.style.transform = 'scale(0)';
@@ -57,7 +51,7 @@ Object.assign(Basic.prototype, {
     }
     this._show(this.tablistEl);
     // find firstHiddenChildIndex value
-    const selectedTabIndex = this._findSelectedTabIndex(selectedTabID, openTabIDs),
+    const selectedTabIndex = openTabIDs.indexOf(selectedTabID),
       selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
       availableWidth = tablistEl.clientWidth - selectedTabWidth;
     let totalWidth = 0,
