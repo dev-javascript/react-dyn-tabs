@@ -13,10 +13,6 @@ const Basic = function (resizeDetectorIns, ctx) {
   ctx.on('onChange', () => {
     this.resize();
   });
-  ctx.userProxy.resize = () => {
-    this.resize();
-    return ctx.userProxy;
-  };
 };
 Object.assign(Basic.prototype, {
   _getElTotalWidth: function (element) {
