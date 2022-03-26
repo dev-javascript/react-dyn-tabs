@@ -3,22 +3,31 @@ const Basic = function (resizeDetectorIns, ctx) {
     return;
   }
   this.api = ctx;
+  this.resizeDetectorIns = resizeDetectorIns;
   this._firstHiddenChildIndex = -1;
   // todo get it from options
   this.hiddenClass = 'rc-dyn-tabs-hide';
   this.tablistEl = ctx.tablistRef;
-  ctx.one('onLoad', () => {
-    this.tablistEl = this.tablistEl.current;
-    if (resizeDetectorIns && resizeDetectorIns.listenTo)
-      resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
-        this.resize();
-      });
-  });
-  ctx.on('onChange', () => {
-    this.resize();
-  });
+  ctx
+    .one('onLoad', () => {
+      this.tablistEl = this.tablistEl.current;
+      if (resizeDetectorIns)
+        resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
+          this.resize();
+        });
+    })
+    .on('onChange', () => {
+      this.resize();
+    })
+    .on('onDestroy', () => {
+      this.destroy();
+    });
 };
 Object.assign(Basic.prototype, {
+  destroy: function () {
+    if (this.tablistEl.parentElement && this.resizeDetectorIns)
+      this.resizeDetectorIns.uninstall(this.tablistEl.parentElement);
+  },
   _getElTotalWidth: function (element) {
     const style = element.currentStyle || window.getComputedStyle(element),
       width = element.offsetWidth, // or use style.width
