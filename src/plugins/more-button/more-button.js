@@ -1,4 +1,4 @@
-const Basic = function (resizeDetectorIns, ctx) {
+const MoreButton = function (resizeDetectorIns, ctx) {
   if (ctx.getOption('isVertical')) {
     return;
   }
@@ -23,7 +23,7 @@ const Basic = function (resizeDetectorIns, ctx) {
       this.destroy();
     });
 };
-Object.assign(Basic.prototype, {
+Object.assign(MoreButton.prototype, {
   destroy: function () {
     if (this.tablistEl.parentElement && this.resizeDetectorIns)
       this.resizeDetectorIns.uninstall(this.tablistEl.parentElement);
@@ -103,4 +103,4 @@ Object.assign(Basic.prototype, {
     }
   },
 });
-export default Basic;
+export default MoreButton;
