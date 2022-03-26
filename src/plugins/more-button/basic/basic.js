@@ -6,9 +6,10 @@ const Basic = function (resizeDetectorIns, ctx) {
   this.tablistEl = ctx.tablistRef;
   ctx.one('onLoad', () => {
     this.tablistEl = this.tablistEl.current;
-    resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
-      this.resize();
-    });
+    if (resizeDetectorIns && resizeDetectorIns.listenTo)
+      resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
+        this.resize();
+      });
   });
   ctx.on('onChange', () => {
     this.resize();
