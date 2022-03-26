@@ -59,6 +59,10 @@ Object.assign(Basic.prototype, {
     return -1;
   },
   resize: function () {
+    // more-button should not work if isVertical option is true
+    if (this.api.getOption('isVertical')) {
+      return;
+    }
     const {selectedTabID, openTabIDs} = this.api.getData();
     window.requestAnimationFrame(() => {
       this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
