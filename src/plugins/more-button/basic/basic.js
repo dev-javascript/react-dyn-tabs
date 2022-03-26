@@ -1,28 +1,24 @@
 const Basic = function (resizeDetectorIns, ctx) {
   this.api = ctx;
+  this._firstHiddenChildIndex = -1;
   // todo get it from options
   this.hiddenClass = 'rc-dyn-tabs-hide';
   this.tablistEl = ctx.tablistRef;
   ctx.one('onLoad', () => {
     this.tablistEl = this.tablistEl.current;
     resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
-      this.onResize();
+      this.resize();
     });
   });
   ctx.on('onChange', () => {
-    this.onResize();
+    this.resize();
   });
   ctx.userProxy.resize = () => {
-    this.onResize();
+    this.resize();
     return ctx.userProxy;
   };
 };
 Object.assign(Basic.prototype, {
-  onResize: function () {
-    window.requestAnimationFrame(() => {
-      this.setTabsVisibility(this.api.getData());
-    });
-  },
   _getElTotalWidth: function (element) {
     const style = element.currentStyle || window.getComputedStyle(element),
       width = element.offsetWidth, // or use style.width
@@ -33,49 +29,64 @@ Object.assign(Basic.prototype, {
   },
   _hide: function (el) {
     el.classList.add(this.hiddenClass);
-    //el.style.transform = 'scale(0)';
   },
   _show: function (el) {
     el.classList.remove(this.hiddenClass);
-    //el.style.transform = 'scale(1)';
   },
-  setTabsVisibility: function ({selectedTabID, openTabIDs}) {
-    // ltr direction
-    const {tablistEl} = this,
-      tabEls = tablistEl.childNodes,
-      tabsCount = tabEls.length;
-    // make all tabs visible
-    this._hide(this.tablistEl);
-    for (let j = 0; j < tabsCount; j++) {
-      this._show(tabEls[j]);
+  _changeTabsStyle: function (tabs, startIndex, stopIndex, callback) {
+    const {tablistEl} = this;
+    this._hide(tablistEl);
+    for (let i = startIndex; i < stopIndex; i++) {
+      callback(tabs[i], i);
     }
-    this._show(this.tablistEl);
-    // find firstHiddenChildIndex value
-    const selectedTabIndex = openTabIDs.indexOf(selectedTabID),
-      selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
-      availableWidth = tablistEl.clientWidth - selectedTabWidth;
-    let totalWidth = 0,
-      firstHiddenChildIndex = -1;
-    for (let i = 0; i < tabsCount; i++) {
+    this._show(tablistEl);
+  },
+  _checkTablistOverflow: function (tablist, tablistLength, tablistRightPos) {
+    return tablist[tablistLength - 1].getBoundingClientRect().right > tablistRightPos;
+  },
+  _setFirstHiddenChildIndex: function (selectedTabIndex, tablist, tablistLength, tablistWidth) {
+    let totalWidth = 0;
+    const availableWidth = tablistWidth - this._getElTotalWidth(tablist[selectedTabIndex]);
+    for (let i = 0; i < tablistLength; i++) {
       // if is selected
       if (i === selectedTabIndex) {
         continue;
       }
-      const elWidth = this._getElTotalWidth(tabEls[i]);
+      const elWidth = this._getElTotalWidth(tablist[i]);
       if (elWidth + totalWidth > availableWidth) {
-        firstHiddenChildIndex = i;
-        break;
+        return i;
       } else {
         totalWidth += elWidth;
       }
     }
-    // make overflowed tabs hidden
-    if (firstHiddenChildIndex !== -1) {
-      this._hide(this.tablistEl);
-      for (let k = firstHiddenChildIndex; k < tabsCount; k++) {
-        if (k !== selectedTabIndex) this._hide(tabEls[k]);
-      }
-      this._show(this.tablistEl);
+    return -1;
+  },
+  resize: function () {
+    const {selectedTabID, openTabIDs} = this.api.getData();
+    window.requestAnimationFrame(() => {
+      this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
+    });
+  },
+  _resize: function (tabEls, tabsCount, selectedTabIndex) {
+    // ltr direction
+    // check if there is a hidden tab previously
+    if (this._firstHiddenChildIndex !== -1)
+      this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab) => {
+        this._show(tab);
+      });
+    const tablistRect = this.tablistEl.getBoundingClientRect();
+    if (this._checkTablistOverflow(tabEls, tabsCount, tablistRect.right)) {
+      this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(
+        selectedTabIndex,
+        tabEls,
+        tabsCount,
+        tablistRect.width,
+      );
+      this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
+        if (i !== selectedTabIndex) this._hide(tab);
+      });
+    } else {
+      this._firstHiddenChildIndex = -1;
     }
   },
 });
