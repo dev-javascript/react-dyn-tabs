@@ -1,4 +1,7 @@
 const Basic = function (resizeDetectorIns, ctx) {
+  if (ctx.getOption('isVertical')) {
+    return;
+  }
   this.api = ctx;
   this._firstHiddenChildIndex = -1;
   // todo get it from options
