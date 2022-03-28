@@ -5,8 +5,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.api = ctx;
   this.resizeDetectorIns = resizeDetectorIns;
   this._firstHiddenChildIndex = -1;
-  // todo get it from options
-  this.hiddenClass = 'rc-dyn-tabs-hide';
+  this.hiddenClass = ctx.optionsManager.setting.hiddenClass;
   this.tablistEl = ctx.tablistRef;
   ctx
     .one('onLoad', () => {
