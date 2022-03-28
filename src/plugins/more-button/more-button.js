@@ -50,8 +50,8 @@ Object.assign(MoreButton.prototype, {
     }
     this._show(tablistEl);
   },
-  _checkTablistOverflow: function (tablist, tablistLength, tablistRightPos) {
-    return tablist[tablistLength - 1].getBoundingClientRect().right > tablistRightPos;
+  _checkTablistOverflow: function (tablistWidth) {
+    return tablistWidth < this.tablistEl.scrollWidth;
   },
   _setFirstHiddenChildIndex: function (selectedTabIndex, tablist, tablistLength, tablistWidth) {
     let totalWidth = 0;
@@ -81,20 +81,14 @@ Object.assign(MoreButton.prototype, {
     });
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
-    // ltr direction
     // check if there is a hidden tab previously
     if (this._firstHiddenChildIndex !== -1)
       this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab) => {
         this._show(tab);
       });
-    const tablistRect = this.tablistEl.getBoundingClientRect();
-    if (this._checkTablistOverflow(tabEls, tabsCount, tablistRect.right)) {
-      this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(
-        selectedTabIndex,
-        tabEls,
-        tabsCount,
-        tablistRect.width,
-      );
+    const tablistWidth = this.tablistEl.clientWidth;
+    if (this._checkTablistOverflow(tablistWidth)) {
+      this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, tablistWidth);
       this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
         if (i !== selectedTabIndex) this._hide(tab);
       });
