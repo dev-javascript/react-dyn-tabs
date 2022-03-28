@@ -69,7 +69,7 @@
   top: 1px;
   cursor: pointer;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-hide {
+.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-hidden {
   display: none;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
