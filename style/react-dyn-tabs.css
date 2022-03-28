@@ -35,6 +35,8 @@
   float: none;
   position: relative;
   display: flex;
+  direction: ltr;
+  justify-content: flex-start;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab {
   display: list-item;
@@ -75,6 +77,9 @@
   opacity: 0.7;
 }
 
+.rc-dyn-tabs-tablist.rc-dyn-tabs-ltr {
+  flex-flow: row;
+}
 .rc-dyn-tabs-tablist.rc-dyn-tabs-ltr > .rc-dyn-tabs-tab {
   float: left;
 }
@@ -89,6 +94,9 @@
   left: auto;
 }
 
+.rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+  flex-flow: row-reverse;
+}
 .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl > .rc-dyn-tabs-tab {
   float: right;
 }
@@ -107,6 +115,7 @@
   width: 12em;
   height: 100%;
   float: left;
+  flex-flow: column;
 }
 .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical > .rc-dyn-tabs-tab {
   float: none;

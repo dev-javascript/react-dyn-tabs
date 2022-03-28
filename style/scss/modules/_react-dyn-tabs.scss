@@ -42,6 +42,8 @@
     float          : none;
     position       : relative;
     display        : flex;
+    direction      : ltr;
+    justify-content: flex-start;
 
     &>.rc-dyn-tabs-tab {
       display        : list-item;
@@ -89,6 +91,8 @@
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-ltr {
+    flex-flow: row;
+
     &>.rc-dyn-tabs-tab {
       float: left;
 
@@ -108,6 +112,8 @@
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+    flex-flow: row-reverse;
+
     &>.rc-dyn-tabs-tab {
       float: right;
 
@@ -127,9 +133,10 @@
   }
 
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    width : 12em;
-    height: 100%;
-    float : left;
+    width    : 12em;
+    height   : 100%;
+    float    : left;
+    flex-flow: column;
 
     &>.rc-dyn-tabs-tab {
       float: none;
