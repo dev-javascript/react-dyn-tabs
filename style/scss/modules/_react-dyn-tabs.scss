@@ -41,6 +41,7 @@
     overflow       : hidden;
     float          : none;
     position       : relative;
+    flex-wrap      : nowrap;
     display        : flex;
     direction      : ltr;
     justify-content: flex-start;
@@ -94,7 +95,6 @@
     flex-flow: row;
 
     &>.rc-dyn-tabs-tab {
-      float: left;
 
       &>.rc-dyn-tabs-title {
         direction: rtl;
@@ -115,7 +115,6 @@
     flex-flow: row-reverse;
 
     &>.rc-dyn-tabs-tab {
-      float: right;
 
       &>.rc-dyn-tabs-title {
         direction: ltr;
