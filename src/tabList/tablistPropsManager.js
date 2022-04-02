@@ -8,9 +8,11 @@ export default function ({optionsManager: {setting: _setting, options: _op}}) {
     };
   if (_op.isVertical) {
     result.tablistRootProps.className += ' ' + _setting.verticalClass;
+    result.tablistProps.className += ' ' + _setting.verticalClass;
   }
   if (_op.direction === 'rtl') {
     result.tablistRootProps.className += ' ' + _setting.rtlClass;
+    result.tablistProps.className += ' ' + _setting.rtlClass;
   }
   if (_op.accessibility) {
     result.tablistProps.role = 'tablist';
