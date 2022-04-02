@@ -5,7 +5,7 @@
   border-color: #dee2e6;
   background-color: #fff;
   display: flex;
-  overflow: hidden;
+  overflow: visible;
 }
 .rc-dyn-tabs-tablist .rc-dyn-tabs-tab {
   background-color: transparent;

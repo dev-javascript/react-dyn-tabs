@@ -64,7 +64,7 @@ $background-color: #fff;
     @include tablistBorder;
     background-color: $background-color;
     display: flex;
-    overflow: hidden;
+    overflow: visible;
 
     .rc-dyn-tabs-tab {
       background-color: transparent;
