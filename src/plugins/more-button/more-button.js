@@ -11,7 +11,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   ctx
     .one('onLoad', () => {
       this.tablistEl = this.tablistEl.current;
-      this.tablistEl.style.overflow = 'hidden';
+      this.tablistEl.style.overflow = 'visible';
       this.sliderEl = this.tablistEl.parentElement;
       this.sliderEl.style.overflow = 'hidden';
       if (resizeDetectorIns)
@@ -52,12 +52,12 @@ Object.assign(MoreButton.prototype, {
     }
     this._show(tablistEl);
   },
-  _checkTablistOverflow: function (tablistWidth) {
-    return tablistWidth < this.tablistEl.scrollWidth;
+  _checkTablistOverflow: function (sliderWidth) {
+    return sliderWidth < this.sliderEl.scrollWidth;
   },
-  _setFirstHiddenChildIndex: function (selectedTabIndex, tablist, tablistLength, tablistWidth) {
+  _setFirstHiddenChildIndex: function (selectedTabIndex, tablist, tablistLength, sliderWidth) {
     let totalWidth = 0;
-    const availableWidth = tablistWidth - this._getElTotalWidth(tablist[selectedTabIndex]);
+    const availableWidth = sliderWidth - this._getElTotalWidth(tablist[selectedTabIndex]);
     for (let i = 0; i < tablistLength; i++) {
       // if is selected
       if (i === selectedTabIndex) {
@@ -88,9 +88,9 @@ Object.assign(MoreButton.prototype, {
       this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab) => {
         this._show(tab);
       });
-    const tablistWidth = this.tablistEl.clientWidth;
-    if (this._checkTablistOverflow(tablistWidth)) {
-      this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, tablistWidth);
+    const sliderWidth = this.sliderEl.clientWidth;
+    if (this._checkTablistOverflow(sliderWidth)) {
+      this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, sliderWidth);
       this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
         if (i !== selectedTabIndex) this._hide(tab);
       });
