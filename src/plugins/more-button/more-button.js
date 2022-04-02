@@ -7,11 +7,15 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._firstHiddenChildIndex = -1;
   this.hiddenClass = ctx.optionsManager.setting.hiddenClass;
   this.tablistEl = ctx.tablistRef;
+
   ctx
     .one('onLoad', () => {
       this.tablistEl = this.tablistEl.current;
+      this.tablistEl.style.overflow = 'hidden';
+      this.sliderEl = this.tablistEl.parentElement;
+      this.sliderEl.style.overflow = 'hidden';
       if (resizeDetectorIns)
-        resizeDetectorIns.listenTo(this.tablistEl.parentElement, () => {
+        resizeDetectorIns.listenTo(this.sliderEl, () => {
           this.resize();
         });
     })
@@ -24,8 +28,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
 };
 Object.assign(MoreButton.prototype, {
   destroy: function () {
-    if (this.tablistEl.parentElement && this.resizeDetectorIns)
-      this.resizeDetectorIns.uninstall(this.tablistEl.parentElement);
+    if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
   },
   _getElTotalWidth: function (element) {
     const style = element.currentStyle || window.getComputedStyle(element),
