@@ -1,14 +1,20 @@
-export default function ({api}) {
-  const _setting = api.optionsManager.setting,
-    _op = api.optionsManager.options,
+export default function ({optionsManager: {setting: _setting, options: _op}}) {
+  const {tablistRootClass, tablistSectionClass, tablistSliderClass, tablistClass} = _setting,
     result = {
-      className: _setting.tablistClass + ' ' + _setting[_op.direction + 'Class'],
+      tablistRootProps: {className: tablistRootClass},
+      tablistSectionProps: {className: tablistSectionClass},
+      tablistSliderProps: {className: tablistSliderClass},
+      tablistProps: {className: tablistClass},
     };
   if (_op.isVertical) {
-    result.className += ' ' + _setting.verticalClass;
+    result.tablistRootProps.className += ' ' + _setting.verticalClass;
+  }
+  if (_op.direction === 'rtl') {
+    result.tablistRootProps.className += ' ' + _setting.rtlClass;
   }
   if (_op.accessibility) {
-    result.role = 'tablist';
+    result.tablistProps.role = 'tablist';
   }
+
   return result;
 }

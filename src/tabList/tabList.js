@@ -5,13 +5,19 @@ import tablistPropsManager from './tablistPropsManager.js';
 const TabList = React.forwardRef((props, ref) => {
   const {openTabIDs, selectedTabID} = React.useContext(StateContext),
     api = React.useContext(ApiContext),
-    tablistProps = tablistPropsManager({api});
+    {tablistRootProps, tablistSectionProps, tablistSliderProps, tablistProps} = tablistPropsManager(api);
   return (
-    <ul ref={ref} {...tablistProps}>
-      {api.optionsManager.setting.getRenderableTabs(openTabIDs).map((id) => (
-        <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
-      ))}
-    </ul>
+    <div {...tablistRootProps}>
+      <div {...tablistSectionProps}>
+        <div {...tablistSliderProps}>
+          <ul ref={ref} {...tablistProps}>
+            {api.optionsManager.setting.getRenderableTabs(openTabIDs).map((id) => (
+              <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 });
 export default memo(TabList, () => true);
