@@ -7,7 +7,6 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._firstHiddenChildIndex = -1;
   this.hiddenClass = ctx.optionsManager.setting.hiddenClass;
   this.tablistEl = ctx.tablistRef;
-
   ctx
     .one('onLoad', () => {
       this.tablistEl = this.tablistEl.current;
@@ -91,9 +90,11 @@ Object.assign(MoreButton.prototype, {
     const sliderWidth = this.sliderEl.clientWidth;
     if (this._checkTablistOverflow(sliderWidth)) {
       this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, sliderWidth);
-      this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
-        if (i !== selectedTabIndex) this._hide(tab);
-      });
+      if (this._firstHiddenChildIndex !== -1) {
+        this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
+          if (i !== selectedTabIndex) this._hide(tab);
+        });
+      }
     } else {
       this._firstHiddenChildIndex = -1;
     }
