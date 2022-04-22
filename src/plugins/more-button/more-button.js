@@ -5,7 +5,6 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   }
   this.api = ctx;
   this.resizeDetectorIns = resizeDetectorIns;
-  this._firstHiddenChildIndex = -1;
   this.hiddenClass = ctx.optionsManager.setting.hiddenClass;
   this.tablistEl = ctx.tablistRef;
   this.moreBtnsEl = React.createRef(null);
@@ -120,16 +119,15 @@ Object.assign(MoreButton.prototype, {
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
     // check if there is a hidden tab previously
-    if (this._firstHiddenChildIndex !== -1)
-      this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab) => {
-        this._show(tab);
-      });
+    this._changeTabsStyle(tabEls, 0, tabsCount, (tab) => {
+      this._show(tab);
+    });
     requestAnimationFrame(() => {
       const sliderWidth = this.sliderEl.clientWidth;
       if (this._checkTablistOverflow(sliderWidth)) {
-        this._firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, sliderWidth);
-        if (this._firstHiddenChildIndex !== -1) {
-          this._changeTabsStyle(tabEls, this._firstHiddenChildIndex, tabsCount, (tab, i) => {
+        const _firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, sliderWidth);
+        if (_firstHiddenChildIndex !== -1) {
+          this._changeTabsStyle(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
             if (i !== selectedTabIndex) this._hide(tab);
           });
         } else {
@@ -137,7 +135,6 @@ Object.assign(MoreButton.prototype, {
         }
       } else {
         this._hideMoreBtn();
-        this._firstHiddenChildIndex = -1;
       }
     });
   },
