@@ -38,11 +38,11 @@ Object.assign(MoreButton.prototype, {
       position: 'absolute',
       top: '50%',
       left: '0px',
-      transform: 'translate(0,-50%)',
+      transform: 'translate(-1000,-50%)',
       minWidth: '16px',
       minHeight: '16px',
       opacity: 0,
-      zIndex: -1,
+      willChange: 'transform',
     };
     this.api.optionsManager.setting.MoreButtonComponent = function MoreButtonComponent() {
       return (
@@ -56,14 +56,12 @@ Object.assign(MoreButton.prototype, {
   _hideMoreBtn: function () {
     const el = this.moreBtnsEl.current;
     el.style.opacity = 0;
-    el.style.zIndex = -1;
-    el.style.transform = 'translate(0,-50%)';
+    el.style.transform = 'translate(-1000,-50%)';
   },
   _showMoreBtn: function (x) {
     const el = this.moreBtnsEl.current;
-    el.style.opacity = 0.8;
-    el.style.zIndex = 2;
     el.style.transform = `translate(${x}px,-50%)`;
+    el.style.opacity = 0.8;
   },
   destroy: function () {
     if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
