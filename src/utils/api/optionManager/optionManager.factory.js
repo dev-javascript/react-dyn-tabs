@@ -92,6 +92,9 @@ Object.assign(OptionManager.prototype, {
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
       hiddenClass: 'rc-dyn-tabs-hidden',
+      MoreButtonComponent: function MoreButtonComponent() {
+        return null;
+      },
       panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
       ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
       getRenderableTabs: (openTabIDs) => openTabIDs,

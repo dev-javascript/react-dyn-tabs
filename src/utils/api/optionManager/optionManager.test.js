@@ -62,6 +62,7 @@ describe('OptionManager constructor : ', () => {
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
       hiddenClass: 'rc-dyn-tabs-hidden',
+      MoreButtonComponent: expect.any(Function),
       panelIdTemplate: expect.any(Function),
       ariaLabelledbyIdTemplate: expect.any(Function),
       getRenderableTabs: expect.any(Function),

@@ -123,6 +123,7 @@
     flex-grow: 1;
     flex-direction: row;
     overflow: hidden;
+    position: relative;
   }
   .rc-dyn-tabs-tablist-root.rc-dyn-tabs-vertical {
     flex-grow: 0;

@@ -5,6 +5,7 @@ import tablistPropsManager from './tablistPropsManager.js';
 const TabList = React.forwardRef((props, ref) => {
   const {openTabIDs, selectedTabID} = React.useContext(StateContext),
     api = React.useContext(ApiContext),
+    {MoreButtonComponent} = api.optionsManager.setting,
     {tablistRootProps, tablistSectionProps, tablistSliderProps, tablistProps} = tablistPropsManager(api);
   return (
     <div {...tablistRootProps}>
@@ -15,6 +16,7 @@ const TabList = React.forwardRef((props, ref) => {
               <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
             ))}
           </ul>
+          <MoreButtonComponent />
         </div>
       </div>
     </div>
