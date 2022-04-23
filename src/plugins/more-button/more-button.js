@@ -57,10 +57,20 @@ Object.assign(MoreButton.prototype, {
     el.style.opacity = 0;
     el.style.transform = 'translate(-1000,-50%)';
   },
-  _showMoreBtn: function (x) {
+  _showMoreBtn: function (xPosition) {
     const el = this.moreBtnsEl.current;
-    el.style.transform = `translate(${x}px,-50%)`;
+    el.style.transform = `translate(${xPosition}px,-50%)`;
     el.style.opacity = 0.8;
+  },
+  _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
+    let xPos;
+    if (this.api.getOption('direction') === 'ltr') {
+      xPos = totalTabsWidth + selectedTabWidth + 5;
+      return xPos > sliderWidth - moreBtnWidth ? 5 : xPos;
+    } else {
+      xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
+      return xPos < 0 ? sliderWidth - moreBtnWidth - 5 : xPos;
+    }
   },
   destroy: function () {
     if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
@@ -68,10 +78,10 @@ Object.assign(MoreButton.prototype, {
   _getElTotalWidth: function (element) {
     const style = element.currentStyle || window.getComputedStyle(element),
       width = element.offsetWidth, // or use style.width
-      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight),
-      padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight),
-      border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
-    return width + margin + padding + border;
+      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+    //padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight),
+    //border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+    return width + margin;
   },
   _hide: function (el) {
     el.classList.add(this.hiddenClass);
@@ -90,24 +100,29 @@ Object.assign(MoreButton.prototype, {
   _checkTablistOverflow: function (sliderWidth) {
     return sliderWidth < this.sliderEl.scrollWidth;
   },
-  _setFirstHiddenChildIndex: function (selectedTabIndex, tablist, tablistLength, sliderWidth) {
-    let totalWidth = 0;
-    const selectedTabWidth = this._getElTotalWidth(tablist[selectedTabIndex]);
-    const availableWidth = sliderWidth - selectedTabWidth - this.moreBtnsEl.current.clientWidth;
+  _setFirstHiddenChildIndex: function (
+    selectedTabIndex,
+    tablist,
+    tablistLength,
+    sliderWidth,
+    selectedTabWidth,
+    moreBtnWidth,
+  ) {
+    let totalTabsWidth = 0;
+    const availableWidth = sliderWidth - selectedTabWidth - moreBtnWidth - 5;
     for (let i = 0; i < tablistLength; i++) {
       // if is selected
       if (i === selectedTabIndex) {
         continue;
       }
       const elWidth = this._getElTotalWidth(tablist[i]);
-      if (elWidth + totalWidth > availableWidth) {
-        this._showMoreBtn(totalWidth + selectedTabWidth + 5);
-        return i;
+      if (elWidth + totalTabsWidth > availableWidth) {
+        return [i, totalTabsWidth];
       } else {
-        totalWidth += elWidth;
+        totalTabsWidth += elWidth;
       }
     }
-    return -1;
+    return [-1, totalTabsWidth];
   },
   resize: function () {
     // more-button should not work if isVertical option is true
@@ -123,13 +138,23 @@ Object.assign(MoreButton.prototype, {
       this._show(tab);
     });
     requestAnimationFrame(() => {
-      const sliderWidth = this.sliderEl.clientWidth;
+      const sliderWidth = this.sliderEl.clientWidth,
+        selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]);
+      const moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
       if (this._checkTablistOverflow(sliderWidth)) {
-        const _firstHiddenChildIndex = this._setFirstHiddenChildIndex(selectedTabIndex, tabEls, tabsCount, sliderWidth);
+        const [_firstHiddenChildIndex, totalTabsWidth] = this._setFirstHiddenChildIndex(
+          selectedTabIndex,
+          tabEls,
+          tabsCount,
+          sliderWidth,
+          selectedTabWidth,
+          moreBtnWidth,
+        );
         if (_firstHiddenChildIndex !== -1) {
           this._changeTabsStyle(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
             if (i !== selectedTabIndex) this._hide(tab);
           });
+          this._showMoreBtn(this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth));
         } else {
           this._hideMoreBtn();
         }
