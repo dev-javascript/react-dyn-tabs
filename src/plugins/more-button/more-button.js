@@ -37,11 +37,12 @@ Object.assign(MoreButton.prototype, {
       position: 'absolute',
       top: '50%',
       left: '0px',
-      transform: 'translate(-1000,-50%)',
+      transform: 'translateY(-50%)',
       minWidth: '16px',
       minHeight: '16px',
-      opacity: 0,
-      willChange: 'transform',
+      display: 'none',
+      justifyContent: 'center',
+      alignItems: 'center',
     };
     this.api.optionsManager.setting.MoreButtonComponent = function MoreButtonComponent() {
       return (
@@ -54,22 +55,26 @@ Object.assign(MoreButton.prototype, {
   },
   _hideMoreBtn: function () {
     const el = this.moreBtnsEl.current;
-    el.style.opacity = 0;
-    el.style.transform = 'translate(-1000,-50%)';
+    el.style.display = 'none';
   },
-  _showMoreBtn: function (xPosition) {
+  _showMoreBtn: function ([left, right]) {
     const el = this.moreBtnsEl.current;
-    el.style.transform = `translate(${xPosition}px,-50%)`;
-    el.style.opacity = 0.8;
+    el.style.left = left;
+    el.style.right = right;
+    el.style.display = 'flex';
   },
   _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
     let xPos;
     if (this.api.getOption('direction') === 'ltr') {
       xPos = totalTabsWidth + selectedTabWidth + 5;
-      return xPos > sliderWidth - moreBtnWidth ? 5 : xPos;
+      xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
+      return [xPos + 'px', 'auto'];
     } else {
-      xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
-      return xPos < 0 ? sliderWidth - moreBtnWidth - 5 : xPos;
+      xPos = totalTabsWidth + selectedTabWidth + 5;
+      xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
+      return ['auto', xPos + 'px'];
+      // xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
+      // return xPos < 0 ? sliderWidth - moreBtnWidth - 5 : xPos;
     }
   },
   destroy: function () {
@@ -89,12 +94,13 @@ Object.assign(MoreButton.prototype, {
   _show: function (el) {
     el.classList.remove(this.hiddenClass);
   },
-  _changeTabsStyle: function (tabs, startIndex, stopIndex, callback) {
+  _changeTabsStyle: function (tabs, startIndex, stopIndex, actionCallback, endCallback = () => {}) {
     const {tablistEl} = this;
     this._hide(tablistEl);
     for (let i = startIndex; i < stopIndex; i++) {
-      callback(tabs[i], i);
+      actionCallback(tabs[i], i);
     }
+    endCallback();
     this._show(tablistEl);
   },
   _checkTablistOverflow: function (sliderWidth) {
@@ -139,8 +145,8 @@ Object.assign(MoreButton.prototype, {
     });
     requestAnimationFrame(() => {
       const sliderWidth = this.sliderEl.clientWidth,
-        selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]);
-      const moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
+        selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
+        moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
       if (this._checkTablistOverflow(sliderWidth)) {
         const [_firstHiddenChildIndex, totalTabsWidth] = this._setFirstHiddenChildIndex(
           selectedTabIndex,
@@ -151,10 +157,19 @@ Object.assign(MoreButton.prototype, {
           moreBtnWidth,
         );
         if (_firstHiddenChildIndex !== -1) {
-          this._changeTabsStyle(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
-            if (i !== selectedTabIndex) this._hide(tab);
-          });
-          this._showMoreBtn(this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth));
+          this._changeTabsStyle(
+            tabEls,
+            _firstHiddenChildIndex,
+            tabsCount,
+            (tab, i) => {
+              if (i !== selectedTabIndex) this._hide(tab);
+            },
+            () => {
+              this._showMoreBtn(
+                this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth),
+              );
+            },
+          );
         } else {
           this._hideMoreBtn();
         }
