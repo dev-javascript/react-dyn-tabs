@@ -37,10 +37,11 @@ Object.assign(MoreButton.prototype, {
       position: 'absolute',
       top: '50%',
       left: '0px',
-      transform: 'translateY(-50%)',
+      right: 'auto',
+      transform: 'translate(-170px,-50%)',
       minWidth: '16px',
       minHeight: '16px',
-      display: 'none',
+      display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
     };
@@ -55,26 +56,22 @@ Object.assign(MoreButton.prototype, {
   },
   _hideMoreBtn: function () {
     const el = this.moreBtnsEl.current;
-    el.style.display = 'none';
+    el.style.transform = 'translate(-170px,-50%)';
   },
-  _showMoreBtn: function ([left, right]) {
+  _showMoreBtn: function (left) {
     const el = this.moreBtnsEl.current;
-    el.style.left = left;
-    el.style.right = right;
-    el.style.display = 'flex';
+    el.style.transform = `translate(${left}px,-50%)`;
   },
   _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
     let xPos;
     if (this.api.getOption('direction') === 'ltr') {
       xPos = totalTabsWidth + selectedTabWidth + 5;
       xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
-      return [xPos + 'px', 'auto'];
+      return xPos;
     } else {
-      xPos = totalTabsWidth + selectedTabWidth + 5;
-      xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
-      return ['auto', xPos + 'px'];
-      // xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
-      // return xPos < 0 ? sliderWidth - moreBtnWidth - 5 : xPos;
+      xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
+      xPos = xPos < 0 ? 5 : xPos;
+      return xPos;
     }
   },
   destroy: function () {
