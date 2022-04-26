@@ -139,11 +139,11 @@ Object.assign(MoreButton.prototype, {
     this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
-    // check if there is a hidden tab previously
-    this._changeTabsStyle(tabEls, 0, tabsCount, (tab) => {
-      this._show(tab);
-    });
     requestAnimationFrame(() => {
+      // check if there is a hidden tab previously
+      this._changeTabsStyle(tabEls, 0, tabsCount, (tab) => {
+        this._show(tab);
+      });
       const sliderWidth = this.sliderEl.clientWidth,
         selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
         moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
