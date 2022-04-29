@@ -44,7 +44,7 @@ React Dynamic Tabs with full API
   - [beforeClose](#beforeClose)
   - [onClose](#onClose)
   - [onDestroy](#onDestroy)
-- [Methods](#Methods)
+- [Instance's properties](#Instance's-properties)
   - [isOpen](#isOpen)
   - [open](#open)
   - [isSelected](#isSelected)
@@ -691,7 +691,9 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
-## Methods
+## Instance's properties
+
+Instance object can be accessed inside the `ready` function
 
 ### isOpen
 
