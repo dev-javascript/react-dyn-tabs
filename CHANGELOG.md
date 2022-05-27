@@ -1,3 +1,7 @@
+# V5.0.0
+
+- Update peerDependencies
+
 # v4.7.0
 
 - Adding sort method
