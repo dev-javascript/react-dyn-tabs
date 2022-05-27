@@ -35,9 +35,9 @@
     "deploy": "gh-pages -d demo"
   },
   "peerDependencies": {
-    "@babel/runtime-corejs3": "^7.13.10",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "@babel/runtime-corejs3": "^7.18.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
