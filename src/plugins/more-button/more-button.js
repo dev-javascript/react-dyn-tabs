@@ -60,8 +60,8 @@ Object.assign(MoreButton.prototype, {
     return this;
   },
   _hideMoreBtn: function () {
-    const el = this.moreBtnsEl.current;
-    el.style.transform = 'translate(-170px,-50%)';
+    this.isBtnVisible = false;
+    return this._hide(this.moreBtnsEl.current);
   },
   _showMoreBtn: function (left) {
     const el = this.moreBtnsEl.current;
@@ -92,9 +92,11 @@ Object.assign(MoreButton.prototype, {
   },
   _hide: function (el) {
     el.style.transform = 'translate(0px,200px)';
+    return this;
   },
   _show: function (el) {
     el.style.transform = 'translate(0px,0px)';
+    return this;
   },
   _loop: function (arr, startIndex, stopIndex, callback) {
     for (let i = startIndex; i < stopIndex; i++) {
