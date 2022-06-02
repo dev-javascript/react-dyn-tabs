@@ -1,6 +1,15 @@
 import React from 'react';
 const MoreButton = function (resizeDetectorIns, ctx) {
-  this.api = ctx;
+  this._api = ctx;
+  this._data = null;
+  this._overflowedTabID = '';
+  this._overflowedSelectedTabID = '';
+  this._viewportTabsWidth = null;
+  this._dir = '';
+  this._btnPos = null;
+  this._tablistPos = null;
+  this._selectedTabPos = null;
+  this.isBtnVisible = false;
   this.resizeDetectorIns = resizeDetectorIns;
   this.tablistEl = ctx.tablistRef;
   this.moreBtnsEl = React.createRef(null);
@@ -41,7 +50,7 @@ Object.assign(MoreButton.prototype, {
       justifyContent: 'center',
       alignItems: 'center',
     };
-    this.api.optionsManager.setting.MoreButtonComponent = function MoreButtonComponent() {
+    this._api.optionsManager.setting.MoreButtonComponent = function MoreButtonComponent() {
       return (
         <button ref={that.moreBtnsEl} value="more" style={_style}>
           more
@@ -60,7 +69,7 @@ Object.assign(MoreButton.prototype, {
   },
   _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
     let xPos;
-    if (this.api.getOption('direction') === 'ltr') {
+    if (this._api.getOption('direction') === 'ltr') {
       xPos = totalTabsWidth + selectedTabWidth + 5;
       xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
       return xPos;
@@ -124,10 +133,10 @@ Object.assign(MoreButton.prototype, {
   },
   resize: function () {
     // more-button should not work if isVertical option is true
-    if (this.api.getOption('isVertical')) {
+    if (this._api.getOption('isVertical')) {
       return;
     }
-    const {selectedTabID, openTabIDs} = this.api.getData();
+    const {selectedTabID, openTabIDs} = this._api.getData();
     this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
