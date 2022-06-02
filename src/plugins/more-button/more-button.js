@@ -139,41 +139,41 @@ Object.assign(MoreButton.prototype, {
       return;
     }
     const {selectedTabID, openTabIDs} = this._api.getData();
-    this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
+    requestAnimationFrame(() => {
+      this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
+    });
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
-    requestAnimationFrame(() => {
-      // check if there is a hidden tab previously
-      this._loop(tabEls, 0, tabsCount, (tab) => {
-        this._show(tab);
-      });
-      const sliderWidth = this.sliderEl.clientWidth,
-        selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
-        moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
-      if (this._checkTablistOverflow(sliderWidth)) {
-        const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
-          selectedTabIndex,
-          tabEls,
-          tabsCount,
-          sliderWidth,
-          selectedTabWidth,
-          moreBtnWidth,
-        );
-        if (_firstHiddenChildIndex !== -1) {
-          this._loop(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
-            if (i === selectedTabIndex) {
-              tab.style.transform = `translate(${right}px,0px)`;
-            } else {
-              this._hide(tab);
-            }
-          });
-        } else {
-          this._hideMoreBtn();
-        }
+    // check if there is a hidden tab previously
+    this._loop(tabEls, 0, tabsCount, (tab) => {
+      this._show(tab);
+    });
+    const sliderWidth = this.sliderEl.clientWidth,
+      selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
+      moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
+    if (this._checkTablistOverflow(sliderWidth)) {
+      const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
+        selectedTabIndex,
+        tabEls,
+        tabsCount,
+        sliderWidth,
+        selectedTabWidth,
+        moreBtnWidth,
+      );
+      if (_firstHiddenChildIndex !== -1) {
+        this._loop(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
+          if (i === selectedTabIndex) {
+            tab.style.transform = `translate(${right}px,0px)`;
+          } else {
+            this._hide(tab);
+          }
+        });
       } else {
         this._hideMoreBtn();
       }
-    });
+    } else {
+      this._hideMoreBtn();
+    }
   },
 });
 export default MoreButton;
