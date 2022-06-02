@@ -127,7 +127,7 @@ Object.assign(MoreButton.prototype, {
     this._sliderWidth = sliderEl.clientWidth;
     return this._sliderWidth < sliderEl.scrollWidth;
   },
-  _setFirstHiddenChildIndex: function (
+  _findOverflowedTabID: function (
     selectedTabIndex,
     tablist,
     tablistLength,
@@ -178,14 +178,12 @@ Object.assign(MoreButton.prototype, {
       this._setOverflowedSelectedTabID();
 
       const tabsCount = openTabIDs.length;
-      const selectedTabWidth = this._getElTotalWidth(this._tabEls[_selectedTabIndex]);
-
-      const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
+      const [_firstHiddenChildIndex, totalTabsWidth, right] = this._findOverflowedTabID(
         _selectedTabIndex,
         this._tabEls,
         tabsCount,
         this._sliderWidth,
-        selectedTabWidth,
+        this._selectedTabPos.width,
         this._moreBtnWidth,
       );
       if (_firstHiddenChildIndex !== -1) {
