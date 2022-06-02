@@ -64,8 +64,8 @@ Object.assign(MoreButton.prototype, {
     return this._hide(this.moreBtnsEl.current);
   },
   _showMoreBtn: function (left) {
-    const el = this.moreBtnsEl.current;
-    el.style.transform = `translate(${left}px,-50%)`;
+    this.isBtnVisible = true;
+    return this._hide(this.moreBtnsEl.current, left, '-50%');
   },
   _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
     let xPos;
@@ -94,8 +94,8 @@ Object.assign(MoreButton.prototype, {
     el.style.transform = 'translate(0px,200px)';
     return this;
   },
-  _show: function (el) {
-    el.style.transform = 'translate(0px,0px)';
+  _show: function (el, x, y) {
+    el.style.transform = `translate(${x || 0}px,${y || '0px'})`;
     return this;
   },
   _loop: function (arr, startIndex, stopIndex, callback) {
@@ -144,6 +144,7 @@ Object.assign(MoreButton.prototype, {
     });
   },
   _resize: function (tabEls, tabsCount, selectedTabIndex) {
+    this._hideMoreBtn();
     // check if there is a hidden tab previously
     this._loop(tabEls, 0, tabsCount, (tab) => {
       this._show(tab);
