@@ -90,6 +90,13 @@ Object.assign(MoreButton.prototype, {
   destroy: function () {
     if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
   },
+  _getPos: function (el) {
+    const pos = el.getBoundingClientRect(),
+      style = el.currentStyle || window.getComputedStyle(el),
+      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+    pos.width = pos.width + margin;
+    return pos;
+  },
   _getElTotalWidth: function (element) {
     const style = element.currentStyle || window.getComputedStyle(element),
       width = element.offsetWidth, // or use style.width
@@ -166,8 +173,8 @@ Object.assign(MoreButton.prototype, {
       this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
       this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
       this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
-      this._selectedTabPos = this.tabEls[this._overflowedSelectedTabIndex].getBoundingClientRect();
-      this._tablistPos = this.tablistEl.getBoundingClientRect();
+      this._selectedTabPos = this._getPos(this.tabEls[this._overflowedSelectedTabIndex]);
+      this._tablistPos = this._getPos(this.tablistEl);
       this._setOverflowedSelectedTabID();
 
       const tabsCount = openTabIDs.length;
