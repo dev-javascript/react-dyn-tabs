@@ -146,25 +146,21 @@ Object.assign(MoreButton.prototype, {
     if (this._api.getOption('isVertical')) {
       return;
     }
-    const {selectedTabID, openTabIDs} = this._api.getData();
-    this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
-    this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
     this._tabEls = this.tablistEl.childNodes;
     requestAnimationFrame(() => {
       this._resize();
     });
   },
   _resize: function () {
-    const tabsCount = this.data.openTabIDs.length;
     this._hideMoreBtn()._showAllTabs();
-    // check if there is a hidden tab previously
-    this._loop(this._tabEls, 0, tabsCount, (tab) => {
-      this._show(tab);
-    });
     const sliderWidth = this.sliderEl.clientWidth,
-      selectedTabWidth = this._getElTotalWidth(this._tabEls[_overflowedSelectedTabIndex]),
       moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
     if (this._checkTablistOverflow(sliderWidth)) {
+      const {selectedTabID, openTabIDs} = this._api.getData();
+      this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
+      this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
+      const tabsCount = openTabIDs.length;
+      const selectedTabWidth = this._getElTotalWidth(this._tabEls[_overflowedSelectedTabIndex]);
       const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
         _overflowedSelectedTabIndex,
         this._tabEls,
