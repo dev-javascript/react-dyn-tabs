@@ -143,9 +143,11 @@ Object.assign(MoreButton.prototype, {
   },
   resize: function () {
     // more-button should not work if isVertical option is true
-    if (this._api.getOption('isVertical')) {
+    const {isVertical, direction} = this._api.optionsManager.options;
+    if (isVertical === true) {
       return;
     }
+    this._dir = direction;
     this._tabEls = this.tablistEl.childNodes;
     requestAnimationFrame(() => {
       this._resize();
