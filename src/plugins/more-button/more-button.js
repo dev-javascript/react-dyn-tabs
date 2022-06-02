@@ -3,7 +3,9 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._api = ctx;
   this._data = null;
   this._overflowedTabID = '';
+  this._overflowedTabIndex = '';
   this._overflowedSelectedTabID = '';
+  this._overflowedSelectedTabIndex = '';
   this._viewportTabsWidth = null;
   this._dir = '';
   this._btnPos = null;
@@ -11,6 +13,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._selectedTabPos = null;
   this.isBtnVisible = false;
   this.resizeDetectorIns = resizeDetectorIns;
+  this._tabEls = null;
   this.tablistEl = ctx.tablistRef;
   this.moreBtnsEl = React.createRef(null);
   this._setMoreBtnsCom();
@@ -36,6 +39,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
     });
 };
 Object.assign(MoreButton.prototype, {
+  _setOverflowedSelectedTabID: function () {},
   _setMoreBtnsCom: function () {
     const that = this;
     const _style = {
@@ -90,6 +94,13 @@ Object.assign(MoreButton.prototype, {
     //border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
     return width + margin;
   },
+  _showOverflowSelectedTabID: function () {
+    if (this._overflowedSelectedTabID) {
+      this._show(this._tabEls[this._overflowedSelectedTabIndex]);
+      this._overflowedSelectedTabID = '';
+    }
+    return this;
+  },
   _hide: function (el) {
     el.style.transform = 'translate(0px,200px)';
     return this;
@@ -139,31 +150,35 @@ Object.assign(MoreButton.prototype, {
       return;
     }
     const {selectedTabID, openTabIDs} = this._api.getData();
+    this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
+    this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
+    this._tabEls = this.tablistEl.childNodes;
     requestAnimationFrame(() => {
-      this._resize(this.tablistEl.childNodes, openTabIDs.length, openTabIDs.indexOf(selectedTabID));
+      this._resize();
     });
   },
-  _resize: function (tabEls, tabsCount, selectedTabIndex) {
-    this._hideMoreBtn();
+  _resize: function () {
+    const tabsCount = this.data.openTabIDs.length;
+    this._hideMoreBtn()._showOverflowSelectedTabID();
     // check if there is a hidden tab previously
-    this._loop(tabEls, 0, tabsCount, (tab) => {
+    this._loop(this._tabEls, 0, tabsCount, (tab) => {
       this._show(tab);
     });
     const sliderWidth = this.sliderEl.clientWidth,
-      selectedTabWidth = this._getElTotalWidth(tabEls[selectedTabIndex]),
+      selectedTabWidth = this._getElTotalWidth(this._tabEls[_overflowedSelectedTabIndex]),
       moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
     if (this._checkTablistOverflow(sliderWidth)) {
       const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
-        selectedTabIndex,
-        tabEls,
+        _overflowedSelectedTabIndex,
+        this._tabEls,
         tabsCount,
         sliderWidth,
         selectedTabWidth,
         moreBtnWidth,
       );
       if (_firstHiddenChildIndex !== -1) {
-        this._loop(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
-          if (i === selectedTabIndex) {
+        this._loop(this._tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
+          if (i === _overflowedSelectedTabIndex) {
             tab.style.transform = `translate(${right}px,0px)`;
           } else {
             this._hide(tab);
