@@ -94,11 +94,8 @@ Object.assign(MoreButton.prototype, {
     //border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
     return width + margin;
   },
-  _showOverflowSelectedTabID: function () {
-    if (this._overflowedSelectedTabID) {
-      this._show(this._tabEls[this._overflowedSelectedTabIndex]);
-      this._overflowedSelectedTabID = '';
-    }
+  _showAllTabs: function () {
+    this._tabEls.forEach((tab) => this._show(tab));
     return this;
   },
   _hide: function (el) {
@@ -159,7 +156,7 @@ Object.assign(MoreButton.prototype, {
   },
   _resize: function () {
     const tabsCount = this.data.openTabIDs.length;
-    this._hideMoreBtn()._showOverflowSelectedTabID();
+    this._hideMoreBtn()._showAllTabs();
     // check if there is a hidden tab previously
     this._loop(this._tabEls, 0, tabsCount, (tab) => {
       this._show(tab);
