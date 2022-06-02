@@ -1,8 +1,5 @@
 import React from 'react';
 const MoreButton = function (resizeDetectorIns, ctx) {
-  if (ctx.getOption('isVertical')) {
-    return;
-  }
   this.api = ctx;
   this.resizeDetectorIns = resizeDetectorIns;
   this.tablistEl = ctx.tablistRef;
@@ -116,9 +113,7 @@ Object.assign(MoreButton.prototype, {
       }
       const elWidth = this._getElTotalWidth(tablist[i]);
       if (elWidth + totalTabsWidth > availableWidth) {
-        this._showMoreBtn(
-          this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth),
-        );
+        this._showMoreBtn(this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth));
         return [i, totalTabsWidth, right];
       } else {
         totalTabsWidth += elWidth;
@@ -154,18 +149,13 @@ Object.assign(MoreButton.prototype, {
           moreBtnWidth,
         );
         if (_firstHiddenChildIndex !== -1) {
-          this._loop(
-            tabEls,
-            _firstHiddenChildIndex,
-            tabsCount,
-            (tab, i) => {
-              if (i === selectedTabIndex) {
-                tab.style.transform = `translate(${right}px,0px)`;
-              } else {
-                this._hide(tab);
-              }
-            },
-          );
+          this._loop(tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
+            if (i === selectedTabIndex) {
+              tab.style.transform = `translate(${right}px,0px)`;
+            } else {
+              this._hide(tab);
+            }
+          });
         } else {
           this._hideMoreBtn();
         }
