@@ -5,7 +5,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._overflowedTabID = '';
   this._overflowedTabIndex = '';
   this._overflowedSelectedTabID = '';
-  this._overflowedSelectedTabIndex = '';
+  this._selectedTabIndex = '';
   this._viewportTabsWidth = null;
   this._dir = '';
   this._moreBtnWidth = null;
@@ -172,16 +172,16 @@ Object.assign(MoreButton.prototype, {
       const {selectedTabID, openTabIDs} = this._api.getData();
       this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
       this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
-      this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
-      this._selectedTabPos = this._getPos(this.tabEls[this._overflowedSelectedTabIndex]);
+      this._selectedTabIndex = openTabIDs.indexOf(selectedTabID);
+      this._selectedTabPos = this._getPos(this.tabEls[this._selectedTabIndex]);
       this._tablistPos = this._getPos(this.tablistEl);
       this._setOverflowedSelectedTabID();
 
       const tabsCount = openTabIDs.length;
-      const selectedTabWidth = this._getElTotalWidth(this._tabEls[_overflowedSelectedTabIndex]);
+      const selectedTabWidth = this._getElTotalWidth(this._tabEls[_selectedTabIndex]);
 
       const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
-        _overflowedSelectedTabIndex,
+        _selectedTabIndex,
         this._tabEls,
         tabsCount,
         this._sliderWidth,
@@ -190,7 +190,7 @@ Object.assign(MoreButton.prototype, {
       );
       if (_firstHiddenChildIndex !== -1) {
         this._loop(this._tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
-          if (i === _overflowedSelectedTabIndex) {
+          if (i === _selectedTabIndex) {
             tab.style.transform = `translate(${right}px,0px)`;
           } else {
             this._hide(tab);
