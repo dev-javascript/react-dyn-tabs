@@ -157,20 +157,21 @@ Object.assign(MoreButton.prototype, {
   },
   _resize: function () {
     this._hideMoreBtn()._showAllTabs();
-    const moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
+
     if (this._checkTablistOverflow()) {
       const {selectedTabID, openTabIDs} = this._api.getData();
       this.data = {selectedTabID, openTabIDs: [...openTabIDs]};
       this._overflowedSelectedTabIndex = openTabIDs.indexOf(selectedTabID);
       const tabsCount = openTabIDs.length;
       const selectedTabWidth = this._getElTotalWidth(this._tabEls[_overflowedSelectedTabIndex]);
+      this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
       const [_firstHiddenChildIndex, totalTabsWidth, right] = this._setFirstHiddenChildIndex(
         _overflowedSelectedTabIndex,
         this._tabEls,
         tabsCount,
         this._sliderWidth,
         selectedTabWidth,
-        moreBtnWidth,
+        this._moreBtnWidth,
       );
       if (_firstHiddenChildIndex !== -1) {
         this._loop(this._tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
