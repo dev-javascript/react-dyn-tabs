@@ -158,19 +158,19 @@ Object.assign(MoreButton.prototype, {
     return [-1, totalTabsWidth, right];
   },
   resize: function () {
+    this._tabEls = this.tablistEl.childNodes;
+    this._hideMoreBtn()._showAllTabs();
     // more-button should not work if isVertical option is true
     const {isVertical, direction} = this._api.optionsManager.options;
     if (isVertical === true) {
       return;
     }
     this._dir = direction;
-    this._tabEls = this.tablistEl.childNodes;
     requestAnimationFrame(() => {
       this._resize();
     });
   },
   _resize: function () {
-    this._hideMoreBtn()._showAllTabs();
     if (this._checkTablistOverflow()) {
       this.data = this._api.getData();
       this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
