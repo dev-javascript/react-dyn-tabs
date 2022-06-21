@@ -2,9 +2,8 @@ import React from 'react';
 const MoreButton = function (resizeDetectorIns, ctx) {
   this._api = ctx;
   this._data = null;
-  this._overflowedTabID = '';
   this._overflowedTabIndex = '';
-  this._overflowedSelectedTabID = '';
+  this._overflowedSelectedTabIndex = '';
   this._selectedTabIndex = '';
   this._viewportTabsWidth = null;
   this._dir = '';
@@ -40,8 +39,11 @@ const MoreButton = function (resizeDetectorIns, ctx) {
     });
 };
 Object.assign(MoreButton.prototype, {
-  _setOverflowedSelectedTabID: function () {
-    this._overflowedSelectedTabID = this._tablistPos.right < this._selectedTabPos.left ? this.data.selectedTabID : '';
+  _setOverflowedSelectedTabIndex: function () {
+    this._overflowedSelectedTabIndex = -1;
+    if (this._tablistPos.right < this._selectedTabPos.left) {
+      this._overflowedSelectedTabIndex = this._selectedTabIndex;
+    }
     return this;
   },
   _setMoreBtnsCom: function () {
@@ -130,32 +132,24 @@ Object.assign(MoreButton.prototype, {
     this._sliderWidth = sliderEl.clientWidth;
     return this._sliderWidth < sliderEl.scrollWidth;
   },
-  _findOverflowedTabID: function (
-    selectedTabIndex,
-    tablist,
-    tablistLength,
-    sliderWidth,
-    selectedTabWidth,
-    moreBtnWidth,
-  ) {
-    let totalTabsWidth = 0,
-      right;
-    const availableWidth = sliderWidth - selectedTabWidth - moreBtnWidth - 5;
-    for (let i = 0; i < tablistLength; i++) {
+  _setOverflowedTabIndex: function () {
+    this._viewportTabsWidth = 0;
+    this._overflowedTabIndex = -1;
+    const availableWidth = this._sliderWidth - this._selectedTabPos.width - this._moreBtnWidth - 5;
+    for (let i = 0; i < this.data.openTabIDs.length; i++) {
       // if is selected
-      if (i === selectedTabIndex) {
+      if (i === this._selectedTabIndex) {
         continue;
       }
-      const elWidth = this._getElTotalWidth(tablist[i]);
-      if (elWidth + totalTabsWidth > availableWidth) {
-        this._showMoreBtn(this._calculateMoreBtnXPos(totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth));
-        return [i, totalTabsWidth, right];
+      const elWidth = this._getElTotalWidth(this._tabEls[i]);
+      if (elWidth + this._viewportTabsWidth > availableWidth) {
+        this._overflowedTabIndex = i;
+        return this;
       } else {
-        totalTabsWidth += elWidth;
-        right = tablist[i].getBoundingClientRect().right;
+        this._viewportTabsWidth += elWidth;
       }
     }
-    return [-1, totalTabsWidth, right];
+    return this;
   },
   resize: function () {
     this._tabEls = this.tablistEl.childNodes;
@@ -176,20 +170,11 @@ Object.assign(MoreButton.prototype, {
       this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
       this._tablistPos = this._getPos(this.tablistEl);
       this._selectedTabIndex = this.data.openTabIDs.indexOf(this.data.selectedTabID);
-      this._selectedTabPos = this._getPos(this.tabEls[this._selectedTabIndex]);
-      this._setOverflowedSelectedTabID();
+      this._selectedTabPos = this._getPos(this._tabEls[this._selectedTabIndex]);
+      this._setOverflowedSelectedTabIndex()._setOverflowedTabIndex();
 
-      const tabsCount = this.data.openTabIDs.length;
-      const [_firstHiddenChildIndex, totalTabsWidth, right] = this._findOverflowedTabID(
-        this._selectedTabIndex,
-        this._tabEls,
-        tabsCount,
-        this._sliderWidth,
-        this._selectedTabPos.width,
-        this._moreBtnWidth,
-      );
-      if (_firstHiddenChildIndex !== -1) {
-        this._loop(this._tabEls, _firstHiddenChildIndex, tabsCount, (tab, i) => {
+      if (this._overflowedTabIndex !== -1) {
+        this._loop(this._tabEls, this._overflowedTabIndex, tabsCount, (tab, i) => {
           if (i === _selectedTabIndex) {
             tab.style.transform = `translate(${right}px,0px)`;
           } else {
