@@ -41,9 +41,17 @@ const MoreButton = function (resizeDetectorIns, ctx) {
 Object.assign(MoreButton.prototype, {
   _setOverflowedSelectedTabIndex: function () {
     this._overflowedSelectedTabIndex = -1;
-    if (this._tablistPos.right < this._selectedTabPos.left) {
-      this._overflowedSelectedTabIndex = this._selectedTabIndex;
+    switch (this._dir) {
+      case 'ltr':
+        if (this._tablistPos.right < this._selectedTabPos.right) {
+          this._overflowedSelectedTabIndex = this._selectedTabIndex;
+        }
+      case 'rtl':
+        if (this._selectedTabPos.left < this._tablistPos.left) {
+          this._overflowedSelectedTabIndex = this._selectedTabIndex;
+        }
     }
+
     return this;
   },
   _setMoreBtnsCom: function () {
@@ -118,14 +126,24 @@ Object.assign(MoreButton.prototype, {
     el.style.transform = 'translate(0px,200px)';
     return this;
   },
-  _show: function (el, x, y) {
-    el.style.transform = `translate(${x || 0}px,${y || '0px'})`;
+  _moveSelectedOverflowedTab() {
+    let targetLeftPos;
+    switch (this._dir) {
+      case 'ltr':
+        targetLeftPos = this._tablistPos.left + this._viewportTabsWidth;
+        break;
+      case 'rtl':
+        targetLeftPos = this._tablistPos.left + (this._tablistPos.width - this._viewportTabsWidth);
+        break;
+    }
+    const sourceLeftPos = this._selectedTabPos.left;
+    const leftPos = targetLeftPos - sourceLeftPos;
+    this._tabEls[this._overflowedSelectedTabIndex].style.transform = `translate(${leftPos}px,0px)`;
     return this;
   },
-  _loop: function (arr, startIndex, stopIndex, callback) {
-    for (let i = startIndex; i < stopIndex; i++) {
-      callback(arr[i], i);
-    }
+  _show: function (el) {
+    el.style.transform = 'translate(0px,0px)';
+    return this;
   },
   _checkTablistOverflow: function () {
     const sliderEl = this.sliderEl;
@@ -172,20 +190,14 @@ Object.assign(MoreButton.prototype, {
       this._selectedTabIndex = this.data.openTabIDs.indexOf(this.data.selectedTabID);
       this._selectedTabPos = this._getPos(this._tabEls[this._selectedTabIndex]);
       this._setOverflowedSelectedTabIndex()._setOverflowedTabIndex();
-
       if (this._overflowedTabIndex !== -1) {
-        this._loop(this._tabEls, this._overflowedTabIndex, tabsCount, (tab, i) => {
-          if (i === _selectedTabIndex) {
-            tab.style.transform = `translate(${right}px,0px)`;
-          } else {
-            this._hide(tab);
-          }
-        });
+        this._hide(this._tabEls[this._overflowedTabIndex]);
+        this._overflowedSelectedTabIndex > 0 && this._moveSelectedOverflowedTab();
+        this._showMoreBtn();
       } else {
-        this._hideMoreBtn();
+        debugger;
+        throw new Error('when _checkTablistOverflow returns true, _overflowedTabIndex can not be -1');
       }
-    } else {
-      this._hideMoreBtn();
     }
   },
 });
