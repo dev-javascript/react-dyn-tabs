@@ -9,7 +9,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this._dir = '';
   this._moreBtnWidth = null;
   this._sliderWidth = null;
-  this._tablistPos = null;
+  this._sliderPos = null;
   this._selectedTabPos = null;
   this.isBtnVisible = false;
   this.resizeDetectorIns = resizeDetectorIns;
@@ -43,13 +43,15 @@ Object.assign(MoreButton.prototype, {
     this._overflowedSelectedTabIndex = -1;
     switch (this._dir) {
       case 'ltr':
-        if (this._tablistPos.right < this._selectedTabPos.right) {
+        if (this._sliderPos.right - this._moreBtnWidth < this._selectedTabPos.right) {
           this._overflowedSelectedTabIndex = this._selectedTabIndex;
         }
+        break;
       case 'rtl':
-        if (this._selectedTabPos.left < this._tablistPos.left) {
+        if (this._selectedTabPos.left < this._sliderPos.left + this._moreBtnWidth) {
           this._overflowedSelectedTabIndex = this._selectedTabIndex;
         }
+        break;
     }
 
     return this;
@@ -88,18 +90,6 @@ Object.assign(MoreButton.prototype, {
     this.isBtnVisible = true;
     return this._hide(this.moreBtnsEl.current, left, '-50%');
   },
-  _calculateMoreBtnXPos: function (totalTabsWidth, selectedTabWidth, moreBtnWidth, sliderWidth) {
-    let xPos;
-    if (this._api.getOption('direction') === 'ltr') {
-      xPos = totalTabsWidth + selectedTabWidth + 5;
-      xPos = xPos > sliderWidth - moreBtnWidth ? sliderWidth - moreBtnWidth - 5 : xPos;
-      return xPos;
-    } else {
-      xPos = sliderWidth - totalTabsWidth - selectedTabWidth - moreBtnWidth - 5;
-      xPos = xPos < 0 ? 5 : xPos;
-      return xPos;
-    }
-  },
   destroy: function () {
     if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
   },
@@ -126,14 +116,19 @@ Object.assign(MoreButton.prototype, {
     el.style.transform = 'translate(0px,200px)';
     return this;
   },
+  _hideOverflowedTabs: function () {
+    for (let i = this._overflowedTabIndex, c = this._tabEls.length; i < c; i++) {
+      if (i !== this._selectedTabIndex) this._hide(this._tabEls[i]);
+    }
+  },
   _moveSelectedOverflowedTab() {
     let targetLeftPos;
     switch (this._dir) {
       case 'ltr':
-        targetLeftPos = this._tablistPos.left + this._viewportTabsWidth;
+        targetLeftPos = this._sliderPos.left + this._viewportTabsWidth;
         break;
       case 'rtl':
-        targetLeftPos = this._tablistPos.left + (this._tablistPos.width - this._viewportTabsWidth);
+        targetLeftPos = this._sliderPos.left + (this._sliderPos.width - this._viewportTabsWidth);
         break;
     }
     const sourceLeftPos = this._selectedTabPos.left;
@@ -153,7 +148,7 @@ Object.assign(MoreButton.prototype, {
   _setOverflowedTabIndex: function () {
     this._viewportTabsWidth = 0;
     this._overflowedTabIndex = -1;
-    const availableWidth = this._sliderWidth - this._selectedTabPos.width - this._moreBtnWidth - 5;
+    const availableWidth = this._sliderWidth - this._selectedTabPos.width - this._moreBtnWidth;
     for (let i = 0; i < this.data.openTabIDs.length; i++) {
       // if is selected
       if (i === this._selectedTabIndex) {
@@ -186,12 +181,12 @@ Object.assign(MoreButton.prototype, {
     if (this._checkTablistOverflow()) {
       this.data = this._api.getData();
       this._moreBtnWidth = this._getElTotalWidth(this.moreBtnsEl.current);
-      this._tablistPos = this._getPos(this.tablistEl);
+      this._sliderPos = this._getPos(this.sliderEl);
       this._selectedTabIndex = this.data.openTabIDs.indexOf(this.data.selectedTabID);
       this._selectedTabPos = this._getPos(this._tabEls[this._selectedTabIndex]);
       this._setOverflowedSelectedTabIndex()._setOverflowedTabIndex();
       if (this._overflowedTabIndex !== -1) {
-        this._hide(this._tabEls[this._overflowedTabIndex]);
+        this._hideOverflowedTabs();
         this._overflowedSelectedTabIndex > 0 && this._moveSelectedOverflowedTab();
         this._showMoreBtn();
       } else {
