@@ -166,14 +166,15 @@ Object.assign(MoreButton.prototype, {
   },
   resize: function () {
     this._tabEls = this.tablistEl.childNodes;
-    this._hideMoreBtn()._showAllTabs();
-    // more-button should not work if isVertical option is true
     const {isVertical, direction} = this._api.optionsManager.options;
+    this._dir = direction;
+    // more-button should not work if isVertical option is true
     if (isVertical === true) {
+      this._hideMoreBtn()._showAllTabs();
       return;
     }
-    this._dir = direction;
     requestAnimationFrame(() => {
+      this._hideMoreBtn()._showAllTabs();
       this._resize();
     });
   },
