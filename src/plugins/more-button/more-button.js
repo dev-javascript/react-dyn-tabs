@@ -2,9 +2,10 @@ import React from 'react';
 const MoreButton = function (resizeDetectorIns, ctx) {
   this._api = ctx;
   this._data = null;
-  this._overflowedTabIndex = '';
-  this._overflowedSelectedTabIndex = '';
-  this._selectedTabIndex = '';
+  this._overflowedTabIndex = -1;
+  this._nextOverflowedTabIndex = -1;
+  this._overflowedSelectedTabIndex = -1;
+  this._selectedTabIndex = -1;
   this._viewportTabsWidth = null;
   this._dir = '';
   this._moreBtnWidth = null;
@@ -108,8 +109,28 @@ Object.assign(MoreButton.prototype, {
     //border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
     return width + margin;
   },
-  _showAllTabs: function () {
-    this._tabEls.forEach((tab) => this._show(tab));
+  _setNextOverflowedTabIndex: function () {
+    for (let i = this._overflowedTabIndex + 1, c = this._tabEls.length; i < c; i++) {
+      if (i !== this._selectedTabIndex) {
+        this._nextOverflowedTabIndex = i;
+        return this;
+      }
+    }
+    this._nextOverflowedTabIndex = -1;
+    return this;
+  },
+  _showOverflowedTabs: function () {
+    if (this._overflowedTabIndex >= 0) {
+      const el = this._tabEls[this._overflowedTabIndex];
+      el && this._show(el);
+      this._overflowedTabIndex = -1;
+    }
+    if (this._overflowedSelectedTabIndex >= 0) {
+      const el = this._tabEls[this._overflowedSelectedTabIndex];
+      el && this._show(el);
+      this._overflowedSelectedTabIndex = -1;
+    }
+    // this._tabEls.forEach((tab) => this._show(tab));
     return this;
   },
   _hide: function (el) {
@@ -117,9 +138,8 @@ Object.assign(MoreButton.prototype, {
     return this;
   },
   _hideOverflowedTabs: function () {
-    for (let i = this._overflowedTabIndex, c = this._tabEls.length; i < c; i++) {
-      if (i !== this._selectedTabIndex) this._hide(this._tabEls[i]);
-    }
+    this._hide(this._tabEls[this._overflowedTabIndex]);
+    this._nextOverflowedTabIndex > 0 && this._hide(this._tabEls[this._nextOverflowedTabIndex]);
   },
   _moveSelectedOverflowedTab() {
     let targetLeftPos;
@@ -170,11 +190,11 @@ Object.assign(MoreButton.prototype, {
     this._dir = direction;
     // more-button should not work if isVertical option is true
     if (isVertical === true) {
-      this._hideMoreBtn()._showAllTabs();
+      this._hideMoreBtn()._showOverflowedTabs();
       return;
     }
     requestAnimationFrame(() => {
-      this._hideMoreBtn()._showAllTabs();
+      this._hideMoreBtn()._showOverflowedTabs();
       this._resize();
     });
   },
@@ -185,7 +205,7 @@ Object.assign(MoreButton.prototype, {
       this._sliderPos = this._getPos(this.sliderEl);
       this._selectedTabIndex = this.data.openTabIDs.indexOf(this.data.selectedTabID);
       this._selectedTabPos = this._getPos(this._tabEls[this._selectedTabIndex]);
-      this._setOverflowedSelectedTabIndex()._setOverflowedTabIndex();
+      this._setOverflowedSelectedTabIndex()._setOverflowedTabIndex()._setNextOverflowedTabIndex();
       if (this._overflowedTabIndex !== -1) {
         this._hideOverflowedTabs();
         this._overflowedSelectedTabIndex > 0 && this._moveSelectedOverflowedTab();
