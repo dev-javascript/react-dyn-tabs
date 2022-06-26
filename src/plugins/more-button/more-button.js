@@ -130,7 +130,11 @@ Object.assign(MoreButton.prototype, {
       el && this._show(el);
       this._overflowedSelectedTabIndex = -1;
     }
-    // this._tabEls.forEach((tab) => this._show(tab));
+    if (this._nextOverflowedTabIndex > 0) {
+      const el = this._tabEls[this._nextOverflowedTabIndex];
+      el && this._show(el);
+      this._nextOverflowedTabIndex = -1;
+    }
     return this;
   },
   _hide: function (el) {
@@ -194,8 +198,7 @@ Object.assign(MoreButton.prototype, {
       return;
     }
     requestAnimationFrame(() => {
-      this._hideMoreBtn()._showOverflowedTabs();
-      this._resize();
+      this._hideMoreBtn()._showOverflowedTabs()._resize();
     });
   },
   _resize: function () {
