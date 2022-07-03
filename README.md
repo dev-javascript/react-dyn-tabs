@@ -18,6 +18,7 @@ React Dynamic Tabs with full API
 - **ARIA accessible**
 - **Supporting custom Tab component**
 - **Batching updates**
+- **It's about 21kb**
 
 ## Table of Contents
 
