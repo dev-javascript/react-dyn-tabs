@@ -80,6 +80,7 @@
     "style",
     "theme",
     "themes",
+    "src",
     "!*.test.js",
     "!*.test.js.snap"
   ],
