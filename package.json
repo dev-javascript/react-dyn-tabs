@@ -25,6 +25,7 @@
     "build:dist": "rollup -c",
     "build:lib:cjs": "cross-env BABEL_OUTPUT=cjs babel src/ --out-dir lib/cjs/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
     "build:lib:esm": "babel src/ --out-dir lib/esm/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
+    "build:lib:esm-pf": "cross-env INCLUDE_POLYFILLS=true babel src/ --out-dir lib/esm-including-polyfills/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
     "build:scss:dev": "sass themes/scss:themes style/scss:style --no-source-map",
     "build:scss:pro": "sass themes/minified-scss:themes style/minified-scss:style --style compressed --no-source-map",
     "clean:lib": "rimraf lib",
@@ -35,9 +36,9 @@
     "deploy": "gh-pages -d demo"
   },
   "peerDependencies": {
-    "@babel/runtime-corejs3": "^7.18.3",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "@babel/runtime-corejs3": ">=7.18.3",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
@@ -50,6 +51,7 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime-corejs3": "^7.13.10",
     "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-commonjs": "^18.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^7.0.3",
