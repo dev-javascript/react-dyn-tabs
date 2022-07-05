@@ -18,6 +18,7 @@ React Dynamic Tabs with full API
 - **ARIA accessible**
 - **Supporting custom Tab component**
 - **Batching updates**
+- **It's about 21kb**
 
 ## Table of Contents
 
@@ -691,9 +692,15 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
+<<<<<<< HEAD
+
 ## Instance's properties
 
-Instance object can be accessed inside the `ready` function
+# Instance object can be accessed inside the `ready` function
+
+## Instance methods
+
+> > > > > > > master
 
 ### isOpen
 
