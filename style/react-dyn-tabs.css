@@ -31,7 +31,6 @@
   direction: ltr;
   justify-content: flex-start;
   display: flex;
-  flex-grow: 1;
   flex-direction: row;
   overflow: hidden;
   flex-wrap: nowrap;
