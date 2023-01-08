@@ -18,42 +18,46 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.tabsLength = 0;
   this.setMoreBtnsCom();
   this.firstHiddenTabIndex = -1;
+  this.resize = this.resize.bind(this);
   ctx.userProxy.resize = () => {
     this.resize();
   };
+  const resize = (function (func, wait) {
+    let timeout;
+    return function (...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  })(this.resize, 10);
+  const that = this;
   ctx
-    .one('onLoad', () => {
-      this.tablistEl = ctx.tablistRef.current;
-      this.tablistEl.style.overflow = 'visible';
-      this.sliderEl = this.tablistEl.parentElement;
-      this.sliderEl.style.overflow = 'hidden';
-      this.tabs = this.tablistEl.childNodes;
-      if (resizeDetectorIns)
-        resizeDetectorIns.listenTo(this.sliderEl, () => {
-          this.resize();
-        });
-    })
-    // .on('refresh',()=>{
-    //   // todo
-    // })
-    .on('onChange', () => {
-      //this.resize();
-      // todo in this case the resize function might be called twice because the onChange may change the tablist's size and the the second calling of resize function would be fired in resizeDetectorIns's listener
+    .on('_beforeLoad', () => {
+      that.tablistEl = ctx.tablistRef.current;
+      that.tablistEl.style.overflow = 'visible';
+      that.sliderEl = that.tablistEl.parentElement;
+      that.sliderEl.style.overflow = 'hidden';
+      that.tabs = that.tablistEl.childNodes;
+      that.resizeDetectorIns.listenTo(that.sliderEl, resize);
     })
     .on('onDestroy', () => {
-      this.destroy();
+      that.destroy();
     });
 };
 Object.assign(MoreButton.prototype, {
   setMoreBtnsCom: function () {
     const that = this;
     const _style = {
-      minWidth: '16px',
+      minWidth: '46.38px',
       minHeight: '16px',
       margin: '0px 2px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      opacity: 0,
     };
     this.api.optionsManager.setting.MoreButtonComponent = function MoreButtonComponent() {
       return (
@@ -66,6 +70,12 @@ Object.assign(MoreButton.prototype, {
   },
   destroy: function () {
     if (this.sliderEl && this.resizeDetectorIns) this.resizeDetectorIns.uninstall(this.sliderEl);
+  },
+  showBtn: function () {
+    this.btnRef.current.style.opacity = 1;
+  },
+  hideBtn: function () {
+    this.btnRef.current.style.opacity = 0;
   },
   setSelectedTab: function (i) {
     this.selectedTab = i >= 0 ? this.tabs[i] : null;
@@ -106,10 +116,10 @@ Object.assign(MoreButton.prototype, {
   },
   showAll: function () {
     this.tablistEl.style.display = 'none';
-    const tabs = this.tablistEl.children;
-    for (let tab of tabs) {
-      tab.style.display = 'flex';
+    for (let i = 0; i < this.tabsLength; i++) {
+      this.tabs[i].style.display = 'flex';
     }
+    this.hideBtn();
     this.tablistEl.style.display = 'flex';
   },
   hideTabs: function (includeSelectedTab) {
@@ -123,6 +133,7 @@ Object.assign(MoreButton.prototype, {
     if (includeSelectedTab) {
       this.selectedTab.style.display = 'none';
     }
+    this.showBtn();
     this.tablistEl.style.display = 'flex';
   },
   getSelectedTabWidth: function () {
@@ -144,13 +155,22 @@ Object.assign(MoreButton.prototype, {
       return this.sliderPos.right - parseFloat(this.sliderStyle.paddingRight) - pos.right - this.btnWidth;
     }
   },
+  _reset: function () {
+    this.selectedTabPos = null;
+    this.selectedTabStyle = null;
+    this.selectedTabWidth = 0;
+    return this;
+  },
   resize: function () {
-    this.tabsLength = this.tabs.length;
+    const {openTabIDs} = this.api.getData();
+    this.tabsLength = openTabIDs.length;
     if (!this.tabsLength) {
       return;
     }
-    requestAnimationFrame(() => this._resize());
-    this.showAll(); //show all should be called regardless on overflow
+    requestAnimationFrame(() => {
+      this._resize();
+    });
+    this._reset().showAll(); //show all should be called regardless on overflow
   },
   _resize: function () {
     this.sliderPos = this.getElPos(this.sliderEl);
