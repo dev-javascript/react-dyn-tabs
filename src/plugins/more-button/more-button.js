@@ -6,6 +6,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.sliderPos = null;
   this.sliderStyle = null;
   this.isSelectedLastTab = false;
+  this.dir = 'ltr';
   this.selectedTab = null;
   this.selectedTabIndex = -1;
   this.selectedTabPos = null;
@@ -48,6 +49,13 @@ const MoreButton = function (resizeDetectorIns, ctx) {
     });
 };
 Object.assign(MoreButton.prototype, {
+  setdir: function (ins) {
+    this.dir = ins.getOption('isVertical') ? 'bottom' : ins.getOption('direction') === 'ltr' ? 'right' : 'left';
+    return this;
+  },
+  setDir: function (str) {
+    this.Dir = str.charAt(0).toUpperCase() + str.slice(1);
+  },
   setMoreBtnsCom: function () {
     const that = this;
     const _style = {
@@ -112,7 +120,7 @@ Object.assign(MoreButton.prototype, {
     if (this.isSelectedLastTab) {
       this.selectedTabPos = lastTabPos;
     }
-    return this.sliderPos.right - parseFloat(this.sliderStyle.paddingRight) - lastTabPos.right <= 0;
+    return this.calcDis(lastTabPos) <= 0;
   },
   showAll: function () {
     this.tablistEl.style.display = 'none';
@@ -142,18 +150,19 @@ Object.assign(MoreButton.prototype, {
     this.selectedTabWidth = this.selectedTabWidth || this.getElFullWidth(this.selectedTabStyle, this.selectedTabPos);
     return this.selectedTabWidth;
   },
-  calcDis: function (pos, countSelectedTab) {
-    if (countSelectedTab && this.selectedTab) {
-      return (
-        this.sliderPos.right -
-        parseFloat(this.sliderStyle.paddingRight) -
-        pos.right -
-        this.btnWidth -
-        this.getSelectedTabWidth()
-      );
-    } else {
-      return this.sliderPos.right - parseFloat(this.sliderStyle.paddingRight) - pos.right - this.btnWidth;
-    }
+  calcDisFactory: function (sliderDirPos, tabDirPos, sliderPadding, btnSize, selectedTabSize) {
+    return this.dir === 'right'
+      ? sliderDirPos - tabDirPos - sliderPadding - btnSize - selectedTabSize
+      : tabDirPos - sliderDirPos - sliderPadding - btnSize - selectedTabSize;
+  },
+  calcDis: function (tabPos, countSelectedTab = false, countBtnSize = false) {
+    return this.calcDisFactory(
+      this.sliderPos[this.dir],
+      tabPos[this.dir],
+      parseFloat(this.sliderStyle['padding' + this.Dir]),
+      countBtnSize ? this.btnWidth : 0,
+      countSelectedTab && this.selectedTab ? this.getSelectedTabWidth() : 0,
+    );
   },
   _reset: function () {
     this.selectedTabPos = null;
@@ -162,11 +171,13 @@ Object.assign(MoreButton.prototype, {
     return this;
   },
   resize: function () {
-    const {openTabIDs} = this.api.getData();
+    const ins = this.api;
+    const {openTabIDs} = ins.getData();
     this.tabsLength = openTabIDs.length;
     if (!this.tabsLength) {
       return;
     }
+    this.setdir(ins).setDir(this.dir);
     requestAnimationFrame(() => {
       this._resize();
     });
@@ -190,7 +201,7 @@ Object.assign(MoreButton.prototype, {
         continue;
       }
       const tabEl = this.tabs[i];
-      const dis = this.calcDis(this.getElPos(tabEl), i < this.selectedTabIndex);
+      const dis = this.calcDis(this.getElPos(tabEl), i < this.selectedTabIndex, true);
       if (dis <= 0) {
         this.firstHiddenTabIndex = i;
         break;
