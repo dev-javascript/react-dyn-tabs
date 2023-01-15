@@ -6,6 +6,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.sliderPos = null;
   this.sliderStyle = null;
   this.isSelectedLastTab = false;
+  this.isVertical = false;
   this.dir = 'right';
   this.Dir = 'Right';
   this.selectedTab = null;
@@ -50,8 +51,12 @@ const MoreButton = function (resizeDetectorIns, ctx) {
     });
 };
 Object.assign(MoreButton.prototype, {
+  setIsVertical: function (ins) {
+    this.isVertical = ins.getOption('isVertical');
+    return this;
+  },
   setdir: function (ins) {
-    this.dir = ins.getOption('isVertical') ? 'bottom' : ins.getOption('direction') === 'ltr' ? 'right' : 'left';
+    this.dir = this.isVertical ? 'bottom' : ins.getOption('direction') === 'ltr' ? 'right' : 'left';
     return this;
   },
   setDir: function (str) {
@@ -82,11 +87,9 @@ Object.assign(MoreButton.prototype, {
   },
   showBtn: function () {
     this.btnRef.current.style.opacity = 1;
-    this.btnRef.current.style.scale = 1;
   },
   hideBtn: function () {
     this.btnRef.current.style.opacity = 0;
-    this.btnRef.current.style.scale = 0;
   },
   setSelectedTab: function (i) {
     this.selectedTab = i >= 0 ? this.tabs[i] : null;
@@ -100,6 +103,15 @@ Object.assign(MoreButton.prototype, {
   setIsSelectedLastTab: function () {
     this.isSelectedLastTab = this.selectedTabIndex === this.tabsLength - 1;
   },
+  getElHeight: function (elStyle, elPos) {
+    return (
+      elPos.height -
+      parseFloat(elStyle.paddingTop) -
+      parseFloat(elStyle.paddingBottom) -
+      parseFloat(elStyle.borderBottomWidth) -
+      parseFloat(elStyle.borderTopWidth)
+    );
+  },
   getElWidth: function (elStyle, elPos) {
     return (
       elPos.width -
@@ -109,8 +121,17 @@ Object.assign(MoreButton.prototype, {
       parseFloat(elStyle.borderLeftWidth)
     );
   },
+  getElSizeFactory(elStyle, elPos, fullSize) {
+    fullSize = fullSize ? 'Full' : '';
+    return this.isVertical
+      ? this['getEl' + fullSize + 'Height'](elStyle, elPos)
+      : this['getEl' + fullSize + 'Width'](elStyle, elPos);
+  },
   getElFullWidth: function (elStyle, elPos) {
     return elPos.width + parseFloat(elStyle.marginLeft) + parseFloat(elStyle.marginRight);
+  },
+  getElFullHeight: function (elStyle, elPos) {
+    return elPos.height + parseFloat(elStyle.marginTop) + parseFloat(elStyle.marginBottom);
   },
   getElPos: function (el) {
     return el.getBoundingClientRect();
@@ -150,13 +171,14 @@ Object.assign(MoreButton.prototype, {
   getSelectedTabWidth: function () {
     this.selectedTabPos = this.selectedTabPos || this.getElPos(this.selectedTab);
     this.selectedTabStyle = this.selectedTabStyle || this.getElStyle(this.selectedTab);
-    this.selectedTabWidth = this.selectedTabWidth || this.getElFullWidth(this.selectedTabStyle, this.selectedTabPos);
+    this.selectedTabWidth =
+      this.selectedTabWidth || this.getElSizeFactory(this.selectedTabStyle, this.selectedTabPos, true);
     return this.selectedTabWidth;
   },
   calcDisFactory: function (sliderDirPos, tabDirPos, sliderPadding, btnSize, selectedTabSize) {
-    return this.dir === 'right'
-      ? sliderDirPos - tabDirPos - sliderPadding - btnSize - selectedTabSize
-      : tabDirPos - sliderDirPos - sliderPadding - btnSize - selectedTabSize;
+    return this.dir === 'left'
+      ? tabDirPos - sliderDirPos - sliderPadding - btnSize - selectedTabSize
+      : sliderDirPos - tabDirPos - sliderPadding - btnSize - selectedTabSize;
   },
   calcDis: function (tabPos, countSelectedTab = false, countBtnSize = false) {
     return this.calcDisFactory(
@@ -180,7 +202,7 @@ Object.assign(MoreButton.prototype, {
     if (!this.tabsLength) {
       return;
     }
-    this.setdir(ins).setDir(this.dir);
+    this.setIsVertical(ins).setdir(ins).setDir(this.dir);
     requestAnimationFrame(() => {
       this._resize();
     });
@@ -195,7 +217,11 @@ Object.assign(MoreButton.prototype, {
       return;
     }
     this.firstHiddenTabIndex = this.tabsLength - 1;
-    this.btnWidth = this.getElFullWidth(this.getElStyle(this.btnRef.current), this.getElPos(this.btnRef.current));
+    this.btnWidth = this.getElSizeFactory(
+      this.getElStyle(this.btnRef.current),
+      this.getElPos(this.btnRef.current),
+      true,
+    );
     this.setSelectedTab(this.selectedTabIndex);
     for (let i = 0, count = this.tabsLength - 2; i <= count; i++) {
       //check all tab's position except the last one
@@ -215,7 +241,7 @@ Object.assign(MoreButton.prototype, {
     if (this.selectedTab != null) {
       if (this.firstHiddenTabIndex <= 0 || (this.firstHiddenTabIndex === 1 && this.selectedTabIndex === 0)) {
         includeSelectedTab =
-          this.getSelectedTabWidth() + this.btnWidth >= this.getElWidth(this.sliderStyle, this.sliderPos);
+          this.getSelectedTabWidth() + this.btnWidth >= this.getElSizeFactory(this.sliderStyle, this.sliderPos);
       }
     }
     this.hideTabs(includeSelectedTab);
