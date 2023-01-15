@@ -126,10 +126,19 @@
   }
   .rc-dyn-tabs-tablist-root.rc-dyn-tabs-vertical {
     flex-grow: 0;
+    height: 100%;
     float: left;
     &,
     & > .rc-dyn-tabs-tablist-sec {
       flex-direction: column;
+      height: 100%;
+      & > .rc-dyn-tabs-tablist-slider {
+        flex-direction: column;
+        height: 100%;
+        & > .rc-dyn-tabs-tablist {
+          height: auto;
+        }
+      }
     }
     &.rc-dyn-tabs-rtl {
       float: right;
