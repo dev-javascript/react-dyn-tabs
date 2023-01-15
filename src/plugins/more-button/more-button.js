@@ -6,7 +6,8 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.sliderPos = null;
   this.sliderStyle = null;
   this.isSelectedLastTab = false;
-  this.dir = 'ltr';
+  this.dir = 'right';
+  this.Dir = 'Right';
   this.selectedTab = null;
   this.selectedTabIndex = -1;
   this.selectedTabPos = null;
@@ -81,9 +82,11 @@ Object.assign(MoreButton.prototype, {
   },
   showBtn: function () {
     this.btnRef.current.style.opacity = 1;
+    this.btnRef.current.style.scale = 1;
   },
   hideBtn: function () {
     this.btnRef.current.style.opacity = 0;
+    this.btnRef.current.style.scale = 0;
   },
   setSelectedTab: function (i) {
     this.selectedTab = i >= 0 ? this.tabs[i] : null;
