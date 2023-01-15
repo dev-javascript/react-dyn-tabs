@@ -13,10 +13,10 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.selectedTabIndex = -1;
   this.selectedTabPos = null;
   this.selectedTabStyle = null;
-  this.selectedTabWidth = 0;
+  this.selectedTabSize = 0;
   this.resizeDetectorIns = resizeDetectorIns;
   this.btnRef = React.createRef(null);
-  this.btnWidth = null;
+  this.btnSize = null;
   this.tabs = null;
   this.tabsLength = 0;
   this.setBtnCom();
@@ -168,12 +168,12 @@ Object.assign(MoreButton.prototype, {
     this.showBtn();
     this.tablistEl.style.display = 'flex';
   },
-  getSelectedTabWidth: function () {
+  getSelectedTabSize: function () {
     this.selectedTabPos = this.selectedTabPos || this.getElPos(this.selectedTab);
     this.selectedTabStyle = this.selectedTabStyle || this.getElStyle(this.selectedTab);
-    this.selectedTabWidth =
-      this.selectedTabWidth || this.getElSizeFactory(this.selectedTabStyle, this.selectedTabPos, true);
-    return this.selectedTabWidth;
+    this.selectedTabSize =
+      this.selectedTabSize || this.getElSizeFactory(this.selectedTabStyle, this.selectedTabPos, true);
+    return this.selectedTabSize;
   },
   calcDisFactory: function (sliderDirPos, tabDirPos, sliderPadding, btnSize, selectedTabSize) {
     return this.dir === 'left'
@@ -185,14 +185,14 @@ Object.assign(MoreButton.prototype, {
       this.sliderPos[this.dir],
       tabPos[this.dir],
       parseFloat(this.sliderStyle['padding' + this.Dir]),
-      countBtnSize ? this.btnWidth : 0,
-      countSelectedTab && this.selectedTab ? this.getSelectedTabWidth() : 0,
+      countBtnSize ? this.btnSize : 0,
+      countSelectedTab && this.selectedTab ? this.getSelectedTabSize() : 0,
     );
   },
   _reset: function () {
     this.selectedTabPos = null;
     this.selectedTabStyle = null;
-    this.selectedTabWidth = 0;
+    this.selectedTabSize = 0;
     return this;
   },
   resize: function () {
@@ -217,7 +217,7 @@ Object.assign(MoreButton.prototype, {
       return;
     }
     this.firstHiddenTabIndex = this.tabsLength - 1;
-    this.btnWidth = this.getElSizeFactory(
+    this.btnSize = this.getElSizeFactory(
       this.getElStyle(this.btnRef.current),
       this.getElPos(this.btnRef.current),
       true,
@@ -241,7 +241,7 @@ Object.assign(MoreButton.prototype, {
     if (this.selectedTab != null) {
       if (this.firstHiddenTabIndex <= 0 || (this.firstHiddenTabIndex === 1 && this.selectedTabIndex === 0)) {
         includeSelectedTab =
-          this.getSelectedTabWidth() + this.btnWidth >= this.getElSizeFactory(this.sliderStyle, this.sliderPos);
+          this.getSelectedTabSize() + this.btnSize >= this.getElSizeFactory(this.sliderStyle, this.sliderPos);
       }
     }
     this.hideTabs(includeSelectedTab);
