@@ -11,6 +11,8 @@ const Pub_Sub = function () {
     _onFlushEffects: [],
     _onReady: [],
     onFirstSelect: [],
+    _beforeChange: [],
+    _beforeLoad: [],
   };
 };
 Object.assign(Pub_Sub.prototype, {
