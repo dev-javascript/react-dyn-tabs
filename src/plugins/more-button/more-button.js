@@ -18,7 +18,7 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.btnWidth = null;
   this.tabs = null;
   this.tabsLength = 0;
-  this.setMoreBtnsCom();
+  this.setBtnCom();
   this.firstHiddenTabIndex = -1;
   this.resize = this.resize.bind(this);
   ctx.userProxy.resize = () => {
@@ -57,7 +57,7 @@ Object.assign(MoreButton.prototype, {
   setDir: function (str) {
     this.Dir = str.charAt(0).toUpperCase() + str.slice(1);
   },
-  setMoreBtnsCom: function () {
+  setBtnCom: function () {
     const that = this;
     const _style = {
       minWidth: '46.38px',
