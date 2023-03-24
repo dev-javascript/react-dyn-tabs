@@ -16,11 +16,11 @@ El.prototype = {
       (function (that) {
         const style = that.getStyle();
         return (
-          that.getPos()[this._sizeDimension] -
-          parseFloat(style[`padding${this._sizeDirections[0]}`]) -
-          parseFloat(style[`padding${this._sizeDirections[1]}`]) -
-          parseFloat(style[`border${this._sizeDirections[1]}Width`]) -
-          parseFloat(style[`border${this._sizeDirections[0]}Width`])
+          that.getPos()[that._sizeDimension] -
+          parseFloat(style[`padding${that._sizeDirections[0]}`]) -
+          parseFloat(style[`padding${that._sizeDirections[1]}`]) -
+          parseFloat(style[`border${that._sizeDirections[1]}Width`]) -
+          parseFloat(style[`border${that._sizeDirections[0]}Width`])
         );
       })(this));
   },
@@ -30,9 +30,9 @@ El.prototype = {
       (function (that) {
         const style = that.getStyle();
         return (
-          that.getPos()[this._sizeDimension] +
-          parseFloat(style[`margin${this._sizeDirections[0]}`]) +
-          parseFloat(style[`margin${this._sizeDirections[1]}`])
+          that.getPos()[that._sizeDimension] +
+          parseFloat(style[`margin${that._sizeDirections[0]}`]) +
+          parseFloat(style[`margin${that._sizeDirections[1]}`])
         );
       })(this));
   },
