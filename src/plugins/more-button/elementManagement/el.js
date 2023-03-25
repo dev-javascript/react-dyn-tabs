@@ -1,4 +1,4 @@
-export default function El(el, sizeDimension, sizeDirections) {
+export default function El({el, sizeDimension, sizeDirections}) {
   this._el = el;
   this._sizeDimension = sizeDimension;
   this._sizeDirections = sizeDirections;

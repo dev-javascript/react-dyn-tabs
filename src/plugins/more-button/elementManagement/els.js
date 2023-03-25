@@ -1,8 +1,7 @@
 export default function Els(deps, op) {
   this._geElInstance = deps.geElInstance;
-  const {isVertical} = op;
   this.els = new Map();
-  this._sizeFactory(isVertical);
+  this._sizeFactory(op.isVertical);
 }
 Els.prototype = {
   _sizeFactory: function (isVertical) {
@@ -15,7 +14,11 @@ Els.prototype = {
     }
   },
   getEl: function (el) {
-    this.els.has(el) || this.els.set(el, this._geElInstance(el, this._sizeDimension, this._sizeDirections));
+    this.els.has(el) ||
+      this.els.set(
+        el,
+        this._geElInstance({el, sizeDimension: this._sizeDimension, sizeDirections: this._sizeDirections}),
+      );
     return this.els.get(el);
   },
 };
