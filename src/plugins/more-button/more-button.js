@@ -1,4 +1,5 @@
 import React from 'react';
+import ElManagement from './elementManagement/index.js';
 const MoreButton = function (resizeDetectorIns, ctx) {
   this.api = ctx;
   this.tablistEl = null;
@@ -51,17 +52,6 @@ const MoreButton = function (resizeDetectorIns, ctx) {
     });
 };
 Object.assign(MoreButton.prototype, {
-  setIsVertical: function (ins) {
-    this.isVertical = ins.getOption('isVertical');
-    return this;
-  },
-  setdir: function (ins) {
-    this.dir = this.isVertical ? 'bottom' : ins.getOption('direction') === 'ltr' ? 'right' : 'left';
-    return this;
-  },
-  setDir: function (str) {
-    this.Dir = str.charAt(0).toUpperCase() + str.slice(1);
-  },
   setBtnCom: function () {
     const that = this;
     const _style = {
@@ -100,51 +90,8 @@ Object.assign(MoreButton.prototype, {
     this.selectedTabIndex = openTabIDs.indexOf(selectedTabID);
     return this.selectedTabIndex;
   },
-  setIsSelectedLastTab: function () {
-    this.isSelectedLastTab = this.selectedTabIndex === this.tabsLength - 1;
-  },
-  getElHeight: function (elStyle, elPos) {
-    return (
-      elPos.height -
-      parseFloat(elStyle.paddingTop) -
-      parseFloat(elStyle.paddingBottom) -
-      parseFloat(elStyle.borderBottomWidth) -
-      parseFloat(elStyle.borderTopWidth)
-    );
-  },
-  getElWidth: function (elStyle, elPos) {
-    return (
-      elPos.width -
-      parseFloat(elStyle.paddingLeft) -
-      parseFloat(elStyle.paddingRight) -
-      parseFloat(elStyle.borderRightWidth) -
-      parseFloat(elStyle.borderLeftWidth)
-    );
-  },
-  getElSizeFactory(elStyle, elPos, fullSize) {
-    fullSize = fullSize ? 'Full' : '';
-    return this.isVertical
-      ? this['getEl' + fullSize + 'Height'](elStyle, elPos)
-      : this['getEl' + fullSize + 'Width'](elStyle, elPos);
-  },
-  getElFullWidth: function (elStyle, elPos) {
-    return elPos.width + parseFloat(elStyle.marginLeft) + parseFloat(elStyle.marginRight);
-  },
-  getElFullHeight: function (elStyle, elPos) {
-    return elPos.height + parseFloat(elStyle.marginTop) + parseFloat(elStyle.marginBottom);
-  },
-  getElPos: function (el) {
-    return el.getBoundingClientRect();
-  },
-  getElStyle: function (el) {
-    return el.currentStyle || window.getComputedStyle(el);
-  },
   checkOverflow: function () {
-    const lastTabPos = this.getElPos(this.tabs[this.tabsLength - 1]);
-    if (this.isSelectedLastTab) {
-      this.selectedTabPos = lastTabPos;
-    }
-    return this.calcDis(lastTabPos) <= 0;
+    return this.els.getDistance(this.tabs[this.tabsLength - 1]).value <= 0;
   },
   showAll: function () {
     this.tablistEl.style.display = 'none';
@@ -168,33 +115,6 @@ Object.assign(MoreButton.prototype, {
     this.showBtn();
     this.tablistEl.style.display = 'flex';
   },
-  getSelectedTabSize: function () {
-    this.selectedTabPos = this.selectedTabPos || this.getElPos(this.selectedTab);
-    this.selectedTabStyle = this.selectedTabStyle || this.getElStyle(this.selectedTab);
-    this.selectedTabSize =
-      this.selectedTabSize || this.getElSizeFactory(this.selectedTabStyle, this.selectedTabPos, true);
-    return this.selectedTabSize;
-  },
-  calcDisFactory: function (sliderDirPos, tabDirPos, sliderPadding, btnSize, selectedTabSize) {
-    return this.dir === 'left'
-      ? tabDirPos - sliderDirPos - sliderPadding - btnSize - selectedTabSize
-      : sliderDirPos - tabDirPos - sliderPadding - btnSize - selectedTabSize;
-  },
-  calcDis: function (tabPos, countSelectedTab = false, countBtnSize = false) {
-    return this.calcDisFactory(
-      this.sliderPos[this.dir],
-      tabPos[this.dir],
-      parseFloat(this.sliderStyle['padding' + this.Dir]),
-      countBtnSize ? this.btnSize : 0,
-      countSelectedTab && this.selectedTab ? this.getSelectedTabSize() : 0,
-    );
-  },
-  _reset: function () {
-    this.selectedTabPos = null;
-    this.selectedTabStyle = null;
-    this.selectedTabSize = 0;
-    return this;
-  },
   resize: function () {
     const ins = this.api;
     const {openTabIDs} = ins.getData();
@@ -202,36 +122,34 @@ Object.assign(MoreButton.prototype, {
     if (!this.tabsLength) {
       return;
     }
-    this.setIsVertical(ins).setdir(ins).setDir(this.dir);
+    this.els = new ElManagement({
+      baseEl: this.sliderEl,
+      isVertical: ins.getOption('isVertical'),
+      dir: ins.getOption('direction'),
+    });
     requestAnimationFrame(() => {
       this._resize();
     });
-    this._reset().showAll(); //show all should be called regardless on overflow
+    this.showAll(); //show all should be called regardless on overflow
   },
   _resize: function () {
-    this.sliderPos = this.getElPos(this.sliderEl);
-    this.sliderStyle = this.getElStyle(this.sliderEl);
-    this.setSelectedTabIndex();
-    this.setIsSelectedLastTab();
     if (this.checkOverflow() === false) {
       return;
     }
     this.firstHiddenTabIndex = this.tabsLength - 1;
-    this.btnSize = this.getElSizeFactory(
-      this.getElStyle(this.btnRef.current),
-      this.getElPos(this.btnRef.current),
-      true,
-    );
-    this.setSelectedTab(this.selectedTabIndex);
+    this.setSelectedTab(this.setSelectedTabIndex());
     for (let i = 0, count = this.tabsLength - 2; i <= count; i++) {
       //check all tab's position except the last one
       if (i === this.selectedTabIndex) {
         //dont check selected tab
         continue;
       }
-      const tabEl = this.tabs[i];
-      const dis = this.calcDis(this.getElPos(tabEl), i < this.selectedTabIndex, true);
-      if (dis <= 0) {
+      const _dis = this.els.getDistance(this.tabs[i]);
+      if (i < this.selectedTabIndex) {
+        _dis.sub(this.els.getEl(this.selectedTab).getFullSize());
+      }
+      _dis.sub(this.els.getEl(this.btnRef.current).getFullSize());
+      if (_dis.value <= 0) {
         this.firstHiddenTabIndex = i;
         break;
       }
@@ -241,7 +159,8 @@ Object.assign(MoreButton.prototype, {
     if (this.selectedTab != null) {
       if (this.firstHiddenTabIndex <= 0 || (this.firstHiddenTabIndex === 1 && this.selectedTabIndex === 0)) {
         includeSelectedTab =
-          this.getSelectedTabSize() + this.btnSize >= this.getElSizeFactory(this.sliderStyle, this.sliderPos);
+          this.els.getEl(this.selectedTab).getFullSize() + this.els.getEl(this.btnRef.current).getFullSize() >=
+          this.els.getEl(this.sliderEl).getSize();
       }
     }
     this.hideTabs(includeSelectedTab);
