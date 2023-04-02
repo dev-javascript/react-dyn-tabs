@@ -10,7 +10,6 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.btnRef = React.createRef(null);
   this.tabs = null;
   this.tabsLength = 0;
-  this.order = 'asc';
   this.searchBoundries = [0, 0];
   this.lastTabDistance = null;
   this.setBtnCom();
@@ -145,15 +144,15 @@ Object.assign(MoreButton.prototype, {
     return this;
   },
   setOrder: function () {
-    this.order = this.els.getEl(this.sliderEl).getPos().width >= this.lastTabDistance ? 'asc' : 'desc';
-    return this;
+    return Math.abs(this.lastTabDistance) > this.els.getEl(this.sliderEl).getPos().width ? 'asc' : 'desc';
   },
   setSearchBoundries: function (pivotIndex) {
     if (!(pivotIndex >= 0)) {
       this.searchBoundries = [0, pivotIndex - 2];
       return this;
     }
-    const isPivotOverflow = this.els.getDistance(this.tabs[pivotIndex]).value <= 0;
+    const isPivotOverflow =
+      this.els.getDistance(this.tabs[pivotIndex]).sub(this.els.getEl(this.btnRef.current).getFullSize()).value <= 0;
     if (isPivotOverflow) {
       this.searchBoundries = [0, pivotIndex - 1];
     } else {
@@ -169,36 +168,51 @@ Object.assign(MoreButton.prototype, {
         }
       }
     } else
-      for (let i = stopIndex; i <= startIndex; i--) {
+      for (let i = stopIndex; i >= startIndex; i--) {
         if (shouldBreakCallback(i) == true) {
           break;
         }
       }
   },
-  setGetTabDistance: function (isSelectedTabOverflow) {
+  getTabDistanceFactory: function (isSelectedTabOverflow) {
     this.getTabDistance = isSelectedTabOverflow
-      ? (i) =>
+      ? (el) =>
           this.els
-            .getDistance(this.tabs[i])
+            .getDistance(el)
             .sub(this.els.getEl(this.selectedTab).getFullSize())
             .sub(this.els.getEl(this.btnRef.current).getFullSize())
-      : (i) => this.els.getDistance(this.tabs[i]).sub(this.els.getEl(this.btnRef.current).getFullSize());
+      : (el) => this.els.getDistance(el).sub(this.els.getEl(this.btnRef.current).getFullSize());
+    return this;
+  },
+  updateFirstHiddenTabIndexFactory: function (order) {
+    this.updateFirstHiddenTabIndex =
+      order === 'asc'
+        ? (tabIndex) => {
+            if (this.getTabDistance(this.tabs[tabIndex]).value <= 0) {
+              this.firstHiddenTabIndex = tabIndex;
+              return true;
+            } else {
+              return false;
+            }
+          }
+        : (tabIndex) => {
+            if (this.getTabDistance(this.tabs[tabIndex]).value <= 0) {
+              this.firstHiddenTabIndex = tabIndex;
+              return false;
+            } else {
+              return true;
+            }
+          };
     return this;
   },
   setFirstHiddenTabIndex: function () {
     this.firstHiddenTabIndex = this.tabsLength - 1;
     const [start, stop] = this.searchBoundries;
+    const order = this.setOrder();
     this.setSearchBoundries(this.selectedTabIndex)
-      .setOrder()
-      .setGetTabDistance(start == 0)
-      ._loop(start, stop, this.order, (i) => {
-        if (this.getTabDistance(i).value <= 0) {
-          this.firstHiddenTabIndex = i;
-          return true;
-        } else {
-          return false;
-        }
-      });
+      .getTabDistanceFactory(start == 0)
+      .updateFirstHiddenTabIndexFactory(order)
+      ._loop(start, stop, order, this.updateFirstHiddenTabIndex);
     return this;
   },
 });
