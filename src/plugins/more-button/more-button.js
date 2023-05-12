@@ -4,16 +4,10 @@ const MoreButton = function (resizeDetectorIns, ctx) {
   this.api = ctx;
   this.tablistEl = null;
   this.sliderEl = null;
-  this.selectedTab = null;
-  this.selectedTabIndex = -1;
   this.resizeDetectorIns = resizeDetectorIns;
   this.btnRef = React.createRef(null);
   this.tabs = null;
-  this.tabsLength = 0;
-  this.searchBoundries = [0, 0];
-  this.lastTabDistance = null;
   this.setBtnCom();
-  this.firstHiddenTabIndex = -1;
   this.resize = this.resize.bind(this);
   ctx.userProxy.resize = () => {
     this.resize();
@@ -73,52 +67,53 @@ Object.assign(MoreButton.prototype, {
   hideBtn: function () {
     this.btnRef.current.style.opacity = 0;
   },
-  setSelectedTab: function (i) {
-    this.selectedTab = i >= 0 ? this.tabs[i] : null;
-    return this;
+  checkOverflow: function (lastTab) {
+    return this.els.getDistance(lastTab).value <= 0;
   },
-  setSelectedTabIndex: function () {
-    const {openTabIDs, selectedTabID} = this.api.getData();
-    this.selectedTabIndex = openTabIDs.indexOf(selectedTabID);
-    return this.selectedTabIndex;
-  },
-  setLastTabDistance: function () {
-    this.lastTabDistance = this.els.getDistance(this.tabs[this.tabsLength - 1]).value;
-    return this;
-  },
-  checkOverflow: function () {
-    return this.lastTabDistance <= 0;
-  },
-  showAll: function () {
+  showAll: function (tabsLength) {
     this.tablistEl.style.display = 'none';
-    for (let i = 0; i < this.tabsLength; i++) {
+    for (let i = 0; i < tabsLength; i++) {
       this.tabs[i].style.display = 'flex';
     }
     this.hideBtn();
     this.tablistEl.style.display = 'flex';
   },
-  hideTabs: function (includeSelectedTab) {
+  hideTabs: function (firstHiddenTabIndex, selectedTabInfo, tabsLength, includeSelectedTab) {
     this.tablistEl.style.display = 'none';
-    const selectedTabIndex = this.selectedTabIndex;
-    for (let i = this.firstHiddenTabIndex, count = this.tabsLength; i < count; i++) {
-      if (i !== selectedTabIndex) {
+    const {index, el} = selectedTabInfo;
+    for (let i = firstHiddenTabIndex; i < tabsLength; i++) {
+      if (i !== index) {
         this.tabs[i].style.display = 'none';
       }
     }
     if (includeSelectedTab) {
-      this.selectedTab.style.display = 'none';
+      el.style.display = 'none';
     }
     this.showBtn();
     this.tablistEl.style.display = 'flex';
   },
+  setSelectedTab: function (tabs, data) {
+    const {openTabIDs, selectedTabID} = data;
+    const index = openTabIDs.indexOf(selectedTabID);
+    const el = index >= 0 ? tabs[index] : null;
+    const overflow = el
+      ? this.els.getDistance(el).sub(this.els.getEl(this.btnRef.current).getFullSize()).value <= 0
+      : false;
+    const fullSize = overflow ? this.els.getEl(el).getFullSize() : 0;
+    this._selectedTab = {index, el, overflow, fullSize};
+    return this;
+  },
+  getSelectedTab: function () {
+    return this._selectedTab;
+  },
   resize: function () {
     const ins = this.api;
-    const {openTabIDs} = ins.getData();
-    this.tabsLength = openTabIDs.length;
-    this.firstHiddenTabIndex = -1;
-    if (!this.tabsLength) {
+    const data = ins.getData();
+    const _tabsLength = data.openTabIDs.length;
+    if (!_tabsLength) {
       return;
     }
+    const _lastTab = this.tabs[_tabsLength - 1];
     this.els = new ElManagement({
       baseEl: this.sliderEl,
       isVertical: ins.getOption('isVertical'),
@@ -126,94 +121,69 @@ Object.assign(MoreButton.prototype, {
     });
     requestAnimationFrame(
       () =>
-        this.setLastTabDistance().checkOverflow() &&
-        (this.setSelectedTab(this.setSelectedTabIndex()).checkSliderMinSize().firstHiddenTabIndex >= 0
-          ? this.hideTabs(true)
-          : this.setFirstHiddenTabIndex().hideTabs()),
+        this.checkOverflow(_lastTab) &&
+        (this.setSelectedTab(this.tabs, data).validateSliderMinSize(this.getSelectedTab())
+          ? this.hideTabs(
+              this.findFirstHiddenTabIndexFactory(
+                this.getSearchBoundries(_tabsLength),
+                this.getOrder(_lastTab),
+                _tabsLength,
+              ),
+              this.getSelectedTab(),
+              _tabsLength,
+            )
+          : this.hideTabs(0, this.getSelectedTab(), _tabsLength, true)),
     );
-    this.showAll(); //show all should be called regardless on overflow
+    this.showAll(_tabsLength); //showAll should be called regardless of overflow
   },
-  checkSliderMinSize: function () {
+  validateSliderMinSize: function (selectedTabInfo) {
+    const {el, fullSize} = selectedTabInfo;
     //the slider's size should contain selected tab + more button
-    this.firstHiddenTabIndex =
-      this.selectedTab &&
-      this.els.getEl(this.selectedTab).getFullSize() + this.els.getEl(this.btnRef.current).getFullSize() >=
-        this.els.getEl(this.sliderEl).getSize()
-        ? 0
-        : -1;
-    return this;
+    return el && fullSize + this.els.getEl(this.btnRef.current).getFullSize() >= this.els.getEl(this.sliderEl).getSize()
+      ? false
+      : true;
   },
-  setOrder: function () {
-    return Math.abs(this.lastTabDistance) > this.els.getEl(this.sliderEl).getPos().width ? 'asc' : 'desc';
+  getOrder: function (lastTab) {
+    return Math.abs(this.els.getDistance(lastTab).value) > this.els.getEl(this.sliderEl).getPos().width
+      ? 'asc'
+      : 'desc';
   },
-  setSearchBoundries: function (pivotIndex) {
-    if (!(pivotIndex >= 0)) {
-      this.searchBoundries = [0, pivotIndex - 2];
-      return this;
+  getSearchBoundries: function (tabsLength) {
+    const {overflow, index: pivotIndex} = this.getSelectedTab();
+    if (pivotIndex < 0) {
+      return [0, tabsLength - 2];
     }
-    const isPivotOverflow =
-      this.els.getDistance(this.tabs[pivotIndex]).sub(this.els.getEl(this.btnRef.current).getFullSize()).value <= 0;
-    if (isPivotOverflow) {
-      this.searchBoundries = [0, pivotIndex - 1];
-    } else {
-      this.searchBoundries = [pivotIndex + 1, this.tabsLength - 2];
+    return overflow ? [0, pivotIndex - 1] : [pivotIndex + 1, tabsLength - 2];
+  },
+  getTabDis: function (el) {
+    return this.els
+      .getDistance(el)
+      .sub(this.getSelectedTab().fullSize)
+      .sub(this.els.getEl(this.btnRef.current).getFullSize());
+  },
+  findFirstHiddenTabIndexDSCE: function (start, stop, tabsLength) {
+    let firstHiddenTabIndex = tabsLength - 1;
+    for (let i = stop; i >= start; i--) {
+      if (this.getTabDis(this.tabs[i]).value <= 0) {
+        firstHiddenTabIndex = i;
+      } else {
+        break;
+      }
     }
-    return this;
+    return firstHiddenTabIndex;
   },
-  _loop: function (startIndex, stopIndex, order, shouldBreakCallback) {
-    if (order == 'asc') {
-      for (let i = startIndex; i <= stopIndex; i++) {
-        if (shouldBreakCallback(i) == true) {
-          break;
-        }
+  findFirstHiddenTabIndexASC: function (start, stop, tabsLength) {
+    for (let i = start; i <= stop; i++) {
+      if (this.getTabDis(this.tabs[i]).value <= 0) {
+        return i;
       }
-    } else
-      for (let i = stopIndex; i >= startIndex; i--) {
-        if (shouldBreakCallback(i) == true) {
-          break;
-        }
-      }
+    }
+    return tabsLength - 1;
   },
-  getTabDistanceFactory: function (isSelectedTabOverflow) {
-    this.getTabDistance = isSelectedTabOverflow
-      ? (el) =>
-          this.els
-            .getDistance(el)
-            .sub(this.els.getEl(this.selectedTab).getFullSize())
-            .sub(this.els.getEl(this.btnRef.current).getFullSize())
-      : (el) => this.els.getDistance(el).sub(this.els.getEl(this.btnRef.current).getFullSize());
-    return this;
-  },
-  updateFirstHiddenTabIndexFactory: function (order) {
-    this.updateFirstHiddenTabIndex =
-      order === 'asc'
-        ? (tabIndex) => {
-            if (this.getTabDistance(this.tabs[tabIndex]).value <= 0) {
-              this.firstHiddenTabIndex = tabIndex;
-              return true;
-            } else {
-              return false;
-            }
-          }
-        : (tabIndex) => {
-            if (this.getTabDistance(this.tabs[tabIndex]).value <= 0) {
-              this.firstHiddenTabIndex = tabIndex;
-              return false;
-            } else {
-              return true;
-            }
-          };
-    return this;
-  },
-  setFirstHiddenTabIndex: function () {
-    this.firstHiddenTabIndex = this.tabsLength - 1;
-    const [start, stop] = this.searchBoundries;
-    const order = this.setOrder();
-    this.setSearchBoundries(this.selectedTabIndex)
-      .getTabDistanceFactory(start == 0)
-      .updateFirstHiddenTabIndexFactory(order)
-      ._loop(start, stop, order, this.updateFirstHiddenTabIndex);
-    return this;
+  findFirstHiddenTabIndexFactory: function ([start, stop], order, tabsLength) {
+    return order === 'asc'
+      ? this.findFirstHiddenTabIndexASC(start, stop, tabsLength)
+      : this.findFirstHiddenTabIndexDSCE(start, stop, tabsLength);
   },
 });
 export default MoreButton;
