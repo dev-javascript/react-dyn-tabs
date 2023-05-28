@@ -102,6 +102,21 @@ Object.assign(OptionManager.prototype, {
           id: `tab_${new Date().getTime()}`,
         };
       },
+      TablistContainer: function (props) {
+        return <>{props.children}</>;
+      },
+      SliderContainer: function (props) {
+        return <>{props.children}</>;
+      },
+      Slider: function (props) {
+        return <>{props.children}</>;
+      },
+      ShowMoreButton: function () {
+        return null;
+      },
+      TabIndicator: function () {
+        return null;
+      },
     };
     return this;
   },

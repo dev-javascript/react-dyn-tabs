@@ -5,8 +5,8 @@ import Api from '../utils/api/api.js';
 import useDynTabs from './useDynamicTabs.js';
 import {ApiContext, StateContext, ForceUpdateContext} from '../utils/context.js';
 const getDeps = function () {
-  const getApiInstance = (options) => {
-    return new Api({options});
+  const getApiInstance = (options, modules) => {
+    return new Api({options}, modules);
   };
   return {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext};
 };

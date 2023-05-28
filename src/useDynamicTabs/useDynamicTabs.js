@@ -1,9 +1,9 @@
 import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
-function useDynamicTabs(getDeps, options = {}) {
+function useDynamicTabs(getDeps, options = {}, modules) {
   const {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext} = getDeps();
   const ref = useRef(null);
   if (ref.current === null)
-    ref.current = {api: getApiInstance(options), TabListComponent: null, PanelListComponent: null};
+    ref.current = {api: getApiInstance(options, modules), TabListComponent: null, PanelListComponent: null};
   const {
       current: {api},
     } = ref,
@@ -43,7 +43,15 @@ function useDynamicTabs(getDeps, options = {}) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <TabList {...props}>props.children</TabList>
+              <api.optionsManager.setting.TablistContainer>
+                <api.optionsManager.setting.SliderContainer>
+                  <api.optionsManager.setting.Slider>
+                    <TabList {...props} ref={api.tablistRef}></TabList>
+                    <api.optionsManager.setting.ShowMoreButton />
+                    <api.optionsManager.setting.TabIndicator />
+                  </api.optionsManager.setting.Slider>
+                </api.optionsManager.setting.SliderContainer>
+              </api.optionsManager.setting.TablistContainer>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>
