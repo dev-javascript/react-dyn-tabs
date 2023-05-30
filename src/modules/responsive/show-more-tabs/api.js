@@ -1,62 +1,45 @@
-import React from 'react';
-import ElManagement from './elementManagement/index.js';
-const MoreButton = function (resizeDetectorIns, ctx) {
+const Api = function ({getElManagementIns, btnRef, ctx}) {
   this.api = ctx;
   this.tablistEl = null;
+  this.getElManagementIns = getElManagementIns;
   this.sliderEl = null;
-  this.btnRef = React.createRef(null);
   this.tabs = null;
   this.tabsCount = null;
-  this.setBtnCom();
+  this.btnRef = btnRef;
   this.resize = this.resize.bind(this);
-  const resize = (function (func, wait) {
-    let timeout;
-    return function (...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  })(this.resize, 10);
-  ctx.userProxy.resize = resize;
-  const that = this;
-  ctx
-    .on('onLoad', () => {
-      that.tablistEl = ctx.tablistRef.current;
-      that.tablistEl.style.overflow = 'visible';
-      that.sliderEl = that.tablistEl.parentElement.parentElement;
-      that.sliderEl.style.overflow = 'hidden';
-      resizeDetectorIns.listenTo(that.sliderEl, resize);
-    })
-    .on('onDestroy', this.destroy.bind(this, resizeDetectorIns));
+  this.btnStyle = {
+    minWidth: '46.38px',
+    minHeight: '16px',
+    margin: '0px 2px',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0,
+  };
+  //ctx.on('onChange',)
 };
-Object.assign(MoreButton.prototype, {
-  setBtnCom: function () {
-    this.api.optionsManager.setting.Slider = function (props) {
-      return <div>{props.children}</div>;
-    };
-    const that = this;
-    const _style = {
-      minWidth: '46.38px',
-      minHeight: '16px',
-      margin: '0px 2px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      opacity: 0,
-    };
-    this.api.optionsManager.setting.ShowMoreButton = function MoreButtonComponent() {
-      return (
-        <button ref={that.btnRef} value="more" style={_style}>
-          more
-        </button>
-      );
-    };
-    return this;
+Object.assign(Api.prototype, {
+  installResizer: function (resizeDetectorIns) {
+    this.tablistEl = this.api.tablistRef.current;
+    this.tablistEl.style.overflow = 'visible';
+    this.sliderEl = this.tablistEl.parentElement.parentElement;
+    this.sliderEl.style.overflow = 'hidden';
+    resizeDetectorIns.listenTo(
+      this.sliderEl,
+      (function (func, wait) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      })(this.resize, 10),
+    );
   },
-  destroy: function (resizeDetectorIns) {
+  uninstallResizer: function (resizeDetectorIns) {
     if (this.sliderEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.sliderEl);
   },
   showBtn: function () {
@@ -118,7 +101,7 @@ Object.assign(MoreButton.prototype, {
     if (this.validateTabsCount(data) === false) {
       return;
     }
-    this.els = new ElManagement({
+    this.els = this.getElManagementIns({
       baseEl: this.sliderEl,
       isVertical: ins.getOption('isVertical'),
       dir: ins.getOption('direction'),
@@ -193,4 +176,4 @@ Object.assign(MoreButton.prototype, {
       : this.findFirstHiddenTabIndexDSCE(selectedTabInfo, start, stop);
   },
 });
-export default MoreButton;
+export default Api;

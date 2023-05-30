@@ -1,6 +1,14 @@
-import resizeDetectorIns from './element-resize-detector-adapter.js';
-import MoreButton from './more-button.js';
-const ShowMoreTabs = MoreButton.bind(null, resizeDetectorIns);
+import React from 'react';
+import ShowMoreTabs from './show-more-tabs/index.js';
 export default function ResponsiveFactory(ctx, useScroll = false) {
-  useScroll === true ? new ShowMoreTabs(ctx) : new ShowMoreTabs(ctx);
+  ctx.optionsManager.setting.Slider = function (props) {
+    return <div>{props.children}</div>;
+  };
+  ctx.optionsManager.setting.ShowMoreButton = function (props) {
+    return (
+      <ShowMoreTabs {...props} ctx={ctx}>
+        {props.children}
+      </ShowMoreTabs>
+    );
+  };
 }
