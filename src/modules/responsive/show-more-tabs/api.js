@@ -1,4 +1,4 @@
-const Api = function ({getElManagementIns, btnRef, ctx}) {
+const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.api = ctx;
   this.tablistEl = null;
   this.getElManagementIns = getElManagementIns;
@@ -7,6 +7,7 @@ const Api = function ({getElManagementIns, btnRef, ctx}) {
   this.tabsCount = null;
   this.btnRef = btnRef;
   this.resize = this.resize.bind(this);
+  this._setHiddenTabIDs = setHiddenTabIDs;
   this.btnStyle = {
     minWidth: '46.38px',
     minHeight: '16px',
@@ -21,8 +22,8 @@ const Api = function ({getElManagementIns, btnRef, ctx}) {
 Object.assign(Api.prototype, {
   installResizer: function (resizeDetectorIns) {
     this.tablistEl = this.api.tablistRef.current;
-    this.tablistEl.style.overflow = 'visible';
     this.sliderEl = this.tablistEl.parentElement.parentElement;
+    this.tablistEl.style.overflow = 'visible';
     this.sliderEl.style.overflow = 'hidden';
     resizeDetectorIns.listenTo(
       this.sliderEl,
@@ -60,18 +61,19 @@ Object.assign(Api.prototype, {
     this.tablistEl.style.display = 'flex';
   },
   hideTabs: function (firstHiddenTabIndex, selectedTabInfo, includeSelectedTab) {
+    const {openTabIDs} = this.api.getData();
+    const hiddenTabIDs = [];
     this.tablistEl.style.display = 'none';
-    const {index, el} = selectedTabInfo;
+    const {index: selectedTabIndex} = selectedTabInfo;
     for (let i = firstHiddenTabIndex, tabsCount = this.tabsCount; i < tabsCount; i++) {
-      if (i !== index) {
+      if (includeSelectedTab || i !== selectedTabIndex) {
         this.tabs[i].style.display = 'none';
+        hiddenTabIDs.push(openTabIDs[i]);
       }
-    }
-    if (includeSelectedTab) {
-      el.style.display = 'none';
     }
     this.showBtn();
     this.tablistEl.style.display = 'flex';
+    this._setHiddenTabIDs(hiddenTabIDs.toString());
   },
   getSelectedTab: function (tabs, data) {
     const {openTabIDs, selectedTabID} = data;
@@ -101,6 +103,7 @@ Object.assign(Api.prototype, {
     if (this.validateTabsCount(data) === false) {
       return;
     }
+    this.showAll(); //showAll should be called regardless of overflow
     this.els = this.getElManagementIns({
       baseEl: this.sliderEl,
       isVertical: ins.getOption('isVertical'),
@@ -108,7 +111,7 @@ Object.assign(Api.prototype, {
     });
     const _lastTab = this.tabs[this.tabsCount - 1];
     if (this.checkOverflow(_lastTab) === false) {
-      return;
+      return this._setHiddenTabIDs('');
     }
     const selectedTabInfo = this.getSelectedTab(this.tabs, data);
     this.validateSliderMinSize(selectedTabInfo)
@@ -124,7 +127,6 @@ Object.assign(Api.prototype, {
   },
   resize: function () {
     requestAnimationFrame(this._resize.bind(this));
-    this.showAll(); //showAll should be called regardless of overflow
   },
   validateSliderMinSize: function (selectedTabInfo) {
     const {el, fullSize} = selectedTabInfo;
