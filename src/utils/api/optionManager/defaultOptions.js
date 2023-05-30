@@ -31,6 +31,7 @@ Object.assign(DefaultOptions.prototype, {
       defaultPanelComponent: function defaultPanelComponent() {
         return <div></div>;
       },
+      showMoreTabsButtonComponent: null,
     };
     let _direction = this.defaultDirection,
       _tabComponent = this._DefaulTabInnerComponent;

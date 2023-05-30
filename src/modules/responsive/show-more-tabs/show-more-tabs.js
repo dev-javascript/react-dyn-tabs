@@ -1,7 +1,9 @@
 import React, {useRef, useLayoutEffect} from 'react';
+import {ForceUpdateContext} from '../../../utils/context.js';
 export default function (getDeps, props) {
   const {ctx} = props;
-  const {btnRef, getInstance, resizeDetectorIns, Button} = getDeps();
+  React.useContext(ForceUpdateContext);
+  const {getInstance, resizeDetectorIns, Button} = getDeps();
   const ref = useRef();
   ref.current = ref.current || getInstance(ctx);
   useLayoutEffect(() => {
@@ -9,11 +11,11 @@ export default function (getDeps, props) {
     return () => {
       ref.current.uninstallResizer(resizeDetectorIns);
     };
-  }, [btnRef.current]);
-
+  }, [ref.current.btnRef]);
+  const ButtonComponent = ctx.optionsManager.options.showMoreTabsButtonComponent || Button;
   return (
-    <Button ref={btnRef} style={ref.current.btnStyle}>
-      more
-    </Button>
+    <div ref={ref.current.btnRef} style={ref.current.btnStyle}>
+      <ButtonComponent />
+    </div>
   );
 }
