@@ -25,20 +25,7 @@ Object.assign(Api.prototype, {
     this.sliderEl = this.tablistEl.parentElement.parentElement;
     this.tablistEl.style.overflow = 'visible';
     this.sliderEl.style.overflow = 'hidden';
-    resizeDetectorIns.listenTo(
-      this.sliderEl,
-      (function (func, wait) {
-        let timeout;
-        return function (...args) {
-          const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-          };
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-        };
-      })(this.resize, 10),
-    );
+    resizeDetectorIns.debncListenTo(this.sliderEl, this.resize);
   },
   uninstallResizer: function (resizeDetectorIns) {
     if (this.sliderEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.sliderEl);
