@@ -6,7 +6,6 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.tabs = null;
   this.tabsCount = null;
   this.btnRef = btnRef;
-  this.resize = this.resize.bind(this);
   this._setHiddenTabIDs = setHiddenTabIDs;
   this.btnStyle = {
     minWidth: '46.38px',
@@ -17,7 +16,6 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
     alignItems: 'center',
     opacity: 0,
   };
-  //ctx.on('onChange',)
 };
 Object.assign(Api.prototype, {
   installResizer: function (resizeDetectorIns) {
@@ -25,7 +23,7 @@ Object.assign(Api.prototype, {
     this.sliderEl = this.tablistEl.parentElement.parentElement;
     this.tablistEl.style.overflow = 'visible';
     this.sliderEl.style.overflow = 'hidden';
-    resizeDetectorIns.debncListenTo(this.sliderEl, this.resize);
+    resizeDetectorIns.debncListenTo(this.sliderEl, () => requestAnimationFrame(() => this.resize()));
   },
   uninstallResizer: function (resizeDetectorIns) {
     if (this.sliderEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.sliderEl);
@@ -84,7 +82,7 @@ Object.assign(Api.prototype, {
     }
     return true;
   },
-  _resize: function () {
+  resize: function () {
     const ins = this.api;
     const data = ins.getData();
     if (this.validateTabsCount(data) === false) {
@@ -111,9 +109,6 @@ Object.assign(Api.prototype, {
           selectedTabInfo,
         )
       : this.hideTabs(0, selectedTabInfo, true);
-  },
-  resize: function () {
-    requestAnimationFrame(this._resize.bind(this));
   },
   validateSliderMinSize: function (selectedTabInfo) {
     const {el, fullSize} = selectedTabInfo;

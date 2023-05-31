@@ -1,21 +1,28 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
-import {ForceUpdateContext} from '../../../utils/context.js';
+import {ForceUpdateContext, StateContext} from '../../../utils/context.js';
 export default function (getDeps, props) {
   const {ctx} = props;
   React.useContext(ForceUpdateContext);
+  const {openTabIDs, selectedTabID} = React.useContext(StateContext);
   const [hiddenTabIDs, setHiddenTabIDs] = useState('');
   const {getInstance, resizeDetectorIns, Button} = getDeps();
   const ref = useRef();
-  ref.current = ref.current || getInstance(ctx, setHiddenTabIDs);
+  ref.current = ref.current || {ins: getInstance(ctx, setHiddenTabIDs)};
+  const ins = ref.current.ins;
+  const openTabIDsString = openTabIDs.toString();
   useLayoutEffect(() => {
-    ref.current.installResizer(resizeDetectorIns);
+    ins.installResizer(resizeDetectorIns);
     return () => {
-      ref.current.uninstallResizer(resizeDetectorIns);
+      ins.uninstallResizer(resizeDetectorIns);
     };
-  }, [ref.current.btnRef]);
+  }, [ins.btnRef]);
+  useLayoutEffect(() => {
+    ins.resize();
+  }, [openTabIDsString, selectedTabID]);
+
   const ButtonComponent = ctx.optionsManager.options.showMoreTabsButtonComponent || Button;
   return (
-    <div ref={ref.current.btnRef} style={ref.current.btnStyle}>
+    <div ref={ins.btnRef} style={ins.btnStyle}>
       <ButtonComponent hiddenTabIDs={hiddenTabIDs} instance={ctx.userProxy} />
     </div>
   );
