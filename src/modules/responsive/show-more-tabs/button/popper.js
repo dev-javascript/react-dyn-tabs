@@ -1,30 +1,38 @@
-import React, {forwardRef, useEffect} from 'react';
+import React, {forwardRef, useLayoutEffect} from 'react';
 import {Tabs} from '../../../../tabList/tabList.js';
-export default forwardRef(function Popper(props, ref) {
-  const {instance, hiddenTabIDs, open} = props;
-  let style = {
-    opacity: 0,
-    zIndex: -1,
-    pointerEvent: 'none',
-  };
-  if (open == true) {
-    style = {
-      opacity: 1,
-      zIndex: 3,
-      pointerEvent: 'all',
+import createPopper from './createPopper.js';
+const clk = (e) => {
+  e.nativeEvent.stopImmediatePropagation();
+};
+export default forwardRef(function Popper(props, popperRef) {
+  const {instance, hiddenTabIDs, btnRef} = props;
+  useLayoutEffect(() => {
+    const popperIns = createPopper(btnRef.current, popperRef.current);
+    return () => {
+      popperIns.destroy();
     };
-  }
+  }, []);
   const {selectedTabID} = instance.getData();
   const openedTabIDs = hiddenTabIDs ? hiddenTabIDs.split(',') : [];
   return (
-    <div ref={ref} style={{background: 'white', border: '1px solid lightgray', padding: '5px', ...style}}>
-      <div data-popper-arrow></div>
-      <Tabs
-        selectedTabID={selectedTabID}
-        openTabIDs={openedTabIDs}
-        dir={instance.getOption('direction')}
-        isVertical={true}
-      />
-    </div>
+    <>
+      <div
+        onClick={clk}
+        ref={popperRef}
+        style={{
+          position: 'fixed',
+          background: 'white',
+          border: '1px solid lightgray',
+          padding: '0px',
+          zIndex: 2,
+        }}>
+        <Tabs
+          selectedTabID={selectedTabID}
+          openTabIDs={openedTabIDs}
+          dir={instance.getOption('direction')}
+          isVertical={true}
+        />
+      </div>
+    </>
   );
 });

@@ -1,58 +1,33 @@
 import React, {useState, useCallback, memo, useRef, useEffect} from 'react';
-import {createPopper} from '@popperjs/core';
 import Popper from './popper';
+
 export default memo(function (props) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef();
   const popperRef = useRef();
-  const clk = useCallback(
-    (e) => {
-      const _open = !open;
-      window.document.addEventListener(
-        'click',
-        () => {
-          setOpen(!_open);
-        },
-        {once: true},
-      );
-      setOpen(_open);
-    },
-    [open],
-  );
+  const ref = useRef();
+  ref.current = ref.current || {
+    closePopper: () => setOpen(false),
+  };
+
   useEffect(() => {
-    let popperIns;
-    popperRef.current &&
-      btnRef.current &&
-      (popperIns = createPopper(btnRef.current, popperRef.current, {
-        placement: 'bottom',
-        modifiers: [
-          {
-            name: 'flip',
-            enabled: true,
-          },
-          {
-            name: 'arrow',
-            options: {
-              element: '[data-popper-arrow]',
-              padding: 5,
-            },
-          },
-          {
-            name: 'offset',
-            options: {
-              offset: [0, 5],
-            },
-          },
-        ],
-      }));
-    return () => popperIns.destroy();
-  }, [btnRef, popperRef]);
+    props.instance.on('onSelect', () => setOpen(false));
+  }, []);
+  const onClick = useCallback(() => {
+    window.document.removeEventListener('click', ref.current.closePopper, {once: true});
+    window.document.addEventListener('click', ref.current.closePopper, {once: true});
+    setOpen(!open);
+    return () => {
+      window.document.removeEventListener('click', ref.current.closePopper, {once: true});
+    };
+  }, [open]);
+
   return (
     <>
-      <button onClick={clk} ref={btnRef}>
+      <button onClick={onClick} ref={btnRef}>
         more
       </button>
-      <Popper {...props} open={open} ref={popperRef} />
+      {open ? <Popper {...props} ref={popperRef} btnRef={btnRef} /> : null}
     </>
   );
 });
