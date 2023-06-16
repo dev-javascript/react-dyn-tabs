@@ -1,12 +1,9 @@
 import React, {forwardRef, useLayoutEffect} from 'react';
-import {Tabs} from '../../../../tabList/tabList.js';
-import createPopper from './createPopper.js';
-const clk = (e) => {
-  e.nativeEvent.stopImmediatePropagation();
-};
-export default forwardRef(function Popper(props, popperRef) {
+export default forwardRef(function Popper(getDeps, props, popperRef) {
+  const {Tabs, createPopper, getPopperMaxHeight, clk} = getDeps();
   const {instance, hiddenTabIDs, btnRef} = props;
   useLayoutEffect(() => {
+    popperRef.current.style.maxHeight = getPopperMaxHeight(btnRef.current, 15) + 'px';
     const popperIns = createPopper(btnRef.current, popperRef.current);
     return () => {
       popperIns.destroy();
@@ -25,6 +22,7 @@ export default forwardRef(function Popper(props, popperRef) {
           border: '1px solid lightgray',
           padding: '0px',
           zIndex: 2,
+          overflow: 'auto',
         }}>
         <Tabs
           selectedTabID={selectedTabID}
