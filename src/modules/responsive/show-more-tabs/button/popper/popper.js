@@ -1,7 +1,7 @@
-import React, {forwardRef, useLayoutEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 export default function Popper(getDeps, props, popperRef) {
-  const {Tabs, createPopper, getPopperMaxHeight, clk} = getDeps();
-  const {instance, hiddenTabIDs, btnRef} = props;
+  const {createPopper, getPopperMaxHeight, clk} = getDeps();
+  const {Tabs, instance, hiddenTabIDs, btnRef} = props;
   useLayoutEffect(() => {
     popperRef.current.style.maxHeight = getPopperMaxHeight(btnRef.current, 15) + 'px';
     const popperIns = createPopper(btnRef.current, popperRef.current);

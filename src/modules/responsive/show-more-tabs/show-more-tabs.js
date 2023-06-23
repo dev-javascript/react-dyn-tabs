@@ -23,7 +23,7 @@ export default function (getDeps, props) {
   const ButtonComponent = ctx.optionsManager.options.showMoreTabsButtonComponent || Button;
   return (
     <div ref={ins.btnRef} style={ins.btnStyle}>
-      <ButtonComponent hiddenTabIDs={hiddenTabIDs} instance={ctx.userProxy} />
+      <ButtonComponent hiddenTabIDs={hiddenTabIDs} instance={ctx.userProxy} Tabs={ctx.optionsManager.setting.Tabs} />
     </div>
   );
 }

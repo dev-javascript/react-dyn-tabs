@@ -2,14 +2,14 @@ import React from 'react';
 import Helper from '../../helper.js';
 const {throwMissingParam: missingParamEr} = Helper;
 function OptionManager(getDeps, {options}) {
-  const {globalDefaultOptions} = getDeps();
+  const {globalDefaultOptions, Tabs} = getDeps();
   this._defaultOptions = globalDefaultOptions;
   this._validateOptions(options);
   this.options = Object.assign({}, this._defaultOptions, options);
   this.setting = {};
   this.initialState = {};
   this.initialTabs = [];
-  this._setSetting()._setInitialData();
+  this._setSetting(Tabs)._setInitialData();
 }
 Object.assign(OptionManager.prototype, {
   getOption: function (optionName) {
@@ -73,7 +73,7 @@ Object.assign(OptionManager.prototype, {
     };
     return this;
   },
-  _setSetting: function () {
+  _setSetting: function (Tabs) {
     this.setting = {
       tabClass: 'rc-dyn-tabs-tab',
       titleClass: 'rc-dyn-tabs-title',
@@ -117,6 +117,7 @@ Object.assign(OptionManager.prototype, {
       TabIndicator: function () {
         return null;
       },
+      Tabs,
     };
     return this;
   },
