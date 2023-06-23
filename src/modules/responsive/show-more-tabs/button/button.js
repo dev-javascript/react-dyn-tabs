@@ -1,5 +1,5 @@
-import React, {useState, useCallback, memo, useRef, useEffect} from 'react';
-export default memo(function (getDeps, props) {
+import React, {useState, useCallback, useRef, useEffect} from 'react';
+export default function (getDeps, props) {
   const {Popper} = getDeps();
   const [open, setOpen] = useState(false);
   const btnRef = useRef();
@@ -21,10 +21,10 @@ export default memo(function (getDeps, props) {
   }, [open]);
   return (
     <>
-      <button onClick={onClick} ref={btnRef}>
+      <button onClick={onClick} ref={btnRef} className="show-more-tabs-button">
         more
       </button>
       {open ? <Popper {...props} ref={popperRef} btnRef={btnRef} /> : null}
     </>
   );
-});
+}

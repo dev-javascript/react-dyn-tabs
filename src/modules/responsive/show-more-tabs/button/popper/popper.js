@@ -1,5 +1,5 @@
 import React, {forwardRef, useLayoutEffect} from 'react';
-export default forwardRef(function Popper(getDeps, props, popperRef) {
+export default function Popper(getDeps, props, popperRef) {
   const {Tabs, createPopper, getPopperMaxHeight, clk} = getDeps();
   const {instance, hiddenTabIDs, btnRef} = props;
   useLayoutEffect(() => {
@@ -23,7 +23,8 @@ export default forwardRef(function Popper(getDeps, props, popperRef) {
           padding: '0px',
           zIndex: 2,
           overflow: 'auto',
-        }}>
+        }}
+        className="show-more-tabs-container">
         <Tabs
           selectedTabID={selectedTabID}
           openTabIDs={openedTabIDs}
@@ -33,4 +34,4 @@ export default forwardRef(function Popper(getDeps, props, popperRef) {
       </div>
     </>
   );
-});
+}
