@@ -1,7 +1,15 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
 import {ForceUpdateContext, StateContext} from '../../../utils/context.js';
 export default function (getDeps, props) {
-  const {ctx} = props;
+  const {
+    ctx,
+    ctx: {
+      optionsManager: {
+        options,
+        setting: {Tabs, showMoreButtonClass, showMorePopperClass, showMoreContainerButtonClass},
+      },
+    },
+  } = props;
   React.useContext(ForceUpdateContext);
   const {openTabIDs, selectedTabID} = React.useContext(StateContext);
   const [hiddenTabIDs, setHiddenTabIDs] = useState('');
@@ -20,10 +28,16 @@ export default function (getDeps, props) {
     ins.resize();
   }, [openTabIDsString, selectedTabID]);
 
-  const ButtonComponent = ctx.optionsManager.options.showMoreTabsButtonComponent || Button;
+  const ButtonComponent = options.showMoreTabsButtonComponent || Button;
   return (
-    <div ref={ins.btnRef} style={ins.btnStyle}>
-      <ButtonComponent hiddenTabIDs={hiddenTabIDs} instance={ctx.userProxy} Tabs={ctx.optionsManager.setting.Tabs} />
+    <div ref={ins.btnRef} style={ins.btnStyle} className={showMoreContainerButtonClass}>
+      <ButtonComponent
+        hiddenTabIDs={hiddenTabIDs}
+        instance={ctx.userProxy}
+        Tabs={Tabs}
+        buttonClassName={showMoreButtonClass}
+        popperClassName={showMorePopperClass}
+      />
     </div>
   );
 }

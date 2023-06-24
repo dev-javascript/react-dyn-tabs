@@ -1,6 +1,7 @@
 import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
 function useDynamicTabs(getDeps, options = {}, modules) {
-  const {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext} = getDeps();
+  const {reducer, getApiInstance, PanelList, TabList, TablistContainer, ApiContext, StateContext, ForceUpdateContext} =
+    getDeps();
   const ref = useRef(null);
   if (ref.current === null)
     ref.current = {api: getApiInstance(options, modules), TabListComponent: null, PanelListComponent: null};
@@ -43,15 +44,15 @@ function useDynamicTabs(getDeps, options = {}, modules) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <api.optionsManager.setting.TablistContainer>
-                <api.optionsManager.setting.SliderContainer>
-                  <api.optionsManager.setting.Slider>
+              <api.optionsManager.setting.ScrollContainer>
+                <TablistContainer>
+                  <api.optionsManager.setting.SliderContainer>
                     <TabList {...props} ref={api.tablistRef}></TabList>
                     <api.optionsManager.setting.ShowMoreButton />
                     <api.optionsManager.setting.TabIndicator />
-                  </api.optionsManager.setting.Slider>
-                </api.optionsManager.setting.SliderContainer>
-              </api.optionsManager.setting.TablistContainer>
+                  </api.optionsManager.setting.SliderContainer>
+                </TablistContainer>
+              </api.optionsManager.setting.ScrollContainer>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>

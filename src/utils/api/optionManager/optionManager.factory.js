@@ -88,6 +88,11 @@ Object.assign(OptionManager.prototype, {
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
+      tablistContainerClass: 'rc-dyn-tabs-tablist-container',
+      sliderContainerClass: 'rc-dyn-tabs-slider-container',
+      showMoreContainerButtonClass: 'rc-dyn-tabs-showmorebutton-container',
+      showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
+      showMorePopperClass: 'rc-dyn-tabs-popper',
       panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
       ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
       getDefaultTabData: () => {
@@ -102,13 +107,10 @@ Object.assign(OptionManager.prototype, {
           id: `tab_${new Date().getTime()}`,
         };
       },
-      TablistContainer: function (props) {
+      ScrollContainer: function (props) {
         return <>{props.children}</>;
       },
       SliderContainer: function (props) {
-        return <>{props.children}</>;
-      },
-      Slider: function (props) {
         return <>{props.children}</>;
       },
       ShowMoreButton: function () {

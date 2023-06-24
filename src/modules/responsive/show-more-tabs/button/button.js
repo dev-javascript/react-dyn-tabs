@@ -21,10 +21,10 @@ export default function (getDeps, props) {
   }, [open]);
   return (
     <>
-      <button onClick={onClick} ref={btnRef} className="show-more-tabs-button">
+      <button onClick={onClick} ref={btnRef} className={props.buttonClassName}>
         more
       </button>
-      {open ? <Popper {...props} ref={popperRef} btnRef={btnRef} /> : null}
+      {open ? <Popper {...props} ref={popperRef} btnRef={btnRef} className={props.popperClassName} /> : null}
     </>
   );
 }
