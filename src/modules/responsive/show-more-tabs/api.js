@@ -31,25 +31,29 @@ Object.assign(Api.prototype, {
   },
   showBtn: function () {
     this.btnRef.current.style.opacity = 1;
+    this.btnRef.current.style.position = 'relative';
+    this.btnRef.current.style.pointerEvents = 'all';
   },
   hideBtn: function () {
     this.btnRef.current.style.opacity = 0;
+    this.btnRef.current.style.position = 'absolute';
+    this.btnRef.current.style.pointerEvents = 'none';
   },
   checkOverflow: function (lastTab) {
     return this.els.getDistance(lastTab).value < 0;
   },
   showAll: function () {
-    this.tablistEl.style.display = 'none';
+    this.tablistContainerEl.style.display = 'none';
     for (let i = 0, tabs = this.tablistEl.children, tabsCount = tabs.length; i < tabsCount; i++) {
       tabs[i].style.display = 'flex';
     }
     this.hideBtn();
-    this.tablistEl.style.display = 'flex';
+    this.tablistContainerEl.style.display = 'flex';
   },
   hideTabs: function (firstHiddenTabIndex, selectedTabInfo, includeSelectedTab) {
     const {openTabIDs} = this.api.getData();
     const hiddenTabIDs = [];
-    this.tablistEl.style.display = 'none';
+    this.tablistContainerEl.style.display = 'none';
     const {index: selectedTabIndex} = selectedTabInfo;
     for (let i = firstHiddenTabIndex, tabsCount = this.tabsCount; i < tabsCount; i++) {
       if (includeSelectedTab || i !== selectedTabIndex) {
@@ -58,7 +62,7 @@ Object.assign(Api.prototype, {
       }
     }
     this.showBtn();
-    this.tablistEl.style.display = 'flex';
+    this.tablistContainerEl.style.display = 'flex';
     this._setHiddenTabIDs(hiddenTabIDs.toString());
   },
   getSelectedTab: function (tabs, data) {
