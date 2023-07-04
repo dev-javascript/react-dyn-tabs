@@ -1,6 +1,6 @@
 import React from 'react';
 import ShowMoreTabs from './show-more-tabs/index.js';
-export default function ResponsiveFactory(ctx) {
+export default function ResponsiveFactory(ctx, contexts) {
   const {setting} = ctx.optionsManager;
   setting.TablistOverflow = function (props) {
     return (
@@ -11,7 +11,7 @@ export default function ResponsiveFactory(ctx) {
   };
   setting.ShowMoreButton = function (props) {
     return (
-      <ShowMoreTabs {...props} ctx={ctx}>
+      <ShowMoreTabs {...props} ctx={ctx} contexts={contexts}>
         {props.children}
       </ShowMoreTabs>
     );

@@ -1,8 +1,8 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
-import {ForceUpdateContext, StateContext} from '../../../utils/context.js';
 export default function (getDeps, props) {
   const {
     ctx,
+    contexts: {ForceUpdateContext, StateContext},
     ctx: {
       optionsManager: {
         options,
