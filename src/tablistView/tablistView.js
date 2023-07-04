@@ -1,12 +1,13 @@
 import React from 'react';
 import {ApiContext} from '../utils/context.js';
-export default function TablistContainer(props) {
+export default function TablistOverflow(props) {
   const {
-    options: {isVertical},
-    setting: {tablistContainerClass, verticalClass},
+    options: {isVertical, direction},
+    setting,
+    setting: {tablistViewClass, verticalClass},
   } = React.useContext(ApiContext).optionsManager;
 
-  let _className = tablistContainerClass;
+  let _className = tablistViewClass + ' ' + setting[direction + 'Class'];
   if (isVertical) {
     _className += ' ' + verticalClass;
   }

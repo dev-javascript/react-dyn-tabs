@@ -2,7 +2,7 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.api = ctx;
   this.tablistEl = null;
   this.getElManagementIns = getElManagementIns;
-  this.sliderEl = null;
+  this.tablistContainerEl = null;
   this.tabs = null;
   this.tabsCount = null;
   this.btnRef = btnRef;
@@ -20,13 +20,14 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
 Object.assign(Api.prototype, {
   installResizer: function (resizeDetectorIns) {
     this.tablistEl = this.api.tablistRef.current;
-    this.sliderEl = this.tablistEl.parentElement.parentElement;
+    this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
+    this.tablistViewEl = this.tablistContainerEl.parentElement;
     this.tablistEl.style.overflow = 'visible';
-    this.sliderEl.style.overflow = 'hidden';
-    resizeDetectorIns.debncListenTo(this.sliderEl, () => requestAnimationFrame(() => this.resize()));
+    this.tablistContainerEl.style.overflow = 'hidden';
+    resizeDetectorIns.debncListenTo(this.tablistViewEl, () => requestAnimationFrame(() => this.resize()));
   },
   uninstallResizer: function (resizeDetectorIns) {
-    if (this.sliderEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.sliderEl);
+    if (this.tablistViewEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.tablistViewEl);
   },
   showBtn: function () {
     this.btnRef.current.style.opacity = 1;
@@ -35,7 +36,7 @@ Object.assign(Api.prototype, {
     this.btnRef.current.style.opacity = 0;
   },
   checkOverflow: function (lastTab) {
-    return this.els.getDistance(lastTab).value <= 0;
+    return this.els.getDistance(lastTab).value < 0;
   },
   showAll: function () {
     this.tablistEl.style.display = 'none';
@@ -90,7 +91,7 @@ Object.assign(Api.prototype, {
     }
     this.showAll(); //showAll should be called regardless of overflow
     this.els = this.getElManagementIns({
-      baseEl: this.sliderEl,
+      baseEl: this.tablistContainerEl,
       isVertical: ins.getOption('isVertical'),
       dir: ins.getOption('direction'),
     });
@@ -113,12 +114,13 @@ Object.assign(Api.prototype, {
   validateSliderMinSize: function (selectedTabInfo) {
     const {el, fullSize} = selectedTabInfo;
     //the slider's size should contain selected tab + more button
-    return el && fullSize + this.els.getEl(this.btnRef.current).getFullSize() >= this.els.getEl(this.sliderEl).getSize()
+    return el &&
+      fullSize + this.els.getEl(this.btnRef.current).getFullSize() >= this.els.getEl(this.tablistContainerEl).getSize()
       ? false
       : true;
   },
   getOrder: function (lastTab) {
-    return Math.abs(this.els.getDistance(lastTab).value) > this.els.getEl(this.sliderEl).getPos().width
+    return Math.abs(this.els.getDistance(lastTab).value) > this.els.getEl(this.tablistContainerEl).getPos().width
       ? 'asc'
       : 'desc';
   },

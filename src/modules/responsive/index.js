@@ -2,9 +2,9 @@ import React from 'react';
 import ShowMoreTabs from './show-more-tabs/index.js';
 export default function ResponsiveFactory(ctx) {
   const {setting} = ctx.optionsManager;
-  setting.SliderContainer = function (props) {
+  setting.TablistOverflow = function (props) {
     return (
-      <div style={{overflow: 'visible'}} className={setting.sliderContainerClass}>
+      <div style={{overflow: 'visible'}} className={setting.tablistOverflowClass}>
         {props.children}
       </div>
     );
@@ -15,9 +15,5 @@ export default function ResponsiveFactory(ctx) {
         {props.children}
       </ShowMoreTabs>
     );
-  };
-  //override overflow plugin
-  setting.ScrollContainer = function (props) {
-    return <>{props.children}</>;
   };
 }

@@ -80,7 +80,6 @@ Object.assign(OptionManager.prototype, {
       iconClass: 'rc-dyn-tabs-icon',
       selectedClass: 'rc-dyn-tabs-selected',
       hoverClass: 'rc-dyn-tabs-hover',
-      tablistClass: 'rc-dyn-tabs-tablist',
       closeClass: 'rc-dyn-tabs-close',
       panelClass: 'rc-dyn-tabs-panel',
       panellistClass: 'rc-dyn-tabs-panellist',
@@ -88,8 +87,10 @@ Object.assign(OptionManager.prototype, {
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
+      tablistViewClass: 'rc-dyn-tabs-tablist-view',
       tablistContainerClass: 'rc-dyn-tabs-tablist-container',
-      sliderContainerClass: 'rc-dyn-tabs-slider-container',
+      tablistOverflowClass: 'rc-dyn-tabs-tablist-overflow',
+      tablistClass: 'rc-dyn-tabs-tablist',
       showMoreContainerButtonClass: 'rc-dyn-tabs-showmorebutton-container',
       showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
       showMorePopperClass: 'rc-dyn-tabs-popper',
@@ -107,10 +108,7 @@ Object.assign(OptionManager.prototype, {
           id: `tab_${new Date().getTime()}`,
         };
       },
-      ScrollContainer: function (props) {
-        return <>{props.children}</>;
-      },
-      SliderContainer: function (props) {
+      TablistOverflow: function (props) {
         return <>{props.children}</>;
       },
       ShowMoreButton: function () {
