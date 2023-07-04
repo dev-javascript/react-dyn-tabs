@@ -9,7 +9,11 @@ export default function (getDeps, props) {
     closePopper: () => setOpen(false),
   };
   useEffect(() => {
-    props.instance.on('onSelect', () => setOpen(false));
+    const close = () => setOpen(false);
+    props.instance.on('onSelect', close);
+    return () => {
+      props.instance && props.instance.off && props.instance.off('onSelect', close);
+    };
   }, []);
   const onClick = useCallback(() => {
     window.document.removeEventListener('click', ref.current.closePopper, {once: true});
