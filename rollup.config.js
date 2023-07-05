@@ -1,15 +1,14 @@
 import {terser} from 'rollup-plugin-terser';
-import pkg from './package.json';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
-const getConfig = (en, pf) => {
+const getConfig = ({en, inputPath = '', outputFile = 'rc-dyn-tabs', outputName = 'useDynTabs', pf = false}) => {
   var pfName = pf ? '.including-polyfills' : '';
   return {
-    input: pf ? 'lib/esm-including-polyfills/index.js' : pkg.module,
+    input: `lib/${pf ? 'esm-including-polyfills' : 'esm'}/${inputPath}index.js`,
     output: {
-      file: en === 'dev' ? 'dist/react-dyn-tabs' + pfName + '.umd.js' : 'dist/react-dyn-tabs' + pfName + '.umd.min.js',
+      file: `dist/${outputFile}${pfName}.umd${en === 'dev' ? '' : '.min'}.js`,
       format: 'umd',
-      name: 'useDynTabs',
+      name: outputName,
       globals: {
         'prop-types': 'PropTypes',
         'react-dom': 'ReactDOM',
@@ -29,4 +28,35 @@ const getConfig = (en, pf) => {
     },
   };
 };
-export default [getConfig('dev'), getConfig('prod'), getConfig('dev', true), getConfig('prod', true)];
+export default [
+  getConfig({en: 'dev'}),
+  getConfig({en: 'prod'}),
+  getConfig({en: 'dev', pf: true}),
+  getConfig({en: 'prod', pf: true}),
+  getConfig({
+    en: 'dev',
+    outputFile: 'rc-dyn-tabs-responsive-plugin',
+    outputName: 'ReactDynTabs_ResponsivePlugin',
+    inputPath: 'modules/responsive/',
+  }),
+  getConfig({
+    en: 'prod',
+    outputFile: 'rc-dyn-tabs-responsive-plugin',
+    outputName: 'ReactDynTabs_ResponsivePlugin',
+    inputPath: 'modules/responsive/',
+  }),
+  getConfig({
+    en: 'dev',
+    pf: true,
+    outputFile: 'rc-dyn-tabs-responsive-plugin',
+    outputName: 'ReactDynTabs_ResponsivePlugin',
+    inputPath: 'modules/responsive/',
+  }),
+  getConfig({
+    en: 'prod',
+    pf: true,
+    outputFile: 'rc-dyn-tabs-responsive-plugin',
+    outputName: 'ReactDynTabs_ResponsivePlugin',
+    inputPath: 'modules/responsive/',
+  }),
+];

@@ -110,6 +110,7 @@
       "jest-extended"
     ]
   },
+  "sideEffects": false,
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "element-resize-detector": "^1.2.4",

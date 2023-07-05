@@ -4,9 +4,9 @@ const libraryName = pkg.name;
 module.exports = (env) => {
   const isProduction = env === 'production';
   return {
-    entry: './src/index.js',
+    entry: {'rc-dyn-tabs': './src/index.js', 'rc-dyn-tabs-responsive-plugin': './src/modules/responsive/index.js'},
     output: {
-      filename: isProduction ? 'react-dyn-tabs.umd.min.js' : 'react-dyn-tabs.umd.js',
+      filename: `[name].umd${isProduction ? '.min' : ''}.js`,
       path: path.resolve(__dirname, 'build'),
       library: libraryName,
       libraryTarget: 'umd',
