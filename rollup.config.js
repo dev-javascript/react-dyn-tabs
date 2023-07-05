@@ -1,7 +1,7 @@
 import {terser} from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
-const getConfig = ({en, inputPath = '', outputFile = 'rc-dyn-tabs', outputName = 'useDynTabs', pf = false}) => {
+const getConfig = ({en, inputPath = '', outputFile = 'rc-dyn-tabs-core', outputName = 'useDynTabs', pf = false}) => {
   var pfName = pf ? '.including-polyfills' : '';
   return {
     input: `lib/${pf ? 'esm-including-polyfills' : 'esm'}/${inputPath}index.js`,
