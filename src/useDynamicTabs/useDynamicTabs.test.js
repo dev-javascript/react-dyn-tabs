@@ -50,7 +50,17 @@ beforeEach(() => {
   };
   renderApp = (getDeps, rerender) => {
     const App = function () {
-      const [Tablist, Panellist] = useDynTabs(getDeps, op);
+      const getDepsWrapper = () => {
+        return Object.assign(
+          {},
+          {
+            TablistView: (props) => <>{props.children}</>,
+            TablistContainer: (props) => <>{props.children}</>,
+          },
+          getDeps(),
+        );
+      };
+      const [Tablist, Panellist] = useDynTabs(getDepsWrapper, op);
       return (
         <div>
           <Tablist></Tablist>
@@ -509,7 +519,17 @@ describe('output : ', () => {
       return api;
     };
     const getDeps = function () {
-      return {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext};
+      return {
+        reducer,
+        getApiInstance,
+        PanelList,
+        TablistView: (props) => <>{props.children}</>,
+        TablistContainer: (props) => <>{props.children}</>,
+        TabList,
+        ApiContext,
+        StateContext,
+        ForceUpdateContext,
+      };
     };
     let counter = 0,
       firstReady,
