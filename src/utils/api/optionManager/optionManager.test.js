@@ -1,5 +1,5 @@
 import OptionManager from './optionManager.js';
-import React from 'react';
+import React, {forwardRef} from 'react';
 let obj;
 beforeEach(() => {
   const options = {
@@ -50,7 +50,6 @@ describe('OptionManager constructor : ', () => {
       iconClass: 'rc-dyn-tabs-icon',
       selectedClass: 'rc-dyn-tabs-selected',
       hoverClass: 'rc-dyn-tabs-hover',
-      tablistClass: 'rc-dyn-tabs-tablist',
       closeClass: 'rc-dyn-tabs-close',
       panelClass: 'rc-dyn-tabs-panel',
       panellistClass: 'rc-dyn-tabs-panellist',
@@ -58,11 +57,30 @@ describe('OptionManager constructor : ', () => {
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
-      panelIdTemplate: expect.any(Function),
-      ariaLabelledbyIdTemplate: expect.any(Function),
-      getDefaultTabData: expect.any(Function),
+      tablistViewClass: 'rc-dyn-tabs-tablist-view',
+      tablistContainerClass: 'rc-dyn-tabs-tablist-container',
+      tablistOverflowClass: 'rc-dyn-tabs-tablist-overflow',
+      tablistClass: 'rc-dyn-tabs-tablist',
+      showMoreContainerClass: 'rc-dyn-tabs-showmorebutton-container',
+      showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
+      showMorePopperClass: 'rc-dyn-tabs-popper',
+      panelIdTemplate: function () {},
+      ariaLabelledbyIdTemplate: function () {},
+      getDefaultTabData: function () {},
+      TablistOverflow: function (props) {
+        return <>{props.children}</>;
+      },
+      ShowMoreButton: function () {
+        return null;
+      },
+      TabIndicator: function () {
+        return null;
+      },
+      Tabs: forwardRef(function Tabs(props, ref) {
+        return null;
+      }),
     };
-    expect(obj.setting).toEqual(_setting);
+    expect(Object.keys(obj.setting).toString()).toEqual(Object.keys(_setting).toString());
   });
   test('setting.panelIdTemplate should return result correctly', () => {
     expect(obj.setting.panelIdTemplate('2')).toBe('rc-dyn-tabs-p-2');

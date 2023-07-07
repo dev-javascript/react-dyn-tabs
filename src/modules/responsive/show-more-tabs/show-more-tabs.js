@@ -6,7 +6,7 @@ export default function (getDeps, props) {
     ctx: {
       optionsManager: {
         options,
-        setting: {Tabs, showMoreButtonClass, showMorePopperClass, showMoreContainerButtonClass},
+        setting: {Tabs, showMoreButtonClass, showMorePopperClass, showMoreContainerClass},
       },
     },
   } = props;
@@ -30,7 +30,7 @@ export default function (getDeps, props) {
 
   const ButtonComponent = options.showMoreButtonComponent || Button;
   return (
-    <div ref={ins.btnRef} style={ins.btnStyle} className={showMoreContainerButtonClass}>
+    <div ref={ins.btnRef} style={ins.btnStyle} className={showMoreContainerClass}>
       <ButtonComponent
         hiddenTabIDs={hiddenTabIDs}
         instance={ctx.userProxy}
