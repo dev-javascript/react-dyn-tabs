@@ -28,7 +28,7 @@ export default function (getDeps, props) {
     ins.resize();
   }, [openTabIDsString, selectedTabID]);
 
-  const ButtonComponent = options.showMoreTabsButtonComponent || Button;
+  const ButtonComponent = options.showMoreButtonComponent || Button;
   return (
     <div ref={ins.btnRef} style={ins.btnStyle} className={showMoreContainerButtonClass}>
       <ButtonComponent
