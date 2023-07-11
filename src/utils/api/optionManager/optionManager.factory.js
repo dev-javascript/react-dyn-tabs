@@ -2,8 +2,9 @@ import React from 'react';
 import Helper from '../../helper.js';
 const {throwMissingParam: missingParamEr} = Helper;
 function OptionManager(getDeps, {options}) {
-  const {globalDefaultOptions} = getDeps();
+  const {globalDefaultOptions, internalOptions} = getDeps();
   this._defaultOptions = globalDefaultOptions;
+  this.internalOptions = internalOptions;
   this._validateOptions(options);
   this.options = Object.assign({}, this._defaultOptions, options);
   this.setting = {};
@@ -107,15 +108,6 @@ Object.assign(OptionManager.prototype, {
           lazy: false,
           id: `tab_${new Date().getTime()}`,
         };
-      },
-      TablistOverflow: function (props) {
-        return <>{props.children}</>;
-      },
-      ShowMoreButton: function () {
-        return null;
-      },
-      TabIndicator: function () {
-        return null;
       },
     };
     return this;

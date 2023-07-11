@@ -67,15 +67,6 @@ describe('OptionManager constructor : ', () => {
       panelIdTemplate: function () {},
       ariaLabelledbyIdTemplate: function () {},
       getDefaultTabData: function () {},
-      TablistOverflow: function (props) {
-        return <>{props.children}</>;
-      },
-      ShowMoreButton: function () {
-        return null;
-      },
-      TabIndicator: function () {
-        return null;
-      },
     };
     expect(Object.keys(obj.setting).toString()).toEqual(Object.keys(_setting).toString());
   });

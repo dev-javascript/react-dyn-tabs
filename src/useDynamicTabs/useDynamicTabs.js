@@ -55,11 +55,11 @@ function useDynamicTabs(getDeps, options = {}, modules) {
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
               <TablistView>
                 <TablistContainer>
-                  <api.optionsManager.setting.TablistOverflow>
+                  <api.optionsManager.internalOptions.TablistOverflow>
                     <TabList {...props} ref={api.tablistRef}></TabList>
-                    <api.optionsManager.setting.ShowMoreButton />
-                    <api.optionsManager.setting.TabIndicator />
-                  </api.optionsManager.setting.TablistOverflow>
+                    <api.optionsManager.internalOptions.ShowMoreButton />
+                    <api.optionsManager.internalOptions.TabIndicator />
+                  </api.optionsManager.internalOptions.TablistOverflow>
                 </TablistContainer>
                 {props.children}
               </TablistView>

@@ -61,5 +61,18 @@ Object.assign(DefaultOptions.prototype, {
     });
     return _options;
   },
+  getInternalOptions: function () {
+    return {
+      TablistOverflow: function (props) {
+        return <>{props.children}</>;
+      },
+      ShowMoreButton: function () {
+        return null;
+      },
+      TabIndicator: function () {
+        return null;
+      },
+    };
+  },
 });
 export default DefaultOptions;
