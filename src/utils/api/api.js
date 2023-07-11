@@ -4,9 +4,10 @@ import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
-import Tabs from './tabs.js';
 import BaseApi from './baseApi.js';
 import {ForceUpdateContext, StateContext} from '../context.js';
+import {Tabs as TabsComponent} from '../../tabList/tabList.js';
+import Tabs from './tabs.js';
 const getDeps = function (options = {}) {
   const activedTabsHistory = new ActivedTabsHistory(),
     optionsManager = new OptionManager({options});
@@ -22,6 +23,7 @@ const getDeps = function (options = {}) {
     optionsManager,
     tablistRef: React.createRef(),
     contexts: {ForceUpdateContext, StateContext},
+    TabsComponent,
   };
 };
 apiConstructor.prototype = Object.create(BaseApi.prototype);

@@ -1,5 +1,5 @@
 import OptionManager from './optionManager.js';
-import React, {forwardRef} from 'react';
+import React from 'react';
 let obj;
 beforeEach(() => {
   const options = {
@@ -76,9 +76,6 @@ describe('OptionManager constructor : ', () => {
       TabIndicator: function () {
         return null;
       },
-      Tabs: forwardRef(function Tabs(props, ref) {
-        return null;
-      }),
     };
     expect(Object.keys(obj.setting).toString()).toEqual(Object.keys(_setting).toString());
   });

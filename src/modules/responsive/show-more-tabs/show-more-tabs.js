@@ -1,12 +1,13 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
 export default function (getDeps, props) {
   const {
+    TabsComponent,
     ctx,
     contexts: {ForceUpdateContext, StateContext},
     ctx: {
       optionsManager: {
         options,
-        setting: {Tabs, showMoreButtonClass, showMorePopperClass, showMoreContainerClass},
+        setting: {showMoreButtonClass, showMorePopperClass, showMoreContainerClass},
       },
     },
   } = props;
@@ -34,7 +35,7 @@ export default function (getDeps, props) {
       <ButtonComponent
         hiddenTabIDs={hiddenTabIDs}
         instance={ctx.userProxy}
-        Tabs={Tabs}
+        TabsComponent={TabsComponent}
         buttonClassName={showMoreButtonClass}
         popperClassName={showMorePopperClass}
       />

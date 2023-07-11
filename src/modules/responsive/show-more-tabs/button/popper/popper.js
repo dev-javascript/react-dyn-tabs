@@ -1,7 +1,7 @@
 import React, {useLayoutEffect} from 'react';
 export default function Popper(getDeps, props, popperRef) {
   const {createPopper, getPopperMaxHeight, clk} = getDeps();
-  const {Tabs, instance, hiddenTabIDs, btnRef, className} = props;
+  const {TabsComponent, instance, hiddenTabIDs, btnRef, className} = props;
   useLayoutEffect(() => {
     popperRef.current.style.maxHeight = getPopperMaxHeight(btnRef.current, 15) + 'px';
     const popperIns = createPopper(btnRef.current, popperRef.current);
@@ -25,7 +25,7 @@ export default function Popper(getDeps, props, popperRef) {
           overflow: 'auto',
         }}
         className={className}>
-        <Tabs
+        <TabsComponent
           selectedTabID={selectedTabID}
           openTabIDs={openedTabIDs}
           dir={instance.getOption('direction')}
