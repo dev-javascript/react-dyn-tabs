@@ -27,5 +27,5 @@ const getDeps = function (options = {}) {
   };
 };
 apiConstructor.prototype = Object.create(BaseApi.prototype);
-helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;
-export default apiConstructor.bind(null, getDeps);
+export default (helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor =
+  apiConstructor).bind(null, getDeps);
