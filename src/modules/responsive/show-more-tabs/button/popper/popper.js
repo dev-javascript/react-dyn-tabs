@@ -13,18 +13,7 @@ export default function Popper(getDeps, props, popperRef) {
   const openedTabIDs = hiddenTabIDs ? hiddenTabIDs.split(',') : [];
   return (
     <>
-      <div
-        onClick={clk}
-        ref={popperRef}
-        style={{
-          position: 'fixed',
-          background: 'white',
-          border: '1px solid lightgray',
-          padding: '0px',
-          zIndex: 2,
-          overflow: 'auto',
-        }}
-        className={className}>
+      <div onClick={clk} ref={popperRef} className={className}>
         <TabsComponent
           selectedTabID={selectedTabID}
           openTabIDs={openedTabIDs}

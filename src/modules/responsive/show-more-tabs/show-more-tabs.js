@@ -31,7 +31,7 @@ export default function (getDeps, props) {
 
   const ButtonComponent = options.showMoreButtonComponent || Button;
   return (
-    <div ref={ins.btnRef} style={ins.btnStyle} className={showMoreContainerClass}>
+    <div ref={ins.btnRef} className={showMoreContainerClass}>
       <ButtonComponent
         hiddenTabIDs={hiddenTabIDs}
         instance={ctx.userProxy}

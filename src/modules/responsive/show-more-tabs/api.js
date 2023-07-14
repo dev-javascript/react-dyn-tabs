@@ -7,15 +7,6 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.tabsCount = null;
   this.btnRef = btnRef;
   this._setHiddenTabIDs = setHiddenTabIDs;
-  this.btnStyle = {
-    minWidth: '46.38px',
-    minHeight: '16px',
-    margin: '0px 2px',
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity: 0,
-  };
 };
 Object.assign(Api.prototype, {
   installResizer: function (resizeDetectorIns) {
