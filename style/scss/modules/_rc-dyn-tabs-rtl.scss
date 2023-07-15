@@ -1,0 +1,34 @@
+@mixin main {
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
+    flex-direction: row-reverse;
+    flex: none;
+    & > .rc-dyn-tabs-tablist-container {
+      flex-direction: row-reverse;
+      & > .rc-dyn-tabs-tablist-overflow {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+    flex-direction: row-reverse;
+    & > .rc-dyn-tabs-tab {
+      float: right;
+
+      & > .rc-dyn-tabs-title {
+        direction: ltr;
+
+        & > .rc-dyn-tabs-icon {
+          padding-left: 0.4em;
+        }
+      }
+
+      & > .rc-dyn-tabs-close {
+        left: 4px;
+        right: auto;
+      }
+    }
+    &.rc-dyn-tabs-vertical {
+      float: right;
+    }
+  }
+}
