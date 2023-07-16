@@ -1,15 +1,22 @@
+@mixin verticalView {
+  flex-direction: column;
+  flex: none;
+  .rc-dyn-tabs-tablist-container,
+  .rc-dyn-tabs-tablist-overflow {
+    flex-direction: column;
+  }
+}
 @mixin main {
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
-    flex-direction: column;
-    flex: none;
-    & > .rc-dyn-tabs-tablist-container {
-      flex-direction: column;
-      & > .rc-dyn-tabs-tablist-overflow {
-        flex-direction: column;
-      }
+    @include verticalView;
+    &.rc-dyn-tabs-rtl {
+      @include verticalView;
     }
   }
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
     flex-direction: column;
+    &.rc-dyn-tabs-rtl {
+      flex-direction: column;
+    }
   }
 }

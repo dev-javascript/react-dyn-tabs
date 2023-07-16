@@ -1,31 +1,30 @@
 @mixin main {
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
     flex-direction: row-reverse;
-    & > .rc-dyn-tabs-tablist-container {
+    .rc-dyn-tabs-tablist-container,
+    .rc-dyn-tabs-tablist-overflow {
       flex-direction: row-reverse;
-      & > .rc-dyn-tabs-tablist-overflow {
-        flex-direction: row-reverse;
-        & .rc-dyn-tabs-showmorebutton {
-          & > svg {
-            transform: rotate(180deg);
-          }
-        }
-      }
+    }
+    .rc-dyn-tabs-title {
+      flex-direction: row;
+    }
+    .rc-dyn-tabs-showmorebutton > svg {
+      transform: rotate(180deg);
     }
   }
   .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
     flex-direction: row-reverse;
-    & > .rc-dyn-tabs-tab {
-      & > .rc-dyn-tabs-title {
-        flex-direction: row;
-      }
-      & > .rc-dyn-tabs-close {
-        left: 4px;
-        right: auto;
-      }
+    .rc-dyn-tabs-close {
+      left: 4px;
+      right: auto;
     }
   }
+
   .rc-dyn-tabs-panellist.rc-dyn-tabs-rtl {
     flex-direction: row-reverse;
+    .rc-dyn-tabs-panel {
+      direction: rtl;
+      text-align: right;
+    }
   }
 }
