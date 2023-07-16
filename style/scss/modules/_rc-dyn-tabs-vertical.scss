@@ -11,22 +11,5 @@
   }
   .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
     flex-direction: column;
-    float: left;
-    & > .rc-dyn-tabs-tab {
-      float: none;
-      & > .rc-dyn-tabs-title {
-        display: block;
-        width: 100%;
-      }
-
-      & > .rc-dyn-tabs-close {
-        top: 50%;
-        transform: translateY(-50%);
-        line-height: 0px;
-      }
-    }
-  }
-  .rc-dyn-tabs-panellist {
-    flex: 1;
   }
 }

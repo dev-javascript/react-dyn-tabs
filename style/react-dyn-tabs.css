@@ -1,25 +1,16 @@
 .rc-dyn-tabs-panellist {
   padding: 6px 12px;
   position: relative;
+  flex: 1;
+  display: flex;
+  direction: ltr;
 }
 .rc-dyn-tabs-panellist .rc-dyn-tabs-panel {
   display: none;
+  flex-basis: 100%;
 }
 .rc-dyn-tabs-panellist .rc-dyn-tabs-panel.rc-dyn-tabs-selected {
   display: block;
-}
-
-.rc-dyn-tabs-panellist.rc-dyn-tabs-ltr.rc-dyn-tabs-vertical {
-  float: left;
-}
-
-.rc-dyn-tabs-panellist.rc-dyn-tabs-rtl.rc-dyn-tabs-vertical {
-  float: right;
-}
-
-.rc-dyn-tabs-panellist.rc-dyn-tabs-rtl .rc-dyn-tabs-panel {
-  direction: rtl;
-  text-align: right;
 }
 
 .rc-dyn-tabs-panellist.rc-dyn-tabs-ltr .rc-dyn-tabs-panel {
@@ -28,20 +19,15 @@
 }
 
 .rc-dyn-tabs-tablist {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  overflow: hidden;
-  float: none;
   position: relative;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab {
-  display: list-item;
-  list-style: none;
-  text-align: center;
+  display: flex;
   padding: 0px;
-  text-decoration: none;
   position: relative;
   pointer-events: visible;
   opacity: 1;
@@ -58,11 +44,10 @@
   font-weight: 500;
   outline: none;
   justify-content: center;
-  direction: rtl;
+  flex-direction: row-reverse;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title > .rc-dyn-tabs-icon {
-  display: inline-block;
-  padding-right: 0.4em;
+  padding: 0em 0.4em;
 }
 .rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
   position: absolute;
