@@ -1,6 +1,8 @@
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
   flex-direction: column;
+  float: left;
   flex: none;
+  height: 100%;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-container,
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-overflow {
@@ -8,7 +10,7 @@
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
   flex-direction: column;
-  flex: none;
+  float: right;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-container,
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-overflow {
