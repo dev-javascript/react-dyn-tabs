@@ -4,6 +4,9 @@
   border-color: rgba(0, 0, 0, 0.12);
   border-width: 0px 0px 1px 0px;
 }
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: rgba(0, 0, 0, 0.63);
+}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   min-width: 160px;
   min-height: 48px;
@@ -57,18 +60,13 @@
   transition: transform 0.5s, opacity 1s;
 }
 
-.rc-dyn-tabs-tablist .rc-dyn-tabs-tab {
-  color: rgba(0, 0, 0, 0.63);
-}
-
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
   border-width: 0px 1px 0px 0px;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
   border-width: 0px 1px 0px 0px;
 }
-
-.rc-dyn-tabs-tablist.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 0px 3px 0px 0px;
 }
 
@@ -78,7 +76,6 @@
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 1px;
 }
-
-.rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 3px;
 }

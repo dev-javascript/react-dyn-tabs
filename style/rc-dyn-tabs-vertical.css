@@ -5,21 +5,19 @@
   height: 100%;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-container,
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-overflow {
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-overflow,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist {
   flex-direction: column;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
+  height: auto;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
   flex-direction: column;
   float: right;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-container,
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-overflow {
-  flex-direction: column;
-}
-
-.rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-  flex-direction: column;
-}
-.rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-overflow,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist {
   flex-direction: column;
 }

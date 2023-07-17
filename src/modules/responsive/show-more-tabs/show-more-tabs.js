@@ -7,7 +7,16 @@ export default function (getDeps, props) {
     ctx: {
       optionsManager: {
         options,
-        setting: {showMoreButtonClass, showMorePopperClass, showMoreContainerClass, titleClass},
+        setting: {
+          showMoreButtonClass,
+          showMorePopperClass,
+          showMoreContainerClass,
+          titleClass,
+          tabClass,
+          tablistViewClass,
+          verticalClass,
+          rtlClass,
+        },
       },
     },
   } = props;
@@ -31,13 +40,21 @@ export default function (getDeps, props) {
 
   const ButtonComponent = options.showMoreButtonComponent || Button;
   return (
-    <div ref={ins.btnRef} className={showMoreContainerClass}>
+    <div ref={ins.btnRef} className={tabClass + ' ' + showMoreContainerClass}>
       <ButtonComponent
         hiddenTabIDs={hiddenTabIDs}
         instance={ctx.userProxy}
         TabsComponent={TabsComponent}
         buttonClassName={titleClass + ' ' + showMoreButtonClass}
-        popperClassName={showMorePopperClass}
+        popperClassName={
+          tablistViewClass +
+          ' ' +
+          verticalClass +
+          ' ' +
+          (ctx.getOption('direction') == 'rtl' ? rtlClass : '') +
+          ' ' +
+          showMorePopperClass
+        }
       />
     </div>
   );

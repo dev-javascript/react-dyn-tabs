@@ -38,6 +38,36 @@
       align-items: center;
       opacity: 0;
     }
+    .rc-dyn-tabs-tablist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      position: relative;
+    }
+    .rc-dyn-tabs-tab {
+      display: flex;
+      padding: 0px;
+      position: relative;
+      pointer-events: visible;
+      opacity: 1;
+      &.rc-dyn-tabs-disable {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+    }
+    .rc-dyn-tabs-icon {
+      padding: 0em 0.4em;
+    }
+    .rc-dyn-tabs-close {
+      position: absolute;
+      cursor: pointer;
+      top: 50%;
+      transform: translateY(-50%);
+      line-height: 0px;
+      right: 4px;
+      left: auto;
+    }
     .rc-dyn-tabs-title {
       position: relative;
       display: flex;
@@ -70,36 +100,9 @@
       padding: 0px;
       z-index: 2;
       overflow: auto;
-    }
-  }
-  .rc-dyn-tabs-tablist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    position: relative;
-    .rc-dyn-tabs-tab {
-      display: flex;
-      padding: 0px;
-      position: relative;
-      pointer-events: visible;
-      opacity: 1;
-      &.rc-dyn-tabs-disable {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-    }
-    .rc-dyn-tabs-icon {
-      padding: 0em 0.4em;
-    }
-    .rc-dyn-tabs-close {
-      position: absolute;
-      cursor: pointer;
-      top: 50%;
-      transform: translateY(-50%);
-      line-height: 0px;
-      right: 4px;
-      left: auto;
+      height: auto;
+      box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     }
   }
 }

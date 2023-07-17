@@ -78,6 +78,10 @@ $border-radius-value: 5px;
     border-width: 1px;
     padding: 0.2em 0.2em 0;
     border-radius: $border-radius-value;
+    .rc-dyn-tabs-tab {
+      color: $tab-color;
+      margin: 0px 0.2em 0 0;
+    }
     .rc-dyn-tabs-title {
       border-color: $tab-border-color;
       @include tab-background-image;
@@ -96,22 +100,16 @@ $border-radius-value: 5px;
       @include tab-hover-backgroud-image;
     }
   }
-  .rc-dyn-tabs-tablist .rc-dyn-tabs-tab {
-    color: $tab-color;
-    margin: 0px 0.2em 0 0;
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
     .rc-dyn-tabs-tab {
       margin: 0px 0 0 0.2em;
     }
   }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+    padding: 0.2em 0 0.2em 0.2em;
     .rc-dyn-tabs-tab {
       margin: 0.2em 0 0 0;
     }
-  }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
-    padding: 0.2em 0 0.2em 0.2em;
     .rc-dyn-tabs-title {
       border-width: 1px 0px 1px 1px;
       @include tab-border-radius($isVertical: true);
@@ -119,11 +117,15 @@ $border-radius-value: 5px;
     .rc-dyn-tabs-showmorebutton-container {
       margin: 0.2em 0 0 0;
     }
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    .rc-dyn-tabs-title {
-      border-width: 1px 0px 1px 1px;
-      @include tab-border-radius($isVertical: true);
+    .rc-dyn-tabs-showmorebutton-container {
+      min-height: 30px;
+    }
+    &.rc-dyn-tabs-popper {
+      padding: 0.2em;
+      .rc-dyn-tabs-title {
+        border-width: 1px;
+        border-radius: 5px;
+      }
     }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
@@ -132,16 +134,12 @@ $border-radius-value: 5px;
       border-width: 1px 1px 1px 0px;
       @include tab-border-radius($isVertical: true, $isRtl: true);
     }
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
-    .rc-dyn-tabs-title {
-      border-width: 1px 1px 1px 0px;
-      @include tab-border-radius($isVertical: true, $isRtl: true);
+    &.rc-dyn-tabs-popper {
+      padding: 0.2em;
+      .rc-dyn-tabs-title {
+        border-width: 1px;
+        border-radius: 5px;
+      }
     }
-  }
-
-  .rc-dyn-tabs-showmorebutton-container .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
-    border-width: 1px;
-    border-radius: 5px;
   }
 }
