@@ -16,12 +16,6 @@
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:hover {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-close {
-  top: 50%;
-  transform: translateY(-50%);
-  line-height: 0px;
-  right: 10px;
-}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   background-color: #ccc;
 }

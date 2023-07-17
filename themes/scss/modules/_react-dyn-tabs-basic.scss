@@ -21,12 +21,6 @@ $selected-tab-background-color: #ccc;
     .rc-dyn-tabs-title:active:hover {
       background-color: $actived-tab-background-color;
     }
-    .rc-dyn-tabs-close {
-      top: 50%;
-      transform: translateY(-50%);
-      line-height: 0px;
-      right: 10px;
-    }
     .rc-dyn-tabs-selected .rc-dyn-tabs-title {
       background-color: $selected-tab-background-color;
     }
