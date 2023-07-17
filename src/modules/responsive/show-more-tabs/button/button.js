@@ -15,14 +15,18 @@ export default function (getDeps, props) {
       props.instance && props.instance.off && props.instance.off('onSelect', close);
     };
   }, []);
-  const onClick = useCallback(() => {
-    window.document.removeEventListener('click', ref.current.closePopper, {once: true});
-    window.document.addEventListener('click', ref.current.closePopper, {once: true});
-    setOpen(!open);
-    return () => {
+  const onClick = useCallback(
+    (ev) => {
+      ev.stopPropagation();
       window.document.removeEventListener('click', ref.current.closePopper, {once: true});
-    };
-  }, [open]);
+      window.document.addEventListener('click', ref.current.closePopper, {once: true});
+      setOpen(!open);
+      return () => {
+        window.document.removeEventListener('click', ref.current.closePopper, {once: true});
+      };
+    },
+    [open],
+  );
   return (
     <>
       <span onClick={onClick} ref={btnRef} className={props.buttonClassName}>
