@@ -64,14 +64,14 @@
   position: absolute;
   cursor: pointer;
   top: 50%;
+  height: 10px;
+  width: 10px;
   transform: translateY(-50%);
-  right: 4px;
+  right: 6px;
   left: auto;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  right: 10px;
-  width: 10px;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   position: relative;
