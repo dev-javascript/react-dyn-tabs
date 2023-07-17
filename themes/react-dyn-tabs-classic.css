@@ -29,6 +29,9 @@
   color: #416da3;
   min-width: 100px;
 }
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
+  min-width: 46.38px;
+}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   background-image: none;
   background-image: #deecfd;
