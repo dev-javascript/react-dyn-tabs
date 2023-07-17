@@ -93,6 +93,12 @@
       height: 100%;
       align-items: center;
     }
+    .rc-dyn-tabs-tab {
+      .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
+        padding: 0px;
+        min-width: 46.38px;
+      }
+    }
     .rc-dyn-tabs-popper {
       position: fixed;
       background: white;

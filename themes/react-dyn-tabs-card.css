@@ -19,7 +19,7 @@
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
   min-width: 46.38px;
-  min-height: 48px;
+  border: 0px;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:after {
   transform: scale(0, 0);

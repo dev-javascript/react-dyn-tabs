@@ -1,8 +1,8 @@
-.rc-dyn-tabs-tablist {
+.rc-dyn-tabs-tablist-view {
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   background-color: inherit;
   border: none;
   transition: 0.3s;
@@ -10,25 +10,22 @@
   min-width: 160px;
   min-height: 40px;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:hover {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-title:active:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:hover {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-close {
   top: 50%;
   transform: translateY(-50%);
   line-height: 0px;
+  right: 10px;
 }
-.rc-dyn-tabs-tablist > .rc-dyn-tabs-tab.rc-dyn-tabs-selected > .rc-dyn-tabs-title {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   background-color: #ccc;
 }
 
-.rc-dyn-tabs-tablist.rc-dyn-tabs-ltr > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
-  right: 10px;
-}
-
-.rc-dyn-tabs-tablist.rc-dyn-tabs-rtl > .rc-dyn-tabs-tab > .rc-dyn-tabs-close {
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
   left: 10px;
 }

@@ -26,7 +26,7 @@ $ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
       opacity: 1;
       &.rc-dyn-tabs-showmorebutton {
         min-width: 46.38px;
-        min-height: 48px;
+        border: 0px;
       }
     }
     .rc-dyn-tabs-title:active:after {
