@@ -15,20 +15,22 @@ export const apiConstructor = function (getDeps, param = {options: {}}, modules 
 };
 const _apiProps = {
   _setUserProxy: function () {
-    const userProxy = {},
-      that = this;
-    for (var prop in this)
+    const userProxy = {};
+    for (const prop in this) {
       if (prop[0] !== '_' && prop !== 'constructor') {
-        const propValue = this[prop];
-        if (typeof propValue === 'function') {
-          userProxy[prop] = function () {
-            const result = propValue.apply(that, arguments);
-            return result === that ? userProxy : result;
-          };
-        } else {
-          userProxy[prop] = propValue;
-        }
+        (function (that) {
+          const propValue = that[prop];
+          if (typeof propValue === 'function') {
+            userProxy[prop] = function () {
+              const result = propValue.apply(that, arguments);
+              return result === that ? userProxy : result;
+            };
+          } else {
+            userProxy[prop] = propValue;
+          }
+        })(this);
       }
+    }
     this.userProxy = userProxy;
     return this;
   },
