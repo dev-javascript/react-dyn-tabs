@@ -8,25 +8,25 @@ React Dynamic Tabs with full API
 
 ## Features
 
-- **Based on React hook**
-- **Open & Close & Select & Refresh**
-- **lazy/eager loading**
+- **Responsive (using `more button`)**
+- **Full API (Open & Close & Select & Refresh & setOption, ...)**
+- **lazy loading and rendering**
 - **Customizable style**
-- **Full API**
 - **Return to last used tab when closing selected tab**
 - **PanelList can be rendered outside the TabList container**
 - **ARIA accessible**
-- **Supporting custom Tab component**
-- **Batching updates**
-- **It's about 21kb**
+- **Customizable Tab component**
+- **Multiple themes**
+- **The core is about 21kb**
 
 ## Table of Contents
 
 <!-- toc -->
 
 - [Installation](#installation)
-- [Basic Example](#basic-example)
-- [Simple manipulation](#simple-manipulation)
+- [Syntax](#syntax)
+- [Minimal Usage Example](#minimal-usage-example)
+- [Simple Manipulation Example](#simple-manipulation-example)
 - [Options](#options)
   - [tabs](#tabs)
   - [selectedTabID](#selectedTabID)
@@ -77,14 +77,19 @@ React Dynamic Tabs with full API
 ```js
 $ npm install react-dyn-tabs --save
 ```
-
 or
 
 ```js
 $ yarn add react-dyn-tabs
 ```
 
-## Basic Example
+## Syntax
+
+```js
+ [TabList,PanelList,ready] = useDynTabs(initialOptions,plugins);
+```
+
+## Minimal Usage Example
 
 ```js
 import React from 'react';
@@ -92,23 +97,24 @@ import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
 import useDynTabs from 'react-dyn-tabs';
 
+const initialOptions = {
+  tabs: [
+    {
+      id: '1',
+      title: 'tab 1',
+      panelComponent: (porps) => <p> panel 1 </p>,
+    },
+    {
+      id: '2',
+      title: 'tab 2',
+      panelComponent: (porps) => <p> panel 2 </p>,
+    },
+  ],
+  selectedTabID: '1',
+};
+
 export default () => {
-  const options = {
-    tabs: [
-      {
-        id: '1',
-        title: 'tab 1',
-        panelComponent: (porps) => <p> panel 1 </p>,
-      },
-      {
-        id: '2',
-        title: 'tab 2',
-        panelComponent: (porps) => <p> panel 2 </p>,
-      },
-    ],
-    selectedTabID: '1',
-  };
-  const [TabList, PanelList] = useDynTabs(options);
+  const [TabList, PanelList] = useDynTabs(initialOptions);
   return (
     <>
       <TabList></TabList>
@@ -118,7 +124,7 @@ export default () => {
 };
 ```
 
-## Simple manipulation
+## Simple Manipulation Example
 
 ```js
 import React from 'react';
@@ -126,37 +132,37 @@ import 'react-dyn-tabs/style/scss/react-dyn-tabs.scss';
 import 'react-dyn-tabs/themes/scss/react-dyn-tabs-card.scss';
 import useDynTabs from 'react-dyn-tabs';
 
+const initialOptions = {
+  tabs: [
+    {
+      id: '1',
+      title: 'tab1',
+      panelComponent: (porps) => <p> panel 1 </p>,
+    },
+    {
+      id: '2',
+      title: 'tab2',
+      panelComponent: (porps) => <p> panel 2 </p>,
+    },
+  ],
+  selectedTabID: '1',
+};
+
 export default () => {
-  const options = {
-    tabs: [
-      {
-        id: '1',
-        title: 'tab1',
-        panelComponent: (porps) => <p> panel 1 </p>,
-      },
-      {
-        id: '2',
-        title: 'tab2',
-        panelComponent: (porps) => <p> panel 2 </p>,
-      },
-    ],
-    selectedTabID: '1',
-  };
-  let _instance;
-  const [TabList, PanelList, ready] = useDynTabs(options);
-  ready((instance) => {
-    _instance = instance;
-  });
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions);
   const addTab3 = function () {
-    // open tab 3
-    _instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
-      console.log('tab 3 is open');
-    });
-    // switch to tab 3
-    _instance.select('3').then(() => {
-      console.log('tab 3 is selected');
+    ready((instance) => {
+        // open tab 3
+        instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
+          console.log('tab 3 is open');
+        });
+        // switch to tab 3
+        instance.select('3').then(() => {
+          console.log('tab 3 is selected');
+        });
     });
   };
+
   return (
     <>
       <button onClick={addTab3}>Add tab 3</button>
@@ -169,9 +175,20 @@ export default () => {
 
 **NOTE :**
 
-- Tabs can't be manipulated safely before the first render, use `ready()` to access the instance object, `ready` accepts a function as its parameter and calls it when tabs are mounted.
+- Use `ready` function to access the `instance` object
 
-- `ready` function identity is stable and won’t change on re-renders.
+    ```js
+        ready((instance) => {
+            // manipulate tabs using instance object here
+        });
+
+    ```
+
+- `ready` function accepts a `callback` as its parameter and executes it as soon as Tabs get mounted.
+
+- If `ready` function is called after the Tabs has been mounted, the `callback` passed in will be executed immediately.
+
+- `ready` function can be executed multiple times and its identity is stable and won’t change on re-renders.
 
 ## Options
 
@@ -324,7 +341,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 
 ### defaultPanelComponent
 
-Default value for panelComponent option.
+Default value for `panelComponent` option.
 
 <table>
   <tbody>
@@ -379,7 +396,7 @@ const [TabList, PanelList, ready] = useDynTabs({accessibility: false});
 
 **NOTE :**
 
-When accessibility option is true, it sets the id attribute of panel and button elements.
+When `accessibility` option is `true`, it sets the id attribute of `panel` and `button` elements.
 
 ### isVertical
 
@@ -418,7 +435,7 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>This event is fired only once, after the first render</td>
+      <td>This event is fired only once, when Tabs are mounted</td>
     </tr>
   </tbody>
 </table>
@@ -435,7 +452,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 
 **NOTE :**
 
-You can use 'this' keyword inside all callback options. It refers to the instance object.
+You can use `this` keyword inside all callback options. It refers to the `instance` object.
 
 ### onInit
 
@@ -466,7 +483,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 
 **NOTE :**
 
-Do not use setState inside the onInit callback because it leads to an infinite loop.
+Do not use `setState` inside the `onInit` callback because it leads to an infinite loop.
 
 ### onChange
 
@@ -508,8 +525,8 @@ const [TabList, PanelList, ready] = useDynTabs({
       <td>function</td>
       <td>false</td>
       <td>
-        fires when the user clicks on the tab, but before select them. 
-        This event should return boolean true or false,  If the event return false the tab is not selected.
+        Fires when the user clicks on the tab, but before select them. 
+        This event should return boolean true or false, If the event returns false the tab is not selected.
       </td>
     </tr>
   </tbody>
@@ -565,7 +582,7 @@ const [TabList, PanelList, ready] = useDynTabs({
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after selecting a tab. this event is not fired initially</td>
+      <td>fires after selecting a tab. this event is not fired for the initial selected tab</td>
     </tr>
   </tbody>
 </table>
@@ -592,7 +609,7 @@ const [TabList, PanelList, ready] = useDynTabs({
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after opening tabs. this event is not fired initially</td>
+      <td>fires after opening tabs. this event is not fired for initial opened tabs</td>
     </tr>
   </tbody>
 </table>
@@ -650,7 +667,7 @@ const [TabList, PanelList, ready] = useDynTabs({
     <tr>
       <td>function</td>
       <td>false</td>
-      <td>fires after closing tabs. this event is not fired initially</td>
+      <td>fires after closing tabs</td>
     </tr>
   </tbody>
 </table>
@@ -696,7 +713,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 
 ### isOpen
 
-Return value : boolean
+Return value : `boolean`
 
 Parameters:
 
@@ -710,11 +727,11 @@ const result = instance.isOpen('Your tab ID');
 
 ### open
 
-Triggers 'onInit', 'onChange' and 'onOpen' event.
+Triggers `onInit`, `onChange` and `onOpen` events.
 
-It only triggers 'onInit' event, if the tab is already open.
+It only triggers `onInit` event, if the tab is already open.
 
-Return value : Promise
+Return value : `Promise`
 
 Parameters:
 
@@ -742,7 +759,7 @@ if (instance.isOpen('contact') == false) {
 
 ### isSelected
 
-Return value : boolean
+Return value : `boolean`
 
 Parameters:
 
@@ -758,11 +775,11 @@ const result = instance.isSelected('Your tab ID');
 
 Makes current and previous selected tab to be re-rendered
 
-Triggers 'onInit', 'onChange' and 'onSelect' event.
+Triggers `onInit`, `onChange` and `onSelect` events.
 
-It only triggers 'onInit' event, if the tab is already selected.
+It only triggers `onInit` event, if the tab is already selected.
 
-Return value : Promise
+Return value : `Promise`
 
 Parameters:
 
@@ -780,13 +797,13 @@ if (instance.isSelected('1') == false) {
 
 ### close
 
-Triggers 'onInit', 'onChange' and 'onClose' event.
+Triggers `onInit`, `onChange` and `onClose` events.
 
-It only triggers 'onInit' event, if the tab is already closed.
+It only triggers `onInit` event, if the tab is already closed.
 
-When switching parameter is true, it switches to previous selected tab
+When `switching` parameter is `true`, it switches to previous selected tab
 
-Return value : Promise
+Return value : `Promise`
 
 Parameters:
 
@@ -807,9 +824,9 @@ if (instance.isOpen('2') == true) {
 
 Makes all tabs to be re-rendered.
 
-triggers onInit event.
+triggers `onInit` event.
 
-Return value : Promise
+Return value : `Promise`
 
 **Example**
 
@@ -832,11 +849,11 @@ const onSelect = instance.getOption('onSelect');
 
 ### setOption
 
-You can use this method for setting all options except selectedTabID and tabs options.
+Can be used for setting all options except `selectedTabID` and `tabs` options.
 
-For re-rendering immediately after this function, you should call refresh method after it.
+This function does not re-render Tabs. If you need to re-render Tabs, use `refresh` method after this function.
 
-Return value : instance object
+Return value : `instance object`
 
 Parameters:
 
@@ -853,9 +870,9 @@ instance.setOption('beforeSelect', () => false);
 
 ### getTab
 
-get tabData by id
+Get `tabData` object
 
-Return value : tabData object
+Return value : `tabData object`
 
 Parameters:
 
@@ -864,15 +881,17 @@ Parameters:
 **Example**
 
 ```js
-const tabData = instance.getTab('3');
-console.log(tabData.id); // 3
+const {id,title,tooltip,disable,lazy,iconClass,closable,panelComponent} = instance.getTab('contactID');
+console.log(id); //contactID
 ```
 
 ### setTab
 
-set tabData by id. for re-rendering immediately after this function, you should call refresh method after it.
+Set `tabData` object.
 
-Return value : instance
+This function does not re-render Tabs. If you need to re-render Tabs, use `refresh` method after this function.
+
+Return value : `instance object`
 
 Parameters:
 
@@ -890,7 +909,7 @@ instance.setTab('contact', {closable: false, panelComponent: (props) => <p>conta
 
 Attach an event handler function for one event.
 
-Return value : instance
+Return value : `instance object`
 
 Parameters:
 
@@ -910,7 +929,7 @@ instance.on('onSelect', handler);
 
 Attach a handler to an event. The handler is executed at most once.
 
-Return value : instance
+Return value : `instance object`
 
 Parameters:
 
@@ -927,7 +946,7 @@ instance.one('onSelect', function ({currentSelectedTabId, previousSelectedTabId}
 
 Remove an event handler.
 
-Return value : instance
+Return value : `instance object`
 
 Parameters:
 
@@ -948,9 +967,9 @@ const deattachHandler = () => {
 
 ### getData
 
-get a copy of data
+Get a copy of data
 
-Return value : Object
+Return value : `Data` Object
 
 **Example**
 
@@ -960,13 +979,13 @@ const {selectedTabID, openTabIDs} = instance.getData();
 
 **NOTE :**
 
-- getCopyData function is an older version of getData function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
+- `getCopyData` function is an older version of `getData` function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
 
 ### getPreviousData
 
-get a copy of data in previous render
+Get a copy of data in previous render
 
-Return value : Object
+Return value : `Data` Object
 
 **Example**
 
@@ -976,26 +995,26 @@ const {selectedTabID, openTabIDs} = instance.getPreviousData();
 
 **NOTE :**
 
-- getCopyPerviousData function is an older version of getPreviousData function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
+- `getCopyPerviousData` function is an older version of `getPreviousData` function and it is enabled by default so that existing users do not have to change their code. You are free to use both conventions.
 
 ### sort
 
-Useful for sorting tabs manually.
+Useful for sorting Tabs manually.
 
 Triggers `onInit` event.
 
-Return value : Promise
+Return value : `Promise`
 
 Parameters:
 
-- `Array of all tabs IDs`
+- `Array of all Tabs IDs`
 
 **Example**
 
 ```js
 const {openTabIDs} = instance.getData();
 instance.sort(openTabIDs.reverse()).then(({currentData, instance}) => {
-  console.log('sorting tabs has finished');
+  console.log('sorting Tabs has finished');
 });
 ```
 
@@ -1151,7 +1170,7 @@ useDynTabs({
 
 ## Styling
 
-react-dyn-tabs does not include any style loading by default. Default stylesheets and themes are provided and can be included in your application if desired.
+`react-dyn-tabs` does not include any style loading by default. Default stylesheets and themes are provided and can be included in your application if desired.
 
 ```js
 import 'react-dyn-tabs/style/react-dyn-tabs.min.css';
