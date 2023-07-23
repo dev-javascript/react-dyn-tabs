@@ -3,7 +3,7 @@ import {ApiContext, StateContext} from '../utils/context.js';
 import Tab from '../tab/tab.js';
 import tablistPropsManager from './tablistPropsManager.js';
 import PropTypes from 'prop-types';
-function Tabs(props, ref) {
+function TabsComponent(props, ref) {
   const {openTabIDs, selectedTabID, dir, isVertical} = props;
   const api = React.useContext(ApiContext);
   const tablistProps = tablistPropsManager({api, dir, isVertical});
@@ -15,7 +15,7 @@ function Tabs(props, ref) {
     </ul>
   );
 }
-Tabs.propTypes /* remove-proptypes */ = {
+TabsComponent.propTypes /* remove-proptypes */ = {
   selectedTabID: PropTypes.string,
   dir: PropTypes.string,
   isVertical: PropTypes.bool,
@@ -27,14 +27,8 @@ function TabList(props, ref) {
   const api = React.useContext(ApiContext);
   const {direction, isVertical} = api.optionsManager.options;
   return (
-    <MemomizedTabs
-      openTabIDs={openTabIDs}
-      selectedTabID={selectedTabID}
-      ref={ref}
-      dir={direction}
-      isVertical={isVertical}
-    />
+    <Tabs openTabIDs={openTabIDs} selectedTabID={selectedTabID} ref={ref} dir={direction} isVertical={isVertical} />
   );
 }
-export const MemomizedTabs = forwardRef(Tabs);
+export const Tabs = forwardRef(TabsComponent);
 export default MemomizedTabList;
