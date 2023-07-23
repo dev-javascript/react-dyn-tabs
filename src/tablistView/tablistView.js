@@ -1,5 +1,6 @@
 import React from 'react';
 import {ApiContext} from '../utils/context.js';
+import PropTypes from 'prop-types';
 export default function TablistOverflow(props) {
   const {
     options: {isVertical, direction},
@@ -13,3 +14,6 @@ export default function TablistOverflow(props) {
   }
   return <div className={_className}>{props.children}</div>;
 }
+TablistOverflow.propTypes /* remove-proptypes */ = {
+  children: PropTypes.element,
+};

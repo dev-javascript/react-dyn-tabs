@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
 function useDynamicTabs(getDeps, options = {}, modules) {
   const {

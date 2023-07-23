@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act} from 'react-dom/test-utils';
@@ -54,8 +55,12 @@ beforeEach(() => {
         return Object.assign(
           {},
           {
-            TablistView: (props) => <>{props.children}</>,
-            TablistContainer: (props) => <>{props.children}</>,
+            TablistView: function TablistView(props) {
+              return <>{props.children}</>;
+            },
+            TablistContainer: function TablistContainer(props) {
+              return <>{props.children}</>;
+            },
           },
           getDeps(),
         );
@@ -518,13 +523,17 @@ describe('output : ', () => {
       _api = api;
       return api;
     };
-    const getDeps = function () {
+    const getDeps = function getDeps() {
       return {
         reducer,
         getApiInstance,
         PanelList,
-        TablistView: (props) => <>{props.children}</>,
-        TablistContainer: (props) => <>{props.children}</>,
+        TablistView: function TablistView(props) {
+          return <>{props.children}</>;
+        },
+        TablistContainer: function TablistContainer(props) {
+          return <>{props.children}</>;
+        },
         TabList,
         ApiContext,
         StateContext,

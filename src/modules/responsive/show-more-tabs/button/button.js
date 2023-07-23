@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-export default function (getDeps, props) {
+import PropTypes from 'prop-types';
+export default function Button(getDeps, props) {
   const {Popper} = getDeps();
   const [open, setOpen] = useState(false);
   const btnRef = useRef();
@@ -41,3 +42,10 @@ export default function (getDeps, props) {
     </>
   );
 }
+Button.propTypes /* remove-proptypes */ = {
+  buttonClassName: PropTypes.string,
+  popperClassName: PropTypes.string,
+  instance: PropTypes.object,
+  hiddenTabIDs: PropTypes.string,
+  TabsComponent: PropTypes.func,
+};

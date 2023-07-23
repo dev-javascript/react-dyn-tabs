@@ -1,5 +1,6 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
-export default function (getDeps, props) {
+import PropTypes from 'prop-types';
+export default function ShowMoreTabs(getDeps, props) {
   const {
     TabsComponent,
     ctx,
@@ -59,3 +60,8 @@ export default function (getDeps, props) {
     </div>
   );
 }
+ShowMoreTabs.propTypes /* remove-proptypes */ = {
+  ctx: PropTypes.object,
+  contexts: PropTypes.object,
+  TabsComponent: PropTypes.func,
+};

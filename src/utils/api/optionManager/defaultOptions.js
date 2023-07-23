@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import Helper from '../../helper.js';
 export default Helper.module(
@@ -7,10 +8,10 @@ export default Helper.module(
     this.directionsRange = ['ltr', 'rtl'];
   },
   {
-    getOptions: function () {
+    getOptions: function getOptions() {
       return this._getOptions();
     },
-    _getOptions: function () {
+    _getOptions: function _getOptions() {
       const _options = {
         tabs: [],
         selectedTabID: '',
@@ -63,15 +64,15 @@ export default Helper.module(
       });
       return _options;
     },
-    getInternalOptions: function () {
+    getInternalOptions: function getInternalOptions() {
       return {
-        TablistOverflow: function (props) {
+        TablistOverflow: function TablistOverflow(props) {
           return <>{props.children}</>;
         },
-        ShowMoreButton: function () {
+        ShowMoreButton: function ShowMoreButton() {
           return null;
         },
-        TabIndicator: function () {
+        TabIndicator: function TabIndicator() {
           return null;
         },
       };

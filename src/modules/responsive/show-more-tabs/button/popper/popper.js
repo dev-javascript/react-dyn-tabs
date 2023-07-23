@@ -1,4 +1,5 @@
 import React, {useLayoutEffect} from 'react';
+import PropTypes from 'prop-types';
 export default function Popper(getDeps, props, popperRef) {
   const {createPopper, getPopperMaxHeight, clk} = getDeps();
   const {TabsComponent, instance, hiddenTabIDs, btnRef, className} = props;
@@ -24,3 +25,10 @@ export default function Popper(getDeps, props, popperRef) {
     </>
   );
 }
+Popper.propTypes /* remove-proptypes */ = {
+  className: PropTypes.string,
+  hiddenTabIDs: PropTypes.string,
+  instance: PropTypes.object,
+  btnRef: PropTypes.object,
+  TabsComponent: PropTypes.func,
+};
