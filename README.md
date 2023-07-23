@@ -64,6 +64,8 @@ React Dynamic Tabs with full API
   - [sort](#sort)
 - [tabData](#tabData)
 - [Lazy Loading](#lazy-loading)
+- [Plugins](#plugins)
+  - [Responsive](#responsive)
 - [Styling](#styling)
 - [Caveats](#caveats)
 - [Deprecated features](#Deprecated-features)
@@ -1166,6 +1168,32 @@ useDynTabs({
     }
   },
 });
+```
+
+## Plugins
+
+### Responsive
+
+Make Tabs responsive using `more button`
+
+**Example**
+
+```js
+import React from 'react';
+import 'react-dyn-tabs/style/react-dyn-tabs.css';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+import useDynTabs, {MoreButtonPlugin} from 'react-dyn-tabs';
+
+export default () => {
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+  return (
+    <>
+      <TabList></TabList>
+      <PanelList></PanelList>
+    </>
+  );
+};
+
 ```
 
 ## Styling
