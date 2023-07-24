@@ -17,7 +17,7 @@ React Dynamic Tabs with full API
 - **ARIA accessible**
 - **Customizable Tab component**
 - **Multiple themes**
-- **The core is about 21kb**
+- **The core is about 23kb**
 
 ## Table of Contents
 
@@ -1182,7 +1182,8 @@ Make Tabs responsive using `more button`
 import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
-import useDynTabs, {MoreButtonPlugin} from 'react-dyn-tabs';
+import useDynTabs from 'react-dyn-tabs';
+import MoreButtonPlugin from 'react-dyn-tabs/plugins/moreButtonPlugin';
 
 export default () => {
   const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);

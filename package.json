@@ -76,6 +76,7 @@
     "webpack-cli": "^3.3.12"
   },
   "files": [
+    "plugins",
     "dist",
     "flow-typed",
     "lib",
@@ -89,6 +90,9 @@
   "keywords": [
     "react",
     "dynamic",
+    "responsive",
+    "responsive-tabs",
+    "more-button",
     "tab",
     "tabs",
     "react-dynamic-tabs",

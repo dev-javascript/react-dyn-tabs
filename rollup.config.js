@@ -36,8 +36,8 @@ const Config = ({en, inputPath = '', outputFile = 'rc-dyn-tabs-core', outputName
   ];
 export default ConfigFactory().concat(
   ConfigFactory({
-    outputFile: 'rc-dyn-tabs-responsive-plugin',
-    outputName: 'ReactDynTabs_ResponsivePlugin',
-    inputPath: 'modules/responsive/',
+    outputFile: 'more-button-plugin',
+    outputName: 'MoreButtonPlugin',
+    inputPath: 'plugins/moreButtonPlugin/',
   }),
 );
