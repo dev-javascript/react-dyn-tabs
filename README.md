@@ -1212,6 +1212,8 @@ import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
 
 You can find other themes at themes folder and multiple themes example at example/multi-themes-example folder.
 
+Include `react-dyn-tabs/style/react-dyn-tabs-rtl.min.css` for `rtl` mode
+
 ## Caveats
 
 - Some actions like open, select, close and refresh cause re-rendering, and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause. you should use them inside event listeners or subscriptions.
