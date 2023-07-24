@@ -1,2 +1,4 @@
-@use 'modules/react-dyn-tabs' as m;
-@include m.main;
+@use 'modules/react-dyn-tabs' as a;
+@use 'modules/react-dyn-tabs-vertical' as b;
+@include a.main;
+@include b.main;

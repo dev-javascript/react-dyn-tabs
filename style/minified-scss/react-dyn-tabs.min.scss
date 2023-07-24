@@ -1,2 +1,4 @@
 @use '../scss/modules/react-dyn-tabs' as m;
+@use '../scss/modules/react-dyn-tabs-vertical' as n;
 @include m.main;
+@include n.main;

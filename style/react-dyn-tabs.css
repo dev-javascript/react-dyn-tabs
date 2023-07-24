@@ -113,3 +113,27 @@
   height: auto;
   box-shadow: white 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
+
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+  flex-direction: column;
+  float: left;
+  flex: none;
+  height: 100%;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-container,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist-overflow,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist {
+  flex-direction: column;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
+  height: auto;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  flex-direction: column;
+  float: right;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-container,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-overflow,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist {
+  flex-direction: column;
+}
