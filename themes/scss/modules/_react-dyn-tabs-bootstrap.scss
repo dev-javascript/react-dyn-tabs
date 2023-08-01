@@ -8,17 +8,34 @@ $background-color: #fff;
 }
 
 @mixin tablistBorder($isVertical: false, $isRtl: false) {
-  @if $isVertical {
-    @if $isRtl {
-      border-width: 0px 0px 0px 1px;
+  &::before {
+    content: '';
+    position: absolute;
+    @if $isVertical {
+      @if $isRtl {
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        width: 1px;
+        right: auto;
+        height: auto;
+      } @else {
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        width: 1px;
+        height: auto;
+        left: auto;
+      }
     } @else {
-      border-width: 0px 1px 0px 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      height: 1px;
+      width: auto;
     }
-  } @else {
-    border-width: 0px 0px 1px;
+    background-color: $border-color;
   }
-
-  border-color: $border-color;
 }
 
 @mixin tabBorder($isVertical: false, $isRtl: false) {
@@ -60,11 +77,9 @@ $background-color: #fff;
 
 @mixin main {
   .rc-dyn-tabs-tablist-view {
-    .rc-dyn-tabs-tablist {
-      @include tab;
-      @include tablistBorder;
-    }
+    @include tablistBorder;
     background-color: $background-color;
+    border: none;
     .rc-dyn-tabs-tab {
       background-color: transparent;
     }
@@ -89,9 +104,7 @@ $background-color: #fff;
     }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
-    .rc-dyn-tabs-tablist {
-      @include tablistBorder($isVertical: true);
-    }
+    @include tablistBorder($isVertical: true);
     .rc-dyn-tabs-title {
       @include tabBorder($isVertical: true);
     }
@@ -100,9 +113,7 @@ $background-color: #fff;
     }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
-    .rc-dyn-tabs-tablist {
-      @include tablistBorder($isVertical: true, $isRtl: true);
-    }
+    @include tablistBorder($isVertical: true, $isRtl: true);
     .rc-dyn-tabs-tab {
       .rc-dyn-tabs-title {
         @include tabBorder($isVertical: true, $isRtl: true);

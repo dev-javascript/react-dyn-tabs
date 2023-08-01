@@ -1,11 +1,16 @@
 .rc-dyn-tabs-tablist-view {
   background-color: #fff;
+  border: none;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tablist {
-  color: #495057;
-  border-style: solid;
-  border-width: 0px 0px 1px;
-  border-color: #dee2e6;
+.rc-dyn-tabs-tablist-view::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 1px;
+  width: auto;
+  background-color: #dee2e6;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
   background-color: transparent;
@@ -36,9 +41,16 @@
   background-color: #fff;
 }
 
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-tablist {
-  border-width: 0px 1px 0px 0px;
-  border-color: #dee2e6;
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 1px;
+  height: auto;
+  left: auto;
+  background-color: #dee2e6;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
   border-width: 0px 1px 0px 0px;
@@ -52,9 +64,16 @@
   border-color: #dee2e6 #fff #dee2e6 #dee2e6;
 }
 
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist {
-  border-width: 0px 0px 0px 1px;
-  border-color: #dee2e6;
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+  right: auto;
+  height: auto;
+  background-color: #dee2e6;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tab .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 1px;
