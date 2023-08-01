@@ -8,8 +8,7 @@ export default function ({api, dir, isVertical}) {
     result.className += ' ' + _setting.verticalClass;
   }
   if (_op.accessibility) {
-    result.tablistProps.role = 'tablist';
+    result.role = 'tablist';
   }
-
   return result;
 }

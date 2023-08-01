@@ -22,34 +22,28 @@ function useDynamicTabs(getDeps, options = {}, modules) {
     [state, dispatch] = useReducer(reducer, api.optionsManager.initialState),
     [flushState, setFlushState] = useState({});
   api.updateStateRef(state, dispatch).updateFlushState(setFlushState);
-  useEffect(() => {
+  useLayoutEffect(() => {
     api.updateState(state);
   }, [state]);
   useLayoutEffect(() => {
-    api.trigger('_beforeLoad', api.userProxy);
-  }, []);
-  useEffect(() => {
     api.trigger('onLoad', api.userProxy);
     return () => {
       api.trigger('onDestroy', api.userProxy);
     };
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     api.trigger('onInit', api.userProxy);
   });
-  useEffect(() => {
+  useLayoutEffect(() => {
     api.trigger('_onReady', api.userProxy);
   }, []);
   useLayoutEffect(() => {
-    api.trigger('_beforeChange', api.userProxy);
-  }, [state]);
-  useEffect(() => {
     const oldState = api.previousState,
       [openedTabIDs, closedTabIDs] = api.helper.getArraysDiff(state.openTabIDs, oldState.openTabIDs),
       isSwitched = oldState.selectedTabID !== state.selectedTabID;
     api.onChange({newState: state, oldState, closedTabIDs, openedTabIDs, isSwitched});
   }, [state]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     api.trigger('_onFlushEffects', api.userProxy, () => {
       return [{currentData: api.getData(), instance: api.userProxy}];
     });
