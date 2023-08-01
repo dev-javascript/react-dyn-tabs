@@ -9,7 +9,7 @@ React Dynamic Tabs with full API
 ## Features
 
 - **Responsive (using `more button`)**
-- **Full API (Open & Close & Select & Refresh & setOption, ...)**
+- **Full API (Open & Close & Select & Refresh & setOption & setTab, ...)**
 - **lazy loading and rendering**
 - **Customizable style**
 - **Return to last used tab when closing selected tab**
@@ -29,46 +29,46 @@ React Dynamic Tabs with full API
 - [Simple Manipulation Example](#simple-manipulation-example)
 - [Options](#options)
   - [tabs](#tabs)
-  - [selectedTabID](#selectedTabID)
+  - [selectedTabID](#selectedtabid)
   - [direction](#direction)
-  - [tabComponent](#tabComponent)
-  - [defaultPanelComponent](#defaultPanelComponent)
+  - [tabComponent](#tabcomponent)
+  - [defaultPanelComponent](#defaultpanelcomponent)
   - [accessibility](#accessibility)
-  - [isVertical](#isVertical)
-  - [onLoad](#onLoad)
-  - [onInit](#onInit)
-  - [onChange](#onChange)
-  - [beforeSelect](#beforeSelect)
-  - [onFirstSelect](#onFirstSelect)
-  - [onSelect](#onSelect)
-  - [onOpen](#onOpen)
-  - [beforeClose](#beforeClose)
-  - [onClose](#onClose)
-  - [onDestroy](#onDestroy)
+  - [isVertical](#isvertical)
+  - [onLoad](#onload)
+  - [onInit](#oninit)
+  - [onChange](#onchange)
+  - [beforeSelect](#beforeselect)
+  - [onFirstSelect](#onfirstselect)
+  - [onSelect](#onselect)
+  - [onOpen](#onopen)
+  - [beforeClose](#beforeclose)
+  - [onClose](#onclose)
+  - [onDestroy](#ondestroy)
 - [Instance methods](#instance-methods)
-  - [isOpen](#isOpen)
+  - [isOpen](#isopen)
   - [open](#open)
-  - [isSelected](#isSelected)
+  - [isSelected](#isselected)
   - [select](#select)
   - [close](#close)
   - [refresh](#refresh)
-  - [getOption](#getOption)
-  - [setOption](#setOption)
-  - [getTab](#getTab)
-  - [setTab](#setTab)
+  - [getOption](#getoption)
+  - [setOption](#setoption)
+  - [getTab](#gettab)
+  - [setTab](#settab)
   - [on](#on)
   - [one](#one)
   - [off](#off)
-  - [getData](#getData)
-  - [getPreviousData](#getPreviousData)
+  - [getData](#getdata)
+  - [getPreviousData](#getpreviousdata)
   - [sort](#sort)
-- [tabData](#tabData)
+- [tabData](#tabdata)
 - [Lazy Loading](#lazy-loading)
 - [Plugins](#plugins)
-  - [Responsive](#responsive)
+  - [More Button Plugin](#more-button-plugin)
 - [Styling](#styling)
 - [Caveats](#caveats)
-- [Deprecated features](#Deprecated-features)
+- [Deprecated features](#deprecated-features)
 - [Test](#test)
 - [License](#license)
 
@@ -1172,9 +1172,9 @@ useDynTabs({
 
 ## Plugins
 
-### Responsive
+### More Button Plugin
 
-Make Tabs responsive using `more button`
+Make Tabs `responsive`
 
 **Example**
 
