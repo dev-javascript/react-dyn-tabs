@@ -78,10 +78,6 @@ $border-radius-value: 5px;
     border-width: 1px;
     padding: 0.2em 0.2em 0;
     border-radius: $border-radius-value;
-    .rc-dyn-tabs-tab {
-      color: $tab-color;
-      margin: 0px 0.2em 0 0;
-    }
     .rc-dyn-tabs-title {
       border-color: $tab-border-color;
       @include tab-background-image;
@@ -99,8 +95,14 @@ $border-radius-value: 5px;
       @include selected-tab-background-image;
       color: $selected-tab-color;
     }
-    .rc-dyn-tabs-title:hover {
-      @include tab-hover-backgroud-image;
+    .rc-dyn-tabs-tab {
+      color: $tab-color;
+      margin: 0px 0.2em 0 0;
+      &:hover {
+        & > .rc-dyn-tabs-title {
+          @include tab-hover-backgroud-image;
+        }
+      }
     }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {

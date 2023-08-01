@@ -10,10 +10,10 @@
   min-width: 160px;
   min-height: 40px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   background-color: #ddd;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {

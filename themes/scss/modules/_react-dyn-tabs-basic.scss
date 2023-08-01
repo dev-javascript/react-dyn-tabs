@@ -15,11 +15,13 @@ $selected-tab-background-color: #ccc;
       min-width: 160px;
       min-height: 40px;
     }
-    .rc-dyn-tabs-title:hover {
-      background-color: $tab-hover-background-color;
-    }
-    .rc-dyn-tabs-title:active:hover {
-      background-color: $actived-tab-background-color;
+    .rc-dyn-tabs-tab:hover {
+      & > .rc-dyn-tabs-title {
+        background-color: $tab-hover-background-color;
+      }
+      & > .rc-dyn-tabs-title:active {
+        background-color: $actived-tab-background-color;
+      }
     }
     .rc-dyn-tabs-selected .rc-dyn-tabs-title {
       background-color: $selected-tab-background-color;

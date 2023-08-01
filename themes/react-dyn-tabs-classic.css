@@ -6,10 +6,6 @@
   padding: 0.2em 0.2em 0;
   border-radius: 5px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
-  color: #416da3;
-  margin: 0px 0.2em 0 0;
-}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   border-color: #8db3e3;
   background-image: none;
@@ -43,7 +39,11 @@
   background-image: -webkit-linear-gradient(top, #fff, #f5f9fe 25%, #deecfd 45%);
   color: #15498b;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: #416da3;
+  margin: 0px 0.2em 0 0;
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-image: #e8f2ff;
   background-image: -webkit-linear-gradient(top, #d7e5fd, #e0edff 25%, #e8f2ff 45%);
   background-image: -moz-linear-gradient(top, #d7e5fd, #e0edff 25%, #e8f2ff 45%);

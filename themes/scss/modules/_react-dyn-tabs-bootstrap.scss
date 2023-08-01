@@ -80,9 +80,6 @@ $background-color: #fff;
     @include tablistBorder;
     background-color: $background-color;
     border: none;
-    .rc-dyn-tabs-tab {
-      background-color: transparent;
-    }
     .rc-dyn-tabs-title {
       @include tab;
       @include tabBorder;
@@ -91,9 +88,14 @@ $background-color: #fff;
       min-width: 100px;
       min-height: 31px;
     }
-    .rc-dyn-tabs-title:hover {
-      background-color: #eee;
-      border-color: #eee #eee transparent;
+    .rc-dyn-tabs-tab {
+      background-color: transparent;
+      &:hover {
+        & > .rc-dyn-tabs-title {
+          background-color: #eee;
+          border-color: #eee #eee transparent;
+        }
+      }
     }
     .rc-dyn-tabs-selected {
       background-color: $background-color;

@@ -4,9 +4,6 @@
   border-color: rgba(0, 0, 0, 0.12);
   border-width: 0px 0px 1px 0px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
-  color: rgba(0, 0, 0, 0.63);
-}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   min-width: 160px;
   min-height: 48px;
@@ -34,12 +31,15 @@
   border-width: 0px 0px 3px 0px;
   opacity: 1;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: rgba(0, 0, 0, 0.63);
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   color: rgba(0, 0, 0, 0.63);
   background: #e6e6e6;
   transition: background 0.1s;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   color: rgba(0, 0, 0, 0.63);
   background-color: #d4d4d4;
 }

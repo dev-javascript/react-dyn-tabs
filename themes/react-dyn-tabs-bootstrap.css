@@ -12,9 +12,6 @@
   width: auto;
   background-color: #dee2e6;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
-  background-color: transparent;
-}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   color: #495057;
   border-style: solid;
@@ -28,7 +25,10 @@
   min-width: 100px;
   min-height: 31px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:hover {
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  background-color: transparent;
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-color: #eee;
   border-color: #eee #eee transparent;
 }
