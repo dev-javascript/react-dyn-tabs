@@ -5,7 +5,6 @@
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   background-color: inherit;
   border: none;
-  transition: 0.3s;
   padding: 0.8em 1.5em;
   min-width: 160px;
   min-height: 40px;

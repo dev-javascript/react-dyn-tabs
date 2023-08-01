@@ -37,7 +37,6 @@
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   color: rgba(0, 0, 0, 0.63);
   background: #e6e6e6;
-  transition: background 0.1s;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   color: rgba(0, 0, 0, 0.63);

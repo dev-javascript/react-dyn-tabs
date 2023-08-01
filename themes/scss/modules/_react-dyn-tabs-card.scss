@@ -45,7 +45,6 @@ $ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
         & > .rc-dyn-tabs-title {
           color: $tab-color;
           background: $tab-hover-background;
-          transition: background 0.1s;
         }
         & > .rc-dyn-tabs-title:active {
           color: $tab-color;
