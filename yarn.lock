@@ -1225,6 +1225,11 @@
     "readdirp" "^2.2.1"
     "upath" "^1.1.1"
 
+"@popperjs/core@^2.11.8":
+  "integrity" "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+  "version" "2.11.8"
+
 "@rollup/plugin-commonjs@^18.0.0":
   "integrity" "sha512-h3e6T9rUxVMAQswpDIobfUHn/doMzM9sgkMrsMWCFLmB84PSoC8mV8tOloAJjSRwdqhXBqstlX2BwBpHJvbhxg=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-18.1.0.tgz"
@@ -1970,7 +1975,7 @@
   "version" "1.5.1"
 
 "batch-processor@1.0.0":
-  "integrity" "sha1-dclcMrdI4IUNEMKxaPa9vpiRrOg="
+  "integrity" "sha512-xoLQD8gmmR32MeuBHgH0Tzd5PuSZx71ZsbhVxOCRbgktZEPe4SQy7s9Z50uPp0F/f7iw2XmkHN2xkgbMfckMDA=="
   "resolved" "https://registry.npmjs.org/batch-processor/-/batch-processor-1.0.0.tgz"
   "version" "1.0.0"
 

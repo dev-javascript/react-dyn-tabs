@@ -1,0 +1,23 @@
+@mixin verticalView {
+  flex-direction: column;
+  .rc-dyn-tabs-tablist-container,
+  .rc-dyn-tabs-tablist-overflow,
+  .rc-dyn-tabs-tablist {
+    flex-direction: column;
+  }
+}
+@mixin main {
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+    @include verticalView;
+    float: left;
+    flex: none;
+    height: 100%;
+    &.rc-dyn-tabs-popper {
+      height: auto;
+    }
+    &.rc-dyn-tabs-rtl {
+      @include verticalView;
+      float: right;
+    }
+  }
+}

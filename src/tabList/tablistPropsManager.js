@@ -1,20 +1,11 @@
-export default function ({optionsManager: {setting: _setting, options: _op}}) {
-  const {tablistRootClass, tablistSectionClass, tablistSliderClass, tablistClass} = _setting,
+export default function ({api, dir, isVertical}) {
+  const _setting = api.optionsManager.setting,
+    _op = api.optionsManager.options,
     result = {
-      tablistRootProps: {className: tablistRootClass},
-      tablistSectionProps: {className: tablistSectionClass},
-      tablistSliderProps: {className: tablistSliderClass + ' ' + tablistClass},
-      tablistProps: {className: tablistClass},
+      className: _setting.tablistClass + ' ' + _setting[dir + 'Class'],
     };
-  if (_op.isVertical) {
-    result.tablistRootProps.className += ' ' + _setting.verticalClass;
-    result.tablistProps.className += ' ' + _setting.verticalClass;
-    result.tablistSliderProps.className += ' ' + _setting.verticalClass;
-  }
-  if (_op.direction === 'rtl') {
-    result.tablistRootProps.className += ' ' + _setting.rtlClass;
-    result.tablistProps.className += ' ' + _setting.rtlClass;
-    result.tablistSliderProps.className += ' ' + _setting.rtlClass;
+  if (isVertical) {
+    result.className += ' ' + _setting.verticalClass;
   }
   if (_op.accessibility) {
     result.tablistProps.role = 'tablist';

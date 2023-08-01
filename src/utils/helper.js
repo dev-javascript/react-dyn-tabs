@@ -61,5 +61,8 @@ const helper = {
   },
   isObj: (obj) => Object.prototype.toString.call(obj) === '[object Object]',
   isArray: (arr) => typeof arr === 'object' && arr.constructor === Array,
+  module: function (fn, obj, noneEnums) {
+    return this.assingAll(fn.prototype, noneEnums ? this.setNoneEnumProps(obj, noneEnums) : obj).constructor;
+  },
 };
 export default helper;

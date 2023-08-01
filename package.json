@@ -50,8 +50,8 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime-corejs3": "^7.13.10",
-    "@rollup/plugin-node-resolve": "^13.1.3",
     "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^7.0.3",
@@ -76,6 +76,7 @@
     "webpack-cli": "^3.3.12"
   },
   "files": [
+    "plugins",
     "dist",
     "flow-typed",
     "lib",
@@ -89,6 +90,9 @@
   "keywords": [
     "react",
     "dynamic",
+    "responsive",
+    "responsive-tabs",
+    "more-button",
     "tab",
     "tabs",
     "react-dynamic-tabs",
@@ -110,7 +114,9 @@
       "jest-extended"
     ]
   },
+  "sideEffects": false,
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "element-resize-detector": "^1.2.4",
     "prop-types": "^15.7.2"
   }

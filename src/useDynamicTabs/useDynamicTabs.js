@@ -1,9 +1,20 @@
-import React, {useState, useReducer, useLayoutEffect, useEffect, useRef} from 'react';
-function useDynamicTabs(getDeps, options = {}, plugins = []) {
-  const {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext} = getDeps();
+/* eslint react/prop-types: 0 */
+import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
+function useDynamicTabs(getDeps, options = {}, modules) {
+  const {
+    reducer,
+    getApiInstance,
+    PanelList,
+    TablistView,
+    TablistContainer,
+    TabList,
+    ApiContext,
+    StateContext,
+    ForceUpdateContext,
+  } = getDeps();
   const ref = useRef(null);
   if (ref.current === null)
-    ref.current = {api: getApiInstance(options, plugins), TabListComponent: null, PanelListComponent: null};
+    ref.current = {api: getApiInstance(options, modules), TabListComponent: null, PanelListComponent: null};
   const {
       current: {api},
     } = ref,
@@ -49,9 +60,16 @@ function useDynamicTabs(getDeps, options = {}, plugins = []) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <TabList ref={api.tablistRef} {...props}>
-                props.children
-              </TabList>
+              <TablistView>
+                <TablistContainer>
+                  <api.optionsManager.internalOptions.TablistOverflow>
+                    <TabList {...props} ref={api.tablistRef}></TabList>
+                    <api.optionsManager.internalOptions.ShowMoreButton />
+                    <api.optionsManager.internalOptions.TabIndicator />
+                  </api.optionsManager.internalOptions.TablistOverflow>
+                </TablistContainer>
+                {props.children}
+              </TablistView>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>

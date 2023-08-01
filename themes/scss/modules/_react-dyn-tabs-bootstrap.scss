@@ -8,17 +8,34 @@ $background-color: #fff;
 }
 
 @mixin tablistBorder($isVertical: false, $isRtl: false) {
-  @if $isVertical {
-    @if $isRtl {
-      border-width: 0px 0px 0px 1px;
+  &::before {
+    content: '';
+    position: absolute;
+    @if $isVertical {
+      @if $isRtl {
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        width: 1px;
+        right: auto;
+        height: auto;
+      } @else {
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        width: 1px;
+        height: auto;
+        left: auto;
+      }
     } @else {
-      border-width: 0px 1px 0px 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      height: 1px;
+      width: auto;
     }
-  } @else {
-    border-width: 0px 0px 1px;
+    background-color: $border-color;
   }
-
-  border-color: $border-color;
 }
 
 @mixin tabBorder($isVertical: false, $isRtl: false) {
@@ -59,77 +76,53 @@ $background-color: #fff;
 }
 
 @mixin main {
-  .rc-dyn-tabs-tablist {
-    @include tab;
+  .rc-dyn-tabs-tablist-view {
     @include tablistBorder;
     background-color: $background-color;
-    display: flex;
-    overflow: visible;
-
+    border: none;
+    .rc-dyn-tabs-title {
+      @include tab;
+      @include tabBorder;
+      background-color: transparent;
+      padding: 0.5rem 1rem;
+      min-width: 100px;
+      min-height: 31px;
+    }
     .rc-dyn-tabs-tab {
       background-color: transparent;
-
-      & > .rc-dyn-tabs-title {
-        @include tab;
-        @include tabBorder;
-        background-color: transparent;
-        padding: 0.5rem 1rem;
-        min-width: 100px;
-        transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-      }
-
-      & > .rc-dyn-tabs-title:hover {
-        background-color: #eee;
-        border-color: #eee #eee transparent;
+      &:hover {
+        & > .rc-dyn-tabs-title {
+          background-color: #eee;
+          border-color: #eee #eee transparent;
+        }
       }
     }
-
-    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
+    .rc-dyn-tabs-selected {
       background-color: $background-color;
-
-      & > .rc-dyn-tabs-title {
+      .rc-dyn-tabs-title {
         @include selectedTabBorder;
         background-color: $background-color;
       }
     }
   }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
-    flex-direction: row-reverse;
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    flex-direction: column;
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     @include tablistBorder($isVertical: true);
-
-    .rc-dyn-tabs-tab {
-      direction: rtl;
-
-      & > .rc-dyn-tabs-title {
-        @include tabBorder($isVertical: true);
-      }
+    .rc-dyn-tabs-title {
+      @include tabBorder($isVertical: true);
     }
-
-    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
-      & > .rc-dyn-tabs-title {
-        @include selectedTabBorder($isVertical: true);
-      }
+    .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+      @include selectedTabBorder($isVertical: true);
     }
   }
-
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     @include tablistBorder($isVertical: true, $isRtl: true);
-
     .rc-dyn-tabs-tab {
-      direction: ltr;
-
-      & > .rc-dyn-tabs-title {
+      .rc-dyn-tabs-title {
         @include tabBorder($isVertical: true, $isRtl: true);
       }
     }
-
-    .rc-dyn-tabs-tab.rc-dyn-tabs-selected {
-      & > .rc-dyn-tabs-title {
-        @include selectedTabBorder($isVertical: true, $isRtl: true);
-      }
+    .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+      @include selectedTabBorder($isVertical: true, $isRtl: true);
     }
   }
 }

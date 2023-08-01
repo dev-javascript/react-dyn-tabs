@@ -1,33 +1,36 @@
 import Helper from '../helper.js';
 const {throwMissingParam: missingParamEr, isArray, thorwInvalidParam} = Helper;
-export const apiConstructor = function (getDeps, param = {options: {}}, plugins = []) {
-  const {optionsManager, helper, activedTabsHistory, tablistRef} = getDeps.call(this, param.options);
-  helper.setNoneEnumProps(this, {optionsManager, helper, tablistRef, activedTabsHistory, userProxy: {}});
+export const apiConstructor = function (getDeps, param = {options: {}}, modules = []) {
+  const {optionsManager, helper, activedTabsHistory, tablistRef, contexts, TabsComponent} = getDeps.call(
+    this,
+    param.options,
+  );
+  helper.setNoneEnumProps(this, {optionsManager, tablistRef, helper, activedTabsHistory, userProxy: {}, contexts});
   this._setUserProxy()
     ._subscribeOnReadyEvent()
     ._createReadyFunction()
     ._subscribeSelectedTabsHistory()
     ._subscribeCallbacksOptions();
-  plugins.forEach((plugin, i) => {
-    new plugins[i](this);
-  });
+  modules.forEach((module) => module(this, contexts, TabsComponent));
 };
 const _apiProps = {
   _setUserProxy: function () {
-    const userProxy = {},
-      that = this;
-    for (var prop in this)
+    const userProxy = {};
+    for (const prop in this) {
       if (prop[0] !== '_' && prop !== 'constructor') {
-        const propValue = this[prop];
-        if (typeof propValue === 'function') {
-          userProxy[prop] = function () {
-            const result = propValue.apply(that, arguments);
-            return result === that ? userProxy : result;
-          };
-        } else {
-          userProxy[prop] = propValue;
-        }
+        (function (that) {
+          const propValue = that[prop];
+          if (typeof propValue === 'function') {
+            userProxy[prop] = function () {
+              const result = propValue.apply(that, arguments);
+              return result === that ? userProxy : result;
+            };
+          } else {
+            userProxy[prop] = propValue;
+          }
+        })(this);
       }
+    }
     this.userProxy = userProxy;
     return this;
   },

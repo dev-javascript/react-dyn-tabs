@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act} from 'react-dom/test-utils';
@@ -50,7 +51,21 @@ beforeEach(() => {
   };
   renderApp = (getDeps, rerender) => {
     const App = function () {
-      const [Tablist, Panellist] = useDynTabs(getDeps, op);
+      const getDepsWrapper = () => {
+        return Object.assign(
+          {},
+          {
+            TablistView: function TablistView(props) {
+              return <>{props.children}</>;
+            },
+            TablistContainer: function TablistContainer(props) {
+              return <>{props.children}</>;
+            },
+          },
+          getDeps(),
+        );
+      };
+      const [Tablist, Panellist] = useDynTabs(getDepsWrapper, op);
       return (
         <div>
           <Tablist></Tablist>
@@ -508,8 +523,22 @@ describe('output : ', () => {
       _api = api;
       return api;
     };
-    const getDeps = function () {
-      return {reducer, getApiInstance, PanelList, TabList, ApiContext, StateContext, ForceUpdateContext};
+    const getDeps = function getDeps() {
+      return {
+        reducer,
+        getApiInstance,
+        PanelList,
+        TablistView: function TablistView(props) {
+          return <>{props.children}</>;
+        },
+        TablistContainer: function TablistContainer(props) {
+          return <>{props.children}</>;
+        },
+        TabList,
+        ApiContext,
+        StateContext,
+        ForceUpdateContext,
+      };
     };
     let counter = 0,
       firstReady,

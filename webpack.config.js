@@ -1,14 +1,16 @@
 const path = require('path');
 const pkg = require('./package.json');
-const libraryName = pkg.name;
 module.exports = (env) => {
   const isProduction = env === 'production';
   return {
-    entry: './src/index.js',
+    entry: {
+      'rc-dyn-tabs-core': './src/index.js',
+      'more-button-plugin': './src/plugins/moreButtonPlugin/index.js',
+    },
     output: {
-      filename: isProduction ? 'react-dyn-tabs.umd.min.js' : 'react-dyn-tabs.umd.js',
+      filename: `[name].umd${isProduction ? '.min' : ''}.js`,
       path: path.resolve(__dirname, 'build'),
-      library: libraryName,
+      library: pkg.name,
       libraryTarget: 'umd',
       publicPath: '/build/',
       umdNamedDefine: true,

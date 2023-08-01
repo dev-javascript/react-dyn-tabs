@@ -1,25 +1,34 @@
-import React, {memo} from 'react';
+import React, {memo, forwardRef} from 'react';
 import {ApiContext, StateContext} from '../utils/context.js';
 import Tab from '../tab/tab.js';
 import tablistPropsManager from './tablistPropsManager.js';
-const TabList = React.forwardRef((props, ref) => {
-  const {openTabIDs, selectedTabID} = React.useContext(StateContext),
-    api = React.useContext(ApiContext),
-    {MoreButtonComponent} = api.optionsManager.setting,
-    {tablistRootProps, tablistSectionProps, tablistSliderProps, tablistProps} = tablistPropsManager(api);
+import PropTypes from 'prop-types';
+function TabsComponent(props, ref) {
+  const {openTabIDs, selectedTabID, dir, isVertical} = props;
+  const api = React.useContext(ApiContext);
+  const tablistProps = tablistPropsManager({api, dir, isVertical});
   return (
-    <div {...tablistRootProps}>
-      <div {...tablistSectionProps}>
-        <div {...tablistSliderProps}>
-          <ul ref={ref} {...tablistProps}>
-            {api.optionsManager.setting.getRenderableTabs(openTabIDs).map((id) => (
-              <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
-            ))}
-          </ul>
-          <MoreButtonComponent />
-        </div>
-      </div>
-    </div>
+    <ul {...tablistProps} ref={ref || null}>
+      {openTabIDs.map((id) => (
+        <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
+      ))}
+    </ul>
   );
-});
-export default memo(TabList, () => true);
+}
+TabsComponent.propTypes /* remove-proptypes */ = {
+  selectedTabID: PropTypes.string,
+  dir: PropTypes.string,
+  isVertical: PropTypes.bool,
+  openTabIDs: PropTypes.array,
+};
+const MemomizedTabList = memo(forwardRef(TabList), () => true);
+function TabList(props, ref) {
+  const {openTabIDs, selectedTabID} = React.useContext(StateContext);
+  const api = React.useContext(ApiContext);
+  const {direction, isVertical} = api.optionsManager.options;
+  return (
+    <Tabs openTabIDs={openTabIDs} selectedTabID={selectedTabID} ref={ref} dir={direction} isVertical={isVertical} />
+  );
+}
+export const Tabs = forwardRef(TabsComponent);
+export default MemomizedTabList;

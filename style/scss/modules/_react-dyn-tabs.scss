@@ -2,47 +2,52 @@
   .rc-dyn-tabs-panellist {
     padding: 6px 12px;
     position: relative;
+    flex: 1;
+    display: flex;
+    direction: ltr;
     .rc-dyn-tabs-panel {
       display: none;
+      flex-basis: 100%;
       direction: ltr;
       text-align: left;
-    }
-    &.rc-dyn-tabs-rtl {
-      .rc-dyn-tabs-panel {
-        direction: rtl;
-        text-align: right;
+      &.rc-dyn-tabs-selected {
+        display: block;
       }
     }
-    .rc-dyn-tabs-panel.rc-dyn-tabs-selected {
-      display: block;
-    }
   }
-  .rc-dyn-tabs-panellist.rc-dyn-tabs-vertical {
-    float: left;
-    &.rc-dyn-tabs-rtl {
-      float: right;
-    }
-  }
-
-  .rc-dyn-tabs-tablist {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    flex-wrap: nowrap;
-    direction: ltr;
-    justify-content: flex-start;
+  .rc-dyn-tabs-tablist-view {
     display: flex;
-    flex-direction: row;
-    overflow: hidden;
     flex-wrap: nowrap;
-
-    & > .rc-dyn-tabs-tab {
-      display: list-item;
+    overflow: hidden;
+    direction: ltr;
+    .rc-dyn-tabs-tablist-container {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+    .rc-dyn-tabs-tablist-overflow {
+      overflow: visible;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    .rc-dyn-tabs-showmorebutton-container {
+      min-width: 46.38px;
+      min-height: 16px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+    }
+    .rc-dyn-tabs-tablist {
       list-style: none;
-      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      position: relative;
+    }
+    .rc-dyn-tabs-tab {
+      display: flex;
       padding: 0px;
-      text-decoration: none;
       position: relative;
       pointer-events: visible;
       opacity: 1;
@@ -50,98 +55,65 @@
         pointer-events: none;
         opacity: 0.7;
       }
-      &.rc-dyn-tabs-hidden {
-        display: none;
-      }
-      & > .rc-dyn-tabs-title {
-        position: relative;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        text-decoration: none;
-        cursor: pointer;
-        white-space: nowrap;
-        padding: 0.5em 1em;
-        font-weight: 500;
-        outline: none;
-        justify-content: center;
-        direction: rtl;
-
-        & > .rc-dyn-tabs-icon {
-          display: inline-block;
-          padding-right: 0.4em;
-        }
-      }
-
-      & > .rc-dyn-tabs-close {
-        position: absolute;
-        top: 1px;
-        cursor: pointer;
-        right: 4px;
-        left: auto;
-      }
     }
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-rtl {
-    flex-direction: row-reverse;
-    & > .rc-dyn-tabs-tab {
-      & > .rc-dyn-tabs-title {
-        direction: ltr;
-
-        & > .rc-dyn-tabs-icon {
-          padding-left: 0.4em;
-        }
-      }
-
-      & > .rc-dyn-tabs-close {
-        left: 4px;
-        right: auto;
-      }
+    .rc-dyn-tabs-icon {
+      padding: 0em 0.4em;
     }
-  }
-  .rc-dyn-tabs-tablist.rc-dyn-tabs-vertical {
-    width: 12em;
-    height: 100%;
-    flex-direction: column;
-    & > .rc-dyn-tabs-tab {
-      & > .rc-dyn-tabs-title {
-        display: block;
-        width: 100%;
-      }
-      & > .rc-dyn-tabs-close {
-        top: 50%;
-        transform: translateY(-50%);
-        line-height: 0px;
-      }
+    .rc-dyn-tabs-close {
+      position: absolute;
+      cursor: pointer;
+      top: 50%;
+      height: 10px;
+      width: 10px;
+      transform: translateY(-50%);
+      right: 6px;
+      left: auto;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
     }
-  }
-  .rc-dyn-tabs-tablist-root,
-  .rc-dyn-tabs-tablist-sec,
-  .rc-dyn-tabs-tablist-slider {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: row;
-    overflow: hidden;
-    position: relative;
-  }
-  .rc-dyn-tabs-tablist-root.rc-dyn-tabs-vertical {
-    flex-grow: 0;
-    height: 100%;
-    float: left;
-    &,
-    & > .rc-dyn-tabs-tablist-sec {
-      flex-direction: column;
+    .rc-dyn-tabs-title {
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0.5em 1em;
+      font-weight: 500;
+      outline: none;
+      justify-content: center;
+      flex-direction: row-reverse;
+      flex: 1;
+    }
+    .rc-dyn-tabs-showmorebutton {
+      display: inline-flex;
+      flex: 1;
+      justify-content: center;
+      width: 100%;
+      padding: 0px;
+      margin: 0px;
+      flex-basis: 100%;
       height: 100%;
-      & > .rc-dyn-tabs-tablist-slider {
-        flex-direction: column;
-        height: 100%;
-        & > .rc-dyn-tabs-tablist {
-          height: auto;
-        }
+      align-items: center;
+    }
+    .rc-dyn-tabs-tab {
+      .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
+        padding: 0px;
+        min-width: 46.38px;
       }
     }
-    &.rc-dyn-tabs-rtl {
-      float: right;
+    .rc-dyn-tabs-popper {
+      position: fixed;
+      background: white;
+      border: 1px solid lightgray;
+      padding: 0px;
+      z-index: 2;
+      overflow-y: auto;
+      height: auto;
+      box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     }
   }
 }

@@ -1,0 +1,26 @@
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
+  flex-direction: row-reverse;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-container,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist-overflow,
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-tablist {
+  flex-direction: row-reverse;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
+  flex-direction: row;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
+  left: 4px;
+  right: auto;
+}
+.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-showmorebutton > svg {
+  transform: rotate(180deg);
+}
+
+.rc-dyn-tabs-panellist.rc-dyn-tabs-rtl {
+  flex-direction: row-reverse;
+}
+.rc-dyn-tabs-panellist.rc-dyn-tabs-rtl .rc-dyn-tabs-panel {
+  direction: rtl;
+  text-align: right;
+}

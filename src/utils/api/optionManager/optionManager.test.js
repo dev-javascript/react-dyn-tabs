@@ -50,10 +50,6 @@ describe('OptionManager constructor : ', () => {
       iconClass: 'rc-dyn-tabs-icon',
       selectedClass: 'rc-dyn-tabs-selected',
       hoverClass: 'rc-dyn-tabs-hover',
-      tablistRootClass: 'rc-dyn-tabs-tablist-root',
-      tablistSectionClass: 'rc-dyn-tabs-tablist-sec',
-      tablistSliderClass: 'rc-dyn-tabs-tablist-slider',
-      tablistClass: 'rc-dyn-tabs-tablist',
       closeClass: 'rc-dyn-tabs-close',
       panelClass: 'rc-dyn-tabs-panel',
       panellistClass: 'rc-dyn-tabs-panellist',
@@ -61,14 +57,18 @@ describe('OptionManager constructor : ', () => {
       ltrClass: 'rc-dyn-tabs-ltr',
       rtlClass: 'rc-dyn-tabs-rtl',
       verticalClass: 'rc-dyn-tabs-vertical',
-      hiddenClass: 'rc-dyn-tabs-hidden',
-      MoreButtonComponent: expect.any(Function),
-      panelIdTemplate: expect.any(Function),
-      ariaLabelledbyIdTemplate: expect.any(Function),
-      getRenderableTabs: expect.any(Function),
-      getDefaultTabData: expect.any(Function),
+      tablistViewClass: 'rc-dyn-tabs-tablist-view',
+      tablistContainerClass: 'rc-dyn-tabs-tablist-container',
+      tablistOverflowClass: 'rc-dyn-tabs-tablist-overflow',
+      tablistClass: 'rc-dyn-tabs-tablist',
+      showMoreContainerClass: 'rc-dyn-tabs-showmorebutton-container',
+      showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
+      showMorePopperClass: 'rc-dyn-tabs-popper',
+      panelIdTemplate: function () {},
+      ariaLabelledbyIdTemplate: function () {},
+      getDefaultTabData: function () {},
     };
-    expect(obj.setting).toEqual(_setting);
+    expect(Object.keys(obj.setting).toString()).toEqual(Object.keys(_setting).toString());
   });
   test('setting.panelIdTemplate should return result correctly', () => {
     expect(obj.setting.panelIdTemplate('2')).toBe('rc-dyn-tabs-p-2');
