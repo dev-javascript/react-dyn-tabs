@@ -109,7 +109,7 @@
   border: 1px solid lightgray;
   padding: 0px;
   z-index: 2;
-  overflow: auto;
+  overflow-y: auto;
   height: auto;
   box-shadow: white 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
