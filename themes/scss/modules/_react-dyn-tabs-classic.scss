@@ -104,6 +104,9 @@ $border-radius-value: 5px;
         }
       }
     }
+    .rc-dyn-tabs-showmorebutton svg path {
+      fill: $tab-color;
+    }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
     .rc-dyn-tabs-tab {

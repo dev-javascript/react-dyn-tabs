@@ -104,6 +104,9 @@ $background-color: #fff;
         background-color: $background-color;
       }
     }
+    .rc-dyn-tabs-showmorebutton svg path {
+      fill: $title-color;
+    }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     @include tablistBorder($isVertical: true);

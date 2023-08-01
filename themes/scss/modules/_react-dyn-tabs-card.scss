@@ -68,6 +68,9 @@ $ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
       opacity: 0;
       transition: transform 0.5s, opacity 1s;
     }
+    .rc-dyn-tabs-showmorebutton svg path {
+      fill: $tab-color;
+    }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     border-width: 0px 1px 0px 0px;

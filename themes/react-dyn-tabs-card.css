@@ -58,6 +58,9 @@
   opacity: 0;
   transition: transform 0.5s, opacity 1s;
 }
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
+  fill: rgba(0, 0, 0, 0.63);
+}
 
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
   border-width: 0px 1px 0px 0px;
