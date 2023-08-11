@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabListView structure :  children props 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr"
+  >
+    <div
+      className="rc-dyn-tabs-tablist-container"
+    />
+  </div>
+</div>
+`;
+
+exports[`TabListView structure :  default options 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr"
+  />
+</div>
+`;
+
+exports[`TabListView structure :  isVertical option 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr rc-dyn-tabs-vertical"
+  />
+</div>
+`;
+
+exports[`TabListView structure :  rtl option 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-rtl"
+  />
+</div>
+`;

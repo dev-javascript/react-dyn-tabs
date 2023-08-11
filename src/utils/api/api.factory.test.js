@@ -1,11 +1,16 @@
+import React from 'react';
 import {apiProps, apiConstructor} from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
 import Tabs from './tabs.js';
+import {Tabs as TabsComponent} from '../../tabList/tabList.js';
+import {ForceUpdateContext, StateContext} from '../context.js';
 import BaseApi from './baseApi.js';
 let getDeps, obj;
+const contexts = {ForceUpdateContext, StateContext},
+  tablistRef = React.createRef();
 beforeAll(() => {
   apiConstructor.prototype = Object.create(BaseApi.prototype);
   helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;
@@ -20,7 +25,7 @@ beforeEach(() => {
     });
     Tabs.call(this, {initialTabs: optionsManager.initialTabs});
     Pub_Sub.call(this);
-    return {activedTabsHistory, helper, optionsManager};
+    return {activedTabsHistory, helper, optionsManager, tablistRef, contexts, TabsComponent};
   };
   obj = new apiConstructor(getDeps, {
     options: {
@@ -41,6 +46,18 @@ beforeEach(() => {
 afterEach(() => {
   getDeps = null;
   obj = null;
+});
+describe('Api Contructor : ', () => {
+  test('it should call all modules with this, contexts and TabsComponent as parameters', () => {
+    const plugin1 = jest.fn(() => {});
+    const plugin2 = jest.fn(() => {});
+    const obj = new apiConstructor(getDeps, {}, [plugin1, plugin2]);
+    expect(plugin1.mock.calls.length).toBe(1);
+    expect(plugin2.mock.calls.length).toBe(1);
+    expect(plugin1.mock.calls[0][0]).toEqual(obj);
+    expect(plugin1.mock.calls[0][1]).toEqual(contexts);
+    expect(plugin1.mock.calls[0][2]).toEqual(TabsComponent);
+  });
 });
 describe('Api.prototype.open : ', () => {
   test('it should call optionsManager.validateTabData internally', () => {

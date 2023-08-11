@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TablistContainer structure :  children props 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-container"
+  >
+    <div
+      className="rc-dyn-tabs-tablist-overflow"
+    />
+  </div>
+</div>
+`;
+
+exports[`TablistContainer structure :  default options 1`] = `
+<div>
+  <div
+    className="rc-dyn-tabs-tablist-container"
+  />
+</div>
+`;
