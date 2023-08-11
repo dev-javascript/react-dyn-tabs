@@ -4,6 +4,7 @@
   flex: 1;
   display: flex;
   direction: ltr;
+  font-family: inherit;
 }
 .rc-dyn-tabs-panellist .rc-dyn-tabs-panel {
   display: none;
@@ -52,6 +53,8 @@
   position: relative;
   pointer-events: visible;
   opacity: 1;
+  font-size: 1rem;
+  font-family: inherit;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab.rc-dyn-tabs-disable {
   pointer-events: none;
@@ -64,14 +67,16 @@
   position: absolute;
   cursor: pointer;
   top: 50%;
-  height: 10px;
-  width: 10px;
+  height: auto;
+  width: 0.4em;
   transform: translateY(-50%);
-  right: 6px;
+  right: 0.4em;
   left: auto;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  font-size: inherit;
+  line-height: 1;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   position: relative;
@@ -81,12 +86,15 @@
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  padding: 0.5em 1em;
+  padding: 0.6em 1.2em;
   font-weight: 500;
   outline: none;
   justify-content: center;
   flex-direction: row-reverse;
   flex: 1;
+  font-size: inherit;
+  text-transform: uppercase;
+  font-family: inherit;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton {
   display: inline-flex;

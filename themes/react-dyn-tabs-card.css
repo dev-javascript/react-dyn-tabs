@@ -1,5 +1,5 @@
 .rc-dyn-tabs-tablist-view {
-  background-color: transparent;
+  background-color: #fff;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.12);
   border-width: 0px 0px 1px 0px;
@@ -9,10 +9,11 @@
   min-height: 48px;
   border-color: transparent;
   border-style: solid;
-  border-width: 1px 1px 3px 1px;
+  border-width: 0px 0px 3px 0px;
   border-radius: 1px;
   background-color: #fff;
   opacity: 1;
+  color: gray;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
   min-width: 46.38px;
@@ -23,24 +24,33 @@
   opacity: 0.2;
   transition: 0s;
 }
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: #1976d2;
+}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
-  color: black;
+  color: #1976d2;
   background-color: transparent;
-  border-color: #3f51b5;
+  border-color: #1976d2;
   border-style: solid;
   border-width: 0px 0px 3px 0px;
   opacity: 1;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
-  color: rgba(0, 0, 0, 0.63);
+  color: gray;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
-  color: rgba(0, 0, 0, 0.63);
+  color: gray;
   background: #e6e6e6;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
-  color: rgba(0, 0, 0, 0.63);
+  color: gray;
   background-color: #d4d4d4;
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: #1976d2;
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected:hover .rc-dyn-tabs-title {
+  color: #1976d2;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:after {
   content: "";
@@ -59,16 +69,13 @@
   transition: transform 0.5s, opacity 1s;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
-  fill: rgba(0, 0, 0, 0.63);
+  fill: gray;
 }
 
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
   border-width: 0px 1px 0px 0px;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
-  border-width: 0px 1px 0px 0px;
-}
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 0px 3px 0px 0px;
 }
 
@@ -76,8 +83,5 @@
   border-width: 0px 0px 0px 1px;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
-  border-width: 0px 0px 0px 1px;
-}
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 3px;
 }

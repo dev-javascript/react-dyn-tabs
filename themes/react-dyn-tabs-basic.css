@@ -8,6 +8,10 @@
   padding: 0.8em 1.5em;
   min-width: 160px;
   min-height: 40px;
+  color: gray;
+}
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: gray;
 }
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-color: #ddd;
@@ -15,8 +19,12 @@
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   background-color: #ddd;
 }
+.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: black;
+}
 .rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   background-color: #ccc;
+  color: black;
 }
 
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {

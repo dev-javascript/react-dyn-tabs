@@ -1,4 +1,4 @@
-$title-color: #495057;
+$title-color: gray;
 $border-color: #dee2e6;
 $background-color: #fff;
 
@@ -89,6 +89,7 @@ $background-color: #fff;
       min-height: 31px;
     }
     .rc-dyn-tabs-tab {
+      color: $title-color;
       background-color: transparent;
       &:hover {
         & > .rc-dyn-tabs-title {
@@ -116,6 +117,12 @@ $background-color: #fff;
     .rc-dyn-tabs-selected .rc-dyn-tabs-title {
       @include selectedTabBorder($isVertical: true);
     }
+    &.rc-dyn-tabs-popper {
+      padding: 5px;
+      .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+        border-color: $border-color;
+      }
+    }
   }
   .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     @include tablistBorder($isVertical: true, $isRtl: true);
@@ -126,6 +133,11 @@ $background-color: #fff;
     }
     .rc-dyn-tabs-selected .rc-dyn-tabs-title {
       @include selectedTabBorder($isVertical: true, $isRtl: true);
+    }
+    &.rc-dyn-tabs-popper {
+      .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+        border-color: $border-color;
+      }
     }
   }
 }

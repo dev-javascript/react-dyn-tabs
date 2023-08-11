@@ -10,7 +10,7 @@
   flex-direction: row;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
-  left: 4px;
+  left: 0.4em;
   right: auto;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-showmorebutton > svg {
