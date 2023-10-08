@@ -9,23 +9,23 @@ export type Callback = (instance: Instance) => void;
  */
 export type Ready = (callback: Callback) => void;
 export interface Options {
-    /**     * default value is "ltr"     */
+    /** * default value is "ltr"*/
     direction?: 'rtl' | 'ltr';
     defaultPanelComponent?: () => ReactNode | null;
     tabComponent?: (props: any) => ReactNode;
     selectedTabID?: string; tabs?: Array<TabData>;
-    /**     * default value is true     */
+    /**     * default value is true     */
     accessibility?: boolean;
-    /**     * default value is false     */
+    /**     * default value is false     */
     isVertical?: boolean;
     onLoad?: () => void;
     onInit?: () => void;
     onChange?: ({ currentData, previousData, closedTabIDs, openedTabIDs }: { currentData: any, previousData: any, closedTabIDs: Array<string>, openedTabIDs: Array<string> }) => void;
-    /**     * defautl value function returns true     */
+    /**     * defautl value function returns true     */
     beforeSelect?: (e: React.MouseEvent<HTMLInputElement>, id: string) => boolean; onFirstSelect?: ({ currentSelectedTabId, previousSelectedTabId }: { currentSelectedTabId: string, previousSelectedTabId: string }) => void;
     onSelect?: ({ currentSelectedTabId, previousSelectedTabId }: { currentSelectedTabId: string, previousSelectedTabId: string }) => void;
     onOpen?: (openedTabIDs: Array<string>) => void;
-    /**     * defautl value function returns true     */
+    /**     * defautl value function returns true     */
     beforeClose?: (e: React.MouseEvent<HTMLInputElement>, id: string) => boolean;
     onClose?: (closedTabIDs: Array<string>) => void; onDestroy?: () => void;
 }
@@ -33,12 +33,12 @@ export interface TabData {
     id?: string;
     title?: string;
     tooltip?: string;
-    /**     * default value is true     */
+    /**     * default value is true     */
     closable?: boolean;
-    /**   * default value is false   */
+    /**   * default value is false   */
     lazy?: boolean;
     iconClass?: string;
-    /**     * default value is false     */
+    /**     * default value is false     */
     disable?: boolean;
     panelComponent?: React.ReactNode | React.ReactElement | React.FunctionComponent;
     [x: string]: unknown;
@@ -68,7 +68,9 @@ export interface Instance {
     getPreviousData: () => TabData;
     sort: (tabIDs: Array<string>) => Promise<{ currentData: CurrentData, instance: Instance }>;
 }
-export const TabList: FunctionComponent<{}>;
-export const PanelList: FunctionComponent<{}>;
-function useDynTabs(options?: Options): [TabList, PanelList, Ready];
+type Tablist = FunctionComponent<{}>;
+type Panellist = FunctionComponent<{}>;
+export const TabList: Tablist;
+export const PanelList: Panellist;
+declare const useDynTabs: (options?: Options) => [Tablist, Panellist, Ready];
 export default useDynTabs;
