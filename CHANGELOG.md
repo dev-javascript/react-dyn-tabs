@@ -1,3 +1,7 @@
+# v5.1.0
+
+- Adding types
+
 # V5.0.0
 
 - Update peerDependencies
