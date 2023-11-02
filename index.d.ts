@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 export type Callback = (instance: Instance) => void;
 /**
  * - ready function accepts a callback as its parameter and executes it as soon as Tabs get mounted.
@@ -8,12 +8,32 @@ export type Callback = (instance: Instance) => void;
  * - ready function can be executed multiple times and its identity is stable and won’t change on re-renders.
  */
 export type Ready = (callback: Callback) => void;
+export interface TabProps {
+    'tab-id': string;
+    className: string;
+    title: string;
+    tabIndex: number;
+    id?: string;
+    role?: string;
+}
+export interface IconProps {
+    className: string;
+    role: string;
+}
+export interface TabComponentProps {
+    id: string;
+    isSelected: boolean;
+    api: Instance;
+    tabProps: TabProps;
+    iconProps?: IconProps;
+}
 export interface Options {
     /** * default value is "ltr"*/
     direction?: 'rtl' | 'ltr';
-    defaultPanelComponent?: () => ReactNode | null;
-    tabComponent?: (props: any) => ReactNode;
-    selectedTabID?: string; tabs?: Array<TabData>;
+    defaultPanelComponent?: () => FunctionComponent<{ id: string, isSelected: boolean, api: Instance }> | null;
+    tabComponent?: FunctionComponent<TabComponentProps>;
+    selectedTabID?: string;
+    tabs?: Array<TabData>;
     /**     * default value is true     */
     accessibility?: boolean;
     /**     * default value is false     */
@@ -22,12 +42,14 @@ export interface Options {
     onInit?: () => void;
     onChange?: ({ currentData, previousData, closedTabIDs, openedTabIDs }: { currentData: any, previousData: any, closedTabIDs: Array<string>, openedTabIDs: Array<string> }) => void;
     /**     * defautl value function returns true     */
-    beforeSelect?: (e: React.MouseEvent<HTMLInputElement>, id: string) => boolean; onFirstSelect?: ({ currentSelectedTabId, previousSelectedTabId }: { currentSelectedTabId: string, previousSelectedTabId: string }) => void;
+    beforeSelect?: (e: React.MouseEvent<HTMLElement>, id: string) => boolean;
+    onFirstSelect?: ({ currentSelectedTabId, previousSelectedTabId }: { currentSelectedTabId: string, previousSelectedTabId: string }) => void;
     onSelect?: ({ currentSelectedTabId, previousSelectedTabId }: { currentSelectedTabId: string, previousSelectedTabId: string }) => void;
     onOpen?: (openedTabIDs: Array<string>) => void;
     /**     * defautl value function returns true     */
-    beforeClose?: (e: React.MouseEvent<HTMLInputElement>, id: string) => boolean;
-    onClose?: (closedTabIDs: Array<string>) => void; onDestroy?: () => void;
+    beforeClose?: (e: React.MouseEvent<HTMLElement>, id: string) => boolean;
+    onClose?: (closedTabIDs: Array<string>) => void;
+    onDestroy?: () => void;
 }
 export interface TabData {
     id?: string;
@@ -40,7 +62,7 @@ export interface TabData {
     iconClass?: string;
     /**     * default value is false     */
     disable?: boolean;
-    panelComponent?: React.ReactNode | React.ReactElement | React.FunctionComponent;
+    panelComponent?: React.ReactElement<any, any> | FunctionComponent<{ id: string, isSelected: boolean, api: Instance }> | null;
     [x: string]: unknown;
 }
 export interface CurrentData {
