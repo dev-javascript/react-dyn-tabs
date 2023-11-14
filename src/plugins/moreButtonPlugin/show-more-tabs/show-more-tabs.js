@@ -39,7 +39,10 @@ export default function ShowMoreTabs(getDeps, props) {
     ins.resize();
   }, [openTabIDsString, selectedTabID]);
 
-  const ButtonComponent = options.showMoreButtonComponent || Button;
+  const ButtonComponent =
+    options.showMoreButtonComponent && typeof options.showMoreButtonComponent === 'function'
+      ? options.showMoreButtonComponent
+      : Button;
   return (
     <div ref={ins.btnRef} className={tabClass + ' ' + showMoreContainerClass}>
       <ButtonComponent

@@ -225,14 +225,11 @@ describe('button component : ', () => {
     expect(document.getElementById('user-button') != null).toBe(true);
   });
   test('showMoreButtonComponent option should be a function component and not a React element', () => {
-    expect.assertions(2);
     renderApp({showMoreButtonComponent: () => <button id="user-button" />});
     expect(document.getElementById('user-button') != null).toBe(true);
-    try {
-      renderApp({showMoreButtonComponent: <button id="user-button-element" />});
-    } catch {
-      expect(document.getElementById('user-button-element') != null).toBe(false);
-    }
+    renderApp({showMoreButtonComponent: <button id="user-button-element" />});
+    expect(document.getElementById('user-button-element') != null).toBe(false);
+    expect(document.getElementById('built-in-button') != null).toBe(true);
   });
   test('showMoreButtonComponent component props', () => {
     const showMoreButtonComponent = jest.fn(() => <button id="user-mock-button" />);
