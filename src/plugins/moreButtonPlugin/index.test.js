@@ -58,7 +58,7 @@ beforeEach(() => {
           ...insProp,
         }),
         resizeDetectorIns: jest.fn(() => {}),
-        Button: () => null,
+        Button: () => <button id="built-in-button" />,
       };
       const ShowMoreTabsMock = ShowMoreTabs.bind(undefined, () => deps);
       return [
@@ -196,5 +196,66 @@ describe('resize method should be called when tabs are changed : ', () => {
       ins.sort(['2', '1']);
     });
     expect(resize.mock.calls.length).toBe(2);
+  });
+});
+describe('resize detector should be called correctly : ', () => {
+  test('installResizer method should be called at mount.', () => {
+    const installResizer = jest.fn(() => {});
+    renderApp({}, undefined, undefined, {installResizer});
+    expect(installResizer.mock.calls.length).toBe(1);
+  });
+  test('uninstallResizer method should be called at unmount.', () => {
+    const uninstallResizer = jest.fn(() => {});
+    renderApp({}, undefined, undefined, {uninstallResizer});
+    expect(uninstallResizer.mock.calls.length).toBe(0);
+    act(() => {
+      unmountComponentAtNode(container);
+    });
+    expect(uninstallResizer.mock.calls.length).toBe(1);
+  });
+});
+describe('button component : ', () => {
+  test('default button component should be rendered when showMoreButtonComponent option is not provided', () => {
+    renderApp({});
+    expect(document.getElementById('built-in-button') != null).toBe(true);
+  });
+  test('user button component should be rendered when showMoreButtonComponent option is provided', () => {
+    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+    expect(document.getElementById('built-in-button') != null).toBe(false);
+    expect(document.getElementById('user-button') != null).toBe(true);
+  });
+  test('showMoreButtonComponent option should be a function component and not a React element', () => {
+    expect.assertions(2);
+    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+    expect(document.getElementById('user-button') != null).toBe(true);
+    try {
+      renderApp({showMoreButtonComponent: <button id="user-button-element" />});
+    } catch {
+      expect(document.getElementById('user-button-element') != null).toBe(false);
+    }
+  });
+  test('showMoreButtonComponent component props', () => {
+    const showMoreButtonComponent = jest.fn(() => <button id="user-mock-button" />);
+    let ready, instance;
+    renderApp({showMoreButtonComponent}, undefined, (_ready) => {
+      ready = _ready;
+    });
+    ready((ins) => {
+      instance = ins;
+    });
+    expect(typeof showMoreButtonComponent.mock.calls[0][0].hiddenTabIDs).toBe('string');
+    expect(showMoreButtonComponent.mock.calls[0][0].instance).toEqual(instance);
+    expect(showMoreButtonComponent.mock.calls[0][0].TabsComponent.render.name).toBe('TabsComponent');
+    expect(showMoreButtonComponent.mock.calls[0][0].buttonClassName).toBe(
+      'rc-dyn-tabs-title rc-dyn-tabs-showmorebutton',
+    );
+    expect(showMoreButtonComponent.mock.calls[0][0].popperClassName).toBe(
+      'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-popper',
+    );
+    const showMoreButtonComponentRtl = jest.fn(() => <button id="user-mock-button" />);
+    renderApp({showMoreButtonComponent: showMoreButtonComponentRtl, direction: 'rtl'});
+    expect(showMoreButtonComponentRtl.mock.calls[0][0].popperClassName).toBe(
+      'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-rtl rc-dyn-tabs-popper',
+    );
   });
 });
