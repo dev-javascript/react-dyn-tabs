@@ -52,8 +52,7 @@ export default function ShowMoreTabs(getDeps, props) {
           ' ' +
           verticalClass +
           ' ' +
-          (ctx.getOption('direction') == 'rtl' ? rtlClass : '') +
-          ' ' +
+          (ctx.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
           showMorePopperClass
         }
       />
