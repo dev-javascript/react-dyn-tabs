@@ -67,6 +67,7 @@ React Dynamic Tabs with full API
 - [Lazy Loading](#lazy-loading)
 - [Plugins](#plugins)
   - [More Button Plugin](#more-button-plugin)
+- [Render custom components at the end of the Tablist](#render-custom-components-at-the-end-of-the-tablist)
 - [Styling](#styling)
 - [Caveats](#caveats)
 - [Deprecated features](#deprecated-features)
@@ -1205,6 +1206,42 @@ export default () => {
 };
 
 ```
+
+## Render custom components at the end of the Tablist
+
+- render `new tab` button example :
+    ```js
+      const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+      return (
+        <div>
+          <TabList>
+            <button onClick={()=>{ ready(instance => instance.open({title:'new tab'})) }}>
+              NEW
+            </button>
+          </TabList>
+          <PanelList></PanelList>
+        </div>
+      );
+    };
+    
+    ```
+
+- render `close all` button example :
+    ```js
+      const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+      return (
+        <div>
+          <TabList>
+            <button onClick={()=>{ ready(instance=>{ instance.getData().openTabIDs.forEach(id=>instance.close(id,false)); })}}>
+              CLOSE ALL
+            </button>
+          </TabList>
+          <PanelList></PanelList>
+        </div>
+      );
+    };
+    
+    ```
 
 ## Styling
 
