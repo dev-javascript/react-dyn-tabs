@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, {createContext} from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
+import React from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
 import useDynTabs from '../../index.js';
 import ShowMoreTabs from './show-more-tabs/show-more-tabs.js';
 //import MoreButtonPlugin from './index.js';
-import {act} from 'react-dom/test-utils';
+import { act } from 'react-dom/test-utils';
 let container = document.createElement('div');
 let renderApp;
 let op = {
@@ -29,13 +29,13 @@ beforeAll(() => {
   document.body.appendChild(container);
 });
 beforeEach(() => {
-  renderApp = (options = {}, plugins, callback = () => {}, resizeInsProps = {}) => {
-    const App = function App({options, plugins}) {
+  renderApp = (options = {}, plugins, callback = () => { }, resizeInsProps = {}) => {
+    const App = function App({ options, plugins }) {
       const _options = Object.assign({}, op, options);
       if (_options.tabs) {
         const _tabs = [];
         _options.tabs.forEach((tab) => {
-          _tabs.push({...tab});
+          _tabs.push({ ...tab });
         });
         _options.tabs = _tabs;
       }
@@ -51,20 +51,20 @@ beforeEach(() => {
     const getPlugins = (insProp) => {
       const deps = {
         getInstance: () => ({
-          installResizer: jest.fn(() => {}),
-          uninstallResizer: jest.fn(() => {}),
+          installResizer: jest.fn(() => { }),
+          uninstallResizer: jest.fn(() => { }),
           btnRef: React.createRef(),
-          resize: jest.fn(() => {}),
+          resize: jest.fn(() => { }),
           ...insProp,
         }),
-        resizeDetectorIns: jest.fn(() => {}),
+        resizeDetectorIns: jest.fn(() => { }),
         Button: () => <button id="built-in-button" />,
       };
       const ShowMoreTabsMock = ShowMoreTabs.bind(undefined, () => deps);
       return [
         function (ctx, contexts, TabsComponent) {
           const {
-            setting: {tablistOverflowClass},
+            setting: { tablistOverflowClass },
             internalOptions,
           } = ctx.optionsManager;
           internalOptions.TablistOverflow = (props) => <div>{props.children}</div>;
@@ -94,7 +94,7 @@ afterAll(() => {
 describe('plugin constructor : ', () => {
   test('should be called with certain parameters', () => {
     expect.assertions(6);
-    const _plug = jest.fn(() => {});
+    const _plug = jest.fn(() => { });
     let instance;
     renderApp({}, [_plug], (ins) => {
       instance = ins;
@@ -111,12 +111,12 @@ describe('plugin constructor : ', () => {
 });
 describe('resize method should be called when tabs are changed : ', () => {
   test('resize method should be called at mount.', () => {
-    const resize = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {resize});
+    const resize = jest.fn(() => { });
+    renderApp({}, undefined, undefined, { resize });
     expect(resize.mock.calls.length).toBe(1);
   });
   test('resize method should not be called when refreshing tabs.', () => {
-    const resize = jest.fn(() => {});
+    const resize = jest.fn(() => { });
     renderApp(
       {
         onLoad: function () {
@@ -125,12 +125,12 @@ describe('resize method should be called when tabs are changed : ', () => {
       },
       undefined,
       undefined,
-      {resize},
+      { resize },
     );
     expect(resize.mock.calls.length).toBe(1);
   });
   test('resize method should be called when switching tabs.', () => {
-    const resize = jest.fn(() => {});
+    const resize = jest.fn(() => { });
     renderApp(
       {
         onLoad: function () {
@@ -139,26 +139,26 @@ describe('resize method should be called when tabs are changed : ', () => {
       },
       undefined,
       undefined,
-      {resize},
+      { resize },
     );
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when opening a new tab.', () => {
-    const resize = jest.fn(() => {});
+    const resize = jest.fn(() => { });
     renderApp(
       {
         onLoad: function () {
-          this.open({id: '3'});
+          this.open({ id: '3' });
         },
       },
       undefined,
       undefined,
-      {resize},
+      { resize },
     );
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when closing a tab.', () => {
-    const resize = jest.fn(() => {});
+    const resize = jest.fn(() => { });
     let ready;
     renderApp(
       {},
@@ -166,7 +166,7 @@ describe('resize method should be called when tabs are changed : ', () => {
       (_ready) => {
         ready = _ready;
       },
-      {resize},
+      { resize },
     );
     act(() => {
       let ins;
@@ -178,7 +178,7 @@ describe('resize method should be called when tabs are changed : ', () => {
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when sorting tabs.', () => {
-    const resize = jest.fn(() => {});
+    const resize = jest.fn(() => { });
     let ready;
     renderApp(
       {},
@@ -186,7 +186,7 @@ describe('resize method should be called when tabs are changed : ', () => {
       (_ready) => {
         ready = _ready;
       },
-      {resize},
+      { resize },
     );
     act(() => {
       let ins;
@@ -200,13 +200,13 @@ describe('resize method should be called when tabs are changed : ', () => {
 });
 describe('resize detector should be called correctly : ', () => {
   test('installResizer method should be called at mount.', () => {
-    const installResizer = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {installResizer});
+    const installResizer = jest.fn(() => { });
+    renderApp({}, undefined, undefined, { installResizer });
     expect(installResizer.mock.calls.length).toBe(1);
   });
   test('uninstallResizer method should be called at unmount.', () => {
-    const uninstallResizer = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {uninstallResizer});
+    const uninstallResizer = jest.fn(() => { });
+    renderApp({}, undefined, undefined, { uninstallResizer });
     expect(uninstallResizer.mock.calls.length).toBe(0);
     act(() => {
       unmountComponentAtNode(container);
@@ -220,21 +220,21 @@ describe('button component : ', () => {
     expect(document.getElementById('built-in-button') != null).toBe(true);
   });
   test('user button component should be rendered when showMoreButtonComponent option is provided', () => {
-    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+    renderApp({ showMoreButtonComponent: () => <button id="user-button" /> });
     expect(document.getElementById('built-in-button') != null).toBe(false);
     expect(document.getElementById('user-button') != null).toBe(true);
   });
   test('showMoreButtonComponent option should be a function component and not a React element', () => {
-    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+    renderApp({ showMoreButtonComponent: () => <button id="user-button" /> });
     expect(document.getElementById('user-button') != null).toBe(true);
-    renderApp({showMoreButtonComponent: <button id="user-button-element" />});
+    renderApp({ showMoreButtonComponent: <button id="user-button-element" /> });
     expect(document.getElementById('user-button-element') != null).toBe(false);
     expect(document.getElementById('built-in-button') != null).toBe(true);
   });
   test('showMoreButtonComponent component props', () => {
     const showMoreButtonComponent = jest.fn(() => <button id="user-mock-button" />);
     let ready, instance;
-    renderApp({showMoreButtonComponent}, undefined, (_ready) => {
+    renderApp({ showMoreButtonComponent }, undefined, (_ready) => {
       ready = _ready;
     });
     ready((ins) => {
@@ -250,7 +250,7 @@ describe('button component : ', () => {
       'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-popper',
     );
     const showMoreButtonComponentRtl = jest.fn(() => <button id="user-mock-button" />);
-    renderApp({showMoreButtonComponent: showMoreButtonComponentRtl, direction: 'rtl'});
+    renderApp({ showMoreButtonComponent: showMoreButtonComponentRtl, direction: 'rtl' });
     expect(showMoreButtonComponentRtl.mock.calls[0][0].popperClassName).toBe(
       'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-rtl rc-dyn-tabs-popper',
     );
