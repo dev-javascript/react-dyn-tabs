@@ -20,18 +20,15 @@ export interface IconProps {
     className: string;
     role: string;
 }
-export interface TabComponentProps {
-    id: string;
-    isSelected: boolean;
-    api: Instance;
-    tabProps: TabProps;
-    iconProps?: IconProps;
-    children: React.ReactNode;
-}
 export interface PanelProps {
     id: string;
     isSelected: boolean;
     api: Instance;
+}
+export interface TabComponentProps extends PanelProps {
+    tabProps: TabProps;
+    iconProps?: IconProps;
+    children: React.ReactNode;
 }
 export interface Options {
     /** * default value is "ltr"*/
