@@ -1,6 +1,6 @@
 import React from 'react';
 import Helper from '../../helper.js';
-const {throwMissingParam: missingParamEr} = Helper;
+const {throwMissingParam: missingParamEr, uuid} = Helper;
 export default Helper.module(
   function (getDeps, {options}) {
     const {globalDefaultOptions, internalOptions} = getDeps();
@@ -107,7 +107,7 @@ export default Helper.module(
             iconClass: '',
             disable: false,
             lazy: false,
-            id: `tab_${new Date().getTime()}`,
+            id: `tab_${uuid()}`,
           };
         },
       };

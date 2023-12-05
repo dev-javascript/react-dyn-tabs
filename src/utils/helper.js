@@ -1,3 +1,4 @@
+let counter = 1;
 const helper = {
   checkArrIndex: (index, arrLength) => index >= 0 && index < arrLength,
   getInstance: function (Fn) {
@@ -63,6 +64,10 @@ const helper = {
   isArray: (arr) => typeof arr === 'object' && arr.constructor === Array,
   module: function (fn, obj, noneEnums) {
     return this.assingAll(fn.prototype, noneEnums ? this.setNoneEnumProps(obj, noneEnums) : obj).constructor;
+  },
+  uuid: () => {
+    counter++;
+    return `${new Date().getTime()}${Math.random()}${counter}`;
   },
 };
 export default helper;

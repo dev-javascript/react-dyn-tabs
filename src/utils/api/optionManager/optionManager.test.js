@@ -90,6 +90,11 @@ describe('OptionManager constructor : ', () => {
     });
     expect(defaultTabData.id.includes('tab_')).toBe(true);
   });
+  test('the return id from setting.getDefaultTabData method should be unique', () => {
+    const obj1 = obj.setting.getDefaultTabData();
+    const obj2 = obj.setting.getDefaultTabData();
+    expect(obj1.id != obj2.id).toBe(true);
+  });
 });
 describe('OptionManager options prop : ', () => {
   test('it should be equal to defaultOptions if options parameter is an empty object', () => {
