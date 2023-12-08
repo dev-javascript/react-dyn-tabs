@@ -1,5 +1,5 @@
-var elementResizeDetectorMaker = require('element-resize-detector');
-var resizerIns = elementResizeDetectorMaker({
+const elementResizeDetectorMaker = require('element-resize-detector');
+const resizerIns = elementResizeDetectorMaker({
   strategy: 'scroll',
   callOnAdd: true,
 });

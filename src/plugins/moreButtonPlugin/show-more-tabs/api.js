@@ -1,4 +1,4 @@
-const Api = function ({ getElManagementIns, btnRef, ctx, setHiddenTabIDs }) {
+const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.api = ctx;
   this.tablistEl = null;
   this.getElManagementIns = getElManagementIns;
@@ -14,7 +14,7 @@ Object.assign(Api.prototype, {
     this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
     this.tablistViewEl = this.tablistContainerEl.parentElement;
     this.tablistEl.style.overflow = 'visible';
-    this.raf = this.raf || window.requestAnimationFrame || (callback => callback());
+    this.raf = this.raf || window.requestAnimationFrame || ((callback) => callback());
     this.tablistContainerEl.style.overflow = 'hidden';
     resizeDetectorIns.debncListenTo(this.tablistViewEl, () => this.raf(() => this.resize()));
   },
@@ -43,10 +43,10 @@ Object.assign(Api.prototype, {
     this.tablistContainerEl.style.display = 'flex';
   },
   hideTabs: function (firstHiddenTabIndex, selectedTabInfo, includeSelectedTab) {
-    const { openTabIDs } = this.api.getData();
+    const {openTabIDs} = this.api.getData();
     const hiddenTabIDs = [];
     this.tablistContainerEl.style.display = 'none';
-    const { index: selectedTabIndex } = selectedTabInfo;
+    const {index: selectedTabIndex} = selectedTabInfo;
     for (let i = firstHiddenTabIndex, tabsCount = this.tabsCount; i < tabsCount; i++) {
       if (includeSelectedTab || i !== selectedTabIndex) {
         this.tabs[i].style.display = 'none';
@@ -57,15 +57,15 @@ Object.assign(Api.prototype, {
     this.tablistContainerEl.style.display = 'flex';
     this._setHiddenTabIDs(hiddenTabIDs.toString());
   },
-  getSelectedTab: function (tabs, data) {
-    const { openTabIDs, selectedTabID } = data;
+  getSelectedTabInfo: function (tabs, data) {
+    const {openTabIDs, selectedTabID} = data;
     const index = openTabIDs.indexOf(selectedTabID);
     const el = index >= 0 ? tabs[index] : null;
     const overflow = el
       ? this.els.getDistance(el).sub(this.els.getEl(this.btnRef.current).getFullSize()).value <= 0
       : false;
-    const fullSize = overflow ? this.els.getEl(el).getFullSize() : 0;
-    return { index, el, overflow, fullSize };
+    const overflowFullSize = overflow ? this.els.getEl(el).getFullSize() : 0;
+    return {index, overflowFullSize};
   },
   validateTabsCount: function (data) {
     const openTabsCount = data.openTabIDs.length;
@@ -75,7 +75,7 @@ Object.assign(Api.prototype, {
     this.tabs = this.tablistEl.children;
     this.tabsCount = this.tabs.length;
     if (openTabsCount !== this.tabsCount) {
-      throw new Error("tablist children's count is not equal to open tabs count");
+      throw new Error("tablist children's length is not equal to openTabIDs length");
     }
     return true;
   },
@@ -95,42 +95,43 @@ Object.assign(Api.prototype, {
     if (this.checkOverflow(_lastTab) === false) {
       return this._setHiddenTabIDs('');
     }
-    const selectedTabInfo = this.getSelectedTab(this.tabs, data);
+    const selectedTabInfo = this.getSelectedTabInfo(this.tabs, data);
     this.validateSliderMinSize(selectedTabInfo)
       ? this.hideTabs(
-        this.findFirstHiddenTabIndexFactory(
+          this.findFirstHiddenTabIndexFactory(
+            selectedTabInfo,
+            this.getSearchBoundries(selectedTabInfo),
+            this.getOrder(_lastTab),
+          ),
           selectedTabInfo,
-          this.getSearchBoundries(selectedTabInfo),
-          this.getOrder(_lastTab),
-        ),
-        selectedTabInfo,
-      )
+        )
       : this.hideTabs(0, selectedTabInfo, true);
   },
   validateSliderMinSize: function (selectedTabInfo) {
-    const { el, fullSize } = selectedTabInfo;
-    //the slider's size should contain selected tab + more button
-    return el &&
-      fullSize + this.els.getEl(this.btnRef.current).getFullSize() >= this.els.getEl(this.tablistContainerEl).getSize()
+    //the slider's size should greater than size of selected tab + more button
+    return selectedTabInfo.overflowFullSize + this.els.getEl(this.btnRef.current).getFullSize() >=
+      this.els.getEl(this.tablistContainerEl).getSize()
       ? false
       : true;
   },
   getOrder: function (lastTab) {
-    return Math.abs(this.els.getDistance(lastTab).value) > this.els.getEl(this.tablistContainerEl).getPos().width
+    return Math.abs(this.els.getDistance(lastTab).value) > this.els.getEl(this.tablistContainerEl).getSize()
       ? 'asc'
       : 'desc';
   },
   getSearchBoundries: function (selectedTabInfo) {
-    const { overflow, index: pivotIndex } = selectedTabInfo;
+    const {overflowFullSize, index: pivotIndex} = selectedTabInfo;
+    //if selected tab is not existed
     if (pivotIndex < 0) {
       return [0, this.tabsCount - 2];
     }
-    return overflow ? [0, pivotIndex - 1] : [pivotIndex + 1, this.tabsCount - 2];
+    const isSelectedTabOverflow = overflowFullSize > 0;
+    return isSelectedTabOverflow ? [0, pivotIndex - 1] : [pivotIndex + 1, this.tabsCount - 2];
   },
   getTabDis: function (selectedTabInfo, el) {
     return this.els
       .getDistance(el)
-      .sub(selectedTabInfo.fullSize)
+      .sub(selectedTabInfo.overflowFullSize)
       .sub(this.els.getEl(this.btnRef.current).getFullSize());
   },
   findFirstHiddenTabIndexDSCE: function (selectedTabInfo, start, stop) {
