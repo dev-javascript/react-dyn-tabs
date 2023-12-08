@@ -3,6 +3,19 @@ const resizerIns = elementResizeDetectorMaker({
   strategy: 'scroll',
   callOnAdd: true,
 });
+const getRaf = () => {
+  const w = window;
+  return (
+    w.requestAnimationFrame ||
+    w.webkitRequestAnimationFrame ||
+    w.mozRequestAnimationFrame ||
+    w.oRequestAnimationFrame ||
+    w.msRequestAnimationFrame ||
+    function (callback) {
+      w.setTimeout(callback, 1000 / 60);
+    }
+  );
+};
 resizerIns.debncListenTo = (el, callback) => {
   return resizerIns.listenTo(
     el,
@@ -11,7 +24,7 @@ resizerIns.debncListenTo = (el, callback) => {
       return function (...args) {
         const later = () => {
           clearTimeout(timeout);
-          func(...args);
+          getRaf()(() => func(...args));
         };
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);

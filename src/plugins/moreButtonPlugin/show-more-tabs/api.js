@@ -14,9 +14,8 @@ Object.assign(Api.prototype, {
     this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
     this.tablistViewEl = this.tablistContainerEl.parentElement;
     this.tablistEl.style.overflow = 'visible';
-    this.raf = this.raf || window.requestAnimationFrame || ((callback) => callback());
     this.tablistContainerEl.style.overflow = 'hidden';
-    resizeDetectorIns.debncListenTo(this.tablistViewEl, () => this.raf(() => this.resize()));
+    resizeDetectorIns.debncListenTo(this.tablistViewEl, () => this.resize());
   },
   uninstallResizer: function (resizeDetectorIns) {
     if (this.tablistViewEl && resizeDetectorIns) resizeDetectorIns.uninstall(this.tablistViewEl);
@@ -83,7 +82,7 @@ Object.assign(Api.prototype, {
     const ins = this.api;
     const data = ins.getData();
     if (this.validateTabsCount(data) === false) {
-      return;
+      return this._setHiddenTabIDs('');
     }
     this.showAll(); //showAll should be called regardless of overflow
     this.els = this.getElManagementIns({
