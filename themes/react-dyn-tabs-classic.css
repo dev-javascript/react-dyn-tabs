@@ -72,8 +72,6 @@
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-showmorebutton-container {
   margin: 0.2em 0 0 0;
-}
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-showmorebutton-container {
   min-height: 30px;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
