@@ -9,12 +9,14 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this._setHiddenTabIDs = setHiddenTabIDs;
 };
 Object.assign(Api.prototype, {
-  installResizer: function (resizeDetectorIns) {
+  setEls: function () {
     this.tablistEl = this.api.tablistRef.current;
     this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
     this.tablistViewEl = this.tablistContainerEl.parentElement;
     this.tablistEl.style.overflow = 'visible';
     this.tablistContainerEl.style.overflow = 'hidden';
+  },
+  installResizer: function (resizeDetectorIns) {
     resizeDetectorIns.debncListenTo(this.tablistViewEl, () => this.resize());
   },
   uninstallResizer: function (resizeDetectorIns) {
