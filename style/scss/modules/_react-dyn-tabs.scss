@@ -54,6 +54,7 @@
       opacity: 1;
       font-size: 1rem;
       font-family: inherit;
+      order: unset;
       &.rc-dyn-tabs-disable {
         pointer-events: none;
         opacity: 0.7;
