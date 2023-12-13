@@ -23,9 +23,11 @@ ShowMoreButton.propTypes /* remove-proptypes */ = {
 };
 export default function ResponsiveFactory(ctx, contexts, TabsComponent) {
   const {
+    setting,
     setting: {tablistOverflowClass},
     internalOptions,
   } = ctx.optionsManager;
+  setting.responsiveClass = 'rc-dyn-tabs-responsive';
   internalOptions.TablistOverflow = TablistOverflow.bind(undefined, {tablistOverflowClass});
   internalOptions.ShowMoreButton = ShowMoreButton.bind(undefined, {ctx, contexts, TabsComponent});
 }

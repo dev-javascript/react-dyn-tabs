@@ -21,6 +21,9 @@
     flex-wrap: nowrap;
     overflow: hidden;
     direction: ltr;
+    &.rc-dyn-tabs-responsive {
+      backface-visibility: hidden;
+    }
     .rc-dyn-tabs-tablist-container {
       display: flex;
       flex-wrap: nowrap;
