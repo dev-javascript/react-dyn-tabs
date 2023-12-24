@@ -4,7 +4,7 @@ exports[`Default show more button structure :  default 1`] = `
 <div
   className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
 >
-  <span
+  <div
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
     onClick={[Function]}
   >
@@ -18,7 +18,7 @@ exports[`Default show more button structure :  default 1`] = `
         fill="gray"
       />
     </svg>
-  </span>
+  </div>
 </div>
 `;
 
@@ -26,7 +26,7 @@ exports[`Default show more button structure :  different hiddenTabIDs 1`] = `
 <div
   className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
 >
-  <span
+  <div
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
     onClick={[Function]}
   >
@@ -40,7 +40,7 @@ exports[`Default show more button structure :  different hiddenTabIDs 1`] = `
         fill="gray"
       />
     </svg>
-  </span>
+  </div>
 </div>
 `;
 
@@ -48,7 +48,7 @@ exports[`Default show more button structure :  rtl mode 1`] = `
 <div
   className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
 >
-  <span
+  <div
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
     onClick={[Function]}
   >
@@ -62,6 +62,6 @@ exports[`Default show more button structure :  rtl mode 1`] = `
         fill="gray"
       />
     </svg>
-  </span>
+  </div>
 </div>
 `;
