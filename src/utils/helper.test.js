@@ -29,6 +29,9 @@ describe('helper : ', () => {
     expect(copyState2 != state2).toBe(true);
     expect(copyState2.openTabIDs != state2.openTabIDs).toBe(true);
   });
+  test('uuid method should return unique values in multiple calls', () => {
+    expect(helper.uuid() != helper.uuid()).toBe(true);
+  });
 });
 describe('helper.filterArrayUntilFirstValue : ', () => {
   test('filterArrayUntilFirstValue function should work correctly and it may change the original array', () => {
