@@ -19,9 +19,10 @@
     "url": "https://github.com/dev-javascript/react-dyn-tabs/issues"
   },
   "scripts": {
-    "watch": "npm-run-all --parallel watch:*",
+    "watch": "set NODE_OPTIONS=--openssl-legacy-provider & npm-run-all --parallel watch:*",
     "watch:scss": "sass --watch themes/scss:themes style/scss:style --no-source-map",
     "watch:js": "cross-env BABEL_OUTPUT=umd INCLUDE_POLYFILLS=true webpack --config webpack.config.js --env=development --watch",
+    "prebuild":"set NODE_OPTIONS=--openssl-legacy-provider",
     "build": "npm-run-all clean:* --parallel build:lib:* build:scss:*  & npm run build:dist",
     "build:dist": "rollup -c",
     "build:lib:cjs": "cross-env BABEL_OUTPUT=cjs babel src/ --out-dir lib/cjs/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
