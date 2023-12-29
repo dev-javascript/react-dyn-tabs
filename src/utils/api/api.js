@@ -6,7 +6,7 @@ import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
 import BaseApi from './baseApi.js';
 import {ForceUpdateContext, StateContext} from '../context.js';
-import {Tabs as TabsComponent} from '../../tabList/tabList.js';
+import TabsComponent from '../../tabs/tabs.js';
 import Tabs from './tabs.js';
 const getDeps = function (options = {}) {
   const activedTabsHistory = new ActivedTabsHistory(),
