@@ -326,5 +326,35 @@ Helper.setNoneEnumProps(_apiProps, {
     }
     return outputProps;
   },
+  getTablistViewProps: function () {
+    const {
+      options: {isVertical, direction},
+      setting,
+      setting: {tablistViewClass, verticalClass, responsiveClass},
+    } = this.optionsManager;
+
+    let className = tablistViewClass + ' ' + setting[direction + 'Class'];
+    if (isVertical) {
+      className += ' ' + verticalClass;
+    }
+    if (responsiveClass) {
+      className += ' ' + responsiveClass;
+    }
+    return {className};
+  },
+  getTablistContainerProps: function () {
+    const className = this.optionsManager.setting.tablistContainerClass;
+    return {className};
+  },
+  getTablistProps: function (ref, openTabIDs, selectedTabID) {
+    const {direction: dir, isVertical} = this.optionsManager.options;
+    return {
+      openTabIDs,
+      selectedTabID,
+      ref,
+      dir,
+      isVertical,
+    };
+  },
 });
 export const apiProps = _apiProps;
