@@ -1,12 +1,11 @@
 import React from 'react';
 import {ApiContext} from '../utils/context.js';
-import Tab from '../tab/tab.js';
 import PropTypes from 'prop-types';
 function TabsComponent(deps, props, ref) {
   const {openTabIDs, selectedTabID, dir, isVertical} = props;
   const api = React.useContext(ApiContext);
-  const {tablistPropsManager} = deps();
-  const tablistProps = tablistPropsManager({api, dir, isVertical});
+  const {getTabsProps, Tab} = deps();
+  const tablistProps = getTabsProps({api, dir, isVertical});
   return (
     <ul {...tablistProps} ref={ref || null}>
       {openTabIDs.map((id) => (
