@@ -2,8 +2,8 @@ import {forwardRef} from 'react';
 import Tabs from './tabs.factory.js';
 import Tab from '../tab/tab.js';
 export default forwardRef(
-  Tabs.bind(undefined, () => ({
+  Tabs.bind(undefined, (api) => ({
     Tab,
-    getTabsProps: ({api, dir, isVertical}) => api.getTabsProps(dir, isVertical),
+    getTabsProps: (dir, isVertical) => api.getTabsProps(dir, isVertical),
   })),
 );
