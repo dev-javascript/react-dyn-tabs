@@ -3,7 +3,7 @@ import {ApiContext, ForceUpdateContext} from '../utils/context.js';
 import PropTypes from 'prop-types';
 const TabComponent = function TabComponent(deps, props) {
   React.useContext(ForceUpdateContext);
-  const {getTabProps, getTabInnerProps, getCloseIconProps} = deps();
+  const {tabPropsGenerator, tabInnerPropsGenerator, closeIconPropsGenerator} = deps();
   const {id, selectedTabID} = props,
     api = React.useContext(ApiContext),
     TabInnerComponent = api.getOption('tabComponent'),
@@ -14,12 +14,12 @@ const TabComponent = function TabComponent(deps, props) {
     };
   return (
     <li
-      {...getTabProps({api, id, isSelected})}
+      {...tabPropsGenerator({api, id, isSelected})}
       onClick={(e) => {
         clkHandler(e);
       }}>
-      <TabInnerComponent {...getTabInnerProps({api, id, isSelected})}>{tabObj.title}</TabInnerComponent>
-      {tabObj.closable ? <span {...getCloseIconProps(api)}>&times;</span> : null}
+      <TabInnerComponent {...tabInnerPropsGenerator({api, id, isSelected})}>{tabObj.title}</TabInnerComponent>
+      {tabObj.closable ? <span {...closeIconPropsGenerator(api)}>&times;</span> : null}
     </li>
   );
 };

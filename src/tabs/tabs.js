@@ -4,6 +4,6 @@ import Tab from '../tab/tab.js';
 export default forwardRef(
   Tabs.bind(undefined, (api) => ({
     Tab,
-    getTabsProps: (dir, isVertical) => api.getTabsProps(dir, isVertical),
+    tabsPropsGenerator: (dir, isVertical) => api.tabsPropsGenerator(dir, isVertical),
   })),
 );

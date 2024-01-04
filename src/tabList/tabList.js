@@ -5,7 +5,7 @@ const MemomizedTabList = memo(
   forwardRef(
     TabList.bind(undefined, (api, ref, openTabIDs, selectedTabID) => ({
       Tabs,
-      getTablistProps: () => api.getTablistProps(ref, openTabIDs, selectedTabID),
+      tablistPropsGenerator: () => api.tablistPropsGenerator(ref, openTabIDs, selectedTabID),
     })),
   ),
   () => true,

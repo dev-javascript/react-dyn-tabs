@@ -1,2 +1,4 @@
 import TablistView from './tablistView.factory.js';
-export default TablistView.bind(undefined, (api) => ({getTablistViewProps: () => api.getTablistViewProps()}));
+export default TablistView.bind(undefined, (api) => ({
+  tablistViewPropsGenerator: () => api.tablistViewPropsGenerator(),
+}));
