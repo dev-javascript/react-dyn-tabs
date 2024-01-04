@@ -1,20 +1,10 @@
 /* eslint react/prop-types: 0 */
 import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
 function useDynamicTabs(getDeps, options = {}, modules) {
-  const {
-    reducer,
-    getApiInstance,
-    PanelList,
-    TablistView,
-    TablistContainer,
-    TabList,
-    ApiContext,
-    StateContext,
-    ForceUpdateContext,
-  } = getDeps();
+  const {reducer, getApiInstance, ApiContext, StateContext, ForceUpdateContext, Components} = getDeps();
   const ref = useRef(null);
   if (ref.current === null)
-    ref.current = {api: getApiInstance(options, modules), TabListComponent: null, PanelListComponent: null};
+    ref.current = {api: getApiInstance(options, modules, Components), TabListComponent: null, PanelListComponent: null};
   const {
       current: {api},
     } = ref,
@@ -54,16 +44,16 @@ function useDynamicTabs(getDeps, options = {}, modules) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <TablistView>
-                <TablistContainer>
+              <Components.TablistView>
+                <Components.TablistContainer>
                   <api.optionsManager.internalOptions.TablistOverflow>
-                    <TabList {...props} ref={api.tablistRef}></TabList>
+                    <Components.TabList {...props} ref={api.tablistRef}></Components.TabList>
                     <api.optionsManager.internalOptions.ShowMoreButton />
                     <api.optionsManager.internalOptions.TabIndicator />
                   </api.optionsManager.internalOptions.TablistOverflow>
-                </TablistContainer>
+                </Components.TablistContainer>
                 {props.children}
-              </TablistView>
+              </Components.TablistView>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>
@@ -75,7 +65,7 @@ function useDynamicTabs(getDeps, options = {}, modules) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <PanelList {...props}>props.children</PanelList>
+              <Components.PanelList {...props}>props.children</Components.PanelList>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>
