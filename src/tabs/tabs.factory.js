@@ -5,7 +5,7 @@ function TabsComponent(deps, props, ref) {
   const {openTabIDs, selectedTabID, dir, isVertical} = props;
   const {tabsPropsGenerator, Tab} = deps(React.useContext(ApiContext));
   return (
-    <ul {...tabsPropsGenerator(dir, isVertical)} ref={ref || null}>
+    <ul {...tabsPropsGenerator(props)} ref={ref || null}>
       {openTabIDs.map((id) => (
         <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
       ))}

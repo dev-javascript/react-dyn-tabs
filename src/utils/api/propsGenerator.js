@@ -1,5 +1,6 @@
 export default {
-  tabsPropsGenerator: function (dir, isVertical) {
+  tabsPropsGenerator: function (parentProps) {
+    const {dir, isVertical} = parentProps;
     const _setting = this.optionsManager.setting;
     const result = {
       className: _setting.tablistClass + ' ' + _setting[dir + 'Class'],
@@ -12,7 +13,8 @@ export default {
     }
     return result;
   },
-  tabPropsGenerator: function (id, isSelected) {
+  tabPropsGenerator: function (parentProps) {
+    const {id, isSelected} = parentProps;
     const _setting = this.optionsManager.setting;
     const outputProps = {
       'tab-id': id,
@@ -38,7 +40,8 @@ export default {
     }
     return outputProps;
   },
-  tabInnerPropsGenerator: function (id, isSelected) {
+  tabInnerPropsGenerator: function (parentProps) {
+    const {id, isSelected} = parentProps;
     const _setting = this.optionsManager.setting;
     const _tabObj = this.getTab(id);
     const outputProps = {
@@ -96,7 +99,8 @@ export default {
     const className = this.optionsManager.setting.tablistContainerClass;
     return {className};
   },
-  tablistPropsGenerator: function (ref, openTabIDs, selectedTabID) {
+  tablistPropsGenerator: function (ref, state) {
+    const {openTabIDs, selectedTabID} = state;
     const {direction: dir, isVertical} = this.optionsManager.options;
     return {
       openTabIDs,

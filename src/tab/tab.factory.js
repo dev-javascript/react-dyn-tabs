@@ -14,11 +14,11 @@ const TabComponent = function TabComponent(deps, props) {
     };
   return (
     <li
-      {...tabPropsGenerator({api, id, isSelected})}
+      {...tabPropsGenerator(api, props)}
       onClick={(e) => {
         clkHandler(e);
       }}>
-      <TabInnerComponent {...tabInnerPropsGenerator({api, id, isSelected})}>{tabObj.title}</TabInnerComponent>
+      <TabInnerComponent {...tabInnerPropsGenerator(api, props)}>{tabObj.title}</TabInnerComponent>
       {tabObj.closable ? <span {...closeIconPropsGenerator(api)}>&times;</span> : null}
     </li>
   );

@@ -3,9 +3,9 @@ import TabList from './tabList.factory.js';
 import Tabs from '../tabs/tabs.js';
 const MemomizedTabList = memo(
   forwardRef(
-    TabList.bind(undefined, (api, ref, openTabIDs, selectedTabID) => ({
+    TabList.bind(undefined, (api, ref, state) => ({
       Tabs,
-      tablistPropsGenerator: () => api.tablistPropsGenerator(ref, openTabIDs, selectedTabID),
+      tablistPropsGenerator: () => api.tablistPropsGenerator(ref, state),
     })),
   ),
   () => true,
