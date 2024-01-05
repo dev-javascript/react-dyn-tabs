@@ -21,7 +21,7 @@ function ShowMoreButton(deps, props) {
 ShowMoreButton.propTypes /* remove-proptypes */ = {
   children: PropTypes.element,
 };
-export default function ResponsiveFactory(ctx, contexts, TabsComponent) {
+export default function ResponsiveFactory(ctx, contexts, {Tabs: TabsComponent}) {
   const {
     setting,
     setting: {tablistOverflowClass},
