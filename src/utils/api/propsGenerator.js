@@ -14,7 +14,8 @@ export default {
     return result;
   },
   tabPropsGenerator: function (parentProps) {
-    const {id, isSelected} = parentProps;
+    const {id, selectedTabID} = parentProps;
+    const isSelected = selectedTabID === id;
     const _setting = this.optionsManager.setting;
     const outputProps = {
       'tab-id': id,

@@ -8,7 +8,6 @@ const TabComponent = function TabComponent(deps, props) {
     api = React.useContext(ApiContext),
     TabInnerComponent = api.getOption('tabComponent'),
     tabObj = api.getTab(id),
-    isSelected = selectedTabID === id,
     clkHandler = function (e) {
       api.eventHandlerFactory({e, id});
     };
