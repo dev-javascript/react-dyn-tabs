@@ -7,6 +7,8 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.tabsCount = null;
   this.btnRef = btnRef;
   this._setHiddenTabIDs = setHiddenTabIDs;
+  const uniqueID = ctx.helper.uuid();
+  this._popupContainerID = `popupContainer_${uniqueID}`;
 };
 Object.assign(Api.prototype, {
   setEls: function () {
@@ -158,6 +160,55 @@ Object.assign(Api.prototype, {
     return order === 'asc'
       ? this.findFirstHiddenTabIndexASC(selectedTabInfo, start, stop)
       : this.findFirstHiddenTabIndexDSCE(selectedTabInfo, start, stop);
+  },
+  btnContainerPropsGenerator: function (accessibility) {
+    const {tabClass, showMoreContainerClass} = this.api.optionsManager.setting;
+    const className = tabClass + ' ' + showMoreContainerClass;
+    let result = {className, ref: this.btnRef};
+    result =
+      accessibility == true
+        ? Object.assign(result, {
+            role: 'button',
+            'aria-haspopup': 'true',
+            'aria-label': 'More tabs',
+            tabindex: -1,
+          })
+        : result;
+    return result;
+  },
+  btnPropsGenerator: function (hiddenTabIDs, TabsComponent, accessibility) {
+    const userButton = this.api.getOption('showMoreButtonComponent');
+    if (userButton && typeof userButton === 'function') {
+      return {
+        hiddenTabIDs: hiddenTabIDs,
+        instance: this.api.userProxy,
+      };
+    }
+    const {showMoreButtonClass, showMorePopperClass, titleClass, tablistViewClass, verticalClass, rtlClass} =
+      this.api.optionsManager.setting;
+    const result = {
+      hiddenTabIDs: hiddenTabIDs,
+      containerButtonRef: this.btnRef, //for assigning aria-expanded
+      instance: this.api.userProxy,
+      buttonClassName: titleClass + ' ' + showMoreButtonClass,
+      TabsComponent,
+      popperClassName:
+        tablistViewClass +
+        ' ' +
+        verticalClass +
+        ' ' +
+        (this.api.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
+        showMorePopperClass,
+      popupAriaProps: {},
+      btnAriaProps: {},
+    };
+    if (accessibility) {
+      result.popupAriaProps.role = 'presentation';
+      result.popupAriaProps.id = this._popupContainerID;
+      result.btnAriaProps['aria-controls'] = this._popupContainerID;
+      result.btnAriaProps.tabindex = 0;
+    }
+    return result;
   },
 });
 export default Api;

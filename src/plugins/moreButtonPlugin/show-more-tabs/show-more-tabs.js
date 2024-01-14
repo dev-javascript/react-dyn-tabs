@@ -6,19 +6,7 @@ export default function ShowMoreTabs(getDeps, props) {
     ctx,
     contexts: {ForceUpdateContext, StateContext},
     ctx: {
-      optionsManager: {
-        options,
-        setting: {
-          showMoreButtonClass,
-          showMorePopperClass,
-          showMoreContainerClass,
-          titleClass,
-          tabClass,
-          tablistViewClass,
-          verticalClass,
-          rtlClass,
-        },
-      },
+      optionsManager: {options},
     },
   } = props;
   React.useContext(ForceUpdateContext);
@@ -47,21 +35,8 @@ export default function ShowMoreTabs(getDeps, props) {
       ? options.showMoreButtonComponent
       : Button;
   return (
-    <div ref={ins.btnRef} className={tabClass + ' ' + showMoreContainerClass}>
-      <ButtonComponent
-        hiddenTabIDs={hiddenTabIDs}
-        instance={ctx.userProxy}
-        TabsComponent={TabsComponent}
-        buttonClassName={titleClass + ' ' + showMoreButtonClass}
-        popperClassName={
-          tablistViewClass +
-          ' ' +
-          verticalClass +
-          ' ' +
-          (ctx.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
-          showMorePopperClass
-        }
-      />
+    <div {...ins.btnContainerPropsGenerator(options.accessibility)}>
+      <ButtonComponent {...ins.btnPropsGenerator(hiddenTabIDs, TabsComponent, options.accessibility)} />
     </div>
   );
 }
