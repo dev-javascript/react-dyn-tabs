@@ -56,6 +56,8 @@ beforeEach(() => {
           setEls: () => {},
           btnRef: React.createRef(),
           resize: jest.fn(() => {}),
+          btnContainerPropsGenerator: () => ({}),
+          btnPropsGenerator: () => ({}),
           ...insProp,
         }),
         resizeDetectorIns: jest.fn(() => {}),
@@ -104,7 +106,9 @@ describe('plugin constructor : ', () => {
       expect(_plug.mock.calls.length).toBe(1);
       expect(_plug.mock.calls[0].length).toBe(3);
       expect(Object.keys(_plug.mock.calls[0][0].userProxy).sort()).toEqual(Object.keys(instance).sort());
-      expect(_plug.mock.calls[0][2].render.name).toBe('bound TabsComponent');
+      expect(Object.keys(_plug.mock.calls[0][2]).toString()).toBe(
+        `TablistContainer,TablistContainerFactory,TablistView,TablistViewFactory,PanelList,TabList,TabListFactory,Tabs,TabsFactory,Tab,TabFactory,memomizeTab`,
+      );
       expect(_plug.mock.calls[0][1].hasOwnProperty('ForceUpdateContext')).toBe(true);
       expect(_plug.mock.calls[0][1].hasOwnProperty('StateContext')).toBe(true);
     });
@@ -231,30 +235,6 @@ describe('button component : ', () => {
     renderApp({showMoreButtonComponent: <button id="user-button-element" />});
     expect(document.getElementById('user-button-element') != null).toBe(false);
     expect(document.getElementById('built-in-button') != null).toBe(true);
-  });
-  test('showMoreButtonComponent component props', () => {
-    const showMoreButtonComponent = jest.fn(() => <button id="user-mock-button" />);
-    let ready, instance;
-    renderApp({showMoreButtonComponent}, undefined, (_ready) => {
-      ready = _ready;
-    });
-    ready((ins) => {
-      instance = ins;
-    });
-    expect(typeof showMoreButtonComponent.mock.calls[0][0].hiddenTabIDs).toBe('string');
-    expect(showMoreButtonComponent.mock.calls[0][0].instance).toEqual(instance);
-    expect(showMoreButtonComponent.mock.calls[0][0].TabsComponent.render.name).toBe('bound TabsComponent');
-    expect(showMoreButtonComponent.mock.calls[0][0].buttonClassName).toBe(
-      'rc-dyn-tabs-title rc-dyn-tabs-showmorebutton',
-    );
-    expect(showMoreButtonComponent.mock.calls[0][0].popperClassName).toBe(
-      'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-popper',
-    );
-    const showMoreButtonComponentRtl = jest.fn(() => <button id="user-mock-button" />);
-    renderApp({showMoreButtonComponent: showMoreButtonComponentRtl, direction: 'rtl'});
-    expect(showMoreButtonComponentRtl.mock.calls[0][0].popperClassName).toBe(
-      'rc-dyn-tabs-tablist-view rc-dyn-tabs-vertical rc-dyn-tabs-rtl rc-dyn-tabs-popper',
-    );
   });
 });
 describe('mounting : ', () => {

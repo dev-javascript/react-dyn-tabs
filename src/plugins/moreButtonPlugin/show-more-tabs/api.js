@@ -1,3 +1,4 @@
+let instanceCounter = 0;
 const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.api = ctx;
   this.tablistEl = null;
@@ -7,8 +8,7 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.tabsCount = null;
   this.btnRef = btnRef;
   this._setHiddenTabIDs = setHiddenTabIDs;
-  const uniqueID = ctx.helper.uuid();
-  this._popupContainerID = `popupContainer_${uniqueID}`;
+  this._popupContainerID = `rc-dyn-tabs-popupcontainer_${instanceCounter++}`;
 };
 Object.assign(Api.prototype, {
   setEls: function () {

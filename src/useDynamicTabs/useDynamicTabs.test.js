@@ -8,6 +8,7 @@ import reducer from '../utils/stateManagement/reducer';
 import Api from '../utils/api';
 import {ApiContext, StateContext, ForceUpdateContext} from '../utils/context.js';
 import useDynTabs from './useDynamicTabs.js';
+import Components from '../components/index.js';
 let container = document.createElement('div');
 let op = ''; //options
 let renderApp;
@@ -52,18 +53,7 @@ beforeEach(() => {
   renderApp = (getDeps, rerender) => {
     const App = function () {
       const getDepsWrapper = () => {
-        return Object.assign(
-          {},
-          {
-            TablistView: function TablistView(props) {
-              return <>{props.children}</>;
-            },
-            TablistContainer: function TablistContainer(props) {
-              return <>{props.children}</>;
-            },
-          },
-          getDeps(),
-        );
+        return Object.assign({}, {Components}, getDeps());
       };
       const [Tablist, Panellist] = useDynTabs(getDepsWrapper, op);
       return (
@@ -109,8 +99,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -137,8 +126,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -159,8 +147,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -186,8 +173,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -211,7 +197,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
+        Components: {...Components, PanelList: () => null},
         TabList,
         ApiContext,
         StateContext,
@@ -237,8 +223,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -262,8 +247,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -288,8 +272,7 @@ describe('counting tabs renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList: () => null,
-        TabList,
+        Components: {...Components, PanelList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -321,8 +304,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -349,8 +331,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -371,8 +352,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -398,8 +378,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -423,8 +402,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -449,8 +427,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -474,8 +451,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -500,8 +476,7 @@ describe('counting panels renders : ', () => {
       return {
         reducer,
         getApiInstance,
-        PanelList,
-        TabList: () => null,
+        Components: {...Components, TabList: () => null},
         ApiContext,
         StateContext,
         ForceUpdateContext,
@@ -525,6 +500,7 @@ describe('output : ', () => {
     };
     const getDeps = function getDeps() {
       return {
+        Components,
         reducer,
         getApiInstance,
         PanelList,
