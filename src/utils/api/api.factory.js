@@ -1,5 +1,4 @@
 import Helper from '../helper.js';
-import propsGenerator from './propsGenerator.js';
 const {throwMissingParam: missingParamEr, isArray, thorwInvalidParam} = Helper;
 export const apiConstructor = function (getDeps, param = {options: {}}, modules = [], Components) {
   const {optionsManager, helper, activedTabsHistory, tablistRef, contexts} = getDeps.call(this, param.options);
@@ -247,6 +246,14 @@ Helper.setNoneEnumProps(_apiProps, {
       this.getOption('beforeSelect').call(this.userProxy, e, id) !== false && this.select(id);
     }
   },
-  ...propsGenerator,
+  getSetting: function (settingName) {
+    const st = this.optionsManager.setting;
+    if (st.hasOwnProperty(settingName)) {
+      if (typeof st[settingName] === 'function') {
+        return st[settingName].apply(st, Array.prototype.slice.call(settingName, 1));
+      }
+      return st[settingName];
+    }
+  },
 });
 export const apiProps = _apiProps;

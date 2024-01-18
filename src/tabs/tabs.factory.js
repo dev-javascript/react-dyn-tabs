@@ -3,9 +3,9 @@ import {ApiContext} from '../utils/context.js';
 import PropTypes from 'prop-types';
 function TabsComponent(deps, props, ref) {
   const {openTabIDs, selectedTabID, dir, isVertical} = props;
-  const {tabsPropsGenerator, Tab} = deps(React.useContext(ApiContext));
+  const {TabsPropsManager, Tab} = deps(React.useContext(ApiContext));
   return (
-    <ul {...tabsPropsGenerator(props)} ref={ref || null}>
+    <ul {...TabsPropsManager({dir, isVertical})} ref={ref || null}>
       {openTabIDs.map((id) => (
         <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
       ))}
