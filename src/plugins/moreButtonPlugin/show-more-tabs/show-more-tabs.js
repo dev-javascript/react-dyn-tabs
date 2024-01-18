@@ -2,15 +2,14 @@ import React, {useState, useRef, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function ShowMoreTabs(getDeps, props) {
   const {
-    TabsComponent,
+    components: {Tabs: TabsComponent, useRootState, useForceUpdate},
     ctx,
-    contexts: {ForceUpdateContext, StateContext},
     ctx: {
       optionsManager: {options},
     },
   } = props;
-  React.useContext(ForceUpdateContext);
-  const {openTabIDs, selectedTabID} = React.useContext(StateContext);
+  useForceUpdate();
+  const {openTabIDs, selectedTabID} = useRootState();
   const [hiddenTabIDs, setHiddenTabIDs] = useState('');
   const {getInstance, resizeDetectorIns, Button} = getDeps();
   const ref = useRef();

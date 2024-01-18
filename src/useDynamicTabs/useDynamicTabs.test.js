@@ -6,7 +6,7 @@ import TabList from '../tabList/tabList';
 import PanelList from '../panelList/panelList.js';
 import reducer from '../utils/stateManagement/reducer';
 import Api from '../utils/api';
-import {ApiContext, StateContext, ForceUpdateContext} from '../utils/context.js';
+import {ApiContext, StateContext, ForceUpdateContext} from '../context.js';
 import useDynTabs from './useDynamicTabs.js';
 import Components from '../components/index.js';
 let container = document.createElement('div');

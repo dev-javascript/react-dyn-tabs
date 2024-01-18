@@ -5,12 +5,10 @@ import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
 import Tabs from './tabs.js';
-import {Tabs as TabsComponent} from '../../tabList/tabList.js';
-import {ForceUpdateContext, StateContext} from '../context.js';
+import components from '../../components/index.js';
 import BaseApi from './baseApi.js';
 let getDeps, obj;
-const contexts = {ForceUpdateContext, StateContext},
-  tablistRef = React.createRef();
+const tablistRef = React.createRef();
 beforeAll(() => {
   apiConstructor.prototype = Object.create(BaseApi.prototype);
   helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;
@@ -25,7 +23,7 @@ beforeEach(() => {
     });
     Tabs.call(this, {initialTabs: optionsManager.initialTabs});
     Pub_Sub.call(this);
-    return {activedTabsHistory, helper, optionsManager, tablistRef, contexts, TabsComponent};
+    return {activedTabsHistory, helper, optionsManager, tablistRef};
   };
   obj = new apiConstructor(getDeps, {
     options: {
@@ -48,15 +46,14 @@ afterEach(() => {
   obj = null;
 });
 describe('Api Contructor : ', () => {
-  test('it should call all modules with this, contexts and TabsComponent as parameters', () => {
+  test('it should call all modules with instance and components as parameters', () => {
     const plugin1 = jest.fn(() => {});
     const plugin2 = jest.fn(() => {});
-    const obj = new apiConstructor(getDeps, {}, [plugin1, plugin2]);
+    const obj = new apiConstructor(getDeps, {}, [plugin1, plugin2], components);
     expect(plugin1.mock.calls.length).toBe(1);
     expect(plugin2.mock.calls.length).toBe(1);
     expect(plugin1.mock.calls[0][0]).toEqual(obj);
-    expect(plugin1.mock.calls[0][1]).toEqual(contexts);
-    expect(plugin1.mock.calls[0][2]).toEqual(TabsComponent);
+    expect(plugin1.mock.calls[0][1]).toEqual(components);
   });
 });
 describe('Api.prototype.open : ', () => {
@@ -455,7 +452,6 @@ describe('Api.prototype.getPreviousData and Api.prototype.getData : ', () => {
     obj.getCopyPerviousData();
     expect(obj.getPreviousData.mock.calls.length).toBe(1);
   });
-  //
 });
 describe('Api.prototype.setTab : ', () => {
   test('it should call optionsManager.validateObjectiveTabData and validatePanelComponent internally', () => {

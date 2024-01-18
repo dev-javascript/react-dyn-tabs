@@ -1,5 +1,5 @@
 import React from 'react';
-import {ApiContext} from '../utils/context.js';
+import {ApiContext} from '../context.js';
 import PropTypes from 'prop-types';
 export default function TablistView(deps, props) {
   const {tablistViewPropsManager} = deps(React.useContext(ApiContext));

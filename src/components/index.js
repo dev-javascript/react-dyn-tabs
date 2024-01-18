@@ -10,6 +10,7 @@ import TabsFactory from '../tabs/tabs.factory.js';
 import Tab, {tabPropsManager, tabInnerPropsManager, closeIconPropsManager} from '../tab/tab.js';
 import TabFactory from '../tab/tab.factory.js';
 import memomizeTab from '../tab/memomizeTab.js';
+import {useApi, useRootState, useForceUpdate} from '../hooks.js';
 export default {
   TablistView,
   tablistViewPropsManager,
@@ -30,4 +31,7 @@ export default {
   TabFactory,
   memomizeTab,
   PanelList,
+  useApi,
+  useRootState,
+  useForceUpdate,
 };

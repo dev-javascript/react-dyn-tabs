@@ -1,5 +1,5 @@
 import React from 'react';
-import {ApiContext, ForceUpdateContext} from '../utils/context.js';
+import {ApiContext, ForceUpdateContext} from '../context.js';
 import PropTypes from 'prop-types';
 const TabComponent = function TabComponent(deps, props) {
   React.useContext(ForceUpdateContext);

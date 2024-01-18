@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ApiContext, ForceUpdateContext} from '../utils/context.js';
+import {ApiContext, ForceUpdateContext} from '../context.js';
 import panelPropsManager from './panelPropsManager.js';
 import PropTypes from 'prop-types';
 const PanelComponent = function PanelComponent(props) {

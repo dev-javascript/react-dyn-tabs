@@ -1,5 +1,5 @@
 import React from 'react';
-import {ApiContext} from '../utils/context.js';
+import {ApiContext} from '../context.js';
 import PropTypes from 'prop-types';
 function TabsComponent(deps, props, ref) {
   const {openTabIDs, selectedTabID, dir, isVertical} = props;

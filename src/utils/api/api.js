@@ -5,7 +5,6 @@ import helper from '../helper';
 import ActivedTabsHistory from './activedTabsHistory';
 import Pub_Sub from './pub_sub.js';
 import BaseApi from './baseApi.js';
-import {ForceUpdateContext, StateContext} from '../context.js';
 import Tabs from './tabs.js';
 const getDeps = function (options = {}) {
   const activedTabsHistory = new ActivedTabsHistory(),
@@ -21,7 +20,6 @@ const getDeps = function (options = {}) {
     helper,
     optionsManager,
     tablistRef: React.createRef(),
-    contexts: {ForceUpdateContext, StateContext},
   };
 };
 apiConstructor.prototype = Object.create(BaseApi.prototype);
