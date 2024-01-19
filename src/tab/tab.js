@@ -28,7 +28,8 @@ export const tabPropsManager = function tabPropsManager(ins, props) {
   return outputProps;
 };
 export const tabInnerPropsManager = function tabInnerPropsManager(ins, props) {
-  const {id, isSelected} = props;
+  const {id, selectedTabID} = props;
+  const isSelected = selectedTabID == id;
   const {tooltip, iconClass} = ins.getTab(id);
   const outputProps = {
     id,

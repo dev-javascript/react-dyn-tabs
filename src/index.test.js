@@ -443,10 +443,10 @@ describe('sort method : ', () => {
   test('it should work correctly', () => {
     expect.assertions(4);
     renderApp();
-    const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
-    expect(buttons[0].id).toBe('rc-dyn-tabs-l-1');
-    expect(buttons[1].id).toBe('rc-dyn-tabs-l-2');
     return act(() => {
+      const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
+      expect(buttons[0].id).toBe('rc-dyn-tabs-l-1');
+      expect(buttons[1].id).toBe('rc-dyn-tabs-l-2');
       return instance.sort(['2', '1']).then(() => {
         const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
         expect(buttons[0].id).toBe('rc-dyn-tabs-l-2');
