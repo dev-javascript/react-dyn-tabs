@@ -3,6 +3,6 @@ import DefaultTabInnerComponent from '../../../tab/defaulTabInner.js';
 import DefaultOptions from './defaultOptions.js';
 const getDeps = function () {
   const op = new DefaultOptions(DefaultTabInnerComponent);
-  return {globalDefaultOptions: op.getOptions(), internalOptions: op.getInternalOptions()};
+  return {globalDefaultOptions: op.getOptions()};
 };
 export default factory.bind(null, getDeps);

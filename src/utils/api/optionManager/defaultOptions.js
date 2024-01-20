@@ -64,18 +64,5 @@ export default Helper.module(
       });
       return _options;
     },
-    getInternalOptions: function getInternalOptions() {
-      return {
-        TablistOverflow: function TablistOverflow(props) {
-          return <>{props.children}</>;
-        },
-        ShowMoreButton: function ShowMoreButton() {
-          return null;
-        },
-        TabIndicator: function TabIndicator() {
-          return null;
-        },
-      };
-    },
   },
 );

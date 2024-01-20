@@ -48,7 +48,6 @@ function useDynamicTabs(getDeps, options = {}, modules) {
                 <Components.TablistContainer>
                   <Components.TablistOverflow>
                     <Components.TabList {...props}></Components.TabList>
-                    {/* <api.optionsManager.internalOptions.TabIndicator /> */}
                   </Components.TablistOverflow>
                 </Components.TablistContainer>
                 {props.children}

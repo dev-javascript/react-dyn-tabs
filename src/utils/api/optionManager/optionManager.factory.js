@@ -3,9 +3,8 @@ import Helper from '../../helper.js';
 const {throwMissingParam: missingParamEr, uuid} = Helper;
 export default Helper.module(
   function (getDeps, {options}) {
-    const {globalDefaultOptions, internalOptions} = getDeps();
+    const {globalDefaultOptions} = getDeps();
     this._defaultOptions = globalDefaultOptions;
-    this.internalOptions = internalOptions;
     this._validateOptions(options);
     this.options = Object.assign({}, this._defaultOptions, options);
     this.setting = {};
