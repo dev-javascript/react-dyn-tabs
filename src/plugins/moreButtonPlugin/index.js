@@ -12,19 +12,30 @@ function ShowMoreButton(deps, props) {
 ShowMoreButton.propTypes /* remove-proptypes */ = {
   children: PropTypes.element,
 };
-export default function ResponsiveFactory(ctx, components) {
-  const {setting} = ctx.optionsManager;
-  setting.responsiveClass = 'rc-dyn-tabs-responsive';
-  const MoreButtonPlugin = ShowMoreButton.bind(undefined, {ctx, components});
+function setTablistOverflow(ctx, components) {
+  components.MoreButtonPlugin = ShowMoreButton.bind(undefined, {ctx, components});
   if (!components.OriginalTablistOverflow) {
     components.OriginalTablistOverflow = components.TablistOverflow;
     components.TablistOverflow = function (props) {
       return (
         <components.OriginalTablistOverflow {...props}>
           {props.children}
-          <MoreButtonPlugin />
+          <components.MoreButtonPlugin />
         </components.OriginalTablistOverflow>
       );
     };
   }
+}
+function setTablistView(ctx, components) {
+  components.TablistView = components.TablistViewFactory.bind(undefined, (ins) => ({
+    tablistViewPropsManager: () => {
+      let {className} = components.tablistViewPropsManager(ins);
+      className += ' rc-dyn-tabs-responsive';
+      return {className};
+    },
+  }));
+}
+export default function ResponsiveFactory(ctx, components) {
+  setTablistView(ctx, components);
+  setTablistOverflow(ctx, components);
 }
