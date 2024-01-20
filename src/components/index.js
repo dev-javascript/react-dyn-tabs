@@ -5,6 +5,8 @@ import TablistView, {tablistViewPropsManager} from '../tablistView/tablistView.j
 import TablistViewFactory from '../tablistView/tablistView.factory.js';
 import TablistContainer, {tablistContainerPropsManager} from '../tablistContainer/tablistContainer.js';
 import TablistContainerFactory from '../tablistContainer/tablistContainer.factory.js';
+import TablistOverflow, {tablistOverflowPropsManager} from '../tablistOverflow/tablistOverflow.js';
+import TablistOverflowFactory from '../tablistOverflow/tablistOverflow.factory.js';
 import Tabs, {TabsPropsManager} from '../tabs/tabs.js';
 import TabsFactory from '../tabs/tabs.factory.js';
 import Tab, {tabPropsManager, tabInnerPropsManager, closeIconPropsManager} from '../tab/tab.js';
@@ -18,6 +20,9 @@ export default {
   TablistContainer,
   tablistContainerPropsManager,
   TablistContainerFactory,
+  TablistOverflow,
+  TablistOverflowFactory,
+  tablistOverflowPropsManager,
   TabList,
   tablistPropsManager,
   TabListFactory,
