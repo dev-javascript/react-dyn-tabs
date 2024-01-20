@@ -18,12 +18,6 @@ beforeEach(() => {
       useEffect(() => {
         readyFunction((ins) => {
           instance = ins;
-          instance.tablistRef = {
-            current: {
-              style: {overflow: {}},
-              parentElement: {parentElement: {style: {overflow: {}}, parentElement: {}}},
-            },
-          };
         });
       }, []);
       return (

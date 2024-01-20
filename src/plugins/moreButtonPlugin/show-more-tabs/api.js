@@ -12,7 +12,7 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
 };
 Object.assign(Api.prototype, {
   setEls: function () {
-    this.tablistEl = this.api.tablistRef.current;
+    this.tablistEl = this.btnRef.current.previousSibling;
     this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
     this.tablistViewEl = this.tablistContainerEl.parentElement;
     this.tablistEl.style.overflow = 'visible';

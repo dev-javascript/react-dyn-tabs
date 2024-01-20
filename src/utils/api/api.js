@@ -1,4 +1,3 @@
-import React from 'react';
 import {apiProps, apiConstructor} from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
@@ -19,7 +18,6 @@ const getDeps = function (options = {}) {
     activedTabsHistory,
     helper,
     optionsManager,
-    tablistRef: React.createRef(),
   };
 };
 apiConstructor.prototype = Object.create(BaseApi.prototype);

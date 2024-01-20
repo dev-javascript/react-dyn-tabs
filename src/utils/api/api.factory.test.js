@@ -1,4 +1,3 @@
-import React from 'react';
 import {apiProps, apiConstructor} from './api.factory';
 import OptionManager from './optionManager/optionManager.js';
 import helper from '../helper';
@@ -8,7 +7,6 @@ import Tabs from './tabs.js';
 import components from '../../components/index.js';
 import BaseApi from './baseApi.js';
 let getDeps, obj;
-const tablistRef = React.createRef();
 beforeAll(() => {
   apiConstructor.prototype = Object.create(BaseApi.prototype);
   helper.assingAll(apiConstructor.prototype, Tabs.prototype, Pub_Sub.prototype, apiProps).constructor = apiConstructor;
@@ -23,7 +21,7 @@ beforeEach(() => {
     });
     Tabs.call(this, {initialTabs: optionsManager.initialTabs});
     Pub_Sub.call(this);
-    return {activedTabsHistory, helper, optionsManager, tablistRef};
+    return {activedTabsHistory, helper, optionsManager};
   };
   obj = new apiConstructor(getDeps, {
     options: {
