@@ -4,11 +4,11 @@ let obj;
 beforeEach(() => {
   const options = {
     tabs: [
-      { id: '1', title: 'a' },
-      { id: '2', title: 'b' },
+      {id: '1', title: 'a'},
+      {id: '2', title: 'b'},
     ],
   };
-  obj = new OptionManager({ options });
+  obj = new OptionManager({options});
 });
 afterEach(() => {
   obj = null;
@@ -61,13 +61,12 @@ describe('OptionManager constructor : ', () => {
       tablistContainerClass: 'rc-dyn-tabs-tablist-container',
       tablistOverflowClass: 'rc-dyn-tabs-tablist-overflow',
       tablistClass: 'rc-dyn-tabs-tablist',
-      responsiveClass: '',
       showMoreContainerClass: 'rc-dyn-tabs-showmorebutton-container',
       showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
       showMorePopperClass: 'rc-dyn-tabs-popper',
-      panelIdTemplate: function () { },
-      ariaLabelledbyIdTemplate: function () { },
-      getDefaultTabData: function () { },
+      panelIdTemplate: function () {},
+      ariaLabelledbyIdTemplate: function () {},
+      getDefaultTabData: function () {},
     };
     expect(Object.keys(obj.setting).toString()).toEqual(Object.keys(_setting).toString());
   });
@@ -99,7 +98,7 @@ describe('OptionManager constructor : ', () => {
 });
 describe('OptionManager options prop : ', () => {
   test('it should be equal to defaultOptions if options parameter is an empty object', () => {
-    const obj = new OptionManager({ options: {} });
+    const obj = new OptionManager({options: {}});
     expect(obj.options).toEqual(obj._defaultOptions);
   });
 });
@@ -134,7 +133,7 @@ describe('OptionManager.prototype.validateTabData :  ', () => {
     expect(tabData.id === '3').toBe(true);
   });
   test('validateTabData method should convert a number id into string id', () => {
-    const tabData = obj.validateTabData({ id: 3 });
+    const tabData = obj.validateTabData({id: 3});
     expect(tabData.id === '3').toBe(true);
   });
   test('it should throw an error when is called with an none real object param', () => {
@@ -148,7 +147,7 @@ describe('OptionManager.prototype.validateTabData :  ', () => {
     }
   });
   test('it should work correctly when is called with a react element as a panelComponent parameter', () => {
-    const tabData = obj.validateTabData({ panelComponent: <div></div> });
+    const tabData = obj.validateTabData({panelComponent: <div></div>});
     expect(Object.prototype.hasOwnProperty.call(tabData, 'title')).toBe(true);
     expect(Object.prototype.hasOwnProperty.call(tabData, 'tooltip')).toBe(true);
     expect(typeof tabData.panelComponent === 'function').toBe(true);
@@ -158,13 +157,13 @@ describe('OptionManager.prototype.validateTabData :  ', () => {
     expect(typeof tabData.id === 'string').toBe(true);
   });
   test('panelComponent parameter can be null', () => {
-    const tabData = obj.validateTabData({ panelComponent: null });
+    const tabData = obj.validateTabData({panelComponent: null});
     expect(tabData.panelComponent).toBe(null);
   });
 });
 describe('OptionManager.prototype.validatePanelComponent', () => {
   it('validatePanelComponent function does not change value of panelComponent property when it is null', () => {
-    const tabData = { panelComponent: null };
+    const tabData = {panelComponent: null};
     obj.validatePanelComponent(tabData);
     expect(tabData.panelComponent).toBe(null);
   });
@@ -172,7 +171,7 @@ describe('OptionManager.prototype.validatePanelComponent', () => {
 describe('OptionManager.prototype.setOption : ', () => {
   it('it can not set tabs option', () => {
     const tabs = obj.getOption('tabs');
-    obj.setOption('tabs', [{ id: '3', title: 'c' }]);
+    obj.setOption('tabs', [{id: '3', title: 'c'}]);
     const newTabs = obj.getOption('tabs');
     expect(tabs).not.toBe(newTabs);
     expect(tabs).toEqual(newTabs);
@@ -189,7 +188,7 @@ describe('OptionManager.prototype.getOption : ', () => {
     let oldPanelComponent;
     const tabs = obj.getOption('tabs');
     oldPanelComponent = tabs[0].panelComponent;
-    tabs[0].panelComponent = () => { };
+    tabs[0].panelComponent = () => {};
     const newTabs = obj.getOption('tabs');
     expect(newTabs[0].panelComponent).toBe(oldPanelComponent);
   });
