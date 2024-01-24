@@ -33,7 +33,6 @@ React Dynamic Tabs with full API
   - [direction](#direction)
   - [tabComponent](#tabcomponent)
   - [defaultPanelComponent](#defaultpanelcomponent)
-  - [showMoreButtonComponent](#showmorebuttoncomponent)
   - [accessibility](#accessibility)
   - [isVertical](#isvertical)
   - [onLoad](#onload)
@@ -373,13 +372,7 @@ const [TabList, PanelList, ready] = useDynTabs({
 });
 ```
 
-### showMoreButtonComponent
 
-Customize `show more button` component
-
-- type : `React component`
-- required : no
-- this option does not work when the `MoreButtonPlugin` plugin is not used
 
 ### accessibility
 
@@ -1206,6 +1199,13 @@ export default () => {
 };
 
 ```
+
+**Options**
+
+- `showMoreButtonComponent`
+    * description : Customize `show more` button component
+    * type : `React component`
+    * required : no
 
 ## Render custom components at the end of the Tablist
 
