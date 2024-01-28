@@ -3,10 +3,12 @@ import memomizeTab from './memomizeTab.js';
 export const tabPropsManager = function tabPropsManager(ins, props) {
   const {id, selectedTabID} = props;
   const isSelected = selectedTabID === id;
+  const {disable, title, tooltip} = ins.getTab(id);
   const outputProps = {
     'tab-id': id,
     className: ins.getSetting('tabClass'),
     tabIndex: -1,
+    title: tooltip || title,
   };
   //check if tab is selected
   if (isSelected) {
@@ -14,15 +16,16 @@ export const tabPropsManager = function tabPropsManager(ins, props) {
     outputProps.className += ' ' + ins.getSetting('selectedClass');
   }
   // check if tab is disable
-  if (ins.getTab(id).disable) {
+  if (disable) {
     outputProps.tabIndex = -1;
     outputProps.className += ' ' + ins.getSetting('disableClass');
   }
   // check if accessibility option is enable
   if (ins.getOption('accessibility')) {
     outputProps.role = 'tab';
+    outputProps.id = ins.getSetting('ariaLabelledbyIdTemplate', id);
     outputProps['aria-controls'] = ins.getSetting('panelIdTemplate', id);
-    outputProps['aria-labelledby'] = ins.getSetting('ariaLabelledbyIdTemplate', id);
+    outputProps['aria-label'] = tooltip || title;
     outputProps['aria-selected'] = outputProps['aria-expanded'] = isSelected;
   }
   return outputProps;
@@ -30,7 +33,7 @@ export const tabPropsManager = function tabPropsManager(ins, props) {
 export const tabInnerPropsManager = function tabInnerPropsManager(ins, props) {
   const {id, selectedTabID} = props;
   const isSelected = selectedTabID == id;
-  const {tooltip, iconClass} = ins.getTab(id);
+  const {iconClass} = ins.getTab(id);
   const outputProps = {
     id,
     isSelected,
@@ -38,8 +41,8 @@ export const tabInnerPropsManager = function tabInnerPropsManager(ins, props) {
     tabProps: {
       'tab-id': id,
       className: ins.getSetting('titleClass'),
-      title: tooltip,
       tabIndex: -1,
+      role: 'presentation',
     },
   };
   // check if there is a iconClass option
@@ -49,11 +52,6 @@ export const tabInnerPropsManager = function tabInnerPropsManager(ins, props) {
       role: 'presentation',
     };
   }
-  // check if accessibility option is enable
-  if (ins.getOption('accessibility')) {
-    outputProps.tabProps.id = ins.getSetting('ariaLabelledbyIdTemplate', id);
-    outputProps.tabProps.role = 'presentation';
-  }
   return outputProps;
 };
 export const closeIconPropsManager = function closeIconPropsManager(ins) {
@@ -62,7 +60,7 @@ export const closeIconPropsManager = function closeIconPropsManager(ins) {
   };
   // check if accessibility option is enable
   if (ins.getOption('accessibility')) {
-    outputProps.role = 'presentation';
+    outputProps.role = 'button';
   }
   return outputProps;
 };

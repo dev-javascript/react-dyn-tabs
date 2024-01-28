@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useRef, useEffect, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function Button(getDeps, props) {
-  const {containerButtonRef} = props;
+  const {popupContainerID} = props;
   const {Popper} = getDeps();
   const [open, setOpen] = useState(false);
   const btnRef = useRef();
@@ -18,10 +18,16 @@ export default function Button(getDeps, props) {
     };
   }, []);
   useLayoutEffect(() => {
-    containerButtonRef.current &&
-      props.instance.getOption('accessibility') &&
-      containerButtonRef.current.setAttribute('aria-expanded', open ? true : false);
-  }, [open, containerButtonRef.current]);
+    if (btnRef.current && props.instance.getOption('accessibility')) {
+      if (open) {
+        btnRef.current.setAttribute('aria-expanded', true);
+        btnRef.current.setAttribute('aria-controls', popupContainerID);
+      } else {
+        btnRef.current.setAttribute('aria-expanded', false);
+        btnRef.current.removeAttribute('aria-controls');
+      }
+    }
+  }, [open, btnRef.current]);
   const onClick = useCallback(
     (ev) => {
       ev.stopPropagation();
@@ -50,7 +56,7 @@ export default function Button(getDeps, props) {
           ref={popperRef}
           btnRef={btnRef}
           className={props.popperClassName}
-          ariaProps={props.popupAriaProps}
+          popupContainerID={props.popupContainerID}
         />
       ) : null}
     </>
@@ -62,7 +68,6 @@ Button.propTypes /* remove-proptypes */ = {
   instance: PropTypes.object,
   hiddenTabIDs: PropTypes.string,
   TabsComponent: PropTypes.func,
-  containerButtonRef: PropTypes.element,
-  popupAriaProps: PropTypes.object,
+  popupContainerID: PropTypes.string,
   btnAriaProps: PropTypes.object,
 };

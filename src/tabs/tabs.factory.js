@@ -2,10 +2,10 @@ import React from 'react';
 import {ApiContext} from '../context.js';
 import PropTypes from 'prop-types';
 function TabsComponent(deps, props, ref) {
-  const {openTabIDs, selectedTabID, dir, isVertical} = props;
+  const {openTabIDs, selectedTabID} = props;
   const {TabsPropsManager, Tab} = deps(React.useContext(ApiContext));
   return (
-    <ul {...TabsPropsManager({dir, isVertical})} ref={ref || null}>
+    <ul {...TabsPropsManager(props)} ref={ref || null}>
       {openTabIDs.map((id) => (
         <Tab key={id} id={id} selectedTabID={selectedTabID}></Tab>
       ))}
@@ -18,4 +18,5 @@ TabsComponent.propTypes /* remove-proptypes */ = {
   dir: PropTypes.string,
   isVertical: PropTypes.bool,
   openTabIDs: PropTypes.array,
+  tablistID: PropTypes.string,
 };

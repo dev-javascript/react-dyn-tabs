@@ -34,7 +34,7 @@ export default function ShowMoreTabs(getDeps, props) {
       ? options.showMoreButtonComponent
       : Button;
   return (
-    <div {...ins.btnContainerPropsGenerator(options.accessibility)}>
+    <div {...ins.btnContainerPropsGenerator()}>
       <ButtonComponent {...ins.btnPropsGenerator(hiddenTabIDs, TabsComponent, options.accessibility)} />
     </div>
   );

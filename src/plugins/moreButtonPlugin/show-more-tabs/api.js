@@ -161,20 +161,10 @@ Object.assign(Api.prototype, {
       ? this.findFirstHiddenTabIndexASC(selectedTabInfo, start, stop)
       : this.findFirstHiddenTabIndexDSCE(selectedTabInfo, start, stop);
   },
-  btnContainerPropsGenerator: function (accessibility) {
+  btnContainerPropsGenerator: function () {
     const {tabClass, showMoreContainerClass} = this.api.optionsManager.setting;
     const className = tabClass + ' ' + showMoreContainerClass;
-    let result = {className, ref: this.btnRef};
-    result =
-      accessibility == true
-        ? Object.assign(result, {
-            role: 'button',
-            'aria-haspopup': 'true',
-            'aria-label': 'More tabs',
-            tabindex: -1,
-          })
-        : result;
-    return result;
+    return {className, ref: this.btnRef};
   },
   btnPropsGenerator: function (hiddenTabIDs, TabsComponent, accessibility) {
     const userButton = this.api.getOption('showMoreButtonComponent');
@@ -188,7 +178,7 @@ Object.assign(Api.prototype, {
       this.api.optionsManager.setting;
     const result = {
       hiddenTabIDs: hiddenTabIDs,
-      containerButtonRef: this.btnRef, //for assigning aria-expanded
+      popupContainerID: this._popupContainerID, //todo
       instance: this.api.userProxy,
       buttonClassName: titleClass + ' ' + showMoreButtonClass,
       TabsComponent,
@@ -199,14 +189,13 @@ Object.assign(Api.prototype, {
         ' ' +
         (this.api.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
         showMorePopperClass,
-      popupAriaProps: {},
       btnAriaProps: {},
     };
     if (accessibility) {
-      result.popupAriaProps.role = 'presentation';
-      result.popupAriaProps.id = this._popupContainerID;
-      result.btnAriaProps['aria-controls'] = this._popupContainerID;
-      result.btnAriaProps.tabindex = 0;
+      result.btnAriaProps.tabIndex = 0;
+      result.btnAriaProps.role = 'button';
+      result.btnAriaProps['aria-haspopup'] = 'true';
+      result.btnAriaProps['aria-label'] = 'More tabs'; //todo
     }
     return result;
   },
