@@ -31,7 +31,7 @@ export default function Button(getDeps, props) {
   return (
     <>
       <div {...ref.current.btnPropsGenerator(onClick, btnRef, open)}>
-        <IconComponent instance={props.instance} />
+        <IconComponent instance={props.instance.userProxy} />
       </div>
       {open ? <Popper {...props} TabsComponent={ref.current.TabsComponent} btnRef={btnRef} /> : null}
     </>

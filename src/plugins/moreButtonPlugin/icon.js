@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 export default function MoreButtonPlugin_iconComponent(props) {
     const style = {};
-    if (props.instance.optionsManager.options.direction === 'rtl') {
+    if (props.instance.getOption('direction') === 'rtl') {
         style.transform = 'rotate(180deg)';
     }
     return (
