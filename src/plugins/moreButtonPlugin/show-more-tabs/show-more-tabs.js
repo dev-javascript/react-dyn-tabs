@@ -1,20 +1,20 @@
-import React, {useState, useRef, useLayoutEffect} from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 export default function ShowMoreTabs(getDeps, props) {
   const {
     components,
-    components: {useRootState, useForceUpdate},
+    components: { useRootState, useForceUpdate },
     ctx,
     ctx: {
-      optionsManager: {options},
+      optionsManager: { options },
     },
   } = props;
   useForceUpdate();
-  const {openTabIDs, selectedTabID} = useRootState();
+  const { openTabIDs, selectedTabID } = useRootState();
   const [hiddenTabIDs, setHiddenTabIDs] = useState('');
-  const {getInstance, resizeDetectorIns, Button} = getDeps();
+  const { getInstance, resizeDetectorIns } = getDeps();
   const ref = useRef();
-  ref.current = ref.current || {ins: getInstance(ctx, setHiddenTabIDs)};
+  ref.current = ref.current || { ins: getInstance(ctx, setHiddenTabIDs) };
   const ins = ref.current.ins;
   const openTabIDsString = openTabIDs.toString();
   useLayoutEffect(() => {
@@ -30,10 +30,7 @@ export default function ShowMoreTabs(getDeps, props) {
     ins.resize();
   }, [openTabIDsString, selectedTabID]);
 
-  const ButtonComponent =
-    options.showMoreButtonComponent && typeof options.showMoreButtonComponent === 'function'
-      ? options.showMoreButtonComponent
-      : Button;
+  const ButtonComponent = ctx.optionsManager.options.moreButtonPlugin_buttonComponent;
   return (
     <div {...ins.btnContainerPropsGenerator()}>
       <ButtonComponent {...ins.btnPropsGenerator(hiddenTabIDs, components)} />

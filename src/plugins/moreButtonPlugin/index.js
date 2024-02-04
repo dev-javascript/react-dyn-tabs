@@ -1,5 +1,6 @@
 import React from 'react';
 import ShowMoreTabs from './show-more-tabs/index.js';
+import moreButtonPlugin_buttonComponent from './button/index.js';
 import PropTypes from 'prop-types';
 
 function ShowMoreButton(deps, props) {
@@ -13,7 +14,7 @@ ShowMoreButton.propTypes /* remove-proptypes */ = {
   children: PropTypes.element,
 };
 function setTablistOverflow(ctx, components) {
-  components.MoreButtonPlugin = ShowMoreButton.bind(undefined, {ctx, components});
+  components.MoreButtonPlugin = ShowMoreButton.bind(undefined, { ctx, components });
   if (!components.OriginalTablistOverflow) {
     components.OriginalTablistOverflow = components.TablistOverflow;
     components.TablistOverflow = function (props) {
@@ -29,13 +30,19 @@ function setTablistOverflow(ctx, components) {
 function setTablistView(ctx, components) {
   components.TablistView = components.TablistViewFactory.bind(undefined, (ins) => ({
     tablistViewPropsManager: () => {
-      let {className} = components.tablistViewPropsManager(ins);
+      let { className } = components.tablistViewPropsManager(ins);
       className += ' rc-dyn-tabs-responsive';
-      return {className};
+      return { className };
     },
   }));
 }
+function setDefaultOptions(ctx) {
+  ctx.optionsManager.options = Object.assign({
+    moreButtonPlugin_buttonComponent
+  }, ctx.optionsManager.options);
+};
 export default function ResponsiveFactory(ctx, components) {
+  setDefaultOptions(ctx);
   setTablistView(ctx, components);
   setTablistOverflow(ctx, components);
 }
