@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 export default function Button(getDeps, props) {
   const { Popper, Api } = getDeps();
@@ -7,6 +7,7 @@ export default function Button(getDeps, props) {
   const btnRef = useRef();
   const popperRef = useRef();
   const ref = useRef();
+  props.components.useForceUpdate();
   ref.current = ref.current || Api.call(props.instance, props.components);
   useEffect(() => {
     const close = () => setOpen(false);
