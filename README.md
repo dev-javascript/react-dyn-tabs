@@ -1202,10 +1202,28 @@ export default () => {
 
 **Options**
 
-- `showMoreButtonComponent`
-    * description : Customize `show more` button component
-    * type : `React component`
-    * required : no
+<table>
+  <tbody>
+    <tr>
+      <th>option name</th>
+      <th>type</th>
+      <th>default value</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>moreButtonPlugin_buttonComponent *</td>
+      <td>React Component</td>
+      <td></td>
+      <td>customize button component of more button plugin</td>
+    </tr>
+    <tr>
+      <td>moreButtonPlugin_iconComponent *</td>
+      <td>React Component</td>
+      <td></td>
+      <td>customize icon component of more button plugin</td>
+    </tr>
+</table>
+  </tbody>
 
 ## Render custom components at the end of the Tablist
 
