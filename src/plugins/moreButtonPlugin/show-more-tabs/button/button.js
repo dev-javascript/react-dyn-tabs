@@ -37,15 +37,7 @@ export default function Button(getDeps, props) {
           />
         </svg>
       </div>
-      {open ? (
-        <Popper
-          {...props}
-          TabsComponent={ref.current.TabsComponent}
-          ref={popperRef}
-          btnRef={btnRef}
-          className={ref.current.getPopperClassName()}
-        />
-      ) : null}
+      {open ? <Popper {...props} TabsComponent={ref.current.TabsComponent} ref={popperRef} btnRef={btnRef} /> : null}
     </>
   );
 }

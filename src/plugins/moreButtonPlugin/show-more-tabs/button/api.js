@@ -82,17 +82,6 @@ export default function Api(components) {
           })),
         );
       },
-      getPopperClassName: function () {
-        const {showMorePopperClass, tablistViewClass, verticalClass, rtlClass} = this._api.optionsManager.setting;
-        return (
-          tablistViewClass +
-          ' ' +
-          verticalClass +
-          ' ' +
-          (this._api.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
-          showMorePopperClass
-        );
-      },
     },
   ))(this);
 }
