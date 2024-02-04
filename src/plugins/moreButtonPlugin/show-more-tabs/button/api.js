@@ -77,7 +77,7 @@ export default function Api(components) {
               }
               return rest;
             },
-            tabInnerPropsManager: (props) => this._components.tabInnerPropsManager(ins, props),
+            tabInnerPropsManager: (props) => ({...this._components.tabInnerPropsManager(ins, props), popup: true}),
             closeIconPropsManager: () => this._components.closeIconPropsManager(ins),
           })),
         );
