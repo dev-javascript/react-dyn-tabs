@@ -1,4 +1,3 @@
-import {forwardRef} from 'react';
 import createPopper from './createPopper.js';
 import getPopperMaxHeight from './getPopperMaxHeight.js';
 import getClassName from './getClassName.js';
@@ -12,4 +11,4 @@ const getDeps = () => ({
   getClassName,
   clk,
 });
-export default forwardRef(Popper.bind(null, getDeps));
+export default Popper.bind(null, getDeps);

@@ -5,7 +5,6 @@ export default function Button(getDeps, props) {
   const [open, setOpen] = useState(false);
   const closePopper = useCallback(() => setOpen(false), []);
   const btnRef = useRef();
-  const popperRef = useRef();
   const ref = useRef();
   props.components.useForceUpdate();
   ref.current = ref.current || Api.call(props.instance, props.components);
@@ -34,7 +33,7 @@ export default function Button(getDeps, props) {
       <div {...ref.current.btnPropsGenerator(onClick, btnRef, open)}>
         <IconComponent instance={props.instance} />
       </div>
-      {open ? <Popper {...props} TabsComponent={ref.current.TabsComponent} ref={popperRef} btnRef={btnRef} /> : null}
+      {open ? <Popper {...props} TabsComponent={ref.current.TabsComponent} btnRef={btnRef} /> : null}
     </>
   );
 }
