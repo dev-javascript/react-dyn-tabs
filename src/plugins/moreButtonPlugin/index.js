@@ -1,6 +1,7 @@
 import React from 'react';
 import ShowMoreTabs from './show-more-tabs/index.js';
 import moreButtonPlugin_buttonComponent from './button/index.js';
+import moreButtonPlugin_iconComponent from './icon.js';
 import PropTypes from 'prop-types';
 
 function ShowMoreButton(deps, props) {
@@ -38,7 +39,8 @@ function setTablistView(ctx, components) {
 }
 function setDefaultOptions(ctx) {
   ctx.optionsManager.options = Object.assign({
-    moreButtonPlugin_buttonComponent
+    moreButtonPlugin_buttonComponent,
+    moreButtonPlugin_iconComponent
   }, ctx.optionsManager.options);
 };
 export default function ResponsiveFactory(ctx, components) {

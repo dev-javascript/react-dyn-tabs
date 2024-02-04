@@ -4,10 +4,7 @@ export default function ShowMoreTabs(getDeps, props) {
   const {
     components,
     components: { useRootState, useForceUpdate },
-    ctx,
-    ctx: {
-      optionsManager: { options },
-    },
+    ctx
   } = props;
   useForceUpdate();
   const { openTabIDs, selectedTabID } = useRootState();
