@@ -12,9 +12,6 @@ export const TabsPropsManager = function (ins, props) {
   if (ins.getOption('accessibility')) {
     result.role = 'tablist';
   }
-  if (props.tablistID) {
-    result.id = props.tablistID;
-  }
   return result;
 };
 export default forwardRef(

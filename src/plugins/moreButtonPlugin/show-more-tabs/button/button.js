@@ -1,15 +1,13 @@
 import React, {useState, useCallback, useRef, useEffect, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function Button(getDeps, props) {
-  const {popupContainerID} = props;
-  const {Popper} = getDeps();
+  const {Popper, Api} = getDeps();
   const [open, setOpen] = useState(false);
+  const closePopper = useCallback(() => setOpen(false), []);
   const btnRef = useRef();
   const popperRef = useRef();
   const ref = useRef();
-  ref.current = ref.current || {
-    closePopper: () => setOpen(false),
-  };
+  ref.current = ref.current || Api.call(props.instance, props.components);
   useEffect(() => {
     const close = () => setOpen(false);
     props.instance.on('onSelect', close);
@@ -17,32 +15,21 @@ export default function Button(getDeps, props) {
       props.instance && props.instance.off && props.instance.off('onSelect', close);
     };
   }, []);
-  useLayoutEffect(() => {
-    if (btnRef.current && props.instance.getOption('accessibility')) {
-      if (open) {
-        btnRef.current.setAttribute('aria-expanded', true);
-        btnRef.current.setAttribute('aria-controls', popupContainerID);
-      } else {
-        btnRef.current.setAttribute('aria-expanded', false);
-        btnRef.current.removeAttribute('aria-controls');
-      }
-    }
-  }, [open, btnRef.current]);
   const onClick = useCallback(
     (ev) => {
       ev.stopPropagation();
-      window.document.removeEventListener('click', ref.current.closePopper, {once: true});
-      window.document.addEventListener('click', ref.current.closePopper, {once: true});
+      window.document.removeEventListener('click', closePopper, {once: true});
+      window.document.addEventListener('click', closePopper, {once: true});
       setOpen(!open);
       return () => {
-        window.document.removeEventListener('click', ref.current.closePopper, {once: true});
+        window.document.removeEventListener('click', closePopper, {once: true});
       };
     },
     [open],
   );
   return (
     <>
-      <div onClick={onClick} ref={btnRef} className={props.buttonClassName} {...props.btnAriaProps}>
+      <div {...ref.current.btnPropsGenerator(onClick, btnRef, open)}>
         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" title="More tabs">
           <path
             fill="gray"
@@ -53,21 +40,17 @@ export default function Button(getDeps, props) {
       {open ? (
         <Popper
           {...props}
+          TabsComponent={ref.current.TabsComponent}
           ref={popperRef}
           btnRef={btnRef}
-          className={props.popperClassName}
-          popupContainerID={props.popupContainerID}
+          className={ref.current.getPopperClassName()}
         />
       ) : null}
     </>
   );
 }
 Button.propTypes /* remove-proptypes */ = {
-  buttonClassName: PropTypes.string,
-  popperClassName: PropTypes.string,
   instance: PropTypes.object,
   hiddenTabIDs: PropTypes.string,
-  TabsComponent: PropTypes.func,
-  popupContainerID: PropTypes.string,
-  btnAriaProps: PropTypes.object,
+  components: PropTypes.object,
 };

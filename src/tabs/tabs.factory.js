@@ -18,5 +18,4 @@ TabsComponent.propTypes /* remove-proptypes */ = {
   dir: PropTypes.string,
   isVertical: PropTypes.bool,
   openTabIDs: PropTypes.array,
-  tablistID: PropTypes.string,
 };

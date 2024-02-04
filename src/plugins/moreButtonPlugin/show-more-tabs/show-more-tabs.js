@@ -2,7 +2,8 @@ import React, {useState, useRef, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function ShowMoreTabs(getDeps, props) {
   const {
-    components: {Tabs: TabsComponent, useRootState, useForceUpdate},
+    components,
+    components: {useRootState, useForceUpdate},
     ctx,
     ctx: {
       optionsManager: {options},
@@ -35,12 +36,12 @@ export default function ShowMoreTabs(getDeps, props) {
       : Button;
   return (
     <div {...ins.btnContainerPropsGenerator()}>
-      <ButtonComponent {...ins.btnPropsGenerator(hiddenTabIDs, TabsComponent, options.accessibility)} />
+      <ButtonComponent {...ins.btnPropsGenerator(hiddenTabIDs, components)} />
     </div>
   );
 }
 ShowMoreTabs.propTypes /* remove-proptypes */ = {
   ctx: PropTypes.object,
   contexts: PropTypes.object,
-  TabsComponent: PropTypes.func,
+  components: PropTypes.object,
 };

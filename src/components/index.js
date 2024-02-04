@@ -9,9 +9,8 @@ import TablistOverflow, {tablistOverflowPropsManager} from '../tablistOverflow/t
 import TablistOverflowFactory from '../tablistOverflow/tablistOverflow.factory.js';
 import Tabs, {TabsPropsManager} from '../tabs/tabs.js';
 import TabsFactory from '../tabs/tabs.factory.js';
-import Tab, {tabPropsManager, tabInnerPropsManager, closeIconPropsManager} from '../tab/tab.js';
+import Tab, {tabPropsManager, tabInnerPropsManager, closeIconPropsManager, memomizeTab} from '../tab/tab.js';
 import TabFactory from '../tab/tab.factory.js';
-import memomizeTab from '../tab/memomizeTab.js';
 import {useApi, useRootState, useForceUpdate} from '../hooks.js';
 export default {
   TablistView,
@@ -33,8 +32,8 @@ export default {
   tabPropsManager,
   tabInnerPropsManager,
   closeIconPropsManager,
-  TabFactory,
   memomizeTab,
+  TabFactory,
   PanelList,
   useApi,
   useRootState,

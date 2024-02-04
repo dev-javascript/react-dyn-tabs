@@ -1,5 +1,5 @@
 import Tab from './tab.factory.js';
-import memomizeTab from './memomizeTab.js';
+import memomizeTabComponent from './memomizeTab.js';
 export const tabPropsManager = function tabPropsManager(ins, props) {
   const {id, selectedTabID} = props;
   const isSelected = selectedTabID === id;
@@ -64,7 +64,8 @@ export const closeIconPropsManager = function closeIconPropsManager(ins) {
   }
   return outputProps;
 };
-export default memomizeTab(
+export const memomizeTab = memomizeTabComponent;
+export default memomizeTabComponent(
   Tab.bind(undefined, (ins) => ({
     tabPropsManager: (props) => tabPropsManager(ins, props),
     tabInnerPropsManager: (props) => tabInnerPropsManager(ins, props),

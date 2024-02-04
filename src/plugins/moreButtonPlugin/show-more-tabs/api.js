@@ -1,4 +1,3 @@
-let instanceCounter = 0;
 const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.api = ctx;
   this.tablistEl = null;
@@ -8,7 +7,6 @@ const Api = function ({getElManagementIns, btnRef, ctx, setHiddenTabIDs}) {
   this.tabsCount = null;
   this.btnRef = btnRef;
   this._setHiddenTabIDs = setHiddenTabIDs;
-  this._popupContainerID = `rc-dyn-tabs-popupcontainer_${instanceCounter++}`;
 };
 Object.assign(Api.prototype, {
   setEls: function () {
@@ -166,38 +164,19 @@ Object.assign(Api.prototype, {
     const className = tabClass + ' ' + showMoreContainerClass;
     return {className, ref: this.btnRef};
   },
-  btnPropsGenerator: function (hiddenTabIDs, TabsComponent, accessibility) {
+  btnPropsGenerator: function (hiddenTabIDs, components) {
     const userButton = this.api.getOption('showMoreButtonComponent');
-    if (userButton && typeof userButton === 'function') {
+    if (userButton && typeof userButton === 'function')
       return {
         hiddenTabIDs: hiddenTabIDs,
         instance: this.api.userProxy,
       };
-    }
-    const {showMoreButtonClass, showMorePopperClass, titleClass, tablistViewClass, verticalClass, rtlClass} =
-      this.api.optionsManager.setting;
-    const result = {
-      hiddenTabIDs: hiddenTabIDs,
-      popupContainerID: this._popupContainerID, //todo
-      instance: this.api.userProxy,
-      buttonClassName: titleClass + ' ' + showMoreButtonClass,
-      TabsComponent,
-      popperClassName:
-        tablistViewClass +
-        ' ' +
-        verticalClass +
-        ' ' +
-        (this.api.getOption('direction') == 'rtl' ? rtlClass + ' ' : '') +
-        showMorePopperClass,
-      btnAriaProps: {},
-    };
-    if (accessibility) {
-      result.btnAriaProps.tabIndex = 0;
-      result.btnAriaProps.role = 'button';
-      result.btnAriaProps['aria-haspopup'] = 'true';
-      result.btnAriaProps['aria-label'] = 'More tabs'; //todo
-    }
-    return result;
+    else
+      return {
+        hiddenTabIDs: hiddenTabIDs,
+        instance: this.api,
+        components,
+      };
   },
 });
 export default Api;

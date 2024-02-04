@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function Popper(getDeps, props, popperRef) {
   const {createPopper, getPopperMaxHeight, clk} = getDeps();
-  const {TabsComponent, instance, hiddenTabIDs, btnRef, className, popupContainerID: tablistID} = props;
+  const {TabsComponent, instance, hiddenTabIDs, btnRef, className} = props;
   useLayoutEffect(() => {
     popperRef.current.style.maxHeight = getPopperMaxHeight(btnRef.current, 15) + 'px';
     const popperIns = createPopper(btnRef.current, popperRef.current);
@@ -20,7 +20,6 @@ export default function Popper(getDeps, props, popperRef) {
           openTabIDs={openedTabIDs}
           dir={instance.getOption('direction')}
           isVertical={true}
-          tablistID={tablistID}
         />
       </div>
     </>
@@ -32,5 +31,4 @@ Popper.propTypes /* remove-proptypes */ = {
   instance: PropTypes.object,
   btnRef: PropTypes.object,
   TabsComponent: PropTypes.func,
-  popupContainerID: PropTypes.string,
 };
