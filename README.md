@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/dev-javascript/react-dyn-tabs/graph/badge.svg?token=GT1LU074L2)](https://codecov.io/gh/dev-javascript/react-dyn-tabs)
+
 # react-dyn-tabs
 
 React Dynamic Tabs with full API
