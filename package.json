@@ -51,10 +51,11 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime-corejs3": "^7.13.10",
-    "@rollup/plugin-node-resolve": "^13.1.3",
     "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
     "css-loader": "^4.3.0",
     "eslint": "^7.27.0",
@@ -112,7 +113,8 @@
   "jest": {
     "setupFilesAfterEnv": [
       "jest-extended"
-    ]
+    ],
+    "collectCoverage": true
   },
   "dependencies": {
     "prop-types": "^15.7.2"
