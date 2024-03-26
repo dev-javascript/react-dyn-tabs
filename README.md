@@ -1179,7 +1179,7 @@ useDynTabs({
 
 Make Tabs `responsive`
 
-**Example**
+**Usage**
 
 ```js
 import React from 'react';
@@ -1222,8 +1222,18 @@ export default () => {
       <td></td>
       <td>customize icon component of more button plugin</td>
     </tr>
-</table>
   </tbody>
+</table>
+
+**Example**
+
+```js
+ useDynamicTabs({
+    moreButtonPlugin_iconComponent: ({ instance }) => {
+      return <i className={`fa fa-chevron-${instance.getOption('direction') === 'rtl' ? 'left' : 'right'}`} />
+    }
+ }, [MoreButtonPlugin]);
+```
 
 ## Render custom components at the end of the Tablist
 

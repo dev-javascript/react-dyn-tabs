@@ -1,5 +1,4 @@
 #ide
-/.vscode
 
 # dependencies
 /node_modules
@@ -9,6 +8,7 @@ example/node_modules
 
 # testing
 /coverage
+/sandbox
 
 # production
 /build
