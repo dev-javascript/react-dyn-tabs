@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/dev-javascript/react-dyn-tabs/graph/badge.svg?token=GT1LU074L2)](https://codecov.io/gh/dev-javascript/react-dyn-tabs)
+[![codecov](https://codecov.io/gh/dev-javascript/react-dyn-tabs/graph/badge.svg?token=GT1LU074L2)](https://codecov.io/gh/dev-javascript/react-dyn-tabs/branch/dev-javascript-patch-1)
 
 # react-dyn-tabs
 
