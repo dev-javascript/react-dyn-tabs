@@ -31,7 +31,7 @@
     "build:scss:pro": "sass themes/minified-scss:themes style/minified-scss:style --style compressed --no-source-map",
     "clean:lib": "rimraf lib",
     "clean:dist": "rimraf dist",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "jest",
     "lint": "eslint src",
     "deploy": "gh-pages -d demo"
