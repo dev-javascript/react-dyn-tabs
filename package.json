@@ -22,8 +22,7 @@
     "watch": "set NODE_OPTIONS=--openssl-legacy-provider & npm-run-all --parallel watch:*",
     "watch:scss": "sass --watch themes/scss:themes style/scss:style --no-source-map",
     "watch:js": "cross-env BABEL_OUTPUT=umd INCLUDE_POLYFILLS=true webpack --config webpack.config.js --env=development --watch",
-    "prebuild":"set NODE_OPTIONS=--openssl-legacy-provider",
-    "build": "npm-run-all clean:* --parallel build:lib:* build:scss:*  & npm run build:dist",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider & npm-run-all clean:* --parallel build:lib:* build:scss:*  & npm run build:dist",
     "build:dist": "rollup -c",
     "build:lib:cjs": "cross-env BABEL_OUTPUT=cjs babel src/ --out-dir lib/cjs/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
     "build:lib:esm": "babel src/ --out-dir lib/esm/ --ignore **/__tests__,**/__mocks__,**/*.test.js,**/*.js.snap",
@@ -32,7 +31,7 @@
     "build:scss:pro": "sass themes/minified-scss:themes style/minified-scss:style --style compressed --no-source-map",
     "clean:lib": "rimraf lib",
     "clean:dist": "rimraf dist",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "jest",
     "lint": "eslint src",
     "deploy": "gh-pages -d demo"
@@ -117,7 +116,8 @@
   "jest": {
     "setupFilesAfterEnv": [
       "jest-extended"
-    ]
+    ],
+    "collectCoverage": true
   },
   "sideEffects": false,
   "dependencies": {
