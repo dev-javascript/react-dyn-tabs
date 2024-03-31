@@ -165,7 +165,7 @@ Object.assign(Api.prototype, {
     return {className, ref: this.btnRef};
   },
   btnPropsGenerator: function (hiddenTabIDs, components) {
-    const userButton = this.api.getOption('showMoreButtonComponent');
+    const userButton = this.api.getOption('moreButtonPlugin_buttonComponent');
     if (userButton && typeof userButton === 'function')
       return {
         hiddenTabIDs: hiddenTabIDs,

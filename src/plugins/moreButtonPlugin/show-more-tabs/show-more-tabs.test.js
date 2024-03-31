@@ -220,19 +220,19 @@ describe('resize detector should be called correctly : ', () => {
   });
 });
 describe('button component : ', () => {
-  test('default button component should be rendered when showMoreButtonComponent option is not provided', () => {
+  test('default button component should be rendered when moreButtonPlugin_buttonComponent option is not provided', () => {
     renderApp({});
     expect(document.getElementById('built-in-button') != null).toBe(true);
   });
-  test('user button component should be rendered when showMoreButtonComponent option is provided', () => {
-    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+  test('user button component should be rendered when moreButtonPlugin_buttonComponent option is provided', () => {
+    renderApp({moreButtonPlugin_buttonComponent: () => <button id="user-button" />});
     expect(document.getElementById('built-in-button') != null).toBe(false);
     expect(document.getElementById('user-button') != null).toBe(true);
   });
-  test('showMoreButtonComponent option should be a function component and not a React element', () => {
-    renderApp({showMoreButtonComponent: () => <button id="user-button" />});
+  test('moreButtonPlugin_buttonComponent option should be a function component and not a React element', () => {
+    renderApp({moreButtonPlugin_buttonComponent: () => <button id="user-button" />});
     expect(document.getElementById('user-button') != null).toBe(true);
-    renderApp({showMoreButtonComponent: <button id="user-button-element" />});
+    renderApp({moreButtonPlugin_buttonComponent: <button id="user-button-element" />});
     expect(document.getElementById('user-button-element') != null).toBe(false);
     expect(document.getElementById('built-in-button') != null).toBe(true);
   });
