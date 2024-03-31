@@ -80,6 +80,7 @@ React Dynamic Tabs with full API
 ```js
 $ npm install react-dyn-tabs --save
 ```
+
 or
 
 ```js
@@ -89,7 +90,7 @@ $ yarn add react-dyn-tabs
 ## Syntax
 
 ```js
- [TabList,PanelList,ready] = useDynTabs(initialOptions,plugins);
+[TabList, PanelList, ready] = useDynTabs(initialOptions, plugins);
 ```
 
 ## Minimal Usage Example
@@ -155,14 +156,14 @@ export default () => {
   const [TabList, PanelList, ready] = useDynTabs(initialOptions);
   const addTab3 = function () {
     ready((instance) => {
-        // open tab 3
-        instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
-          console.log('tab 3 is open');
-        });
-        // switch to tab 3
-        instance.select('3').then(() => {
-          console.log('tab 3 is selected');
-        });
+      // open tab 3
+      instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
+        console.log('tab 3 is open');
+      });
+      // switch to tab 3
+      instance.select('3').then(() => {
+        console.log('tab 3 is selected');
+      });
     });
   };
 
@@ -180,12 +181,11 @@ export default () => {
 
 - Use `ready` function to access the `instance` object
 
-    ```js
-        ready((instance) => {
-            // manipulate tabs using instance object here
-        });
-
-    ```
+  ```js
+  ready((instance) => {
+    // manipulate tabs using instance object here
+  });
+  ```
 
 - `ready` function accepts a `callback` as its parameter and executes it as soon as Tabs get mounted.
 
@@ -371,8 +371,6 @@ const [TabList, PanelList, ready] = useDynTabs({
   },
 });
 ```
-
-
 
 ### accessibility
 
@@ -886,7 +884,7 @@ Parameters:
 **Example**
 
 ```js
-const {id,title,tooltip,disable,lazy,iconClass,closable,panelComponent} = instance.getTab('contactID');
+const {id, title, tooltip, disable, lazy, iconClass, closable, panelComponent} = instance.getTab('contactID');
 console.log(id); //contactID
 ```
 
@@ -1197,7 +1195,6 @@ export default () => {
     </div>
   );
 };
-
 ```
 
 **Options**
@@ -1207,20 +1204,22 @@ export default () => {
     <tr>
       <th>option name</th>
       <th>type</th>
-      <th>default value</th>
       <th>description</th>
     </tr>
     <tr>
-      <td>moreButtonPlugin_buttonComponent *</td>
-      <td>React Component</td>
-      <td></td>
-      <td>customize button component of more button plugin</td>
+      <td>moreButtonPlugin_buttonComponent</td>
+      <td>React Function Component</td>
+      <td>customize root component of more button</td>
     </tr>
     <tr>
-      <td>moreButtonPlugin_iconComponent *</td>
-      <td>React Component</td>
+      <td>moreButtonPlugin_iconComponent</td>
+      <td>React Function Component</td>
+      <td>customize icon component of more button</td>
+    </tr>
+    <tr>
+      <td>moreButtonPlugin_buttonTooltip</td>
+      <td>string</td>
       <td></td>
-      <td>customize icon component of more button plugin</td>
     </tr>
   </tbody>
 </table>
@@ -1228,48 +1227,53 @@ export default () => {
 **Example**
 
 ```js
- useDynamicTabs({
-    moreButtonPlugin_iconComponent: ({ instance }) => {
-      return <i className={`fa fa-chevron-${instance.getOption('direction') === 'rtl' ? 'left' : 'right'}`} />
-    }
- }, [MoreButtonPlugin]);
+useDynamicTabs(
+  {
+    moreButtonPlugin_iconComponent: ({instance}) => {
+      return <i className={`fa fa-chevron-${instance.getOption('direction') === 'rtl' ? 'left' : 'right'}`} />;
+    },
+  },
+  [MoreButtonPlugin],
+);
 ```
 
 ## Render custom components at the end of the Tablist
 
 - render `new tab` button example :
-    ```js
-      const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
-      return (
-        <div>
-          <TabList>
-            <button onClick={()=>{ ready(instance => instance.open({title:'new tab'})) }}>
-              NEW
-            </button>
-          </TabList>
-          <PanelList></PanelList>
-        </div>
-      );
-    };
-    
-    ```
+
+  ```js
+    const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+    return (
+      <div>
+        <TabList>
+          <button onClick={()=>{ ready(instance => instance.open({title:'new tab'})) }}>
+            NEW
+          </button>
+        </TabList>
+        <PanelList></PanelList>
+      </div>
+    );
+  };
+
+  ```
 
 - render `close all` button example :
-    ```js
-      const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
-      return (
-        <div>
-          <TabList>
-            <button onClick={()=>{ ready(instance=>{ instance.getData().openTabIDs.forEach(id=>instance.close(id,false)); })}}>
-              CLOSE ALL
-            </button>
-          </TabList>
-          <PanelList></PanelList>
-        </div>
-      );
-    };
-    
-    ```
+
+  ```js
+    const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+    return (
+      <div>
+        <TabList>
+          <button onClick={()=>{ ready(instance=>{ instance.getData().openTabIDs.forEach(id=>instance.close(id,false)); })}}>
+            CLOSE ALL
+          </button>
+        </TabList>
+        <PanelList></PanelList>
+      </div>
+    );
+  };
+
+  ```
 
 ## Styling
 
