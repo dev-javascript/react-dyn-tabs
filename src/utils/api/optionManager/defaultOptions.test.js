@@ -20,7 +20,6 @@ describe('DefaultOptions.prototype.getOptions : ', () => {
       defaultPanelComponent: expect.any(Function),
       direction: 'ltr',
       tabComponent: expect.any(Function),
-      showMoreButtonComponent: null,
     };
     const received = new DefaultOptions(DefaultTabInnerComponent).getOptions();
     expect(received).toEqual(expected);

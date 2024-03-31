@@ -34,7 +34,6 @@ export default Helper.module(
         defaultPanelComponent: function defaultPanelComponent() {
           return <div></div>;
         },
-        showMoreButtonComponent: null,
       };
       let _direction = this.defaultDirection,
         _tabComponent = this._DefaulTabInnerComponent;
