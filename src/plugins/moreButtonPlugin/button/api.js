@@ -22,6 +22,7 @@ export default function Api(components) {
           onClick,
           ref,
           className: this._api.getSetting('titleClass') + ' ' + this._api.getSetting('showMoreButtonClass'),
+          title: this._api.getOption('moreButtonPlugin_buttonTooltip'),
         };
         if (this._api.getOption('accessibility')) {
           result.tabIndex = 0;

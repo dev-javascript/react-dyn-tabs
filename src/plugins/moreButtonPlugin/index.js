@@ -15,7 +15,7 @@ ShowMoreButton.propTypes /* remove-proptypes */ = {
   children: PropTypes.element,
 };
 function setTablistOverflow(ctx, components) {
-  components.MoreButtonPlugin = ShowMoreButton.bind(undefined, { ctx, components });
+  components.MoreButtonPlugin = ShowMoreButton.bind(undefined, {ctx, components});
   if (!components.OriginalTablistOverflow) {
     components.OriginalTablistOverflow = components.TablistOverflow;
     components.TablistOverflow = function (props) {
@@ -31,18 +31,22 @@ function setTablistOverflow(ctx, components) {
 function setTablistView(ctx, components) {
   components.TablistView = components.TablistViewFactory.bind(undefined, (ins) => ({
     tablistViewPropsManager: () => {
-      let { className } = components.tablistViewPropsManager(ins);
+      let {className} = components.tablistViewPropsManager(ins);
       className += ' rc-dyn-tabs-responsive';
-      return { className };
+      return {className};
     },
   }));
 }
 function setDefaultOptions(ctx) {
-  ctx.optionsManager.options = Object.assign({
-    moreButtonPlugin_buttonComponent,
-    moreButtonPlugin_iconComponent
-  }, ctx.optionsManager.options);
-};
+  ctx.optionsManager.options = Object.assign(
+    {
+      moreButtonPlugin_buttonComponent,
+      moreButtonPlugin_iconComponent,
+      moreButtonPlugin_buttonTooltip: 'show more',
+    },
+    ctx.optionsManager.options,
+  );
+}
 export default function ResponsiveFactory(ctx, components) {
   setDefaultOptions(ctx);
   setTablistView(ctx, components);
