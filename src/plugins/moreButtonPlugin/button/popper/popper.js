@@ -1,17 +1,23 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, {useLayoutEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 export default function Popper(getDeps, props) {
-  const { createPopper, getPopperMaxHeight, getClassName, clk } = getDeps();
-  const { TabsComponent, instance, hiddenTabIDs, btnRef } = props;
+  const {createPopper, getPopperMaxHeight, getClassName, clk} = getDeps();
+  const {TabsComponent, instance, hiddenTabIDs, btnRef} = props;
   const popperRef = useRef();
+  const ref = useRef();
+  ref.current = ref.current || {};
   useLayoutEffect(() => {
     popperRef.current.style.maxHeight = getPopperMaxHeight(btnRef.current, 15) + 'px';
     const popperIns = createPopper(btnRef.current, popperRef.current);
+    ref.current.popperIns = popperIns;
     return () => {
       popperIns.destroy();
     };
   }, []);
-  const { selectedTabID } = instance.getData();
+  useLayoutEffect(() => {
+    ref.current.popperIns.update();
+  }, [hiddenTabIDs]);
+  const {selectedTabID} = instance.getData();
   const openedTabIDs = hiddenTabIDs ? hiddenTabIDs.split(',') : [];
   return (
     <>
