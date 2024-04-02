@@ -117,7 +117,10 @@
     "setupFilesAfterEnv": [
       "jest-extended"
     ],
-    "collectCoverage": true
+    "collectCoverage": true,
+    "modulePathIgnorePatterns": [
+      "./src/plugins/moreButtonPlugin/button/popper"
+    ]
   },
   "sideEffects": false,
   "dependencies": {

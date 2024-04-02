@@ -15,7 +15,7 @@ export default function Popper(getDeps, props) {
     };
   }, []);
   useLayoutEffect(() => {
-    ref.current.popperIns.update();
+    ref.current && ref.current.popperIns && ref.current.popperIns.update();
   }, [hiddenTabIDs]);
   const {selectedTabID} = instance.getData();
   const openedTabIDs = hiddenTabIDs ? hiddenTabIDs.split(',') : [];
