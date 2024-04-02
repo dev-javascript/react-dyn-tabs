@@ -1,32 +1,26 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 export default function Button(getDeps, props) {
-  const { Popper, Api } = getDeps();
+  const {Popper, Api} = getDeps();
   const [open, setOpen] = useState(false);
-  const closePopper = useCallback(() => setOpen(false), []);
   const btnRef = useRef();
   const ref = useRef();
   props.components.useForceUpdate();
-  ref.current = ref.current || Api.call(props.instance, props.components);
-  useEffect(() => {
-    const close = () => setOpen(false);
-    props.instance.on('onSelect', close);
-    return () => {
-      props.instance && props.instance.off && props.instance.off('onSelect', close);
-    };
-  }, []);
+  ref.current = ref.current || Api.call(props.instance, props.components, setOpen);
+
   const onClick = useCallback(
     (ev) => {
-      ev.stopPropagation();
-      window.document.removeEventListener('click', closePopper, { once: true });
-      window.document.addEventListener('click', closePopper, { once: true });
-      setOpen(!open);
-      return () => {
-        window.document.removeEventListener('click', closePopper, { once: true });
-      };
+      ref.current.onButtonClick(ev, open);
     },
     [open],
   );
+  useEffect(() => {
+    ref.current.onMount();
+    return () => {
+      ref?.current && ref.current.onDestroy && ref.current.onDestroy();
+    };
+  }, []);
+
   const IconComponent = props.instance.optionsManager.options.moreButtonPlugin_iconComponent;
   return (
     <>

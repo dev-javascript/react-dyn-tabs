@@ -1,6 +1,6 @@
 import {forwardRef} from 'react';
 let _counter = 0;
-export default function Api(components) {
+export default function Api(components, setOpen) {
   return new (this.helper.module(
     function (api) {
       this._components = components;
@@ -9,6 +9,14 @@ export default function Api(components) {
       this._buttonID = this._getButtonID();
       this._tablistID = this._getTabListID();
       this.TabsComponent = this._getTabsComponent();
+      (this._closePopper = () => {
+        setOpen(false);
+      }),
+        (this._togglePopper = (open) => {
+          setOpen(!open);
+        });
+      this._onBackdropClick = this._onBackdropClick.bind(this);
+      this._onSelectTab = this._onSelectTab.bind(this);
     },
     {
       _getTabListID: function () {
@@ -28,7 +36,7 @@ export default function Api(components) {
           result.tabIndex = 0;
           result.role = 'button';
           result['aria-haspopup'] = 'true';
-          result['aria-label'] = 'More tabs'; //todo
+          result['aria-label'] = result.title; //todo
           result.id = this._buttonID;
           result['aria-controls'] = this._tablistID;
           result['aria-expanded'] = isOpen;
@@ -82,6 +90,38 @@ export default function Api(components) {
             closeIconPropsManager: () => this._components.closeIconPropsManager(ins),
           })),
         );
+      },
+      onButtonClick: function (ev, open) {
+        ev.stopPropagation();
+        this._registerBackdropEvent()._togglePopper(open);
+      },
+      _onBackdropClick: function () {
+        this._closePopper();
+      },
+      _onSelectTab: function () {
+        this._closePopper();
+      },
+      _registerBackdropEvent: function () {
+        window.document.removeEventListener('click', this._onBackdropClick, {once: true});
+        window.document.addEventListener('click', this._onBackdropClick, {once: true});
+        return this;
+      },
+      _CleanBackdropEvent: function () {
+        window.document.removeEventListener('click', this._onBackdropClick, {once: true});
+        return this;
+      },
+      onDestroy: function () {
+        this._CleanBackdropEvent();
+        this._cleanSelectEvent();
+      },
+      _registerSelectEvent: function () {
+        this._api.on('onSelect', this._onSelectTab);
+      },
+      _cleanSelectEvent: function () {
+        this?._api && this._api.off && this._api.off('onSelect', this._onSelectTab);
+      },
+      onMount: function () {
+        this._registerSelectEvent();
       },
     },
   ))(this);

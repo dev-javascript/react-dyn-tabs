@@ -1,67 +1,323 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Default show more button structure :  default 1`] = `
-<div
-  className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
->
+exports[`DISABLE ACCESIBILITY :  DEFAULT: 1`] = `
+<div>
   <div
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
     onClick={[Function]}
   >
-    <svg
-      height="1em"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      instance={
+        Object {
+          "close": [Function],
+          "getCopyData": [Function],
+          "getCopyPerviousData": [Function],
+          "getData": [Function],
+          "getOption": [Function],
+          "getPreviousData": [Function],
+          "getTab": [Function],
+          "isOpen": [Function],
+          "isSelected": [Function],
+          "off": [Function],
+          "on": [Function],
+          "one": [Function],
+          "open": [Function],
+          "refresh": [Function],
+          "select": [Function],
+          "setOption": [Function],
+          "setTab": [Function],
+          "sort": [Function],
+        }
+      }
     >
-      <path
-        d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
-        fill="gray"
-      />
-    </svg>
+      more button mock icon
+    </div>
   </div>
 </div>
 `;
 
-exports[`Default show more button structure :  different hiddenTabIDs 1`] = `
-<div
-  className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
->
+exports[`Enable Accesibility :  DEFAULT: 1`] = `
+<div>
   <div
+    aria-controls="rc-dyn-tabs-popupcontainer_0"
+    aria-expanded={false}
+    aria-haspopup="true"
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
+    id="rc-dyn-tabs-more-button-0"
     onClick={[Function]}
+    role="button"
+    tabIndex={0}
   >
-    <svg
-      height="1em"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      instance={
+        Object {
+          "close": [Function],
+          "getCopyData": [Function],
+          "getCopyPerviousData": [Function],
+          "getData": [Function],
+          "getOption": [Function],
+          "getPreviousData": [Function],
+          "getTab": [Function],
+          "isOpen": [Function],
+          "isSelected": [Function],
+          "off": [Function],
+          "on": [Function],
+          "one": [Function],
+          "open": [Function],
+          "refresh": [Function],
+          "select": [Function],
+          "setOption": [Function],
+          "setTab": [Function],
+          "sort": [Function],
+        }
+      }
     >
-      <path
-        d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
-        fill="gray"
-      />
-    </svg>
+      more button mock icon
+    </div>
   </div>
 </div>
 `;
 
-exports[`Default show more button structure :  rtl mode 1`] = `
-<div
-  className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
->
+exports[`Enable Accesibility :  MULTIPLE BUTTON SHOULD NOT HAVE SAME ID: 1`] = `
+<div>
   <div
+    aria-controls="rc-dyn-tabs-popupcontainer_1"
+    aria-expanded={false}
+    aria-haspopup="true"
     className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
+    id="rc-dyn-tabs-more-button-1"
     onClick={[Function]}
+    role="button"
+    tabIndex={0}
   >
-    <svg
-      height="1em"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      instance={
+        Object {
+          "close": [Function],
+          "getCopyData": [Function],
+          "getCopyPerviousData": [Function],
+          "getData": [Function],
+          "getOption": [Function],
+          "getPreviousData": [Function],
+          "getTab": [Function],
+          "isOpen": [Function],
+          "isSelected": [Function],
+          "off": [Function],
+          "on": [Function],
+          "one": [Function],
+          "open": [Function],
+          "refresh": [Function],
+          "select": [Function],
+          "setOption": [Function],
+          "setTab": [Function],
+          "sort": [Function],
+        }
+      }
     >
-      <path
-        d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
-        fill="gray"
-      />
-    </svg>
+      more button mock icon
+    </div>
+  </div>
+  <div
+    aria-controls="rc-dyn-tabs-popupcontainer_2"
+    aria-expanded={false}
+    aria-haspopup="true"
+    className="rc-dyn-tabs-title rc-dyn-tabs-showmorebutton"
+    id="rc-dyn-tabs-more-button-2"
+    onClick={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    <div
+      instance={
+        Object {
+          "close": [Function],
+          "getCopyData": [Function],
+          "getCopyPerviousData": [Function],
+          "getData": [Function],
+          "getOption": [Function],
+          "getPreviousData": [Function],
+          "getTab": [Function],
+          "isOpen": [Function],
+          "isSelected": [Function],
+          "off": [Function],
+          "on": [Function],
+          "one": [Function],
+          "open": [Function],
+          "refresh": [Function],
+          "select": [Function],
+          "setOption": [Function],
+          "setTab": [Function],
+          "sort": [Function],
+        }
+      }
+    >
+      more button mock icon
+    </div>
   </div>
 </div>
+`;
+
+exports[`TABS COMPONENT: ltr: 1`] = `
+<ul
+  aria-labelledby="rc-dyn-tabs-more-button-8"
+  className="rc-dyn-tabs-tablist rc-dyn-tabs-ltr rc-dyn-tabs-vertical"
+  id="rc-dyn-tabs-popupcontainer_8"
+  role="menu"
+>
+  <li
+    aria-label="tab1"
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    role="menuitem"
+    tab-id="1"
+    tabIndex={0}
+    title="tab1"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+    >
+      tab1
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="button"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    aria-label="tab2"
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    role="menuitem"
+    tab-id="2"
+    tabIndex={-1}
+    title="tab2"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+    >
+      tab2
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="button"
+    >
+      ×
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`TABS COMPONENT: rtl: 1`] = `
+<ul
+  aria-labelledby="rc-dyn-tabs-more-button-9"
+  className="rc-dyn-tabs-tablist rc-dyn-tabs-rtl rc-dyn-tabs-vertical"
+  id="rc-dyn-tabs-popupcontainer_9"
+  role="menu"
+>
+  <li
+    aria-label="tab1"
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    role="menuitem"
+    tab-id="1"
+    tabIndex={0}
+    title="tab1"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+    >
+      tab1
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="button"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    aria-label="tab2"
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    role="menuitem"
+    tab-id="2"
+    tabIndex={-1}
+    title="tab2"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+    >
+      tab2
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+      role="button"
+    >
+      ×
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`TABS COMPONENT: trun off accesibility: 1`] = `
+<ul
+  className="rc-dyn-tabs-tablist rc-dyn-tabs-ltr rc-dyn-tabs-vertical"
+>
+  <li
+    className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    onClick={[Function]}
+    tab-id="1"
+    tabIndex={0}
+    title="tab1"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="1"
+      tabIndex={-1}
+    >
+      tab1
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+  <li
+    className="rc-dyn-tabs-tab"
+    onClick={[Function]}
+    tab-id="2"
+    tabIndex={-1}
+    title="tab2"
+  >
+    <button
+      className="rc-dyn-tabs-title"
+      role="presentation"
+      tab-id="2"
+      tabIndex={-1}
+    >
+      tab2
+    </button>
+    <span
+      className="rc-dyn-tabs-close"
+    >
+      ×
+    </span>
+  </li>
+</ul>
 `;
