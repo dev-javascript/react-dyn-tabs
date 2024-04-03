@@ -1229,9 +1229,16 @@ export default () => {
 ```js
 useDynamicTabs(
   {
+    tabs: [
+      {id: '1', title: 'tab1', panelComponent: <span>tab content 1</span>},
+      {id: '2', title: 'tab2', panelComponent: <span>tab content 2</span>},
+      {id: '3', title: 'tab3', panelComponent: <span>tab content 3</span>},
+    ],
+    selectedTabID: '1',
     moreButtonPlugin_iconComponent: ({instance}) => {
       return <i className={`fa fa-chevron-${instance.getOption('direction') === 'rtl' ? 'left' : 'right'}`} />;
     },
+    moreButtonPlugin_buttonTooltip: 'show more tabs',
   },
   [MoreButtonPlugin],
 );
