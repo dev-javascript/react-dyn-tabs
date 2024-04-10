@@ -119,7 +119,8 @@
     ],
     "collectCoverage": true,
     "modulePathIgnorePatterns": [
-      "./src/plugins/moreButtonPlugin/button/popper"
+      "./src/plugins/moreButtonPlugin/button/popper",
+      "./src/__mock__"
     ]
   },
   "sideEffects": false,
