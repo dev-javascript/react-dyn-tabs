@@ -1,87 +1,59 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import useDynTabs from '../../../index.js';
-import ShowMoreTabs from './show-more-tabs.js';
-//import MoreButtonPlugin from './index.js';
+import ShowMoreTabsComponent from './show-more-tabs.js';
+import components from '../../../components/index.js';
 import {act} from 'react-dom/test-utils';
+import renderer from 'react-test-renderer';
+import Api from './api.js';
+import ElManagement from '../elementManagement/index.js';
+import Ctx from '../../../utils/api/index.js';
 let container = document.createElement('div');
+const moreButtonPlugin_buttonComponent = (props) => <div {...props}>{props.children}</div>;
+const ctx = new Ctx({
+  options: {
+    moreButtonPlugin_buttonComponent,
+    selectedTabID: '1',
+    tabs: [
+      {id: '1', title: 'tab1', panelComponent: <p>tab content 1</p>},
+      {id: '2', title: 'tab2', panelComponent: <p>tab content 2</p>},
+    ],
+  },
+});
+/**
+ * render the app
+ * @param {boolean} snapshot - if true then returns the element
+ * @param {Object} props - {ctx,openTabIDs,selectedTabID}
+ * @param {Object} ins - ref.current
+ * @param {Object} deps - { resizeDetectorIns, getInstance:(ctx, setHiddenTabIDs) => ins }
+ */
 let renderApp;
-let op = {
-  tabs: [
-    {
-      id: '1',
-      title: 'mock tab 1',
-      closable: true,
-      panelComponent: <p>tab1 content</p>,
-    },
-    {
-      id: '2',
-      title: 'mock tab 2',
-      iconClass: 'ui-icon ui-icon-seek-end',
-      closable: false,
-      panelComponent: <p>tab2 content</p>,
-    },
-  ],
-  selectedTabID: '1',
-}; //options
 beforeAll(() => {
   document.body.appendChild(container);
 });
 beforeEach(() => {
-  renderApp = (options = {}, plugins, callback = () => {}, resizeInsProps = {}) => {
-    const App = function App({options, plugins}) {
-      const _options = Object.assign({}, op, options);
-      if (_options.tabs) {
-        const _tabs = [];
-        _options.tabs.forEach((tab) => {
-          _tabs.push({...tab});
-        });
-        _options.tabs = _tabs;
-      }
-      const [Tablist, Panellist, readyFunction] = useDynTabs(_options, plugins);
-      callback(readyFunction);
-      return (
-        <div>
-          <Tablist></Tablist>
-          <Panellist></Panellist>
-        </div>
-      );
-    };
-    const getPlugins = (insProp) => {
-      const deps = {
-        getInstance: () => ({
-          installResizer: jest.fn(() => {}),
-          uninstallResizer: jest.fn(() => {}),
-          setEls: () => {},
-          btnRef: React.createRef(),
-          resize: jest.fn(() => {}),
-          btnContainerPropsGenerator: () => ({}),
-          btnPropsGenerator: () => ({}),
-          ...insProp,
-        }),
-        resizeDetectorIns: jest.fn(() => {}),
-        Button: () => <button id="built-in-button" />,
+  renderApp = (snapshot, props = {}, api = {}, deps = {}) => {
+    props.ins = props.ins || {};
+    const getInstance =
+      deps.getInstance ||
+      function (ctx, setHiddenTabIDs) {
+        return Object.assign(
+          new Api({
+            setHiddenTabIDs,
+            btnRef: React.createRef(),
+            getElManagementIns: (param) => new ElManagement(param),
+            ctx,
+          }),
+          api,
+        );
       };
-      const ShowMoreTabsMock = ShowMoreTabs.bind(undefined, () => deps);
-      return [
-        function (ctx, contexts, TabsComponent) {
-          const {
-            setting: {tablistOverflowClass},
-            internalOptions,
-          } = ctx.optionsManager;
-          internalOptions.TablistOverflow = (props) => <div>{props.children}</div>;
-          internalOptions.ShowMoreButton = (props) => (
-            <ShowMoreTabsMock {...props} ctx={ctx} contexts={contexts} TabsComponent={TabsComponent}>
-              {props.children}
-            </ShowMoreTabsMock>
-          );
-        },
-      ];
-    };
-    plugins = plugins || getPlugins(resizeInsProps);
+    const resizeDetectorIns = deps.resizeDetectorIns || {};
+    const ShowMoreButton = ShowMoreTabsComponent.bind(undefined, () => ({getInstance, resizeDetectorIns}));
+    if (snapshot) {
+      return <ShowMoreButton {...props}></ShowMoreButton>;
+    }
     return act(() => {
-      render(<App options={options} plugins={plugins}></App>, container);
+      render(<ShowMoreButton {...props}></ShowMoreButton>, container);
     });
   };
 });
@@ -94,30 +66,35 @@ afterAll(() => {
   document.body.removeChild(container);
   container = null;
 });
-describe('plugin constructor : ', () => {
-  test('should be called with certain parameters', () => {
-    expect.assertions(6);
-    const _plug = jest.fn(() => {});
-    let instance;
-    renderApp({}, [_plug], (ins) => {
-      instance = ins;
-    });
-    return act(() => {
-      expect(_plug.mock.calls.length).toBe(1);
-      expect(_plug.mock.calls[0].length).toBe(3);
-      expect(Object.keys(_plug.mock.calls[0][0].userProxy).sort()).toEqual(Object.keys(instance).sort());
-      expect(Object.keys(_plug.mock.calls[0][2]).toString()).toBe(
-        `TablistContainer,TablistContainerFactory,TablistView,TablistViewFactory,PanelList,TabList,TabListFactory,Tabs,TabsFactory,Tab,TabFactory,memomizeTab`,
-      );
-      expect(_plug.mock.calls[0][1].hasOwnProperty('ForceUpdateContext')).toBe(true);
-      expect(_plug.mock.calls[0][1].hasOwnProperty('StateContext')).toBe(true);
-    });
+describe('BUTTON CONTAINER STRUCTURE : ', () => {
+  test('default button', () => {
+    const com = renderApp(
+      true,
+      {openTabIDs: ['1', '2'], selectedTabID: '1', ctx},
+      {
+        setEls: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize: () => {},
+      },
+    );
+    const tree = renderer.create(com).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
 describe('resize method should be called when tabs are changed : ', () => {
   test('resize method should be called at mount.', () => {
     const resize = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {resize});
+    renderApp(
+      false,
+      {openTabIDs: ['1', '2'], selectedTabID: '1', ctx},
+      {
+        setEls: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
+      },
+    );
     expect(resize.mock.calls.length).toBe(1);
   });
   test('resize method should not be called when refreshing tabs.', () => {

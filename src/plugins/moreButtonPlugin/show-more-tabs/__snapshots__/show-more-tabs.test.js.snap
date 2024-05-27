@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BUTTON CONTAINER STRUCTURE :  default button 1`] = `
+<div
+  className="rc-dyn-tabs-tab rc-dyn-tabs-showmorebutton-container"
+>
+  <div
+    hiddenTabIDs=""
+    instance={
+      Object {
+        "close": [Function],
+        "getCopyData": [Function],
+        "getCopyPerviousData": [Function],
+        "getData": [Function],
+        "getOption": [Function],
+        "getPreviousData": [Function],
+        "getTab": [Function],
+        "isOpen": [Function],
+        "isSelected": [Function],
+        "off": [Function],
+        "on": [Function],
+        "one": [Function],
+        "open": [Function],
+        "refresh": [Function],
+        "select": [Function],
+        "setOption": [Function],
+        "setTab": [Function],
+        "sort": [Function],
+      }
+    }
+  />
+</div>
+`;

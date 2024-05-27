@@ -159,24 +159,5 @@ Object.assign(Api.prototype, {
       ? this.findFirstHiddenTabIndexASC(selectedTabInfo, start, stop)
       : this.findFirstHiddenTabIndexDSCE(selectedTabInfo, start, stop);
   },
-  btnContainerPropsGenerator: function () {
-    const {tabClass, showMoreContainerClass} = this.api.optionsManager.setting;
-    const className = tabClass + ' ' + showMoreContainerClass;
-    return {className, ref: this.btnRef};
-  },
-  btnPropsGenerator: function (hiddenTabIDs, components) {
-    const userButton = this.api.getOption('moreButtonPlugin_buttonComponent');
-    if (userButton && typeof userButton === 'function')
-      return {
-        hiddenTabIDs: hiddenTabIDs,
-        instance: this.api.userProxy,
-      };
-    else
-      return {
-        hiddenTabIDs: hiddenTabIDs,
-        instance: this.api,
-        components,
-      };
-  },
 });
 export default Api;

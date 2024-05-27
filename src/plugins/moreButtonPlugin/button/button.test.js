@@ -9,22 +9,31 @@ import CTx from '../../../utils/api/index.js';
 import Api from './api.js';
 import {ApiContext, StateContext} from '../../../context.js';
 let container = document.createElement('div');
-const Button = memo(
-  ButtonComponent.bind(null, () => ({
-    Popper: (props) => (
-      <div id="popperID" {...props}>
-        mock popper
-      </div>
-    ),
-    Api,
-  })),
-);
+const getButton = (ctx) =>
+  memo(
+    ButtonComponent.bind(null, () => ({
+      ctx,
+      components,
+      Popper: (props) => (
+        <div id="popperID" {...props}>
+          mock popper
+        </div>
+      ),
+      Api,
+    })),
+  );
 const getBtn = () => document.getElementsByClassName('rc-dyn-tabs-showmorebutton')[0];
 const moreButtonPlugin_iconComponent = (props) => <div {...props}>more button mock icon</div>;
 beforeAll(() => {
   document.body.appendChild(container);
 });
-beforeEach(() => {});
+let userProxy = {};
+beforeEach(() => {
+  const ins = new CTx({
+    options: {},
+  });
+  userProxy = ins.userProxy;
+});
 afterEach(() => {
   unmountComponentAtNode(container);
   container.innerHTML = '';
@@ -35,51 +44,35 @@ afterAll(() => {
 });
 describe('Enable Accesibility : ', () => {
   test('DEFAULT:', () => {
+    const Button = getButton(
+      new CTx({
+        options: {
+          moreButtonPlugin_iconComponent,
+        },
+      }),
+    );
     const tree = renderer
       .create(
         <div>
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                },
-              })
-            }
-            components={components}
-          />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
   test('MULTIPLE BUTTON SHOULD NOT HAVE SAME ID:', () => {
+    const Button = getButton(
+      new CTx({
+        options: {
+          moreButtonPlugin_iconComponent,
+        },
+      }),
+    );
     const tree = renderer
       .create(
         <div>
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                },
-              })
-            }
-            components={components}
-          />
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                },
-              })
-            }
-            components={components}
-          />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
       )
       .toJSON();
@@ -88,21 +81,18 @@ describe('Enable Accesibility : ', () => {
 });
 describe('DISABLE ACCESIBILITY : ', () => {
   test('DEFAULT:', () => {
+    const Button = getButton(
+      new CTx({
+        options: {
+          moreButtonPlugin_iconComponent,
+          accessibility: false,
+        },
+      }),
+    );
     const tree = renderer
       .create(
         <div>
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                  accessibility: false,
-                },
-              })
-            }
-            components={components}
-          />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
       )
       .toJSON();
@@ -111,20 +101,18 @@ describe('DISABLE ACCESIBILITY : ', () => {
 });
 describe('OPEN AND CLOSE POPPER:', () => {
   test('BUTTON CLICK:', () => {
+    const Button = getButton(
+      new CTx({
+        options: {
+          moreButtonPlugin_iconComponent,
+          //accessibility: false,
+        },
+      }),
+    );
     act(() => {
       render(
         <div>
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                },
-              })
-            }
-            components={components}
-          />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -141,20 +129,17 @@ describe('OPEN AND CLOSE POPPER:', () => {
     expect(getBtn().getAttribute('aria-expanded') == 'true').toBe(false);
   });
   test('document click:', () => {
+    const Button = getButton(
+      new CTx({
+        options: {
+          moreButtonPlugin_iconComponent,
+        },
+      }),
+    );
     act(() => {
       render(
         <div>
-          <Button
-            hiddenTabIDs={'1,2'}
-            instance={
-              new CTx({
-                options: {
-                  moreButtonPlugin_iconComponent,
-                },
-              })
-            }
-            components={components}
-          />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -176,10 +161,11 @@ describe('OPEN AND CLOSE POPPER:', () => {
         moreButtonPlugin_iconComponent,
       },
     });
+    const Button = getButton(ins);
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={ins} components={components} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -203,6 +189,11 @@ describe('OPEN AND CLOSE POPPER:', () => {
       ref._cleanSelectEvent = jest.fn(() => {});
       return ref;
     };
+    const ins = new CTx({
+      options: {
+        moreButtonPlugin_iconComponent,
+      },
+    });
     const Button = memo(
       ButtonComponent.bind(null, () => ({
         Popper: (props) => (
@@ -211,17 +202,15 @@ describe('OPEN AND CLOSE POPPER:', () => {
           </div>
         ),
         Api: api,
+        components,
+        ctx: ins,
       })),
     );
-    const ins = new CTx({
-      options: {
-        moreButtonPlugin_iconComponent,
-      },
-    });
+
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={ins} components={components} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -242,16 +231,6 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const Button = memo(
-      ButtonComponent.bind(null, () => ({
-        Popper: (props) => (
-          <div id="popperID" {...props}>
-            mock popper
-          </div>
-        ),
-        Api: api,
-      })),
-    );
     const ins = new CTx({
       options: {
         moreButtonPlugin_iconComponent,
@@ -262,10 +241,22 @@ describe('TABS COMPONENT:', () => {
         ],
       },
     });
+    const Button = memo(
+      ButtonComponent.bind(null, () => ({
+        Popper: (props) => (
+          <div id="popperID" {...props}>
+            mock popper
+          </div>
+        ),
+        Api: api,
+        ctx: ins,
+        components,
+      })),
+    );
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={ins} components={components} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -288,16 +279,6 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const Button = memo(
-      ButtonComponent.bind(null, () => ({
-        Popper: (props) => (
-          <div id="popperID" {...props}>
-            mock popper
-          </div>
-        ),
-        Api: api,
-      })),
-    );
     const ins = new CTx({
       options: {
         moreButtonPlugin_iconComponent,
@@ -308,10 +289,22 @@ describe('TABS COMPONENT:', () => {
         ],
       },
     });
+    const Button = memo(
+      ButtonComponent.bind(null, () => ({
+        Popper: (props) => (
+          <div id="popperID" {...props}>
+            mock popper
+          </div>
+        ),
+        Api: api,
+        ctx: ins,
+        components,
+      })),
+    );
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={ins} components={components} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );
@@ -334,16 +327,6 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const Button = memo(
-      ButtonComponent.bind(null, () => ({
-        Popper: (props) => (
-          <div id="popperID" {...props}>
-            mock popper
-          </div>
-        ),
-        Api: api,
-      })),
-    );
     const ins = new CTx({
       options: {
         moreButtonPlugin_iconComponent,
@@ -355,10 +338,22 @@ describe('TABS COMPONENT:', () => {
         ],
       },
     });
+    const Button = memo(
+      ButtonComponent.bind(null, () => ({
+        Popper: (props) => (
+          <div id="popperID" {...props}>
+            mock popper
+          </div>
+        ),
+        Api: api,
+        ctx: ins,
+        components,
+      })),
+    );
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={ins} components={components} />
+          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
         </div>,
         container,
       );

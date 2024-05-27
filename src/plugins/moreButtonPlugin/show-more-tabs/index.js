@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import ElManagement from '../elementManagement/index.js';
 import Api from './api.js';
 import resizeDetectorIns from './element-resize-detector-adapter.js';
@@ -15,4 +15,4 @@ const getDeps = () => {
       }),
   };
 };
-export default memo(ShowMoreTabs.bind(null, getDeps), () => true);
+export default ShowMoreTabs.bind(null, getDeps);
