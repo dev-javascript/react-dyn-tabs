@@ -1,7 +1,7 @@
 import React from 'react';
-import ElManagement from '../elementManagement/index.js';
 import Api from './api.js';
 import resizeDetectorIns from './element-resize-detector-adapter.js';
+import tabsMoreButton from 'tabs-more-button';
 import ShowMoreTabs from './show-more-tabs.js';
 const getDeps = () => {
   return {
@@ -10,7 +10,9 @@ const getDeps = () => {
       new Api({
         setHiddenTabIDs,
         btnRef: React.createRef(),
-        getElManagementIns: (param) => new ElManagement(param),
+        getResizerIns: function (options) {
+          return new (Function.prototype.bind.apply(tabsMoreButton))(options);
+        },
         ctx,
       }),
   };

@@ -2,11 +2,10 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import ShowMoreTabsComponent from './show-more-tabs.js';
-import components from '../../../components/index.js';
 import {act} from 'react-dom/test-utils';
 import renderer from 'react-test-renderer';
 import Api from './api.js';
-import ElManagement from '../elementManagement/index.js';
+import tabsMoreButton from 'tabs-more-button';
 import Ctx from '../../../utils/api/index.js';
 let container = document.createElement('div');
 const moreButtonPlugin_buttonComponent = (props) => <div {...props}>{props.children}</div>;
@@ -41,7 +40,9 @@ beforeEach(() => {
           new Api({
             setHiddenTabIDs,
             btnRef: React.createRef(),
-            getElManagementIns: (param) => new ElManagement(param),
+            getResizerIns: function (options) {
+              return new (Function.prototype.bind.apply(tabsMoreButton))(options);
+            },
             ctx,
           }),
           api,

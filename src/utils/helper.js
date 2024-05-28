@@ -1,9 +1,6 @@
 let counter = 1;
 const helper = {
   checkArrIndex: (index, arrLength) => index >= 0 && index < arrLength,
-  getInstance: function (Fn) {
-    new (Function.prototype.bind.apply(Fn, arguments))();
-  },
   resolve: (result) => Promise.resolve(result),
   getCopyState: function (state) {
     return {

@@ -9,7 +9,7 @@ export default function ShowMoreTabs(getDeps, props) {
   const ins = ref.current.ins;
   const openTabIDsString = openTabIDs.toString();
   useLayoutEffect(() => {
-    ins.setEls();
+    ins.setResizer();
   }, []);
   useLayoutEffect(() => {
     ins.installResizer(resizeDetectorIns);
