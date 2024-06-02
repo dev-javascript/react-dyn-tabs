@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`showMorePlugin  MoreButtonPlugin :  1`] = `
+<div
+  ctx={Object {}}
+  customProp="customProp"
+  openTabIDs={
+    Array [
+      "1",
+      "2",
+    ]
+  }
+  selectedTabID="1"
+>
+  button children
+</div>
+`;
+
+exports[`showMorePlugin  TablistOverflow :  1`] = `
+<div
+  customProp="customProp"
+  id="TablistOverflow"
+>
+  tablist
+  <div
+    id="MoreButtonPlugin"
+  />
+</div>
+`;
+
+exports[`showMorePlugin  TablistView :  1`] = `
+<div
+  className=" rc-dyn-tabs-responsive"
+>
+  tablist view children
+</div>
+`;

@@ -353,7 +353,7 @@ describe('TABS COMPONENT:', () => {
     act(() => {
       render(
         <div>
-          <Button hiddenTabIDs={'1,2'} instance={userProxy} />
+          <Button hiddenTabIDs={'1,2'} instance={ins.userProxy} />
         </div>,
         container,
       );
