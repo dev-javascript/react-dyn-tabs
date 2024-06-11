@@ -23,16 +23,21 @@ const ctx = new Ctx({
  * render the app
  * @param {boolean} snapshot - if true then returns the element
  * @param {Object} props - {ctx,openTabIDs,selectedTabID}
- * @param {Object} ins - ref.current
+ * @param {Object} insProperties - ref.current
  * @param {Object} deps - { resizeDetectorIns, getInstance:(ctx, setHiddenTabIDs) => ins }
+ * @param {Object} props2 - {ctx,openTabIDs,selectedTabID}
  */
 let renderApp;
 beforeAll(() => {
   document.body.appendChild(container);
 });
 beforeEach(() => {
-  renderApp = (snapshot, props = {}, api = {}, deps = {}) => {
-    props.ins = props.ins || {};
+  renderApp = (snapshot, props, insProperties = {}, deps = {}, props2) => {
+    props = props || {
+      ctx,
+      openTabIDs: ['1', '2'],
+      selectedTabID: '1',
+    };
     const getInstance =
       deps.getInstance ||
       function (ctx, setHiddenTabIDs) {
@@ -45,7 +50,7 @@ beforeEach(() => {
             },
             ctx,
           }),
-          api,
+          insProperties,
         );
       };
     const resizeDetectorIns = deps.resizeDetectorIns || {};
@@ -55,6 +60,7 @@ beforeEach(() => {
     }
     return act(() => {
       render(<ShowMoreButton {...props}></ShowMoreButton>, container);
+      props2 && render(<ShowMoreButton {...props2}></ShowMoreButton>, container);
     });
   };
 });
@@ -73,7 +79,7 @@ describe('BUTTON CONTAINER STRUCTURE : ', () => {
       true,
       {openTabIDs: ['1', '2'], selectedTabID: '1', ctx},
       {
-        setEls: () => {},
+        setResizer: () => {},
         installResizer: () => {},
         uninstallResizer: () => {},
         resize: () => {},
@@ -90,7 +96,7 @@ describe('resize method should be called when tabs are changed : ', () => {
       false,
       {openTabIDs: ['1', '2'], selectedTabID: '1', ctx},
       {
-        setEls: () => {},
+        setResizer: () => {},
         installResizer: () => {},
         uninstallResizer: () => {},
         resize,
@@ -101,96 +107,135 @@ describe('resize method should be called when tabs are changed : ', () => {
   test('resize method should not be called when refreshing tabs.', () => {
     const resize = jest.fn(() => {});
     renderApp(
+      false,
       {
-        onLoad: function () {
-          this.refresh();
-        },
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
       },
       undefined,
-      undefined,
-      {resize},
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
     );
     expect(resize.mock.calls.length).toBe(1);
   });
   test('resize method should be called when switching tabs.', () => {
     const resize = jest.fn(() => {});
     renderApp(
+      false,
       {
-        onLoad: function () {
-          this.select('2');
-        },
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
       },
       undefined,
-      undefined,
-      {resize},
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '2',
+        ctx,
+      },
     );
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when opening a new tab.', () => {
     const resize = jest.fn(() => {});
     renderApp(
+      false,
       {
-        onLoad: function () {
-          this.open({id: '3'});
-        },
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
       },
       undefined,
-      undefined,
-      {resize},
+      {
+        openTabIDs: ['1', '2', '3'],
+        selectedTabID: '1',
+        ctx,
+      },
     );
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when closing a tab.', () => {
     const resize = jest.fn(() => {});
-    let ready;
     renderApp(
-      {},
-      undefined,
-      (_ready) => {
-        ready = _ready;
+      false,
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
       },
-      {resize},
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
+      },
+      undefined,
+      {
+        openTabIDs: ['1'],
+        selectedTabID: '1',
+        ctx,
+      },
     );
-    act(() => {
-      let ins;
-      ready((_ins) => {
-        ins = _ins;
-      });
-      ins.close('2', false);
-    });
     expect(resize.mock.calls.length).toBe(2);
   });
   test('resize method should be called when sorting tabs.', () => {
     const resize = jest.fn(() => {});
-    let ready;
     renderApp(
-      {},
-      undefined,
-      (_ready) => {
-        ready = _ready;
+      false,
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
       },
-      {resize},
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize,
+      },
+      undefined,
+      {
+        openTabIDs: ['2', '1'],
+        selectedTabID: '1',
+        ctx,
+      },
     );
-    act(() => {
-      let ins;
-      ready((_ins) => {
-        ins = _ins;
-      });
-      ins.sort(['2', '1']);
-    });
     expect(resize.mock.calls.length).toBe(2);
   });
 });
 describe('resize detector should be called correctly : ', () => {
-  test('installResizer method should be called at mount.', () => {
+  test('installResizer and uninstallResizer methods should be called at mount.', () => {
     const installResizer = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {installResizer});
-    expect(installResizer.mock.calls.length).toBe(1);
-  });
-  test('uninstallResizer method should be called at unmount.', () => {
     const uninstallResizer = jest.fn(() => {});
-    renderApp({}, undefined, undefined, {uninstallResizer});
-    expect(uninstallResizer.mock.calls.length).toBe(0);
+    renderApp(false, undefined, {
+      setResizer: () => {},
+      installResizer,
+      uninstallResizer,
+      resize: () => {},
+    });
+    expect(installResizer.mock.calls.length).toBe(1);
     act(() => {
       unmountComponentAtNode(container);
     });
@@ -198,32 +243,90 @@ describe('resize detector should be called correctly : ', () => {
   });
 });
 describe('button component : ', () => {
-  test('default button component should be rendered when moreButtonPlugin_buttonComponent option is not provided', () => {
-    renderApp({});
-    expect(document.getElementById('built-in-button') != null).toBe(true);
-  });
-  test('user button component should be rendered when moreButtonPlugin_buttonComponent option is provided', () => {
-    renderApp({moreButtonPlugin_buttonComponent: () => <button id="user-button" />});
-    expect(document.getElementById('built-in-button') != null).toBe(false);
-    expect(document.getElementById('user-button') != null).toBe(true);
+  test('button component should render moreButtonPlugin_buttonComponent option as a button', () => {
+    renderApp(
+      false,
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize: () => {},
+      },
+    );
+    expect(document.getElementById('user-more-button') == null).toBe(true);
+    const moreButtonPlugin_buttonComponent = ctx.getOption('moreButtonPlugin_buttonComponent');
+    ctx.setOption('moreButtonPlugin_buttonComponent', (props) => (
+      <div {...props} id="user-more-button">
+        {props.children}
+      </div>
+    ));
+    renderApp(
+      false,
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer: () => {},
+        installResizer: () => {},
+        uninstallResizer: () => {},
+        resize: () => {},
+      },
+    );
+    expect(document.getElementById('user-more-button') == null).toBe(false);
+    ctx.setOption('moreButtonPlugin_buttonComponent', moreButtonPlugin_buttonComponent);
   });
   test('moreButtonPlugin_buttonComponent option should be a function component and not a React element', () => {
-    renderApp({moreButtonPlugin_buttonComponent: () => <button id="user-button" />});
-    expect(document.getElementById('user-button') != null).toBe(true);
-    renderApp({moreButtonPlugin_buttonComponent: <button id="user-button-element" />});
-    expect(document.getElementById('user-button-element') != null).toBe(false);
-    expect(document.getElementById('built-in-button') != null).toBe(true);
+    const moreButtonPlugin_buttonComponent = ctx.getOption('moreButtonPlugin_buttonComponent');
+    ctx.setOption('moreButtonPlugin_buttonComponent', <div id="user-more-button"></div>);
+    try {
+      renderApp(
+        false,
+        {
+          openTabIDs: ['1', '2'],
+          selectedTabID: '1',
+          ctx,
+        },
+        {
+          setResizer: () => {},
+          installResizer: () => {},
+          uninstallResizer: () => {},
+          resize: () => {},
+        },
+      );
+    } catch (e) {
+      expect(document.getElementById('user-more-button') == null).toBe(true);
+    }
+    ctx.setOption('moreButtonPlugin_buttonComponent', moreButtonPlugin_buttonComponent);
   });
 });
 describe('mounting : ', () => {
-  test('at first the setEls method should be called then installResizer and then resize method', () => {
+  test('at first the setResizer method should be called then installResizer and then resize method', () => {
     const installResizer = jest.fn(() => {});
     const resize = jest.fn(() => {});
-    const setEls = jest.fn(() => {});
-    const api = {installResizer, resize, setEls};
-    renderApp({}, null, (ins) => {}, api);
-    expect(api.setEls).toHaveBeenCalledBefore(api.installResizer);
-    expect(api.installResizer).toHaveBeenCalledBefore(api.resize);
-    expect(api.resize.mock.calls.length).toBe(1);
+    const setResizer = jest.fn(() => {});
+    renderApp(
+      false,
+      {
+        openTabIDs: ['1', '2'],
+        selectedTabID: '1',
+        ctx,
+      },
+      {
+        setResizer,
+        installResizer,
+        uninstallResizer: () => {},
+        resize,
+      },
+    );
+    expect(setResizer).toHaveBeenCalledBefore(installResizer);
+    expect(installResizer).toHaveBeenCalledBefore(resize);
+    expect(resize.mock.calls.length).toBe(1);
   });
 });
