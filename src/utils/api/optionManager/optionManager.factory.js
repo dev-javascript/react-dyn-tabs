@@ -26,7 +26,7 @@ export default Helper.module(
     },
     setOption: function (name = missingParamEr('setOption'), value = missingParamEr('setOption')) {
       if (['SELECTEDTABID', 'TABS'].indexOf(name.toUpperCase()) >= 0) return this;
-      if (Object.prototype.hasOwnProperty.call(this._defaultOptions, name)) this.options[name] = value;
+      this.options[name] = value;
       return this;
     },
     validatePanelComponent: function (tabData) {

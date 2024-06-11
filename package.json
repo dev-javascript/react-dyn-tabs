@@ -121,6 +121,9 @@
     "modulePathIgnorePatterns": [
       "./src/plugins/moreButtonPlugin/button/popper",
       "./src/__mock__"
+    ],
+    "coveragePathIgnorePatterns": [
+      "src/__mock__"
     ]
   },
   "sideEffects": false,
