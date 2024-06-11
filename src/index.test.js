@@ -58,7 +58,8 @@ beforeEach(() => {
       </div>
     );
   };
-  renderApp = (options = {}) => {
+  renderApp = (options) => {
+    options = options || {};
     act(() => {
       render(<App options={options}></App>, container);
     });
@@ -444,13 +445,13 @@ describe('sort method : ', () => {
     expect.assertions(4);
     renderApp();
     return act(() => {
-      const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
-      expect(buttons[0].id).toBe('rc-dyn-tabs-l-1');
-      expect(buttons[1].id).toBe('rc-dyn-tabs-l-2');
+      const lis = document.querySelectorAll('li.rc-dyn-tabs-tab');
+      expect(lis[0].id).toBe('rc-dyn-tabs-l-1');
+      expect(lis[1].id).toBe('rc-dyn-tabs-l-2');
       return instance.sort(['2', '1']).then(() => {
-        const buttons = document.querySelectorAll('button.rc-dyn-tabs-title');
-        expect(buttons[0].id).toBe('rc-dyn-tabs-l-2');
-        expect(buttons[1].id).toBe('rc-dyn-tabs-l-1');
+        const lis = document.querySelectorAll('li.rc-dyn-tabs-tab');
+        expect(lis[0].id).toBe('rc-dyn-tabs-l-2');
+        expect(lis[1].id).toBe('rc-dyn-tabs-l-1');
       });
     });
   });
