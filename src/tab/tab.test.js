@@ -1,9 +1,14 @@
 import React from 'react';
 import {unmountComponentAtNode} from 'react-dom';
-import Tab from './tab';
+import Tab from './tab.js';
 import renderer from 'react-test-renderer';
 import DefaultTabInner from './defaulTabInner.js';
 import Api from '../utils/api/api.js';
+const tabComponent = function (props) {
+  const tabProps = props.tabProps;
+  tabProps.className += ' userTabComponent';
+  return <DefaultTabInner {...props} tabProps={tabProps} />;
+};
 let container = document.createElement('div'),
   realUseContext;
 const getDefaultApi = () => ({
@@ -20,7 +25,8 @@ const getDefaultApi = () => ({
     },
   ],
 });
-const setMockUseContext = (op = {}) => {
+const setMockUseContext = (op) => {
+  op = op || {};
   React.useContext = jest.fn(() => new Api({options: Object.assign({}, getDefaultApi(), op)}));
 };
 beforeAll(() => {
@@ -44,21 +50,15 @@ describe('tab structure with default options : ', () => {
     setMockUseContext({
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
+          tooltip: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
-          disable: false,
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
+          tooltip: 'tab2',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
-          disable: false,
           id: '2',
         },
       ],
@@ -77,8 +77,8 @@ describe('tab structure with default options : ', () => {
     setMockUseContext({
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
+          tooltip: 'tab1',
           panelComponent: null,
           closable: false,
           iconClass: '',
@@ -86,8 +86,8 @@ describe('tab structure with default options : ', () => {
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
+          tooltip: 'tab2',
           panelComponent: null,
           closable: false,
           iconClass: '',
@@ -110,20 +110,16 @@ describe('tab structure with default options : ', () => {
     setMockUseContext({
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
+          tooltip: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
           disable: true,
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
+          tooltip: 'tab2',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
           disable: true,
           id: '2',
         },
@@ -143,21 +139,17 @@ describe('tab structure with default options : ', () => {
     setMockUseContext({
       tabs: [
         {
-          title: 'tab title',
-          tooltip: 'tab tooltip',
+          title: 'tab1',
+          tooltip: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: 'ui-icon ui-icon-heart',
-          disable: false,
+          iconClass: 'ui-icon ui-icon-home',
           id: '1',
         },
         {
-          title: 'tab title',
-          tooltip: 'tab tooltip',
+          title: 'tab2',
+          tooltip: 'tab2',
           panelComponent: null,
-          closable: true,
-          iconClass: 'ui-icon ui-icon-heart',
-          disable: false,
+          iconClass: 'ui-icon ui-icon-book',
           id: '2',
         },
       ],
@@ -180,21 +172,13 @@ describe('tab structure with rtl and none accessibility options : ', () => {
       direction: 'rtl',
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
-          disable: false,
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
-          disable: false,
           id: '2',
         },
       ],
@@ -215,21 +199,15 @@ describe('tab structure with rtl and none accessibility options : ', () => {
       direction: 'rtl',
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
           panelComponent: null,
           closable: false,
-          iconClass: '',
-          disable: false,
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
           panelComponent: null,
           closable: false,
-          iconClass: '',
-          disable: false,
           id: '2',
         },
       ],
@@ -250,20 +228,14 @@ describe('tab structure with rtl and none accessibility options : ', () => {
       direction: 'rtl',
       tabs: [
         {
-          title: '',
-          tooltip: '',
+          title: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
           disable: true,
           id: '1',
         },
         {
-          title: '',
-          tooltip: '',
+          title: 'tab2',
           panelComponent: null,
-          closable: true,
-          iconClass: '',
           disable: true,
           id: '2',
         },
@@ -285,21 +257,17 @@ describe('tab structure with rtl and none accessibility options : ', () => {
       direction: 'rtl',
       tabs: [
         {
-          title: 'tab title',
-          tooltip: 'tab tooltip',
+          title: 'tab1',
+          tooltip: 'tab1',
           panelComponent: null,
-          closable: true,
-          iconClass: 'ui-icon ui-icon-heart',
-          disable: false,
+          iconClass: 'ui-icon ui-icon-home',
           id: '1',
         },
         {
-          title: 'tab title',
-          tooltip: 'tab tooltip',
+          title: 'tab2',
+          tooltip: 'tab2',
           panelComponent: null,
-          closable: true,
           iconClass: 'ui-icon ui-icon-heart',
-          disable: false,
           id: '2',
         },
       ],
@@ -317,7 +285,7 @@ describe('tab structure with rtl and none accessibility options : ', () => {
 });
 describe('tab structure with custom tab component : ', () => {
   test('default options', () => {
-    setMockUseContext({tabComponent: DefaultTabInner});
+    setMockUseContext({tabComponent});
     const tree = renderer
       .create(
         <div>
@@ -331,7 +299,7 @@ describe('tab structure with custom tab component : ', () => {
     expect(tree).toMatchSnapshot();
   });
   test('rtl and none accessibility options', () => {
-    setMockUseContext({tabComponent: DefaultTabInner, direction: 'rtl', accessibility: false});
+    setMockUseContext({tabComponent, direction: 'rtl', accessibility: false});
     const tree = renderer
       .create(
         <div>

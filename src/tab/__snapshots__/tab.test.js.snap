@@ -5,21 +5,21 @@ exports[`tab structure with custom tab component :  default options 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-1"
     aria-expanded={true}
-    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-label="tab1 tootltip"
     aria-selected={true}
     className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-l-1"
     onClick={[Function]}
     role="tab"
     tab-id="1"
     tabIndex={0}
+    title="tab1 tootltip"
   >
     <button
-      className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-1"
+      className="rc-dyn-tabs-title userTabComponent"
       role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title="tab1 tootltip"
     >
       tab1
     </button>
@@ -27,21 +27,21 @@ exports[`tab structure with custom tab component :  default options 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-2"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-label="tab2"
     aria-selected={false}
     className="rc-dyn-tabs-tab"
+    id="rc-dyn-tabs-l-2"
     onClick={[Function]}
     role="tab"
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
-      className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-2"
+      className="rc-dyn-tabs-title userTabComponent"
       role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
       tab2
       <span
@@ -51,7 +51,7 @@ exports[`tab structure with custom tab component :  default options 1`] = `
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -59,27 +59,27 @@ exports[`tab structure with custom tab component :  default options 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-3"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-3"
+    aria-label="tab3"
     aria-selected={false}
     className="rc-dyn-tabs-tab rc-dyn-tabs-disable"
+    id="rc-dyn-tabs-l-3"
     onClick={[Function]}
     role="tab"
     tab-id="3"
     tabIndex={-1}
+    title="tab3"
   >
     <button
-      className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-3"
+      className="rc-dyn-tabs-title userTabComponent"
       role="presentation"
       tab-id="3"
       tabIndex={-1}
-      title=""
     >
       tab3
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -87,27 +87,27 @@ exports[`tab structure with custom tab component :  default options 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-4"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-4"
+    aria-label="tab4"
     aria-selected={false}
     className="rc-dyn-tabs-tab"
+    id="rc-dyn-tabs-l-4"
     onClick={[Function]}
     role="tab"
     tab-id="4"
     tabIndex={-1}
+    title="tab4"
   >
     <button
-      className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-4"
+      className="rc-dyn-tabs-title userTabComponent"
       role="presentation"
       tab-id="4"
       tabIndex={-1}
-      title=""
     >
       tab4
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -122,12 +122,13 @@ exports[`tab structure with custom tab component :  rtl and none accessibility o
     onClick={[Function]}
     tab-id="1"
     tabIndex={0}
+    title="tab1 tootltip"
   >
     <button
-      className="rc-dyn-tabs-title"
+      className="rc-dyn-tabs-title userTabComponent"
+      role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title="tab1 tootltip"
     >
       tab1
     </button>
@@ -137,12 +138,13 @@ exports[`tab structure with custom tab component :  rtl and none accessibility o
     onClick={[Function]}
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
-      className="rc-dyn-tabs-title"
+      className="rc-dyn-tabs-title userTabComponent"
+      role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
       tab2
       <span
@@ -161,12 +163,13 @@ exports[`tab structure with custom tab component :  rtl and none accessibility o
     onClick={[Function]}
     tab-id="3"
     tabIndex={-1}
+    title="tab3"
   >
     <button
-      className="rc-dyn-tabs-title"
+      className="rc-dyn-tabs-title userTabComponent"
+      role="presentation"
       tab-id="3"
       tabIndex={-1}
-      title=""
     >
       tab3
     </button>
@@ -181,12 +184,13 @@ exports[`tab structure with custom tab component :  rtl and none accessibility o
     onClick={[Function]}
     tab-id="4"
     tabIndex={-1}
+    title="tab4"
   >
     <button
-      className="rc-dyn-tabs-title"
+      className="rc-dyn-tabs-title userTabComponent"
+      role="presentation"
       tab-id="4"
       tabIndex={-1}
-      title=""
     >
       tab4
     </button>
@@ -204,27 +208,27 @@ exports[`tab structure with default options :  default tab data 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-1"
     aria-expanded={true}
-    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-label="tab1"
     aria-selected={true}
     className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-l-1"
     onClick={[Function]}
     role="tab"
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-1"
       role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -232,27 +236,27 @@ exports[`tab structure with default options :  default tab data 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-2"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-label="tab2"
     aria-selected={false}
     className="rc-dyn-tabs-tab"
+    id="rc-dyn-tabs-l-2"
     onClick={[Function]}
     role="tab"
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-2"
       role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -265,27 +269,27 @@ exports[`tab structure with default options :  disabled tab 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-1"
     aria-expanded={true}
-    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-label="tab1"
     aria-selected={true}
     className="rc-dyn-tabs-tab rc-dyn-tabs-selected rc-dyn-tabs-disable"
+    id="rc-dyn-tabs-l-1"
     onClick={[Function]}
     role="tab"
     tab-id="1"
     tabIndex={-1}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-1"
       role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -293,27 +297,27 @@ exports[`tab structure with default options :  disabled tab 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-2"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-label="tab2"
     aria-selected={false}
     className="rc-dyn-tabs-tab rc-dyn-tabs-disable"
+    id="rc-dyn-tabs-l-2"
     onClick={[Function]}
     role="tab"
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-2"
       role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -326,45 +330,45 @@ exports[`tab structure with default options :  none closable tab 1`] = `
   <li
     aria-controls="rc-dyn-tabs-p-1"
     aria-expanded={true}
-    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-label="tab1"
     aria-selected={true}
     className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-l-1"
     onClick={[Function]}
     role="tab"
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-1"
       role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
   </li>
   <li
     aria-controls="rc-dyn-tabs-p-2"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-label="tab2"
     aria-selected={false}
     className="rc-dyn-tabs-tab"
+    id="rc-dyn-tabs-l-2"
     onClick={[Function]}
     role="tab"
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-2"
       role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
   </li>
 </div>
@@ -375,31 +379,31 @@ exports[`tab structure with default options :  tab with provided tooltip and ico
   <li
     aria-controls="rc-dyn-tabs-p-1"
     aria-expanded={true}
-    aria-labelledby="rc-dyn-tabs-l-1"
+    aria-label="tab1"
     aria-selected={true}
     className="rc-dyn-tabs-tab rc-dyn-tabs-selected"
+    id="rc-dyn-tabs-l-1"
     onClick={[Function]}
     role="tab"
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-1"
       role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title="tab tooltip"
     >
-      tab title
+      tab1
       <span
-        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        className="rc-dyn-tabs-icon ui-icon ui-icon-home"
         role="presentation"
       />
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -407,31 +411,31 @@ exports[`tab structure with default options :  tab with provided tooltip and ico
   <li
     aria-controls="rc-dyn-tabs-p-2"
     aria-expanded={false}
-    aria-labelledby="rc-dyn-tabs-l-2"
+    aria-label="tab2"
     aria-selected={false}
     className="rc-dyn-tabs-tab"
+    id="rc-dyn-tabs-l-2"
     onClick={[Function]}
     role="tab"
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
-      id="rc-dyn-tabs-l-2"
       role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title="tab tooltip"
     >
-      tab title
+      tab2
       <span
-        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        className="rc-dyn-tabs-icon ui-icon ui-icon-book"
         role="presentation"
       />
     </button>
     <span
       className="rc-dyn-tabs-close"
-      role="presentation"
+      role="button"
     >
       ×
     </span>
@@ -446,14 +450,15 @@ exports[`tab structure with rtl and none accessibility options :  default tab da
     onClick={[Function]}
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
     <span
       className="rc-dyn-tabs-close"
@@ -466,14 +471,15 @@ exports[`tab structure with rtl and none accessibility options :  default tab da
     onClick={[Function]}
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
     <span
       className="rc-dyn-tabs-close"
@@ -491,14 +497,15 @@ exports[`tab structure with rtl and none accessibility options :  disabled tab 1
     onClick={[Function]}
     tab-id="1"
     tabIndex={-1}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
     <span
       className="rc-dyn-tabs-close"
@@ -511,14 +518,15 @@ exports[`tab structure with rtl and none accessibility options :  disabled tab 1
     onClick={[Function]}
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
     <span
       className="rc-dyn-tabs-close"
@@ -536,14 +544,15 @@ exports[`tab structure with rtl and none accessibility options :  none closable 
     onClick={[Function]}
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title=""
     >
-      
+      tab1
     </button>
   </li>
   <li
@@ -551,14 +560,15 @@ exports[`tab structure with rtl and none accessibility options :  none closable 
     onClick={[Function]}
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title=""
     >
-      
+      tab2
     </button>
   </li>
 </div>
@@ -571,16 +581,17 @@ exports[`tab structure with rtl and none accessibility options :  tab with provi
     onClick={[Function]}
     tab-id="1"
     tabIndex={0}
+    title="tab1"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="1"
       tabIndex={-1}
-      title="tab tooltip"
     >
-      tab title
+      tab1
       <span
-        className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
+        className="rc-dyn-tabs-icon ui-icon ui-icon-home"
         role="presentation"
       />
     </button>
@@ -595,14 +606,15 @@ exports[`tab structure with rtl and none accessibility options :  tab with provi
     onClick={[Function]}
     tab-id="2"
     tabIndex={-1}
+    title="tab2"
   >
     <button
       className="rc-dyn-tabs-title"
+      role="presentation"
       tab-id="2"
       tabIndex={-1}
-      title="tab tooltip"
     >
-      tab title
+      tab2
       <span
         className="rc-dyn-tabs-icon ui-icon ui-icon-heart"
         role="presentation"
