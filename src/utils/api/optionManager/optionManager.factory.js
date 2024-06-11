@@ -92,9 +92,6 @@ export default Helper.module(
         tablistContainerClass: 'rc-dyn-tabs-tablist-container',
         tablistOverflowClass: 'rc-dyn-tabs-tablist-overflow',
         tablistClass: 'rc-dyn-tabs-tablist',
-        showMoreContainerClass: 'rc-dyn-tabs-showmorebutton-container',
-        showMoreButtonClass: 'rc-dyn-tabs-showmorebutton',
-        showMorePopperClass: 'rc-dyn-tabs-popper',
         panelIdTemplate: (id) => `rc-dyn-tabs-p-${id}`,
         ariaLabelledbyIdTemplate: (id) => `rc-dyn-tabs-l-${id}`,
         getDefaultTabData: () => {

@@ -7,6 +7,7 @@ import showMorePlugin, {
   setTablistOverflow,
   setTablistView,
   setDefaultOptions,
+  setSetting,
 } from './setComponents.js';
 beforeAll(() => {});
 beforeEach(() => {});
@@ -82,12 +83,24 @@ describe('showMorePlugin ', () => {
     expect(moreButtonPlugin_buttonComponent.mock.calls.length).toBe(1);
     expect(moreButtonPlugin_buttonComponent.mock.calls[0][0]).toEqual({ctx, components});
   });
+  test('setSetting : ', () => {
+    const ctx = {
+      optionsManager: {
+        setting: {},
+      },
+    };
+    setSetting(ctx);
+    expect(ctx.optionsManager.setting.showMoreContainerClass).toBe('rc-dyn-tabs-showmorebutton-container');
+    expect(ctx.optionsManager.setting.showMoreButtonClass).toBe('rc-dyn-tabs-showmorebutton');
+    expect(ctx.optionsManager.setting.showMorePopperClass).toBe('rc-dyn-tabs-popper');
+  });
   test('constructor : ', () => {
     showMorePlugin.ShowMoreButton = jest.fn(() => {});
     showMorePlugin.setMoreButtonPlugin = jest.fn(() => {});
     showMorePlugin.setTablistOverflow = jest.fn(() => {});
     showMorePlugin.setTablistView = jest.fn(() => {});
     showMorePlugin.setDefaultOptions = jest.fn(() => {});
+    showMorePlugin.setSetting = jest.fn(() => {});
     const deps = {
       moreButtonPlugin_buttonComponent: 'moreButtonPlugin_buttonComponent',
       ShowMoreTabs: 'ShowMoreTabs',
@@ -96,10 +109,12 @@ describe('showMorePlugin ', () => {
     const ctx = {};
     const components = {};
     showMorePlugin(deps, ctx, components);
+    expect(showMorePlugin.setSetting.mock.calls.length).toBe(1);
     expect(showMorePlugin.setDefaultOptions.mock.calls.length).toBe(1);
     expect(showMorePlugin.setTablistView.mock.calls.length).toBe(1);
     expect(showMorePlugin.setMoreButtonPlugin.mock.calls.length).toBe(1);
     expect(showMorePlugin.setTablistOverflow.mock.calls.length).toBe(1);
+    expect(showMorePlugin.setSetting).toHaveBeenCalledBefore(showMorePlugin.setDefaultOptions);
     expect(showMorePlugin.setDefaultOptions).toHaveBeenCalledBefore(showMorePlugin.setTablistView);
     expect(showMorePlugin.setTablistView).toHaveBeenCalledBefore(showMorePlugin.setMoreButtonPlugin);
     expect(showMorePlugin.setMoreButtonPlugin).toHaveBeenCalledBefore(showMorePlugin.setTablistOverflow);

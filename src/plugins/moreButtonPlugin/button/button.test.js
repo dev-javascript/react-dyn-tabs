@@ -8,6 +8,12 @@ import components from '../../../components/index.js';
 import CTx from '../../../utils/api/index.js';
 import Api from './api.js';
 import {ApiContext, StateContext} from '../../../context.js';
+import {setSetting} from '../setComponents.js';
+const getIns = (op) => {
+  const ins = new CTx(op);
+  setSetting(ins);
+  return ins;
+};
 let container = document.createElement('div');
 const getButton = (ctx) =>
   memo(
@@ -29,7 +35,7 @@ beforeAll(() => {
 });
 let userProxy = {};
 beforeEach(() => {
-  const ins = new CTx({
+  const ins = getIns({
     options: {},
   });
   userProxy = ins.userProxy;
@@ -45,7 +51,7 @@ afterAll(() => {
 describe('Enable Accesibility : ', () => {
   test('DEFAULT:', () => {
     const Button = getButton(
-      new CTx({
+      getIns({
         options: {
           moreButtonPlugin_iconComponent,
         },
@@ -62,7 +68,7 @@ describe('Enable Accesibility : ', () => {
   });
   test('MULTIPLE BUTTON SHOULD NOT HAVE SAME ID:', () => {
     const Button = getButton(
-      new CTx({
+      getIns({
         options: {
           moreButtonPlugin_iconComponent,
         },
@@ -82,7 +88,7 @@ describe('Enable Accesibility : ', () => {
 describe('DISABLE ACCESIBILITY : ', () => {
   test('DEFAULT:', () => {
     const Button = getButton(
-      new CTx({
+      getIns({
         options: {
           moreButtonPlugin_iconComponent,
           accessibility: false,
@@ -102,7 +108,7 @@ describe('DISABLE ACCESIBILITY : ', () => {
 describe('OPEN AND CLOSE POPPER:', () => {
   test('BUTTON CLICK:', () => {
     const Button = getButton(
-      new CTx({
+      getIns({
         options: {
           moreButtonPlugin_iconComponent,
           //accessibility: false,
@@ -130,7 +136,7 @@ describe('OPEN AND CLOSE POPPER:', () => {
   });
   test('document click:', () => {
     const Button = getButton(
-      new CTx({
+      getIns({
         options: {
           moreButtonPlugin_iconComponent,
         },
@@ -156,7 +162,7 @@ describe('OPEN AND CLOSE POPPER:', () => {
     expect(getBtn().getAttribute('aria-expanded') == 'true').toBe(false);
   });
   test('select tab:', () => {
-    const ins = new CTx({
+    const ins = getIns({
       options: {
         moreButtonPlugin_iconComponent,
       },
@@ -189,7 +195,7 @@ describe('OPEN AND CLOSE POPPER:', () => {
       ref._cleanSelectEvent = jest.fn(() => {});
       return ref;
     };
-    const ins = new CTx({
+    const ins = getIns({
       options: {
         moreButtonPlugin_iconComponent,
       },
@@ -231,7 +237,7 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const ins = new CTx({
+    const ins = getIns({
       options: {
         moreButtonPlugin_iconComponent,
         selectedTabID: '1',
@@ -279,7 +285,7 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const ins = new CTx({
+    const ins = getIns({
       options: {
         moreButtonPlugin_iconComponent,
         selectedTabID: '1',
@@ -327,7 +333,7 @@ describe('TABS COMPONENT:', () => {
       buttonApi = (Api.default || Api).call(this, components, setOpen);
       return buttonApi;
     };
-    const ins = new CTx({
+    const ins = getIns({
       options: {
         moreButtonPlugin_iconComponent,
         selectedTabID: '1',

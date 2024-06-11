@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 export default function setComponents(deps, ctx, components) {
   const {moreButtonPlugin_buttonComponent, ShowMoreTabs, moreButtonPlugin_iconComponent} = deps;
+  setComponents.setSetting(ctx);
   setComponents.setDefaultOptions(ctx, components, moreButtonPlugin_buttonComponent, moreButtonPlugin_iconComponent);
   setComponents.setTablistView(components);
   setComponents.setMoreButtonPlugin(ctx, components, ShowMoreTabs, setComponents.ShowMoreButton, memo);
@@ -70,4 +71,9 @@ export const setDefaultOptions = (setComponents.setDefaultOptions = function (
     },
     ctx.optionsManager.options,
   );
+});
+export const setSetting = (setComponents.setSetting = function (ctx) {
+  ctx.optionsManager.setting.showMoreContainerClass = 'rc-dyn-tabs-showmorebutton-container';
+  ctx.optionsManager.setting.showMoreButtonClass = 'rc-dyn-tabs-showmorebutton';
+  ctx.optionsManager.setting.showMorePopperClass = 'rc-dyn-tabs-popper';
 });

@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer';
 import Api from './api.js';
 import tabsMoreButton from 'tabs-more-button';
 import Ctx from '../../../utils/api/index.js';
+import {setSetting} from '../setComponents.js';
 let container = document.createElement('div');
 const moreButtonPlugin_buttonComponent = (props) => <div {...props}>{props.children}</div>;
 const ctx = new Ctx({
@@ -19,6 +20,7 @@ const ctx = new Ctx({
     ],
   },
 });
+setSetting(ctx);
 /**
  * render the app
  * @param {boolean} snapshot - if true then returns the element
