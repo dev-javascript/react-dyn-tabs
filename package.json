@@ -113,7 +113,10 @@
     "setupFilesAfterEnv": [
       "jest-extended"
     ],
-    "collectCoverage": true
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "src/__mock__"
+    ]
   },
   "dependencies": {
     "prop-types": "^15.7.2"
