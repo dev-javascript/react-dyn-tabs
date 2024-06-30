@@ -4,7 +4,7 @@ module.exports = (env) => {
   const isProduction = env === 'production';
   return {
     entry: {
-      'rc-dyn-tabs-core': './src/index.js',
+      'react-dyn-tabs': './src/index.js',
       'more-button-plugin': './src/plugins/moreButtonPlugin/index.js',
     },
     output: {
@@ -16,7 +16,7 @@ module.exports = (env) => {
       umdNamedDefine: true,
     },
     devtool: isProduction ? 'source-map' : 'inline-source-map',
-    mode: env,
+    mode: 'development',
     module: {
       rules: [
         {
