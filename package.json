@@ -2,14 +2,32 @@
   "name": "react-dyn-tabs",
   "version": "5.1.1",
   "private": false,
+  "description": "React dynamic tabs with full API",
+  "keywords": [
+    "react",
+    "dynamic",
+    "responsive",
+    "responsive-tabs",
+    "more-button",
+    "tab",
+    "tabs",
+    "react-dynamic-tabs",
+    "dynamic-tabs",
+    "multi-tabs",
+    "react-dynamic-tabs",
+    "react-dyn-tabs",
+    "react-component",
+    "react-tab",
+    "full-api",
+    "full-control"
+  ],
   "author": {
     "name": "dev-javascript",
     "email": "javascript.code.dev@gmail.com"
   },
-  "types": "./index.d.ts",
-  "description": "React dynamic tabs with full API",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dev-javascript/react-dyn-tabs.git"
@@ -92,24 +110,6 @@
     "react-dyn-tabs.ts",
     "index.ts"
   ],
-  "keywords": [
-    "react",
-    "dynamic",
-    "responsive",
-    "responsive-tabs",
-    "more-button",
-    "tab",
-    "tabs",
-    "react-dynamic-tabs",
-    "dynamic-tabs",
-    "multi-tabs",
-    "react-dynamic-tabs",
-    "react-dyn-tabs",
-    "react-component",
-    "react-tab",
-    "full-api",
-    "full-control"
-  ],
   "license": "MIT",
   "directories": {
     "lib": "lib"
@@ -130,7 +130,6 @@
   "sideEffects": false,
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@rollup/plugin-terser": "^0.4.4",
     "element-resize-detector": "^1.2.4",
     "prop-types": "^15.7.2",
     "tabs-more-button": "^1.0.1"

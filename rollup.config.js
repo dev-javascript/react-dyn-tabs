@@ -1,6 +1,3 @@
-// import {terser} from 'rollup-plugin-terser';
-// import commonjs from '@rollup/plugin-commonjs';
-// import nodeResolve from '@rollup/plugin-node-resolve';
 const terser = require('@rollup/plugin-terser');
 const commonjs = require('@rollup/plugin-commonjs');
 const nodeResolve = require('@rollup/plugin-node-resolve');
