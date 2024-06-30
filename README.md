@@ -76,14 +76,16 @@ React Dynamic Tabs with full API
 
 ## Installation
 
-```js
-$ npm install react-dyn-tabs --save
-```
+> $ npm install react-dyn-tabs --save
 
 or
 
+> $ yarn add react-dyn-tabs
+
+If you need to directly include script in your html, use the following link :
+
 ```js
-$ yarn add react-dyn-tabs
+<script src="https://unpkg.com/react-dyn-tabs@latest/dist/react-dyn-tabs.umd.min.js"></script>
 ```
 
 ## Syntax
