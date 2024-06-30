@@ -282,7 +282,6 @@ describe('select method : ', () => {
     expect(op.onSelect.mock.calls.length === 1).toBe(true);
     expect(onSelect.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
       previousSelectedTabId: '1',
     });
     expect(op.onInit).toHaveBeenCalledBefore(op.onChange);
@@ -605,7 +604,6 @@ describe('onChange callback : ', () => {
 
     expect(onSelect.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '3',
-      perviousSelectedTabId: '1',
       previousSelectedTabId: '1',
     });
     expect(onFirstSelect.mock.calls[0][0]).toEqual({
@@ -636,7 +634,7 @@ describe('onChange callback : ', () => {
   });
 });
 describe('onSelect callback : ', () => {
-  test('onSelect is called with {currentSelectedTabId,previousSelectedTabId,perviousSelectedTabId} object as a parameter', () => {
+  test('onSelect is called with {currentSelectedTabId,previousSelectedTabId} object as a parameter', () => {
     renderApp();
     act(() => {
       instance.select('2');
@@ -644,7 +642,6 @@ describe('onSelect callback : ', () => {
     expect(op.onSelect.mock.calls.length).toBe(1);
     expect(op.onSelect.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
       previousSelectedTabId: '1',
     });
   });
@@ -668,7 +665,6 @@ describe('onSelect callback : ', () => {
     });
     expect(onSelect2.mock.calls[0][0]).toEqual({
       currentSelectedTabId: '2',
-      perviousSelectedTabId: '1',
       previousSelectedTabId: '1',
     });
   });

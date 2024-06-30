@@ -220,7 +220,6 @@ Helper.setNoneEnumProps(_apiProps, {
             {
               currentSelectedTabId: newState.selectedTabID,
               previousSelectedTabId: oldState.selectedTabID,
-              perviousSelectedTabId: oldState.selectedTabID,
             },
           ];
         });
