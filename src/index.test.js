@@ -94,8 +94,10 @@ describe('apply multiple actions : ', () => {
     let _api;
     act(() => {
       const App = function () {
-        const [Tablist, Panellist, api] = useDynTabs(op);
-        _api = api;
+        const [Tablist, Panellist, ready] = useDynTabs(op);
+        ready((api) => {
+          _api = api;
+        });
         return (
           <div>
             <Tablist></Tablist>

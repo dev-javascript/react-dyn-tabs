@@ -209,11 +209,6 @@ describe('Api.prototype.ready : ', () => {
   test('ready function must be a binded function', () => {
     expect(Object.prototype.hasOwnProperty.call(obj.ready, 'prototype') === false).toBe(true);
   });
-  test('ready function should contain all userProxy properties :', () => {
-    const readyProps = Object.keys(obj.ready).join();
-    const uesrProxyProps = Object.keys(obj.userProxy).join();
-    expect(uesrProxyProps === readyProps).toBe(true);
-  });
   test('its type should be a function', () => {
     expect(typeof obj.ready === 'function').toBe(true);
   });

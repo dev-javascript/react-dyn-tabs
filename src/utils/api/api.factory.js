@@ -48,8 +48,6 @@ const _apiProps = {
       }
     };
     ready = ready.bind(this);
-    // make ready function object for supporting deprecated api
-    Object.assign(ready, this.userProxy);
     this.helper.setNoneEnumProps(this, {ready});
     return this;
   },

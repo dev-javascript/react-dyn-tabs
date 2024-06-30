@@ -13,10 +13,10 @@ Object.assign(Api.prototype, {
     this.tablistEl = this.btnRef.current.previousSibling;
     this.tablistContainerEl = this.tablistEl.parentElement.parentElement;
     this.tablistViewEl = this.tablistContainerEl.parentElement;
-    debugger;
     this._resizer = this.getResizerIns({
       containerElement: this.tablistContainerEl,
       buttonElement: this.btnRef.current,
+      tablistElement: this.tablistEl,
     });
   },
   installResizer: function (resizeDetectorIns) {

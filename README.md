@@ -1309,8 +1309,6 @@ Include `react-dyn-tabs/style/react-dyn-tabs-rtl.min.css` for `rtl` mode
 
 These deprecated features can still be used, but should be used with caution because they are expected to be removed entirely sometime in the future. You should work to remove their use from your code.
 
-- Third element of returned array by useDynTabs hook should not be used as an object, it is no longer recommended and only be kept for backwards compatibility purposes, it should be used as a function.
-
 - First parameter of onSelect function is an object and has perviousSelectedTabId property which is deprecated. you should use previousSelectedTabId property instead of perviousSelectedTabId property.
 
 - First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
