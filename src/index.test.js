@@ -550,7 +550,7 @@ describe('onInit callback : ', () => {
   });
 });
 describe('onChange callback : ', () => {
-  test(`onChange is called with {currentData,previousData,perviousData,openedTabIDs,closedTabIDs} 
+  test(`onChange is called with {currentData,previousData,openedTabIDs,closedTabIDs} 
     object as a parameter`, () => {
     renderApp();
     act(() => {
@@ -560,7 +560,6 @@ describe('onChange callback : ', () => {
     expect(op.onChange.mock.calls[0][0]).toEqual({
       currentData: {selectedTabID: '2', openTabIDs: ['1', '2']},
       previousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
-      perviousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
       openedTabIDs: [],
       closedTabIDs: [],
     });
@@ -615,7 +614,6 @@ describe('onChange callback : ', () => {
     expect(onChange2.mock.calls[0][0]).toEqual({
       currentData: {selectedTabID: '3', openTabIDs: ['1', '3']},
       previousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
-      perviousData: {selectedTabID: '1', openTabIDs: ['1', '2']},
       closedTabIDs: ['2'],
       openedTabIDs: ['3'],
     });

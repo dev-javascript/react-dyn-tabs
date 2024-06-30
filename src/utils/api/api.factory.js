@@ -190,7 +190,6 @@ Helper.setNoneEnumProps(_apiProps, {
           {
             currentData: this.helper.getCopyState(newState),
             previousData: this.helper.getCopyState(oldState),
-            perviousData: this.helper.getCopyState(oldState),
             closedTabIDs: closedTabIDs.slice(),
             openedTabIDs: openedTabIDs.slice(),
           },

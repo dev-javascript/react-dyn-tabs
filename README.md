@@ -69,7 +69,6 @@ React Dynamic Tabs with full API
 - [Render custom components at the end of the Tablist](#render-custom-components-at-the-end-of-the-tablist)
 - [Styling](#styling)
 - [Caveats](#caveats)
-- [Deprecated features](#deprecated-features)
 - [Test](#test)
 - [License](#license)
 
@@ -1304,12 +1303,6 @@ Include `react-dyn-tabs/style/react-dyn-tabs-rtl.min.css` for `rtl` mode
 - Some actions like open, select, close and refresh cause re-rendering, and using them immediately after calling useDynTabs hook will create an infinite loop and other bugs that most likely you don't want to cause. you should use them inside event listeners or subscriptions.
 
 - Do not use setState inside the onInit callback because it leads to an infinite loop.
-
-## Deprecated features
-
-These deprecated features can still be used, but should be used with caution because they are expected to be removed entirely sometime in the future. You should work to remove their use from your code.
-
-- First parameter of onChange function is an object and has perviousData property which is deprecated. you should use previousData property instead of perviousData property.
 
 ## Test
 
