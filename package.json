@@ -116,6 +116,7 @@
     "lib": "lib"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "jest-extended"
     ],
