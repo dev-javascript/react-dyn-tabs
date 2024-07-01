@@ -1,6 +1,6 @@
 {
   "name": "react-dyn-tabs",
-  "version": "5.1.1",
+  "version": "6.0.0",
   "private": false,
   "description": "React dynamic tabs with full API",
   "keywords": [
@@ -108,7 +108,8 @@
     "!*.test.js.snap",
     "index.d.ts",
     "react-dyn-tabs.ts",
-    "index.ts"
+    "index.ts",
+    "CHANGELOG.md"
   ],
   "license": "MIT",
   "directories": {

@@ -1,3 +1,12 @@
+# v6.0.0
+
+- Responsive with `more button plugin`
+- `Tablist` accepts children
+- Remove Deprecated features :
+  - Now `ready` function can not be used as an `object`
+  - Remove Deprecated parameter of `onSelect` option
+  - Remove Deprecated parameter of `onChange` option
+
 # v5.1.1
 
 - Fix types
