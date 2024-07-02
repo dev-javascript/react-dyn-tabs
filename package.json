@@ -89,8 +89,8 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "css-loader": "^7.1.2",
     "eslint-plugin-react": "^7.34.3",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "react-test-renderer": "16.9.0",
     "sass": "^1.77.6",
     "style-loader": "^4.0.0"
