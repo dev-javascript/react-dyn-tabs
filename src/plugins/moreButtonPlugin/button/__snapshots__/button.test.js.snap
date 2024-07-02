@@ -8,7 +8,7 @@ exports[`DISABLE ACCESIBILITY :  DEFAULT: 1`] = `
   >
     <div
       instance={
-        Object {
+        {
           "close": [Function],
           "getCopyData": [Function],
           "getCopyPerviousData": [Function],
@@ -50,7 +50,7 @@ exports[`Enable Accesibility :  DEFAULT: 1`] = `
   >
     <div
       instance={
-        Object {
+        {
           "close": [Function],
           "getCopyData": [Function],
           "getCopyPerviousData": [Function],
@@ -92,7 +92,7 @@ exports[`Enable Accesibility :  MULTIPLE BUTTON SHOULD NOT HAVE SAME ID: 1`] = `
   >
     <div
       instance={
-        Object {
+        {
           "close": [Function],
           "getCopyData": [Function],
           "getCopyPerviousData": [Function],
@@ -129,7 +129,7 @@ exports[`Enable Accesibility :  MULTIPLE BUTTON SHOULD NOT HAVE SAME ID: 1`] = `
   >
     <div
       instance={
-        Object {
+        {
           "close": [Function],
           "getCopyData": [Function],
           "getCopyPerviousData": [Function],

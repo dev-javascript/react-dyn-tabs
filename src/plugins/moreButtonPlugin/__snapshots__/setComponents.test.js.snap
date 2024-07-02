@@ -2,10 +2,10 @@
 
 exports[`showMorePlugin  MoreButtonPlugin :  1`] = `
 <div
-  ctx={Object {}}
+  ctx={{}}
   customProp="customProp"
   openTabIDs={
-    Array [
+    [
       "1",
       "2",
     ]

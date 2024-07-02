@@ -95,12 +95,23 @@ describe('showMorePlugin ', () => {
     expect(ctx.optionsManager.setting.showMorePopperClass).toBe('rc-dyn-tabs-popper');
   });
   test('constructor : ', () => {
+    const executionOrder = [];
     showMorePlugin.ShowMoreButton = jest.fn(() => {});
-    showMorePlugin.setMoreButtonPlugin = jest.fn(() => {});
-    showMorePlugin.setTablistOverflow = jest.fn(() => {});
-    showMorePlugin.setTablistView = jest.fn(() => {});
-    showMorePlugin.setDefaultOptions = jest.fn(() => {});
-    showMorePlugin.setSetting = jest.fn(() => {});
+    showMorePlugin.setMoreButtonPlugin = jest.fn(() => {
+      executionOrder.push('setMoreButtonPlugin');
+    });
+    showMorePlugin.setTablistOverflow = jest.fn(() => {
+      executionOrder.push('setTablistOverflow');
+    });
+    showMorePlugin.setTablistView = jest.fn(() => {
+      executionOrder.push('setTablistView');
+    });
+    showMorePlugin.setDefaultOptions = jest.fn(() => {
+      executionOrder.push('setDefaultOptions');
+    });
+    showMorePlugin.setSetting = jest.fn(() => {
+      executionOrder.push('setSetting');
+    });
     const deps = {
       moreButtonPlugin_buttonComponent: 'moreButtonPlugin_buttonComponent',
       ShowMoreTabs: 'ShowMoreTabs',
@@ -114,10 +125,9 @@ describe('showMorePlugin ', () => {
     expect(showMorePlugin.setTablistView.mock.calls.length).toBe(1);
     expect(showMorePlugin.setMoreButtonPlugin.mock.calls.length).toBe(1);
     expect(showMorePlugin.setTablistOverflow.mock.calls.length).toBe(1);
-    expect(showMorePlugin.setSetting).toHaveBeenCalledBefore(showMorePlugin.setDefaultOptions);
-    expect(showMorePlugin.setDefaultOptions).toHaveBeenCalledBefore(showMorePlugin.setTablistView);
-    expect(showMorePlugin.setTablistView).toHaveBeenCalledBefore(showMorePlugin.setMoreButtonPlugin);
-    expect(showMorePlugin.setMoreButtonPlugin).toHaveBeenCalledBefore(showMorePlugin.setTablistOverflow);
+    expect(executionOrder.toString()).toBe(
+      'setSetting,setDefaultOptions,setTablistView,setMoreButtonPlugin,setTablistOverflow',
+    );
     expect(showMorePlugin.setMoreButtonPlugin.mock.calls[0][3]).toEqual(showMorePlugin.ShowMoreButton);
   });
 });

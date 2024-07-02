@@ -272,7 +272,19 @@ describe('calling some action inside the events options', () => {
 });
 describe('select method : ', () => {
   test('it should fire onInit event then onChange and then onSelect evnets', () => {
-    const onSelect = jest.fn(() => {});
+    const executionOrder = [];
+    op.onInit = jest.fn(() => {
+      executionOrder.push('onInit');
+    });
+    op.onChange = jest.fn(() => {
+      executionOrder.push('onChange');
+    });
+    op.onSelect = jest.fn(() => {
+      executionOrder.push('onSelect');
+    });
+    const onSelect = jest.fn(() => {
+      executionOrder.push('onSelect2');
+    });
     renderApp();
     act(() => {
       instance.one('onSelect', onSelect).select('2');
@@ -284,9 +296,7 @@ describe('select method : ', () => {
       currentSelectedTabId: '2',
       previousSelectedTabId: '1',
     });
-    expect(op.onInit).toHaveBeenCalledBefore(op.onChange);
-    expect(op.onChange).toHaveBeenCalledBefore(op.onSelect);
-    expect(op.onSelect).toHaveBeenCalledBefore(onSelect);
+    expect(executionOrder.toString()).toBe('onInit,onInit,onChange,onSelect,onSelect2');
   });
   test('select Promise is resolved with {currentData,instance} parameter after onSelect event', () => {
     expect.assertions(6);
@@ -327,7 +337,19 @@ describe('select method : ', () => {
 });
 describe('close method : ', () => {
   test('it should fire onInit event then onChange and then onClose evnets', () => {
-    const onClose = jest.fn(() => {});
+    const executionOrder = [];
+    op.onInit = jest.fn(() => {
+      executionOrder.push('onInit');
+    });
+    op.onChange = jest.fn(() => {
+      executionOrder.push('onChange');
+    });
+    op.onClose = jest.fn(() => {
+      executionOrder.push('onClose');
+    });
+    const onClose = jest.fn(() => {
+      executionOrder.push('onClose2');
+    });
     renderApp();
     act(() => {
       instance.one('onClose', onClose).close('2');
@@ -337,9 +359,7 @@ describe('close method : ', () => {
     expect(op.onClose.mock.calls.length === 1).toBe(true);
     expect(op.onClose.mock.calls[0][0]).toEqual(['2']);
     expect(onClose.mock.calls[0][0]).toEqual(['2']);
-    expect(op.onInit).toHaveBeenCalledBefore(op.onChange);
-    expect(op.onChange).toHaveBeenCalledBefore(op.onClose);
-    expect(op.onClose).toHaveBeenCalledBefore(onClose);
+    expect(executionOrder.toString()).toBe('onInit,onInit,onChange,onClose,onClose2');
   });
   test('close Promise is resolved with {currentData,instance} parameter after onClose event', () => {
     expect.assertions(6);
@@ -368,7 +388,19 @@ describe('close method : ', () => {
 });
 describe('open method : ', () => {
   test('it should fire onInit event then onChange and then onOpen evnets', () => {
-    const onOpen = jest.fn(() => {});
+    const executionOrder = [];
+    op.onInit = jest.fn(() => {
+      executionOrder.push('onInit');
+    });
+    op.onChange = jest.fn(() => {
+      executionOrder.push('onChange');
+    });
+    op.onOpen = jest.fn(() => {
+      executionOrder.push('onOpen');
+    });
+    const onOpen = jest.fn(() => {
+      executionOrder.push('onOpen2');
+    });
     renderApp();
     act(() => {
       instance.one('onOpen', onOpen).open({
@@ -385,9 +417,7 @@ describe('open method : ', () => {
     expect(op.onOpen.mock.calls.length === 1).toBe(true);
     expect(op.onOpen.mock.calls[0][0]).toEqual(['3', '4']);
     expect(onOpen.mock.calls[0][0]).toEqual(['3', '4']);
-    expect(op.onInit).toHaveBeenCalledBefore(op.onChange);
-    expect(op.onChange).toHaveBeenCalledBefore(op.onOpen);
-    expect(op.onOpen).toHaveBeenCalledBefore(onOpen);
+    expect(executionOrder.toString()).toBe('onInit,onInit,onChange,onOpen,onOpen2');
   });
   test('open Promise is resolved with {currentData,instance} parameter after onOpen event', () => {
     expect.assertions(5);
@@ -498,15 +528,23 @@ describe('ready function : ', () => {
     });
   });
   test('it calls its function parameter after onLoad event and first execution of onInit event', () => {
-    expect.assertions(6);
-    const onReady = jest.fn(() => {});
+    expect.assertions(5);
+    const executionOrder = [];
+    const onReady = jest.fn(() => {
+      executionOrder.push('onReady');
+    });
+    op.onLoad = jest.fn(() => {
+      executionOrder.push('onLoad');
+    });
+    op.onInit = jest.fn(() => {
+      executionOrder.push('onInit');
+    });
     renderApp();
     ready(onReady);
     expect(op.onLoad.mock.calls.length === 1).toBe(true);
     expect(op.onInit.mock.calls.length === 1).toBe(true);
     expect(onReady.mock.calls.length === 1).toBe(true);
-    expect(op.onLoad).toHaveBeenCalledBefore(op.onInit);
-    expect(op.onInit).toHaveBeenCalledBefore(onReady);
+    expect(executionOrder.toString()).toBe('onLoad,onInit,onReady');
     expect(op.onChange.mock.calls.length).toBe(0);
   });
 });
@@ -685,6 +723,13 @@ describe('onFirstSelect callback : ', () => {
     expect(op.onFirstSelect.mock.calls.length).toBe(0);
   });
   test('it is triggered at most once per each tab, before onSelect event. if the tab has not been selected yet', () => {
+    const executionOrder = [];
+    op.onFirstSelect = jest.fn(() => {
+      executionOrder.push('onFirstSelect');
+    });
+    op.onSelect = jest.fn(() => {
+      executionOrder.push('onSelect');
+    });
     renderApp();
     expect(op.onFirstSelect.mock.calls.length).toBe(0);
     expect(op.onSelect.mock.calls.length).toBe(0);
@@ -693,7 +738,7 @@ describe('onFirstSelect callback : ', () => {
     });
     expect(op.onFirstSelect.mock.calls.length).toBe(1);
     expect(op.onSelect.mock.calls.length).toBe(1);
-    expect(op.onFirstSelect).toHaveBeenCalledBefore(op.onSelect);
+    expect(executionOrder.toString()).toBe('onFirstSelect,onSelect');
     act(() => {
       instance.select('1');
     });

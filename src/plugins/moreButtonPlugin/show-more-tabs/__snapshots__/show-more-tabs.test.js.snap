@@ -7,7 +7,7 @@ exports[`BUTTON CONTAINER STRUCTURE :  default button 1`] = `
   <div
     hiddenTabIDs=""
     instance={
-      Object {
+      {
         "close": [Function],
         "getCopyData": [Function],
         "getCopyPerviousData": [Function],

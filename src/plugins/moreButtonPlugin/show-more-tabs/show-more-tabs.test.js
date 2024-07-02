@@ -310,9 +310,16 @@ describe('button component : ', () => {
 });
 describe('mounting : ', () => {
   test('at first the setResizer method should be called then installResizer and then resize method', () => {
-    const installResizer = jest.fn(() => {});
-    const resize = jest.fn(() => {});
-    const setResizer = jest.fn(() => {});
+    const executionOrder = [];
+    const installResizer = jest.fn(() => {
+      executionOrder.push('installResizer');
+    });
+    const resize = jest.fn(() => {
+      executionOrder.push('resize');
+    });
+    const setResizer = jest.fn(() => {
+      executionOrder.push('setResizer');
+    });
     renderApp(
       false,
       {
@@ -327,8 +334,7 @@ describe('mounting : ', () => {
         resize,
       },
     );
-    expect(setResizer).toHaveBeenCalledBefore(installResizer);
-    expect(installResizer).toHaveBeenCalledBefore(resize);
+    expect(executionOrder.toString()).toBe('setResizer,installResizer,resize');
     expect(resize.mock.calls.length).toBe(1);
   });
 });

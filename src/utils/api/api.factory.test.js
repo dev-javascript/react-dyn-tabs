@@ -56,15 +56,23 @@ describe('Api Contructor : ', () => {
 });
 describe('Api.prototype.open : ', () => {
   test('it should call optionsManager.validateTabData internally', () => {
+    const executionOrder = [];
     Object.assign(obj, {
-      _getFlushEffectsPromise: jest.fn(() => Promise),
-      _open: jest.fn(() => {}),
+      _getFlushEffectsPromise: jest.fn(() => {
+        executionOrder.push('_getFlushEffectsPromise');
+        return Promise;
+      }),
+      _open: jest.fn(() => {
+        executionOrder.push('_open');
+      }),
     });
-    obj.optionsManager.validateTabData = jest.fn((data) => data);
+    obj.optionsManager.validateTabData = jest.fn((data) => {
+      executionOrder.push('validateTabData');
+      return data;
+    });
     obj.open({id: '2'});
     expect(obj.optionsManager.validateTabData.mock.calls.length === 1).toBe(true);
-    expect(obj.optionsManager.validateTabData).toHaveBeenCalledBefore(obj._getFlushEffectsPromise);
-    expect(obj._getFlushEffectsPromise).toHaveBeenCalledBefore(obj._open);
+    expect(executionOrder.toString()).toBe('validateTabData,_getFlushEffectsPromise,_open');
   });
   test('it throws an error if is called with falsy value of id parameter', () => {
     expect.assertions(3);
@@ -101,11 +109,16 @@ describe('Api.prototype.close : ', () => {
   });
   test('it will call select function internally if switch parameter was true and tab was already opended and selected', () => {
     expect.assertions(3);
+    const executionOrder = [];
     Object.assign(obj, {
       __close: jest.fn(() => {
+        executionOrder.push('__close');
         return Promise.resolve({currentData: {}, instance: {}});
       }),
-      select: jest.fn(() => Promise),
+      select: jest.fn(() => {
+        executionOrder.push('select');
+        return Promise;
+      }),
       isOpen: jest.fn(() => true),
       stateRef: {openTabIDs: ['1', '2'], selectedTabID: '2'},
       _findTabIdForSwitching: jest.fn(() => '1'),
@@ -117,16 +130,21 @@ describe('Api.prototype.close : ', () => {
           Object.prototype.hasOwnProperty.call(result, 'instance'),
       ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
-      expect(obj.select).toHaveBeenCalledBefore(obj.__close);
+      expect(executionOrder.toString()).toBe('select,__close');
     });
   });
   test('switch parameter default value is true', () => {
     expect.assertions(3);
+    const executionOrder = [];
     Object.assign(obj, {
       __close: jest.fn(() => {
+        executionOrder.push('__close');
         return Promise.resolve({currentData: {}, instance: {}});
       }),
-      select: jest.fn(() => Promise),
+      select: jest.fn(() => {
+        executionOrder.push('select');
+        return Promise;
+      }),
       isOpen: jest.fn(() => true),
       stateRef: {openTabIDs: ['1', '2'], selectedTabID: '2'},
       _findTabIdForSwitching: jest.fn(() => '1'),
@@ -138,7 +156,7 @@ describe('Api.prototype.close : ', () => {
           Object.prototype.hasOwnProperty.call(result, 'instance'),
       ).toBe(true);
       expect(obj.__close.mock.calls.length === 1).toBe(true);
-      expect(obj.select).toHaveBeenCalledBefore(obj.__close);
+      expect(executionOrder.toString()).toBe('select,__close');
     });
   });
   test('it will not call select function internally if switch parameter was false', () => {
@@ -448,12 +466,17 @@ describe('Api.prototype.getPreviousData and Api.prototype.getData : ', () => {
 });
 describe('Api.prototype.setTab : ', () => {
   test('it should call optionsManager.validateObjectiveTabData and validatePanelComponent internally', () => {
-    obj.optionsManager.validateObjectiveTabData = jest.fn(() => obj.optionsManager);
-    obj.optionsManager.validatePanelComponent = jest.fn(() => obj.optionsManager);
+    const executionOrder = [];
+    obj.optionsManager.validateObjectiveTabData = jest.fn(() => {
+      executionOrder.push('validateObjectiveTabData');
+      return obj.optionsManager;
+    });
+    obj.optionsManager.validatePanelComponent = jest.fn(() => {
+      executionOrder.push('validatePanelComponent');
+      return obj.optionsManager;
+    });
     obj.setTab('1', {title: 'c'});
-    expect(obj.optionsManager.validateObjectiveTabData).toHaveBeenCalledBefore(
-      obj.optionsManager.validatePanelComponent,
-    );
+    expect(executionOrder.toString()).toBe('validateObjectiveTabData,validatePanelComponent');
   });
   test('it should return the context', () => {
     obj.optionsManager.validateObjectiveTabData = jest.fn(() => obj.optionsManager);
