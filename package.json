@@ -51,7 +51,9 @@
     "prepublishOnly": "npm run build",
     "test": "jest",
     "lint": "eslint src",
-    "deploy": "gh-pages -d demo"
+    "deploy": "gh-pages -d demo",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -86,6 +88,7 @@
     "@babel/plugin-transform-react-jsx": "^7.24.7",
     "@babel/plugin-transform-react-jsx-self": "^7.24.7",
     "@babel/preset-react": "^7.24.7",
+    "react-styleguidist": "^12.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "css-loader": "^7.1.2",
     "eslint-plugin-react": "^7.34.3",
