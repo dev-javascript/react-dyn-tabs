@@ -3,8 +3,10 @@ import React, {useState, useReducer, useLayoutEffect, useRef} from 'react';
 function useDynamicTabs(getDeps, options = {}, modules) {
   const {reducer, getApiInstance, ApiContext, StateContext, ForceUpdateContext, Components} = getDeps();
   const ref = useRef(null);
-  if (ref.current === null)
-    ref.current = {api: getApiInstance(options, modules, Components), TabListComponent: null, PanelListComponent: null};
+  if (ref.current === null) {
+    ref.current = {Components: {...Components}, TabListComponent: null, PanelListComponent: null};
+    ref.current.api = getApiInstance(options, modules, ref.current.Components);
+  }
   const {
       current: {api},
     } = ref,
@@ -44,14 +46,14 @@ function useDynamicTabs(getDeps, options = {}, modules) {
         <ApiContext.Provider value={api}>
           <StateContext.Provider value={api.stateRef}>
             <ForceUpdateContext.Provider value={api.forceUpdateState}>
-              <Components.TablistView>
-                <Components.TablistContainer>
-                  <Components.TablistOverflow>
-                    <Components.TabList {...props}></Components.TabList>
-                  </Components.TablistOverflow>
-                </Components.TablistContainer>
+              <_ref.Components.TablistView>
+                <_ref.Components.TablistContainer>
+                  <_ref.Components.TablistOverflow>
+                    <_ref.Components.TabList {...props}></_ref.Components.TabList>
+                  </_ref.Components.TablistOverflow>
+                </_ref.Components.TablistContainer>
                 {props.children}
-              </Components.TablistView>
+              </_ref.Components.TablistView>
             </ForceUpdateContext.Provider>
           </StateContext.Provider>
         </ApiContext.Provider>
