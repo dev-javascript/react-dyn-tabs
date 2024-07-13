@@ -17,6 +17,8 @@ module.exports = {
     // Text to show on the ribbon (optional)
     text: 'Fork me on GitHub',
   },
+  styleguideDir: 'demo',
+  require: [path.join(__dirname, './example/stories/styles.css')],
   // assetsDir: "example/stories/assets",
   sections: [
     {
