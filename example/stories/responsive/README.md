@@ -1,5 +1,3 @@
-## Minimal Usage
-
 ```tsx
 import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
@@ -47,5 +45,18 @@ function App() {
     </div>
   );
 }
-<App />;
+function App2() {
+  const [TabList, PanelList] = useDynTabs(initialOptions);
+  return (
+    <div>
+      <TabList></TabList>
+      <PanelList></PanelList>
+    </div>
+  );
+}
+
+<>
+  <App />
+  <App2 />
+</>;
 ```

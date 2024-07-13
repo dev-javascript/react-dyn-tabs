@@ -15,8 +15,8 @@ module.exports = {
   sections: [
     {
       name: 'Examples',
-      content: 'example/stories/tabs/Readme.md',
-      components: 'example/stories/**/*.comp.jsx',
+      content: 'example/stories/minimal-usage/README.md',
+      components: 'example/stories/**/*.jsx',
       sectionDepth: 1,
     },
   ],
