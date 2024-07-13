@@ -1,4 +1,4 @@
-```tsx
+```jsx padded
 import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
 import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
