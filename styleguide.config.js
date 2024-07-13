@@ -3,7 +3,7 @@ const {version} = require('./package');
 const path = require('path');
 
 module.exports = {
-  title: 'React Dyn Tabs',
+  title: 'react-dyn-tabs',
   getComponentPathLine(componentPath) {
     return ``;
   },
@@ -11,12 +11,29 @@ module.exports = {
   moduleAliases: {
     'react-dyn-tabs': path.resolve(__dirname, './'),
   },
+  ribbon: {
+    // Link to open on the ribbon click (required)
+    url: 'https://github.com/dev-javascript/react-dyn-tabs',
+    // Text to show on the ribbon (optional)
+    text: 'Fork me on GitHub',
+  },
   // assetsDir: "example/stories/assets",
   sections: [
     {
-      name: 'Examples',
+      name: 'Minimal Usage',
       content: 'example/stories/minimal-usage/README.md',
-      components: 'example/stories/**/*.jsx',
+      sectionDepth: 1,
+    },
+    {
+      name: 'Simple Manipulation',
+      content: 'example/stories/simple-manipulation/README.md',
+      //components: 'example/stories/**/*.jsx',
+      sectionDepth: 1,
+    },
+    {
+      name: 'Responsive',
+      content: 'example/stories/responsive/README.md',
+      //components: 'example/stories/**/*.jsx',
       sectionDepth: 1,
     },
   ],

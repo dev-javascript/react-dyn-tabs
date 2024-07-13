@@ -6,33 +6,11 @@ import useDynTabs from 'react-dyn-tabs';
 import MoreButtonPlugin from 'react-dyn-tabs/plugins/moreButtonPlugin';
 
 const initialOptions = {
-  tabs: [
-    {
-      id: '1',
-      title: 'tab 1',
-      panelComponent: (porps) => <p> panel 1 </p>,
-    },
-    {
-      id: '2',
-      title: 'tab 2',
-      panelComponent: (porps) => <p> panel 2 </p>,
-    },
-    {
-      id: '3',
-      title: 'tab 3',
-      panelComponent: (porps) => <p> panel 3 </p>,
-    },
-    {
-      id: '4',
-      title: 'tab 4',
-      panelComponent: (porps) => <p> panel 4 </p>,
-    },
-    {
-      id: '5',
-      title: 'tab 5',
-      panelComponent: (porps) => <p> panel 5 </p>,
-    },
-  ],
+  tabs: Array.from({length: 20}).map((value, i) => ({
+    id: `${i + 1}`,
+    title: `tab ${i + 1}`,
+    panelComponent: <p> {`panel ${i + 1}`} </p>,
+  })),
   selectedTabID: '2',
 };
 
@@ -45,18 +23,5 @@ function App() {
     </div>
   );
 }
-function App2() {
-  const [TabList, PanelList] = useDynTabs(initialOptions);
-  return (
-    <div>
-      <TabList></TabList>
-      <PanelList></PanelList>
-    </div>
-  );
-}
-
-<>
-  <App />
-  <App2 />
-</>;
+<App />;
 ```
