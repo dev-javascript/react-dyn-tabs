@@ -1,3 +1,7 @@
+# v6.0.1
+
+Fix issue of `components` reference
+
 # v6.0.0
 
 - Responsive with `more button plugin`
