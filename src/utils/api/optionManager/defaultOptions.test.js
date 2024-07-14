@@ -5,6 +5,7 @@ describe('DefaultOptions.prototype.getOptions : ', () => {
     const expected = {
       tabs: [],
       selectedTabID: '',
+      theme: '',
       beforeSelect: expect.any(Function),
       beforeClose: expect.any(Function),
       onOpen: expect.any(Function),
