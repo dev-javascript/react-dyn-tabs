@@ -1,10 +1,10 @@
-.rc-dyn-tabs-tablist-view {
+.all-themes.rc-dyn-tabs-tablist-view {
   background-color: #fff;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.12);
   border-width: 0px 0px 1px 0px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   min-width: 160px;
   min-height: 48px;
   border-color: transparent;
@@ -15,19 +15,19 @@
   opacity: 1;
   color: gray;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
   min-width: 46.38px;
   border: 0px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:after {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:after {
   transform: scale(0, 0);
   opacity: 0.2;
   transition: 0s;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
   color: #1976d2;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   color: #1976d2;
   background-color: transparent;
   border-color: #1976d2;
@@ -35,24 +35,24 @@
   border-width: 0px 0px 3px 0px;
   opacity: 1;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
   color: gray;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   color: gray;
   background: #e6e6e6;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   color: gray;
   background-color: #d4d4d4;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
   color: #1976d2;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected:hover .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected:hover .rc-dyn-tabs-title {
   color: #1976d2;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:after {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:after {
   content: "";
   display: block;
   position: absolute;
@@ -68,20 +68,104 @@
   opacity: 0;
   transition: transform 0.5s, opacity 1s;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
   fill: gray;
 }
-
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
   border-width: 0px 1px 0px 0px;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
   border-width: 0px 3px 0px 0px;
 }
-
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
   border-width: 0px 0px 0px 1px;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
+  border-width: 0px 0px 0px 3px;
+}
+
+.card.rc-dyn-tabs-tablist-view {
+  background-color: #fff;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-width: 0px 0px 1px 0px;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+  min-width: 160px;
+  min-height: 48px;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0px 0px 3px 0px;
+  border-radius: 1px;
+  background-color: #fff;
+  opacity: 1;
+  color: gray;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title.rc-dyn-tabs-showmorebutton {
+  min-width: 46.38px;
+  border: 0px;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:active:after {
+  transform: scale(0, 0);
+  opacity: 0.2;
+  transition: 0s;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: #1976d2;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  color: #1976d2;
+  background-color: transparent;
+  border-color: #1976d2;
+  border-style: solid;
+  border-width: 0px 0px 3px 0px;
+  opacity: 1;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: gray;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+  color: gray;
+  background: #e6e6e6;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
+  color: gray;
+  background-color: #d4d4d4;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: #1976d2;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected:hover .rc-dyn-tabs-title {
+  color: #1976d2;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+.card.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
+  fill: gray;
+}
+.card.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+  border-width: 0px 1px 0px 0px;
+}
+.card.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
+  border-width: 0px 3px 0px 0px;
+}
+.card.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  border-width: 0px 0px 0px 1px;
+}
+.card.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 3px;
 }

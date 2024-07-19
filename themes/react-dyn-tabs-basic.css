@@ -1,8 +1,8 @@
-.rc-dyn-tabs-tablist-view {
+.all-themes.rc-dyn-tabs-tablist-view {
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   background-color: inherit;
   border: none;
   padding: 0.8em 1.5em;
@@ -10,23 +10,54 @@
   min-height: 40px;
   color: gray;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
   color: gray;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
   background-color: #ddd;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
   color: black;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   background-color: #ccc;
   color: black;
 }
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
+  left: 10px;
+}
 
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
+.basic.rc-dyn-tabs-tablist-view {
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+  background-color: inherit;
+  border: none;
+  padding: 0.8em 1.5em;
+  min-width: 160px;
+  min-height: 40px;
+  color: gray;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: gray;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+  background-color: #ddd;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title:active {
+  background-color: #ddd;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  color: black;
+}
+.basic.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  background-color: #ccc;
+  color: black;
+}
+.basic.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl .rc-dyn-tabs-close {
   left: 10px;
 }

@@ -75,8 +75,8 @@ $background-color: #fff;
   }
 }
 
-@mixin main {
-  .rc-dyn-tabs-tablist-view {
+@mixin _main {
+  &.rc-dyn-tabs-tablist-view {
     @include tablistBorder;
     background-color: $background-color;
     border: none;
@@ -109,7 +109,7 @@ $background-color: #fff;
       fill: $title-color;
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     @include tablistBorder($isVertical: true);
     .rc-dyn-tabs-title {
       @include tabBorder($isVertical: true);
@@ -124,7 +124,7 @@ $background-color: #fff;
       }
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     @include tablistBorder($isVertical: true, $isRtl: true);
     .rc-dyn-tabs-tab {
       .rc-dyn-tabs-title {
@@ -139,5 +139,13 @@ $background-color: #fff;
         border-color: $border-color;
       }
     }
+  }
+}
+@mixin main {
+  .all-themes {
+    @include _main();
+  }
+  .bootstrap {
+    @include _main();
   }
 }

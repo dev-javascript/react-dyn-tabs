@@ -35,6 +35,7 @@ React Dynamic Tabs with full API
   - [defaultPanelComponent](#defaultpanelcomponent)
   - [accessibility](#accessibility)
   - [isVertical](#isvertical)
+  - [theme](#theme)
   - [onLoad](#onload)
   - [onInit](#oninit)
   - [onChange](#onchange)
@@ -67,7 +68,7 @@ React Dynamic Tabs with full API
 - [Plugins](#plugins)
   - [More Button Plugin](#more-button-plugin)
 - [Render custom components at the end of the Tablist](#render-custom-components-at-the-end-of-the-tablist)
-- [Styling](#styling)
+- [Themes And Style](#themes-and-style)
 - [Caveats](#caveats)
 - [Test](#test)
 - [License](#license)
@@ -76,11 +77,15 @@ React Dynamic Tabs with full API
 
 ## Installation
 
-> $ npm install react-dyn-tabs --save
+```js
+ $ npm install react-dyn-tabs --save
+```
 
 or
 
-> $ yarn add react-dyn-tabs
+```js
+$ yarn add react-dyn-tabs
+```
 
 If you need to directly include script in your html, use the following link :
 
@@ -98,8 +103,8 @@ If you need to directly include script in your html, use the following link :
 
 ```js
 import React from 'react';
-import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+import 'react-dyn-tabs/style/react-dyn-tabs.css'; // Mandatory CSS required by the react-dyn-tabs
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css'; // Optional Theme applied to the react-dyn-tabs
 import useDynTabs from 'react-dyn-tabs';
 
 const initialOptions = {
@@ -426,6 +431,47 @@ When `accessibility` option is `true`, it sets the id attribute of `panel` and `
 ```js
 const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
 ```
+
+### theme
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>string</td>
+      <td>no</td>
+      <td>the chosen theme name when you have multiple themes CSS.</td>
+    </tr>
+  </tbody>
+</table>
+
+**Examples**
+
+- in this exmaple, only `bootstrap` theme is applied to the `Tablist`, because value of `theme` option is `bootstrap`
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-bootstrap.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-classic.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-basic.css';
+  ...
+  useDynTabs({theme:'bootstrap'});
+  ```
+
+- in this exmaple, only `classic` theme is applied to the `Tablist`, because value of `theme` option is `classic`
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-bootstrap.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-classic.css';
+  import 'react-dyn-tabs/themes/react-dyn-tabs-basic.css';
+  ...
+  useDynTabs({theme:'classic'});
+  ```
 
 ### onLoad
 
@@ -1283,22 +1329,69 @@ useDynamicTabs(
 
   ```
 
-## Styling
+## Themes And Style
 
 `react-dyn-tabs` does not include any style loading by default. Default stylesheets and themes are provided and can be included in your application if desired.
 
+### Import the Style
+
 ```js
-import 'react-dyn-tabs/style/react-dyn-tabs.min.css';
+import 'react-dyn-tabs/style/react-dyn-tabs.css';
+// or import 'react-dyn-tabs/style/react-dyn-tabs.min.css';
 // or import 'react-dyn-tabs/style/scss/react-dyn-tabs.scss';
-import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
-// or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-card.scss';
 ```
 
-**NOTE :**
+For `rtl` mode you should also import following file
 
-You can find other themes at themes folder and multiple themes example at example/multi-themes-example folder.
+```js
+import 'react-dyn-tabs/style/react-dyn-tabs-rtl.css';
+// or import 'react-dyn-tabs/style/react-dyn-tabs-rtl.min.css';
+// or import 'react-dyn-tabs/style/scss/react-dyn-tabs-rtl.scss';
+```
 
-Include `react-dyn-tabs/style/react-dyn-tabs-rtl.min.css` for `rtl` mode
+### Themes
+
+Themes define how the Tabs looks. The library comes with Provided Themes such as `card` and `bootstrap`. To use a theme you need to 1) import the themes CSS and 2) apply the chosen theme name to the `theme` option of the `react-dyn-tabs`.
+
+- card theme
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+  // or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-card.scss';
+  // or import 'react-dyn-tabs/themes/react-dyn-tabs-card.min.css';
+  ...
+  useDynTabs({theme:'card'});
+  ```
+
+- bootstrap theme
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-bootstrap.css';
+  // or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-bootstrap.scss';
+  // or import 'react-dyn-tabs/themes/react-dyn-tabs-bootstrap.min.css';
+  ...
+  useDynTabs({theme:'bootstrap'});
+  ```
+
+- basic theme
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-basic.css';
+  // or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-basic.scss';
+  // or import 'react-dyn-tabs/themes/react-dyn-tabs-basic.min.css';
+  ...
+  useDynTabs({theme:'basic'});
+  ```
+
+- classic theme
+
+  ```js
+  import 'react-dyn-tabs/themes/react-dyn-tabs-classic.css';
+  // or import 'react-dyn-tabs/themes/scss/react-dyn-tabs-classic.scss';
+  // or import 'react-dyn-tabs/themes/react-dyn-tabs-classic.min.css';
+  ...
+  useDynTabs({theme:'classic'});
+  ```
 
 ## Caveats
 

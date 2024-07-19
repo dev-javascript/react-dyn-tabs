@@ -22,9 +22,18 @@ $border-radius-value: 5px;
   background-image: linear-gradient(to bottom, #ccdef6 0%, #d6e6fa 25%, #deecfd 45%);
 }
 @mixin tab-box-shadow {
-  -webkit-box-shadow: #fff 0 1px 0px 0 inset, #fff -1px 0 0px 0 inset, #fff 1px 0 0px 0 inset;
-  -moz-box-shadow: #fff 0 1px 0px 0 inset, #fff -1px 0 0px 0 inset, #fff 1px 0 0px 0 inset;
-  box-shadow: #fff 0 1px 0px 0 inset, #fff -1px 0 0px 0 inset, #fff 1px 0 0px 0 inset;
+  -webkit-box-shadow:
+    #fff 0 1px 0px 0 inset,
+    #fff -1px 0 0px 0 inset,
+    #fff 1px 0 0px 0 inset;
+  -moz-box-shadow:
+    #fff 0 1px 0px 0 inset,
+    #fff -1px 0 0px 0 inset,
+    #fff 1px 0 0px 0 inset;
+  box-shadow:
+    #fff 0 1px 0px 0 inset,
+    #fff -1px 0 0px 0 inset,
+    #fff 1px 0 0px 0 inset;
 }
 @mixin tab-hover-backgroud-image {
   background-image: #e8f2ff;
@@ -70,8 +79,8 @@ $border-radius-value: 5px;
     border-radius: 5px 5px 1px 1px;
   }
 }
-@mixin main {
-  .rc-dyn-tabs-tablist-view {
+@mixin _main {
+  &.rc-dyn-tabs-tablist-view {
     background-color: $tablist-background-color;
     border-color: $tablist-border-color;
     border-style: solid;
@@ -108,12 +117,12 @@ $border-radius-value: 5px;
       fill: $tab-color;
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
     .rc-dyn-tabs-tab {
       margin: 0px 0 0 0.2em;
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     padding: 0.2em 0 0.2em 0.2em;
     .rc-dyn-tabs-tab {
       margin: 0.2em 0 0 0;
@@ -134,7 +143,7 @@ $border-radius-value: 5px;
       }
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     padding: 0.2em 0.2em 0.2em 0;
     .rc-dyn-tabs-title {
       border-width: 1px 1px 1px 0px;
@@ -147,5 +156,13 @@ $border-radius-value: 5px;
         border-radius: 5px;
       }
     }
+  }
+}
+@mixin main {
+  .all-themes {
+    @include _main();
+  }
+  .classic {
+    @include _main();
   }
 }

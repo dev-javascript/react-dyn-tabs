@@ -5,8 +5,8 @@ $actived-tab-background-color: #ddd;
 $selected-tab-background-color: #ccc;
 $title-color: gray;
 $selected-tab-color: black;
-@mixin main {
-  .rc-dyn-tabs-tablist-view {
+@mixin _main {
+  &.rc-dyn-tabs-tablist-view {
     border: 1px solid $tablist-border-color;
     background-color: $tablist-background-color;
 
@@ -37,9 +37,17 @@ $selected-tab-color: black;
       }
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-rtl {
     .rc-dyn-tabs-close {
       left: 10px;
     }
+  }
+}
+@mixin main {
+  .all-themes {
+    @include _main();
+  }
+  .basic {
+    @include _main();
   }
 }

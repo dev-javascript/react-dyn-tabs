@@ -7,8 +7,8 @@ $indicator-color: #1976d2;
 $tab-hover-background: #e6e6e6;
 $actived-tab-background-color: #d4d4d4;
 $ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
-@mixin main {
-  .rc-dyn-tabs-tablist-view {
+@mixin _main {
+  &.rc-dyn-tabs-tablist-view {
     background-color: $tablist-background-color;
     border-style: solid;
     border-color: $tablist-border-color;
@@ -77,22 +77,32 @@ $ripple: radial-gradient(circle, #000 10%, transparent 10.01%);
       background-position: 50%;
       transform: scale(10, 10);
       opacity: 0;
-      transition: transform 0.5s, opacity 1s;
+      transition:
+        transform 0.5s,
+        opacity 1s;
     }
     .rc-dyn-tabs-showmorebutton svg path {
       fill: $tab-color;
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical {
     border-width: 0px 1px 0px 0px;
     .rc-dyn-tabs-title {
       border-width: 0px 3px 0px 0px;
     }
   }
-  .rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
+  &.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl {
     border-width: 0px 0px 0px 1px;
     .rc-dyn-tabs-title {
       border-width: 0px 0px 0px 3px;
     }
+  }
+}
+@mixin main {
+  .all-themes {
+    @include _main();
+  }
+  .card {
+    @include _main();
   }
 }

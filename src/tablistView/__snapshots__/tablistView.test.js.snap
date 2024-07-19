@@ -3,7 +3,7 @@
 exports[`TabListView structure :  children props 1`] = `
 <div>
   <div
-    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr"
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr all-themes"
   >
     <div
       className="rc-dyn-tabs-tablist-container"
@@ -15,7 +15,7 @@ exports[`TabListView structure :  children props 1`] = `
 exports[`TabListView structure :  default options 1`] = `
 <div>
   <div
-    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr"
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr all-themes"
   />
 </div>
 `;
@@ -23,7 +23,7 @@ exports[`TabListView structure :  default options 1`] = `
 exports[`TabListView structure :  isVertical option 1`] = `
 <div>
   <div
-    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr rc-dyn-tabs-vertical"
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-ltr rc-dyn-tabs-vertical all-themes"
   />
 </div>
 `;
@@ -31,7 +31,7 @@ exports[`TabListView structure :  isVertical option 1`] = `
 exports[`TabListView structure :  rtl option 1`] = `
 <div>
   <div
-    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-rtl"
+    className="rc-dyn-tabs-tablist-view rc-dyn-tabs-rtl all-themes"
   />
 </div>
 `;

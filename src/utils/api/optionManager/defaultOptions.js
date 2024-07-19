@@ -15,7 +15,7 @@ export default Helper.module(
       const _options = {
         tabs: [],
         selectedTabID: '',
-        theme: '',
+        theme: 'all-themes',
         beforeSelect: function () {
           return true;
         },

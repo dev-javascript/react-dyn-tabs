@@ -1,8 +1,8 @@
-.rc-dyn-tabs-tablist-view {
+.all-themes.rc-dyn-tabs-tablist-view {
   background-color: #fff;
   border: none;
 }
-.rc-dyn-tabs-tablist-view::before {
+.all-themes.rc-dyn-tabs-tablist-view::before {
   content: "";
   position: absolute;
   left: 0px;
@@ -12,7 +12,7 @@
   width: auto;
   background-color: #dee2e6;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
   color: gray;
   border-style: solid;
   border-width: 0px 0px 1px 0px;
@@ -25,27 +25,26 @@
   min-width: 100px;
   min-height: 31px;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
   color: gray;
   background-color: transparent;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
   background-color: #eee;
   border-color: #eee #eee transparent;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
   background-color: #fff;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 1px;
   border-color: #dee2e6 #dee2e6 #fff #dee2e6;
   background-color: #fff;
 }
-.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
+.all-themes.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
   fill: gray;
 }
-
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical::before {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical::before {
   content: "";
   position: absolute;
   top: 0px;
@@ -56,25 +55,24 @@
   left: auto;
   background-color: #dee2e6;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
   border-width: 0px 1px 0px 0px;
   margin: 0px -1px 0px 0px;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
   border-color: transparent;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 1px;
   border-color: #dee2e6 #fff #dee2e6 #dee2e6;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
   padding: 5px;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-color: #dee2e6;
 }
-
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl::before {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl::before {
   content: "";
   position: absolute;
   left: 0px;
@@ -85,17 +83,117 @@
   height: auto;
   background-color: #dee2e6;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tab .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tab .rc-dyn-tabs-title {
   border-width: 0px 0px 0px 1px;
   margin: 0px 0px 0px -1px;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
   border-color: transparent;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-width: 1px;
   border-color: #dee2e6 #dee2e6 #dee2e6 #fff;
 }
-.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+.all-themes.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  border-color: #dee2e6;
+}
+
+.bootstrap.rc-dyn-tabs-tablist-view {
+  background-color: #fff;
+  border: none;
+}
+.bootstrap.rc-dyn-tabs-tablist-view::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 1px;
+  width: auto;
+  background-color: #dee2e6;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-title {
+  color: gray;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  margin: 0px 0px -1px 0px;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-color: transparent;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  min-width: 100px;
+  min-height: 31px;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab {
+  color: gray;
+  background-color: transparent;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-tab:hover > .rc-dyn-tabs-title {
+  background-color: #eee;
+  border-color: #eee #eee transparent;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected {
+  background-color: #fff;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  border-width: 1px;
+  border-color: #dee2e6 #dee2e6 #fff #dee2e6;
+  background-color: #fff;
+}
+.bootstrap.rc-dyn-tabs-tablist-view .rc-dyn-tabs-showmorebutton svg path {
+  fill: gray;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 1px;
+  height: auto;
+  left: auto;
+  background-color: #dee2e6;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-title {
+  border-width: 0px 1px 0px 0px;
+  margin: 0px -1px 0px 0px;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-color: transparent;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  border-width: 1px;
+  border-color: #dee2e6 #fff #dee2e6 #dee2e6;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper {
+  padding: 5px;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  border-color: #dee2e6;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+  right: auto;
+  height: auto;
+  background-color: #dee2e6;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-tab .rc-dyn-tabs-title {
+  border-width: 0px 0px 0px 1px;
+  margin: 0px 0px 0px -1px;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-color: transparent;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl .rc-dyn-tabs-selected .rc-dyn-tabs-title {
+  border-width: 1px;
+  border-color: #dee2e6 #dee2e6 #dee2e6 #fff;
+}
+.bootstrap.rc-dyn-tabs-tablist-view.rc-dyn-tabs-vertical.rc-dyn-tabs-rtl.rc-dyn-tabs-popper .rc-dyn-tabs-selected .rc-dyn-tabs-title {
   border-color: #dee2e6;
 }
