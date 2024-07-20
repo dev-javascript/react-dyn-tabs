@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Wait for secrets
         uses: step-security/wait-for-secrets@v1.2.0
+        with:
+          # Fine-grained PAT with contents:write and workflows:write
+          # scopes
+          token: ${{ secrets.GITHUB_TOKEN }}
             
       - name: Checkout repository
         uses: actions/checkout@v4
