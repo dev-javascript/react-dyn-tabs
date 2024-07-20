@@ -20,6 +20,7 @@
   display: flex;
   flex-wrap: nowrap;
   overflow: hidden;
+  position: relative;
   direction: ltr;
 }
 .rc-dyn-tabs-tablist-view.rc-dyn-tabs-responsive {
