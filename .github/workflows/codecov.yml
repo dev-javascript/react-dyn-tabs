@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 21.x, 22.x]
+        node-version: [18.x, 20.x, 21.x]
 
     steps:
       - name: Checkout repository
@@ -30,17 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Wait for secrets
-        uses: step-security/wait-for-secrets@v1.2.0
-        id: get-otp
-        with:
-          secrets: |
-            DUMMY_SECRET: 
-              name: 'Dummy secret'
-              description: 'Dummy secret to demo wait-for-secrets'
-      - run: |
-          echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
 
       - name: Run tests
         run: npm run test
