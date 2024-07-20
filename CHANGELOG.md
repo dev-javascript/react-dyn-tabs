@@ -1,3 +1,7 @@
+# v6.1.1
+
+- Fix `ssr` rendering issue of `element-resize-detector` package
+
 # v6.1.0
 
 - new `theme` option
