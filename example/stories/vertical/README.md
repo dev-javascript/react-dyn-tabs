@@ -18,8 +18,14 @@ const initialOptions = {
       title: 'tab 2',
       panelComponent: (props) => <p> panel 2 </p>,
     },
+    {
+      id: '3',
+      title: 'tab 3',
+      panelComponent: <p> panel 3 </p>,
+    },
   ],
   selectedTabID: '1',
+  isVertical: true,
   theme: 'card',
 };
 
@@ -55,8 +61,14 @@ const initialOptions = {
       title: 'tab 2',
       panelComponent: (props) => <p> panel 2 </p>,
     },
+    {
+      id: '3',
+      title: 'tab 3',
+      panelComponent: <p> panel 3 </p>,
+    },
   ],
   selectedTabID: '1',
+  isVertical: true,
   theme: 'bootstrap',
 };
 
@@ -92,8 +104,14 @@ const initialOptions = {
       title: 'tab 2',
       panelComponent: (props) => <p> panel 2 </p>,
     },
+    {
+      id: '3',
+      title: 'tab 3',
+      panelComponent: <p> panel 3 </p>,
+    },
   ],
   selectedTabID: '1',
+  isVertical: true,
   theme: 'classic',
 };
 
@@ -129,8 +147,14 @@ const initialOptions = {
       title: 'tab 2',
       panelComponent: (props) => <p> panel 2 </p>,
     },
+    {
+      id: '3',
+      title: 'tab 3',
+      panelComponent: <p> panel 3 </p>,
+    },
   ],
   selectedTabID: '1',
+  isVertical: true,
   theme: 'basic',
 };
 

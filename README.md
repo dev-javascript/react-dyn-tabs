@@ -112,12 +112,12 @@ const initialOptions = {
     {
       id: '1',
       title: 'tab 1',
-      panelComponent: (porps) => <p> panel 1 </p>,
+      panelComponent: (props) => <p> panel 1 </p>,
     },
     {
       id: '2',
       title: 'tab 2',
-      panelComponent: (porps) => <p> panel 2 </p>,
+      panelComponent: (props) => <p> panel 2 </p>,
     },
   ],
   selectedTabID: '1',
@@ -147,12 +147,12 @@ const initialOptions = {
     {
       id: '1',
       title: 'tab1',
-      panelComponent: (porps) => <p> panel 1 </p>,
+      panelComponent: (props) => <p> panel 1 </p>,
     },
     {
       id: '2',
       title: 'tab2',
-      panelComponent: (porps) => <p> panel 2 </p>,
+      panelComponent: (props) => <p> panel 2 </p>,
     },
   ],
   selectedTabID: '1',
@@ -163,7 +163,7 @@ export default () => {
   const addTab3 = function () {
     ready((instance) => {
       // open tab 3
-      instance.open({id: '3', title: 'Tab 3', panelComponent: (porps) => <p> panel 3 </p>}).then(() => {
+      instance.open({id: '3', title: 'Tab 3', panelComponent: (props) => <p> panel 3 </p>}).then(() => {
         console.log('tab 3 is open');
       });
       // switch to tab 3
@@ -232,7 +232,7 @@ const [TabList, PanelList, ready] = useDynTabs({
       title: 'home',
       iconClass: 'fa fa-home',
       closable: true,
-      panelComponent: (porps) => <p> home content </p>,
+      panelComponent: (props) => <p> home content </p>,
     },
     {
       id: '2',
@@ -240,7 +240,7 @@ const [TabList, PanelList, ready] = useDynTabs({
       tooltip: 'contact',
       disable: true,
       closable: false,
-      panelComponent: (porps) => <p> contact content </p>,
+      panelComponent: (props) => <p> contact content </p>,
     },
   ],
 });
@@ -275,7 +275,7 @@ const [TabList, PanelList, ready] = useDynTabs({
       title: 'home',
       iconClass: 'fa fa-home',
       closable: true,
-      panelComponent: (porps) => <p> home content </p>,
+      panelComponent: (props) => <p> home content </p>,
     },
     {
       id: '2',
@@ -283,7 +283,7 @@ const [TabList, PanelList, ready] = useDynTabs({
       tooltip: 'contact',
       disable: true,
       closable: false,
-      panelComponent: (porps) => <p> contact content </p>,
+      panelComponent: (props) => <p> contact content </p>,
     },
   ],
   selectedTabID: '2',
@@ -1152,7 +1152,7 @@ const tabData = {
   lazy: true,
   iconClass: 'fa fa-home',
   closable: false,
-  panelComponent: (porps) => <p> contact content </p>,
+  panelComponent: (props) => <p> contact content </p>,
 };
 const [TabList, PanelList, ready] = useDynTabs({tabs: [tabData]});
 // or
@@ -1169,10 +1169,10 @@ Example 1
 
 ```js
 const Panel3 = React.lazy(() => import('./components/panel3.js'));
-function LazyLoadingPanel3(porps) {
+function LazyLoadingPanel3(props) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Panel3 {...porps}></Panel3>
+      <Panel3 {...props}></Panel3>
     </Suspense>
   );
 }

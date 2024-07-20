@@ -1,4 +1,4 @@
-### card theme
+### Change Tab title
 
 ```jsx
 import React from 'react';
@@ -24,9 +24,18 @@ const initialOptions = {
 };
 
 function App() {
-  const [TabList, PanelList] = useDynTabs(initialOptions);
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions);
+
+  const handler = function (e) {
+    ready((instance) => {
+      instance.setTab('1', {title: 'tab 1 is changed'});
+      instance.refresh();
+    });
+  };
+
   return (
     <div>
+      <button onClick={handler}>change tab 1 title</button>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>
@@ -35,12 +44,12 @@ function App() {
 <App />;
 ```
 
-### bootstrap theme
+### re-create panel component
 
 ```jsx
 import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/react-dyn-tabs-bootstrap.css';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
 import useDynTabs from 'react-dyn-tabs';
 
 const initialOptions = {
@@ -57,13 +66,22 @@ const initialOptions = {
     },
   ],
   selectedTabID: '1',
-  theme: 'bootstrap',
+  theme: 'card',
 };
 
 function App() {
-  const [TabList, PanelList] = useDynTabs(initialOptions);
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions);
+
+  const handler = function (e) {
+    ready((instance) => {
+      instance.setTab('1', {panelComponent: (props) => <p> panel 1 is re-created </p>});
+      instance.refresh();
+    });
+  };
+
   return (
     <div>
+      <button onClick={handler}>re-create panel 1 component</button>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>
@@ -72,12 +90,12 @@ function App() {
 <App />;
 ```
 
-### classic theme
+### Update panel component
 
 ```jsx
 import React from 'react';
 import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/react-dyn-tabs-classic.css';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
 import useDynTabs from 'react-dyn-tabs';
 
 const initialOptions = {
@@ -85,7 +103,8 @@ const initialOptions = {
     {
       id: '1',
       title: 'tab 1',
-      panelComponent: (props) => <p> panel 1 </p>,
+      my_custom_data: 'my custom data',
+      panelComponent: (props) => <p> {props.api.getTab(props.id).my_custom_data} </p>,
     },
     {
       id: '2',
@@ -94,50 +113,22 @@ const initialOptions = {
     },
   ],
   selectedTabID: '1',
-  theme: 'classic',
+  theme: 'card',
 };
 
 function App() {
-  const [TabList, PanelList] = useDynTabs(initialOptions);
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions);
+
+  const handler = function (e) {
+    ready((instance) => {
+      instance.setTab('1', {my_custom_data: 'my custom data is changed !'});
+      instance.refresh();
+    });
+  };
+
   return (
     <div>
-      <TabList></TabList>
-      <PanelList></PanelList>
-    </div>
-  );
-}
-<App />;
-```
-
-### basic theme
-
-```jsx
-import React from 'react';
-import 'react-dyn-tabs/style/react-dyn-tabs.css';
-import 'react-dyn-tabs/themes/react-dyn-tabs-basic.css';
-import useDynTabs from 'react-dyn-tabs';
-
-const initialOptions = {
-  tabs: [
-    {
-      id: '1',
-      title: 'tab 1',
-      panelComponent: (props) => <p> panel 1 </p>,
-    },
-    {
-      id: '2',
-      title: 'tab 2',
-      panelComponent: (props) => <p> panel 2 </p>,
-    },
-  ],
-  selectedTabID: '1',
-  theme: 'basic',
-};
-
-function App() {
-  const [TabList, PanelList] = useDynTabs(initialOptions);
-  return (
-    <div>
+      <button onClick={handler}>Update Panel 1 Component</button>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>

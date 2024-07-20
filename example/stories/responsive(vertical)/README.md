@@ -15,12 +15,13 @@ const initialOptions = {
   })),
   selectedTabID: '2',
   theme: 'card',
+  isVertical: true,
 };
 
 function App() {
   const [TabList, PanelList] = useDynTabs(initialOptions, [MoreButtonPlugin]);
   return (
-    <div>
+    <div style={{height: '300px', overflowY: 'hidden', resize: 'vertical'}}>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>
@@ -46,12 +47,13 @@ const initialOptions = {
   })),
   selectedTabID: '2',
   theme: 'bootstrap',
+  isVertical: true,
 };
 
 function App() {
   const [TabList, PanelList] = useDynTabs(initialOptions, [MoreButtonPlugin]);
   return (
-    <div>
+    <div style={{height: '300px', overflowY: 'hidden', resize: 'vertical'}}>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>
@@ -77,12 +79,13 @@ const initialOptions = {
   })),
   selectedTabID: '2',
   theme: 'classic',
+  isVertical: true,
 };
 
 function App() {
   const [TabList, PanelList] = useDynTabs(initialOptions, [MoreButtonPlugin]);
   return (
-    <div>
+    <div style={{height: '300px', overflowY: 'hidden', resize: 'vertical'}}>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>
@@ -108,12 +111,13 @@ const initialOptions = {
   })),
   selectedTabID: '2',
   theme: 'basic',
+  isVertical: true,
 };
 
 function App() {
   const [TabList, PanelList] = useDynTabs(initialOptions, [MoreButtonPlugin]);
   return (
-    <div>
+    <div style={{height: '300px', overflowY: 'hidden', resize: 'vertical'}}>
       <TabList></TabList>
       <PanelList></PanelList>
     </div>

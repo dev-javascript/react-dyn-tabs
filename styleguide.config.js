@@ -18,7 +18,10 @@ module.exports = {
     text: 'Fork me on GitHub',
   },
   styleguideDir: 'demo',
-  require: [path.join(__dirname, './example/stories/styles.css')],
+  require: [
+    path.join(__dirname, './example/stories/styles.css'),
+    path.join(__dirname, './example/stories/font-awesome-4.7.0/css/font-awesome.min.css'),
+  ],
   // assetsDir: "example/stories/assets",
   sections: [
     {
@@ -37,6 +40,46 @@ module.exports = {
       content: 'example/stories/responsive/README.md',
       //components: 'example/stories/**/*.jsx',
       sectionDepth: 1,
+    },
+    {
+      name: 'Responsive (vertical)',
+      content: 'example/stories/responsive(vertical)/README.md',
+    },
+    {
+      name: 'Vertical',
+      content: 'example/stories/vertical/README.md',
+    },
+    {
+      name: 'rtl',
+      content: 'example/stories/rtl/README.md',
+    },
+    {
+      name: 'disable tab',
+      content: 'example/stories/disable/README.md',
+    },
+    {
+      name: 'closable',
+      content: 'example/stories/closable/README.md',
+    },
+    {
+      name: 'icon',
+      content: 'example/stories/icon/README.md',
+    },
+    {
+      name: 'close selected tab',
+      content: 'example/stories/close-selected-tab/README.md',
+    },
+    {
+      name: 'Pass children to Tablist',
+      content: 'example/stories/passChildrenToTablist/README.md',
+    },
+    {
+      name: 'change options',
+      content: 'example/stories/change-options/README.md',
+    },
+    {
+      name: 'Change Tab Data',
+      content: 'example/stories/change-tab-data/README.md',
     },
   ],
   styleguideComponents: {},
