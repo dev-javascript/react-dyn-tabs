@@ -1,3 +1,9 @@
+# v6.1.0
+
+- new `theme` option
+- update `demo`
+- fix issue of `bootstrap` theme
+
 # v6.0.1
 
 Fix issue of `components` reference
