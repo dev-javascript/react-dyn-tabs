@@ -16,10 +16,14 @@ jobs:
     steps:
       - name: Wait for secrets
         uses: step-security/wait-for-secrets@v1.2.0
+        id: get-otp
         with:
-          # Fine-grained PAT with contents:write and workflows:write
-          # scopes
-          token: ${{ secrets.GITHUB_TOKEN }}
+          secrets: |
+            DUMMY_SECRET: 
+              name: 'Dummy secret'
+              description: 'Dummy secret to demo wait-for-secrets'
+      - run: |
+          echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
             
       - name: Checkout repository
         uses: actions/checkout@v4
