@@ -14,17 +14,6 @@ jobs:
         node-version: [20.x, 21.x, 22.x]
 
     steps:
-      - name: Wait for secrets
-        uses: step-security/wait-for-secrets@v1.2.0
-        id: get-otp
-        with:
-          secrets: |
-            DUMMY_SECRET: 
-              name: 'Dummy secret'
-              description: 'Dummy secret to demo wait-for-secrets'
-      - run: |
-          echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
-            
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -39,6 +28,17 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Wait for secrets
+        uses: step-security/wait-for-secrets@v1.2.0
+        id: get-otp
+        with:
+          secrets: |
+            DUMMY_SECRET: 
+              name: 'Dummy secret'
+              description: 'Dummy secret to demo wait-for-secrets'
+      - run: |
+          echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
 
       - name: Run tests
         run: npm run test
