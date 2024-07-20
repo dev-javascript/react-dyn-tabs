@@ -55,8 +55,8 @@ beforeEach(() => {
           insProperties,
         );
       };
-    const resizeDetectorIns = deps.resizeDetectorIns || {};
-    const ShowMoreButton = ShowMoreTabsComponent.bind(undefined, () => ({getInstance, resizeDetectorIns}));
+    const getResizeDetectorIns = deps.getResizeDetectorIns || (() => ({}));
+    const ShowMoreButton = ShowMoreTabsComponent.bind(undefined, () => ({getInstance, getResizeDetectorIns}));
     if (snapshot) {
       return <ShowMoreButton {...props}></ShowMoreButton>;
     }

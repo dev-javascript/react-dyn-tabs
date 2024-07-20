@@ -1,11 +1,11 @@
 import React from 'react';
 import Api from './api.js';
-import resizeDetectorIns from './element-resize-detector-adapter.js';
+import getResizeDetectorIns from './element-resize-detector-adapter.js';
 import tabsMoreButton from 'tabs-more-button';
 import ShowMoreTabs from './show-more-tabs.js';
 const getDeps = () => {
   return {
-    resizeDetectorIns,
+    getResizeDetectorIns,
     getInstance: (ctx, setHiddenTabIDs) =>
       new Api({
         setHiddenTabIDs,

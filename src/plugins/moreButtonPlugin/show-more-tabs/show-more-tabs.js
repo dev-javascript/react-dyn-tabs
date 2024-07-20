@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export default function ShowMoreTabs(getDeps, props) {
   const {ctx, openTabIDs, selectedTabID} = props;
   const [hiddenTabIDs, setHiddenTabIDs] = useState('');
-  const {getInstance, resizeDetectorIns} = getDeps();
+  const {getInstance, getResizeDetectorIns} = getDeps();
   const ref = useRef();
   ref.current = ref.current || {ins: getInstance(ctx, setHiddenTabIDs)};
   const ins = ref.current.ins;
@@ -12,6 +12,7 @@ export default function ShowMoreTabs(getDeps, props) {
     ins.setResizer();
   }, []);
   useLayoutEffect(() => {
+    const resizeDetectorIns = getResizeDetectorIns();
     ins.installResizer(resizeDetectorIns);
     return () => {
       ins.uninstallResizer(resizeDetectorIns);
