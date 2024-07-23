@@ -1,15 +1,15 @@
 # react-dyn-tabs
 
-React Dynamic Tabs with full API
+Create responsive and dynamic tabs in React. This library supports ARIA accessibility and provides complete control over tab management using hooks.
 
 [![Test coverage](https://codecov.io/gh/dev-javascript/react-dyn-tabs/graph/badge.svg?token=GT1LU074L2)](https://codecov.io/gh/dev-javascript/react-dyn-tabs) [![NPM version](http://img.shields.io/npm/v/react-dyn-tabs.svg?style=flat-square)](https://www.npmjs.com/package/react-dyn-tabs) [![node](https://img.shields.io/badge/node.js-%3E=_8.0-green.svg?style=flat-square)](http://nodejs.org/download/) [![React](https://img.shields.io/badge/React-%3E=_16.8.0-green.svg?style=flat-square)](https://react.dev/) [![License](http://img.shields.io/npm/l/react-dyn-tabs.svg?style=flat-square)](LICENSE) [![npm download](https://img.shields.io/npm/dm/react-dyn-tabs.svg?style=flat-square)](https://npmjs.org/package/react-dyn-tabs) [![Build Status](https://travis-ci.org/ly-components/react-dyn-tabs.png)](https://travis-ci.org/ly-components/react-dyn-tabs)
-
 
 ## Screenshot
 
 ![Screenshot](https://github.com/user-attachments/assets/15a0860d-168d-4f21-8b9d-62fcec3f6ccf)
 
 ## Demo
+
 - [Online Demo](https://dev-javascript.github.io/react-dyn-tabs/)
 
 ## Features
@@ -20,6 +20,7 @@ React Dynamic Tabs with full API
 - **Customizable style**
 - **Return to last used tab when closing selected tab**
 - **PanelList can be rendered outside the TabList container**
+- **RTL & Vertical Mode**
 - **ARIA accessible**
 - **Customizable Tab component**
 - **Multiple themes**
