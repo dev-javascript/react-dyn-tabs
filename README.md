@@ -43,6 +43,7 @@ Create responsive and dynamic tabs in React. This library supports ARIA accessib
   - [accessibility](#accessibility)
   - [isVertical](#isvertical)
   - [theme](#theme)
+  - [tablistStyle](#tabliststyle)
   - [onLoad](#onload)
   - [onInit](#oninit)
   - [onChange](#onchange)
@@ -479,6 +480,33 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
   ...
   useDynTabs({theme:'classic'});
   ```
+
+### tablistStyle
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>default value</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>object</td>
+      <td>{}</td>
+      <td>no</td>
+      <td>sets the style object for root element of Tablist</td>
+    </tr>
+  </tbody>
+</table>
+
+**Example**
+
+```js
+const [TabList, PanelList, ready] = useDynTabs({
+  tablistStyle: {backgroundColor: 'blue'},
+});
+```
 
 ### onLoad
 

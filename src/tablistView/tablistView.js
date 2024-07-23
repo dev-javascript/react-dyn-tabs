@@ -8,7 +8,12 @@ export const tablistViewPropsManager = function (ins) {
   if (themeName) {
     className += ' ' + themeName;
   }
-  return {className};
+  const tablistStyle = ins.getOption('tablistStyle') || {};
+  const result = {className};
+  if (typeof tablistStyle === 'object') {
+    result.style = tablistStyle;
+  }
+  return result;
 };
 export default TablistView.bind(undefined, (ins) => ({
   tablistViewPropsManager: () => tablistViewPropsManager(ins),

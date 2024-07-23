@@ -1,6 +1,6 @@
 {
   "name": "react-dyn-tabs",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "private": false,
   "description": "Create responsive and dynamic tabs in React. This library supports ARIA accessibility and provides complete control over tab management using hooks.",
   "keywords": [

@@ -1,3 +1,7 @@
+# v6.2.0
+
+Adding new option `tablistStyle`
+
 # v6.1.1
 
 - Fix `ssr` rendering issue of `element-resize-detector` package

@@ -16,6 +16,7 @@ export default Helper.module(
         tabs: [],
         selectedTabID: '',
         theme: 'all-themes',
+        tablistStyle: {},
         beforeSelect: function () {
           return true;
         },
