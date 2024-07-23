@@ -6,6 +6,7 @@ describe('DefaultOptions.prototype.getOptions : ', () => {
       tabs: [],
       selectedTabID: '',
       theme: 'all-themes',
+      tablistStyle: {},
       beforeSelect: expect.any(Function),
       beforeClose: expect.any(Function),
       onOpen: expect.any(Function),

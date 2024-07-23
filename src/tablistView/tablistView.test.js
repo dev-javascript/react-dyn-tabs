@@ -70,4 +70,15 @@ describe('TabListView structure : ', () => {
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
+  test('style option', () => {
+    setMockUseContext({tablistStyle: {backgroundColor: 'red'}});
+    const tree = renderer
+      .create(
+        <div>
+          <TablistView></TablistView>
+        </div>,
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });

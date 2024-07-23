@@ -4,12 +4,12 @@ React Dynamic Tabs with full API
 
 [![Test coverage](https://codecov.io/gh/dev-javascript/react-dyn-tabs/graph/badge.svg?token=GT1LU074L2)](https://codecov.io/gh/dev-javascript/react-dyn-tabs) [![NPM version](http://img.shields.io/npm/v/react-dyn-tabs.svg?style=flat-square)](https://www.npmjs.com/package/react-dyn-tabs) [![node](https://img.shields.io/badge/node.js-%3E=_8.0-green.svg?style=flat-square)](http://nodejs.org/download/) [![React](https://img.shields.io/badge/React-%3E=_16.8.0-green.svg?style=flat-square)](https://react.dev/) [![License](http://img.shields.io/npm/l/react-dyn-tabs.svg?style=flat-square)](LICENSE) [![npm download](https://img.shields.io/npm/dm/react-dyn-tabs.svg?style=flat-square)](https://npmjs.org/package/react-dyn-tabs) [![Build Status](https://travis-ci.org/ly-components/react-dyn-tabs.png)](https://travis-ci.org/ly-components/react-dyn-tabs)
 
-
 ## Screenshot
 
 ![Screenshot](https://github.com/user-attachments/assets/15a0860d-168d-4f21-8b9d-62fcec3f6ccf)
 
 ## Demo
+
 - [Online Demo](https://dev-javascript.github.io/react-dyn-tabs/)
 
 ## Features
@@ -42,6 +42,7 @@ React Dynamic Tabs with full API
   - [accessibility](#accessibility)
   - [isVertical](#isvertical)
   - [theme](#theme)
+  - [tablistStyle](#tabliststyle)
   - [onLoad](#onload)
   - [onInit](#oninit)
   - [onChange](#onchange)
@@ -478,6 +479,33 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
   ...
   useDynTabs({theme:'classic'});
   ```
+
+### tablistStyle
+
+<table>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <th>default value</th>
+      <th>required</th>
+      <th>description</th>
+    </tr>
+    <tr>
+      <td>object</td>
+      <td>{}</td>
+      <td>no</td>
+      <td>sets the style object for root element of Tablist</td>
+    </tr>
+  </tbody>
+</table>
+
+**Example**
+
+```js
+const [TabList, PanelList, ready] = useDynTabs({
+  tablistStyle: {backgroundColor: 'blue'},
+});
+```
 
 ### onLoad
 
