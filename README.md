@@ -480,6 +480,14 @@ const [TabList, PanelList, ready] = useDynTabs({isVertical: true});
   useDynTabs({theme:'classic'});
   ```
 
+#### Notes
+
+- If the `theme` option is not provided then all imported themes CSS will be applied to the `Tablist`.
+
+- If the `theme` option is set to a empty string then imported themes CSS will not be applied to the `Tablist`.
+
+- You can create your own theme CSS and set the `theme` option to your theme class name
+
 ### tablistStyle
 
 <table>
