@@ -1333,6 +1333,12 @@ useDynamicTabs(
 );
 ```
 
+**unpkg Link**
+
+```js
+<script src="https://unpkg.com/react-dyn-tabs@latest/dist/more-button-plugin.umd.min.js"></script>
+```
+
 ## Render custom components at the end of the Tablist
 
 - render `new tab` button example :
