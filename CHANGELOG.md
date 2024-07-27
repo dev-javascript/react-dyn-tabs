@@ -1,3 +1,10 @@
+# v6.2.1
+
+- Fix tablistStyle issue when when adding MoreButtonPlgin
+- Improve document
+- Fix type issue of `MoreButtonPlugin`
+- Update demo
+
 # v6.2.0
 
 Adding new option `tablistStyle`
