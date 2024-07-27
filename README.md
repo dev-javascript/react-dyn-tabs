@@ -33,6 +33,7 @@ React Dynamic Tabs with full API
 - [Syntax](#syntax)
 - [Minimal Usage Example](#minimal-usage-example)
 - [Simple Manipulation Example](#simple-manipulation-example)
+- [ready function](#ready-function)
 - [Options](#options)
   - [tabs](#tabs)
   - [selectedTabID](#selectedtabid)
@@ -167,7 +168,9 @@ const initialOptions = {
 
 export default () => {
   const [TabList, PanelList, ready] = useDynTabs(initialOptions);
+
   const addTab3 = function () {
+    // use ready function to access the instance object
     ready((instance) => {
       // open tab 3
       instance.open({id: '3', title: 'Tab 3', panelComponent: (props) => <p> panel 3 </p>}).then(() => {
@@ -190,21 +193,34 @@ export default () => {
 };
 ```
 
-**NOTE :**
+## ready function
 
-- Use `ready` function to access the `instance` object
+The `ready` function in the `react-dyn-tabs` library is part of the array returned by the `useDynTabs` hook, alongside the `TabList` and `PanelList` components. This function allows developers to execute a callback once the `TabList` and `PanelList` components are fully mounted, providing access to the instance object for further manipulation.
 
-  ```js
+### Key Features
+
+- **Multiple Calls**: Developers can invoke the `ready` function multiple times without any issues.
+- **Stable Identity**: The reference to the `ready` function remains stable across component re-renders, ensuring consistent behavior.
+- **Immediate Execution**: If the `ready` function is called after the tabs have already been mounted, the provided callback will be executed immediately.
+
+### Example Usage
+
+```js
+const [TabList, PanelList, ready] = useDynTabs(initialOptions);
+
+const addTab3 = function () {
   ready((instance) => {
-    // manipulate tabs using instance object here
+    // open tab 3
+    instance.open({id: '3', title: 'Tab 3', panelComponent: (props) => <p> panel 3 </p>}).then(() => {
+      console.log('tab 3 is open');
+    });
+    // switch to tab 3
+    instance.select('3').then(() => {
+      console.log('tab 3 is selected');
+    });
   });
-  ```
-
-- `ready` function accepts a `callback` as its parameter and executes it as soon as Tabs get mounted.
-
-- If `ready` function is called after the Tabs has been mounted, the `callback` passed in will be executed immediately.
-
-- `ready` function can be executed multiple times and its identity is stable and won’t change on re-renders.
+};
+```
 
 ## Options
 
