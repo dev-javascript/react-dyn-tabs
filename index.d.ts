@@ -95,5 +95,5 @@ export interface Instance {
 }
 type Tablist = FC<PropsWithChildren<{}>>;
 type Panellist = FunctionComponent<{}>;
-declare const useDynTabs: (options?: Options) => [Tablist, Panellist, Ready];
+declare const useDynTabs: (options?: Options, plugins?: Array<(instance: any, components: any) => void>) => [Tablist, Panellist, Ready];
 export default useDynTabs;

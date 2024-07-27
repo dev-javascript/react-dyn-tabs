@@ -1,5 +1,6 @@
 {
-    "main": "../../lib/cjs/plugins/moreButtonPlugin/index.js",
-    "module": "../../lib/esm/plugins/moreButtonPlugin/index.js",
-    "sideEffects": false
+  "main": "../../lib/cjs/plugins/moreButtonPlugin/index.js",
+  "module": "../../lib/esm/plugins/moreButtonPlugin/index.js",
+  "types": "./index.d.ts",
+  "sideEffects": false
 }
