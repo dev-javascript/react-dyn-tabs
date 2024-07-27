@@ -199,3 +199,46 @@ function App() {
 }
 <App />;
 ```
+
+### change moreButtonPlugin_iconComponent
+
+```jsx
+import React from 'react';
+import 'react-dyn-tabs/style/react-dyn-tabs.css';
+import 'react-dyn-tabs/themes/react-dyn-tabs-card.css';
+import useDynTabs from 'react-dyn-tabs';
+import MoreButtonPlugin from 'react-dyn-tabs/plugins/moreButtonPlugin';
+
+const initialOptions = {
+  tabs: Array.from({length: 20}).map((value, i) => ({
+    id: `${i + 1}`,
+    title: `tab ${i + 1}`,
+    panelComponent: <p> {`panel ${i + 1}`} </p>,
+  })),
+  selectedTabID: '2',
+  theme: 'card',
+};
+
+function App() {
+  const [TabList, PanelList, ready] = useDynTabs(initialOptions, [MoreButtonPlugin]);
+
+  function handler() {
+    ready((instance) => {
+      instance
+        .setOption('moreButtonPlugin_iconComponent', ({instance}) => {
+          return <span style={{padding: '0.5rem 1rem', textTransform: 'none'}}>More</span>;
+        })
+        .refresh();
+    });
+  }
+
+  return (
+    <div>
+      <button onClick={handler}>customize icon component of more button</button>
+      <TabList></TabList>
+      <PanelList></PanelList>
+    </div>
+  );
+}
+<App />;
+```
