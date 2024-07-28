@@ -8,6 +8,11 @@
     "dynamic",
     "tabs",
     "responsive",
+    "react-dynamic-tabs",
+    "react-responsive-tabs",
+    "react-tabs",
+    "react-tab-component",
+    "react-tabs-component",
     "more-button",
     "view-more",
     "show-more",
@@ -16,7 +21,6 @@
     "overflow-tabs",
     "user-interface",
     "react-hooks",
-    "react-tabs",
     "tab-navigation",
     "web-development",
     "component-library",
@@ -24,7 +28,8 @@
     "dynamic-tabs",
     "responsive-tabs",
     "accessibility",
-    "accessible"
+    "accessible",
+    "react-accessible-tabs"
   ],
   "author": {
     "name": "dev-javascript",
