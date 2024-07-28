@@ -51,9 +51,9 @@ export const setTablistOverflow = (setComponents.setTablistOverflow = function (
 export const setTablistView = (setComponents.setTablistView = function (components) {
   components.TablistView = components.TablistViewFactory.bind(undefined, (ins) => ({
     tablistViewPropsManager: () => {
-      let {className} = components.tablistViewPropsManager(ins);
-      className += ' rc-dyn-tabs-responsive';
-      return {className};
+      const attrs = components.tablistViewPropsManager(ins);
+      attrs.className += ' rc-dyn-tabs-responsive';
+      return attrs;
     },
   }));
 });

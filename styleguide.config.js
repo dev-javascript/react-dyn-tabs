@@ -1,9 +1,20 @@
 const webpack = require('webpack');
-const {version} = require('./package');
+const {version, name} = require('./package');
 const path = require('path');
 
 module.exports = {
-  title: 'react-dyn-tabs',
+  title: name,
+  template: {
+    head: {
+      meta: [
+        {
+          name: 'description',
+          content:
+            'react-dyn-tabs : create responsive and dynamic tabs, supports ARIA accessibility and provides complete control over tab management using hook.',
+        },
+      ],
+    },
+  },
   getComponentPathLine(componentPath) {
     return ``;
   },
