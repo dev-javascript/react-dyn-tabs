@@ -195,7 +195,7 @@ export default () => {
 
 ## ready function
 
-The `ready` function in the `react-dyn-tabs` library is part of the array returned by the `useDynTabs` hook, alongside the `TabList` and `PanelList` components. This function allows developers to execute a callback once the `TabList` and `PanelList` components are fully mounted, providing access to the instance object for further manipulation.
+The `ready` function in the `react-dyn-tabs` library is part of the array returned by the `useDynTabs` hook, alongside the `TabList` and `PanelList` components. This function allows developers to execute a callback when the `TabList` and `PanelList` components are fully mounted, providing access to the instance object for further manipulation.
 
 ### Key Features
 
