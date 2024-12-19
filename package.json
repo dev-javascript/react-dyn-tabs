@@ -137,6 +137,6 @@
     "@popperjs/core": "^2.11.8",
     "element-resize-detector": "^1.2.4",
     "prop-types": "^15.7.2",
-    "tabs-more-button": "^1.0.1"
+    "tabs-more-button": "^2.0.0"
   }
 }
