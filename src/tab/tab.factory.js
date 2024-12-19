@@ -5,7 +5,7 @@ const TabComponent = function TabComponent(deps, props) {
   React.useContext(ForceUpdateContext);
   const api = React.useContext(ApiContext);
   const {tabPropsManager, tabInnerPropsManager, closeIconPropsManager} = deps(api);
-  const {id, selectedTabID} = props,
+  const {id, selectedTabID} = props, // eslint-disable-line no-unused-vars
     TabInnerComponent = api.getOption('tabComponent'),
     tabObj = api.getTab(id),
     clkHandler = function (e) {

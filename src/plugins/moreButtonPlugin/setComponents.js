@@ -8,7 +8,7 @@ export default function setComponents(deps, ctx, components) {
   setComponents.setMoreButtonPlugin(ctx, components, ShowMoreTabs, setComponents.ShowMoreButton, memo);
   setComponents.setTablistOverflow(components);
 }
-export const ShowMoreButton = (setComponents.ShowMoreButton = function (deps, props) {
+export const ShowMoreButton = (setComponents.ShowMoreButton = function ShowMoreButton(deps, props) {
   const {
     ShowMoreTabs,
     components: {useForceUpdate, useRootState},
@@ -17,7 +17,7 @@ export const ShowMoreButton = (setComponents.ShowMoreButton = function (deps, pr
   const {openTabIDs, selectedTabID} = useRootState();
   return (
     <ShowMoreTabs {...props} ctx={deps.ctx} openTabIDs={openTabIDs} selectedTabID={selectedTabID}>
-      {props.children}
+      {props.children /* eslint-disable-line react/prop-types */}
     </ShowMoreTabs>
   );
 });
@@ -38,10 +38,10 @@ export const setMoreButtonPlugin = (setComponents.setMoreButtonPlugin = function
 export const setTablistOverflow = (setComponents.setTablistOverflow = function (components) {
   if (!components.OriginalTablistOverflow) {
     components.OriginalTablistOverflow = components.TablistOverflow;
-    components.TablistOverflow = function (props) {
+    components.TablistOverflow = function TablistOverflow(props) {
       return (
         <components.OriginalTablistOverflow {...props}>
-          {props.children}
+          {props.children /* eslint-disable-line react/prop-types */}
           <components.MoreButtonPlugin />
         </components.OriginalTablistOverflow>
       );

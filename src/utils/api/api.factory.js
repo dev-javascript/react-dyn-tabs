@@ -244,7 +244,7 @@ Helper.setNoneEnumProps(_apiProps, {
   },
   getSetting: function (settingName) {
     const st = this.optionsManager.setting;
-    if (st.hasOwnProperty(settingName)) {
+    if (Object.prototype.hasOwnProperty.call(st, settingName)) {
       if (typeof st[settingName] === 'function') {
         return st[settingName].apply(st, Array.prototype.slice.call(arguments, 1));
       }

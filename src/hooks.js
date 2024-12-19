@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {ApiContext, StateContext, ForceUpdateContext} from './context.js';
 export const useApi = function useApi() {
   return useContext(ApiContext);

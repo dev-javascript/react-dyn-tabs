@@ -74,11 +74,12 @@ export default function Api(components, setOpen) {
           this._components.TabFactory.bind(undefined, (ins) => ({
             tabPropsManager: (props) => {
               const originalProps = this._components.tabPropsManager(ins, props);
+
               const {
-                'aria-controls': ariaControls,
-                'aria-expanded': ariaExpanded,
-                'aria-selected': ariaSelected,
-                id,
+                'aria-controls': ariaControls, // eslint-disable-line no-unused-vars
+                'aria-expanded': ariaExpanded, // eslint-disable-line no-unused-vars
+                'aria-selected': ariaSelected, // eslint-disable-line no-unused-vars
+                id, // eslint-disable-line no-unused-vars
                 ...rest
               } = originalProps;
               if (rest.role) {
