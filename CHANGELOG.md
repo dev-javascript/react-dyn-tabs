@@ -1,3 +1,7 @@
+# v6.2.2
+
+Fix Tabs resizing issue
+
 # v6.2.1
 
 - Fix tablistStyle issue when when adding MoreButtonPlgin
